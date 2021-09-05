@@ -7,3 +7,9 @@
 [submodule "newsubm2"]
 	path = newsubm2
 	url = /c/dv/newsubm2
+[submodule "subm1"]
+	path = subm1
+	url = https://github.com/Dmitriy7681432/subm1.git
+[submodule "subm2"]
+	path = subm2
+	url = https://github.com/Dmitriy7681432/subm2.git
