@@ -4,3 +4,6 @@
 [submodule "newsubm"]
 	path = newsubm
 	url = /c/dv/newsubm
+[submodule "newsubm2"]
+	path = newsubm2
+	url = /c/dv/newsubm2
