@@ -1,4 +1,4 @@
-f = open('text.txt','r', encoding='UTF-8')
+f = open('lesson_3/text.txt', 'r', encoding='UTF-8')
 text = f.read()
 f.close()
 
