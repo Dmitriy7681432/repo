@@ -1,5 +1,5 @@
-# f = open('C:/Users/Дмитрий/PycharmProjects/project01/lessons_py/text.txt', 'r', encoding='UTF-8')
-f = open('lesson_3/text.txt', 'r', encoding='UTF-8')
+f = open('C:/Users/Дмитрий/PycharmProjects/project01/lessons_py/lesson_3/text.txt', 'r', encoding='UTF-8')
+# f = open('../lessons_py/lesson_3/text.txt', 'r', encoding='UTF-8')
 text = f.read()
 f.close()
 

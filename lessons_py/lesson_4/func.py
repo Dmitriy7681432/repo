@@ -15,36 +15,25 @@ print('-'*100)
 
 #Задача 2
 print('Задача 2')
+# count_func = dict((x,func_output.count(x)) for x in func_output)
+# print(count_func)
+# list_count_func = list(count_func.items())
+# list_count_func.sort(key=lambda i:i[1],reverse=True)
+# print(list_count_func)
+# for i in list_count_func[:1]:
+#     print(i[0])
+# print('func-----------------------------------')
+def func_list(list_func):
+    count_func = dict((x, list_func.count(x)) for x in list_func)
+    print(count_func)
+    list_count_func = list(count_func.items())
+    list_count_func.sort(key=lambda i: i[1], reverse=True)
+    print(list_count_func)
+    for i in list_count_func[:1]:
+        return i[0]
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+func1 = func_list(func_output)
+print(func1)
 
 
 #
