@@ -64,29 +64,30 @@ b = a.split('\n')
 print(b)
 c = sorted(b,reverse=True)
 print(c[0])
+#Поздний лог
 d=[]
 for i in c[0]:
     if i.isalpha():
         break
     d.append(i)
-print(''.join(d)[:-2])
+print('-'*30)
+print(''.join(d[:-2]))
+#Метка времени позднего лога
+e = []
+flag=0
+for i in c[0]:
+    # if (i.isdigit() or i.isspace() or i=='-' or i==':'or i==',') and flag ==0:
+    #     pass
+    if i.isalpha():
+        flag =1
+    if flag ==1:
+        e.append(i)
+print(''.join(e))
+
 f.close()
 
-e = [1,2,3,4,5,6,7,8,9,0]
-v = list(e)
-print(v)
 
-
-# a = '2011'
-# b = sorted(a,reverse=True)
-# c =''.join(b)
-# print(c)
-
-
-
-
-
-
+#Другой человек делал
 # with open('log', mode='rt', encoding='utf-8') as f:
 #     text = f.read()
 # print(text, '\n')
