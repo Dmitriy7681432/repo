@@ -23,8 +23,8 @@ def from_template(company,result_sku_list,template,signature):
     template.save(company + ' ' + str(datetime.datetime.now().date()) + ' report.docx')
 
 def generate_report(company,result_sku_list):
-    template = '../lesson_5/7.2 job_doc/report.docx'
-    signature = '../lesson_5/7.2 job_doc/acc.png'
+    template = '../lesson_7/7.2 job_doc/report.docx'
+    signature = '../lesson_7/7.2 job_doc/acc.png'
     document = from_template(company,result_sku_list,template,signature)
 
 def toFixed(numObj,digits=0):

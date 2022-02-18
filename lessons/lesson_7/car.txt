@@ -1,0 +1,4 @@
+BMW, X5, 5.05, 140
+Lada, Kalina, 3.55, 100
+Skoda, Octavia, 4.96, 120
+Toyota, Camry, 3.89, 135
