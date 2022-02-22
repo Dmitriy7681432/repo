@@ -20,14 +20,14 @@ def from_template(company,result_sku_list,template,signature):
     context['acc']=acc
 
     template.render(context)
-    template.save(company + ' ' + str(datetime.datetime.now().date()) + ' report.docx')
+    template.save(company + '_' + str(datetime.datetime.now().date()) + 's_report.docx')
 
 def generate_report(company,result_sku_list):
-    template = '../lesson_7/7.2 job_doc/report.docx'
-    signature = '../lesson_7/7.2 job_doc/acc.png'
+    template = '../7.2_job_doc/report.docx'
+    signature = '../7.2_job_doc/acc.png'
     document = from_template(company,result_sku_list,template,signature)
 
-def toFixed(numObj,digits=0):
-    return f"{numObj:.{digits}f}"
+# def toFixed(numObj,digits=0):
+#     return f"{numObj:.{digits}f}"
 
 generate_report('Ozon',[0.78, 0.12, 0.05, 0.01, 0.01])
