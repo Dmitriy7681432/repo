@@ -3,7 +3,7 @@ import random
 
 from docx.shared import Cm
 from docxtpl import DocxTemplate,InlineImage
-import csv
+import csv,json
 with open('../lesson_7/7.2_job_doc/home_doc/car.txt') as f:
     car_rand = []
     reader = csv.reader(f)
@@ -33,6 +33,9 @@ def generate_car(brand,model,fuel_cons,price):
 
 generate_car(car_rand[0][0],car_rand[0][1],car_rand[0][2],car_rand[0][3])
 
+# #Создаём json файл
+# with open('car.txt', 'w') as f:
+#     json.dump(str(car_rand[0]), f)
 
 # from docxtpl import DocxTemplate
 # import csv

@@ -1,5 +1,12 @@
 import json
-import lessons.lesson_7
 
-with open('C:/Users/Дмитрий/PycharmProjects/project01/lessons/lesson_7/7.2_job_doc/home_doc/car.txt','w') as f:
-    json.dumps(lessons.lesson_7.7.2_job_doc)
+with open('car.txt') as f:
+    car_rand = []
+    for row in f:
+        car_rand.append(row.split())
+print(row.split())
+print(car_rand)
+print(car_rand[0])
+
+with open('car1.txt','w') as f:
+    json.dump(str(car_rand[0]),f)
