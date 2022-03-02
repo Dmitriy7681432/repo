@@ -1,7 +1,7 @@
-# import time
-# import random
-# import sys
-#
+import time
+import random
+import sys
+#Задача 1
 # def show(f):
 #     def func(*args,**kwargs):
 #         start_time = time.time()
@@ -33,5 +33,34 @@
 #     print(b)
 #
 # func1()
+
+#Задача 2  и 4
+def list_ls(n):
+    list_n = [i for i in range(n)]
+    return list_n
+
+start = time.time()
+func_ls = list_ls(1000001)
+stop = time.time()
+time_list = stop-start
+memory_list = sys.getsizeof(func_ls)
+print(f'Время создания списка с элементами от 1 до 1000000: {time_list}.\nОбъем оперативной памяти: {memory_list}')
+
+#Задание 3
+def show(f):
+    def func(*args,**kwargs):
+        print(f(*args,**kwargs))
+        print('Объем ОЗУ:',sys.getsizeof(f))
+    return func
+
+@show
+def func1(a,b):
+    x = random.randint(a,b)
+    return x
+
+func1(1,1000000)
+func1(1,10000000000)
+func1(1,100000000000000)
+
 
 

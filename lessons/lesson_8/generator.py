@@ -26,27 +26,27 @@ import time
 import os
 import random
 import psutil
-
-colors = ['White', 'Black', 'Green']
-brands = ['Volvo', 'Lada', 'Audi']
-'''
-def cars(num):
-    cars_list = []
-    for i in range(num):
-        car = {'colocr': random.choice(colors),
-               'brand': random.choice(brands),
-               'id':i}
-        cars_list.append(car)
-    return cars_list
-proc = psutil.Process(os.getpid())
-print('Исп. память до вып. функции:' + str(proc.memory_info().rss/1000000))
-start=time.clock()
-cars_list = cars(1000000)
-stop=time.clock()
-proc=psutil.Process(os.getpid())
-print('Исп. память после вып. функции:'+str(proc.memory_info().rss/1000000))
-print("Заняло {} секунд".format(stop-start))
-'''
+#
+# colors = ['White', 'Black', 'Green']
+# brands = ['Volvo', 'Lada', 'Audi']
+# '''
+# def cars(num):
+#     cars_list = []
+#     for i in range(num):
+#         car = {'colocr': random.choice(colors),
+#                'brand': random.choice(brands),
+#                'id':i}
+#         cars_list.append(car)
+#     return cars_list
+# proc = psutil.Process(os.getpid())
+# print('Исп. память до вып. функции:' + str(proc.memory_info().rss/1000000))
+# start=time.clock()
+# cars_list = cars(1000000)
+# stop=time.clock()
+# proc=psutil.Process(os.getpid())
+# print('Исп. память после вып. функции:'+str(proc.memory_info().rss/1000000))
+# print("Заняло {} секунд".format(stop-start))
+# '''
 # Применим генератор!
 
 def cars_gen(num):
@@ -60,9 +60,11 @@ def cars_gen(num):
 proc = psutil.Process(os.getpid())
 
 print('Исп. память до вып. функции:' + str(proc.memory_info().rss/1000000))
-start=time.clock()
+start=time.perf_counter()
+print('start:',start)
 cars_generator = cars_gen(1000000)
-stop=time.clock()
+stop=time.perf_counter()
+print('stop:',stop)
 
 proc=psutil.Process(os.getpid())
 print('Исп. память после вып. функции:'+str(proc.memory_info().rss/1000000))
