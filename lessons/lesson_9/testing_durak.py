@@ -12,6 +12,16 @@ for i in suit:
 print(cards_list)
 random.shuffle(cards_list)
 print(cards_list)
+#Раздача карт
+print(cards_list[-6:])
+print(cards_list[-12:-6])
+del cards_list[-12:]
+#Определение козыря
+a = cards_list.pop()
+print(a)
+b =  cards_list.insert(-1,a)
+print(cards_list)
+
 
 print('-'*30)
 
