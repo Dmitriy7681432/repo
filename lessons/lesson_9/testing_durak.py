@@ -10,6 +10,11 @@ for i in suit:
     cards_all = [x+suit[suit.index(i)] for x in cards_set_1_suit]
     cards_list =cards_list+cards_all
 print(cards_list)
+j=0
+cards_dict = {i:for i in cards_list}
+# cards_dict = lambda x=3:x+1
+print(cards_dict())
+
 random.shuffle(cards_list)
 print(cards_list)
 #Раздача карт
@@ -20,8 +25,7 @@ del cards_list[-12:]
 a = cards_list.pop()
 print(a)
 b =  cards_list.insert(-1,a)
-print(cards_list)
-
+print(cards_list[-3:])
 
 print('-'*30)
 

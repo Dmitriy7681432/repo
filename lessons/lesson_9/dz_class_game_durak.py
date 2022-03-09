@@ -40,6 +40,9 @@ class Durak:
             print('Ходит Игрок 2')
             return 'Ходит Игрок 2'
 
+    def player_move(self):
+
+
     def __str__(self):
         return self.cards_list
 
