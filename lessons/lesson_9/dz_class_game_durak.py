@@ -43,6 +43,7 @@ class Durak:
     def player_move(self):
 
 
+
     def __str__(self):
         return self.cards_list
 

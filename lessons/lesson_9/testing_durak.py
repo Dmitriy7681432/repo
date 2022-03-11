@@ -10,10 +10,21 @@ for i in suit:
     cards_all = [x+suit[suit.index(i)] for x in cards_set_1_suit]
     cards_list =cards_list+cards_all
 print(cards_list)
-j=0
-cards_dict = {i:for i in cards_list}
-# cards_dict = lambda x=3:x+1
-print(cards_dict())
+cards_dict = {}
+# cards_dict = {cards_list[i]:i for i in range(len(cards_list))}
+# cards_dict = {cards_list[i]:random.randint(0,6) for i in range(len(cards_list))}
+count = 0
+for i in range(len(cards_list)):
+    cards_dict[cards_list[i]] = count
+    count = count+1
+    if count ==9:
+        count =0
+print(cards_dict)
+keys = list(cards_dict.keys())
+random.shuffle(keys)
+cards_dict_sh = {key:cards_dict[key] for key in keys}
+print('LIST',list(cards_dict_sh))
+
 
 random.shuffle(cards_list)
 print(cards_list)
