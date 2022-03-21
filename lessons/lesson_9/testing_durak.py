@@ -23,13 +23,15 @@ print(cards_dict)
 keys = list(cards_dict.keys())
 random.shuffle(keys)
 cards_dict_sh = {key:cards_dict[key] for key in keys}
-print('LIST',list(cards_dict_sh))
+a = list(cards_dict_sh)
+print('LIST',a)
+print('DICT',cards_dict_sh)
 
 
 random.shuffle(cards_list)
 print(cards_list)
 #Раздача карт
-print(cards_list[-6:])
+print(cards_list[-6:].sort())
 print(cards_list[-12:-6])
 del cards_list[-12:]
 #Определение козыря
@@ -38,6 +40,27 @@ print(a)
 b =  cards_list.insert(-1,a)
 print(cards_list[-3:])
 
+
+a = ['5','3','Туз','1','Король','14','11','10']
+b = ['13','10','11']
+# for i in a:
+#     if i == '10':
+#
+
+for i in range(len(a)):
+    if a[i]=='10':
+        a[i]='A'
+        a.sort()
+        for i in range(len(a)):
+            if a[i] == 'A':
+                a[i] = '10'
+
+# if '10' in a:
+#     a.remove('10')
+# for i in a:
+
+b.sort()
+print(a,'LL')
 print('-'*30)
 
 #
