@@ -72,10 +72,12 @@ test = Test()
 print(test.func3())
 import traceback
 
+stack = traceback.extract_stack()
+# st = stack[-2][1]
 
 def say_my_name():
     stack = traceback.extract_stack()
-    print('Print from {}'.format(stack[-2][2]))
+    print('Print from {}'.format(stack[-2][1]))
 print(sys._getframe())
 print(sys._getframe().f_lineno)
 print(sys._getframe().f_lineno)
@@ -103,6 +105,11 @@ test.func_4()
 
 
 
-# df = [12,32,43,123]
+ls1 = ['12','32','43']
+
+ls2 = ['1','34']
+for i in ls1:ls2.append(i)
+print(','.join(ls1))
+print(ls2)
 # for i in enumerate(df):
 #     print(i,enumerate(12))
