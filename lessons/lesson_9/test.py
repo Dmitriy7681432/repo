@@ -104,6 +104,12 @@ test.func_3()
 test.func_4()
 
 
+def func():
+    print('Hello')
+    return 'Hallo'
+a = func()
+if a =='Hello':
+    print("BOT")
 
 ls1 = ['12','32','43']
 

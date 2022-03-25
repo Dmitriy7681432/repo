@@ -86,7 +86,7 @@ class Durak:
                 self.flag=0
                 self.movie_ls.clear()
                 print('Бита',sys._getframe().f_lineno)
-                return "Ходит Игрок 2"
+                return "Бита"
         print('Карты игрока 1', self.card_player_1,sys._getframe().f_lineno)
         print('Ход игрока 1')
         a = int(input())
@@ -96,28 +96,33 @@ class Durak:
             print(self.movie,sys._getframe().f_lineno)
             print('Карты игрока 1',self.card_player_1,sys._getframe().f_lineno)
             self.flag=1
-        elif a==0 and self.flag==1 and self.card_player_1[0][:-1]==self.answer2[:-1]:
+        elif a==0 and self.flag==1: #and self.card_player_1[0][:-1]==self.answer2[:-1]:
             self.movie = self.card_player_1.pop(0)
             self.movie_ls.append(self.movie)
             print(self.movie,sys._getframe().f_lineno)
             print('Карты игрока 1', self.card_player_1,sys._getframe().f_lineno)
-        elif a ==1 and self.flag==1 and self.card_player_1[1][:-1]==self.answer2[:-1]:
+        elif a ==1 and self.flag==1: #and self.card_player_1[1][:-1]==self.answer2[:-1]:
             self.movie = self.card_player_1.pop(1)
             self.movie_ls.append(self.movie)
             print(self.movie,sys._getframe().f_lineno)
             print('Карты игрока 1',self.card_player_1,sys._getframe().f_lineno)
-        elif a ==2 and self.flag==1 and self.card_player_1[2][:-1]==self.answer2[:-1]:
+        elif a ==2 and self.flag==1:# and self.card_player_1[2][:-1]==self.answer2[:-1]:
             self.movie = self.card_player_1.pop(2)
             self.movie_ls.append(self.movie)
             print(self.movie,sys._getframe().f_lineno)
             print('Карты игрока 1',self.card_player_1,sys._getframe().f_lineno)
-        elif a ==3 and self.flag==1 and self.card_player_1[3][:-1]==self.answer2[:-1]:
+        elif a ==3 and self.flag==1:# and self.card_player_1[3][:-1]==self.answer2[:-1]:
             self.movie = self.card_player_1.pop(3)
             self.movie_ls.append(self.movie)
             print(self.movie)
             print('Карты игрока 1',self.card_player_1,sys._getframe().f_lineno)
-        elif a ==4 and self.flag==1 and self.card_player_1[4][:-1]==self.answer2[:-1]:
+        elif a ==4 and self.flag==1:# and self.card_player_1[4][:-1]==self.answer2[:-1]:
             self.movie = self.card_player_1.pop(4)
+            self.movie_ls.append(self.movie)
+            print(self.movie,sys._getframe().f_lineno)
+            print('Карты игрока 1',self.card_player_1,sys._getframe().f_lineno)
+        elif a ==5 and self.flag==1:# and self.card_player_1[4][:-1]==self.answer2[:-1]:
+            self.movie = self.card_player_1.pop(5)
             self.movie_ls.append(self.movie)
             print(self.movie,sys._getframe().f_lineno)
             print('Карты игрока 1',self.card_player_1,sys._getframe().f_lineno)
@@ -222,6 +227,154 @@ class Durak:
             print('Карты Игрока 2',self.card_player_2,sys._getframe().f_lineno)
             return 'Бита'
 
+    # Ход игрока 2
+    def player_move2(self):
+        if self.flag == 1:
+            if not self.answer2[:-1] in ''.join(self.card_player_2):
+                self.flag = 0
+                self.movie_ls.clear()
+                print('Бита', sys._getframe().f_lineno)
+                return 'Бита'
+        print('Карты игрока 2', self.card_player_2, sys._getframe().f_lineno)
+        print('Ход игрока 2')
+        a = int(input())
+        if a == 0 and self.flag == 0:
+            self.movie = self.card_player_2.pop(0)
+            self.movie_ls.append(self.movie)
+            print(self.movie, sys._getframe().f_lineno)
+            print('Карты игрока 2', self.card_player_2, sys._getframe().f_lineno)
+            self.flag = 1
+        elif a == 0 and self.flag == 1:  # and self.card_player_1[0][:-1]==self.answer2[:-1]:
+            self.movie = self.card_player_2.pop(0)
+            self.movie_ls.append(self.movie)
+            print(self.movie, sys._getframe().f_lineno)
+            print('Карты игрока 2', self.card_player_2, sys._getframe().f_lineno)
+        elif a == 1 and self.flag == 1:  # and self.card_player_1[1][:-1]==self.answer2[:-1]:
+            self.movie = self.card_player_2.pop(1)
+            self.movie_ls.append(self.movie)
+            print(self.movie, sys._getframe().f_lineno)
+            print('Карты игрока 2', self.card_player_2, sys._getframe().f_lineno)
+        elif a == 2 and self.flag == 1:  # and self.card_player_1[2][:-1]==self.answer2[:-1]:
+            self.movie = self.card_player_2.pop(2)
+            self.movie_ls.append(self.movie)
+            print(self.movie, sys._getframe().f_lineno)
+            print('Карты игрока 2', self.card_player_2, sys._getframe().f_lineno)
+        elif a == 3 and self.flag == 1:  # and self.card_player_1[3][:-1]==self.answer2[:-1]:
+            self.movie = self.card_player_2.pop(3)
+            self.movie_ls.append(self.movie)
+            print(self.movie)
+            print('Карты игрока 2', self.card_player_2, sys._getframe().f_lineno)
+        elif a == 4 and self.flag == 1:  # and self.card_player_1[4][:-1]==self.answer2[:-1]:
+            self.movie = self.card_player_2.pop(4)
+            self.movie_ls.append(self.movie)
+            print(self.movie, sys._getframe().f_lineno)
+            print('Карты игрока 2', self.card_player_2, sys._getframe().f_lineno)
+        elif a == 5 and self.flag == 1:  # and self.card_player_1[4][:-1]==self.answer2[:-1]:
+            self.movie = self.card_player_2.pop(5)
+            self.movie_ls.append(self.movie)
+            print(self.movie, sys._getframe().f_lineno)
+            print('Карты игрока 2', self.card_player_2, sys._getframe().f_lineno)
+        else:
+            print('Не одно условие не верно')
+            self.flag = 0
+
+    # Ответ игрока 1
+    def answer_player(self):
+        print('Карты игрока 1', self.card_player_1, sys._getframe().f_lineno)
+        print('Ответ игрока 1', sys._getframe().f_lineno)
+        a = int(input())
+        if a == 0:
+            if (self.card_player_1[0] > self.movie or self.card_player_1[0][:2] == "10") \
+                    and self.card_player_1[0][-1:] == self.movie[-1:]:
+                print(self.movie, self.card_player_1[0])
+                self.answer2 = self.card_player_1.pop(0)
+                self.answer2_ls.append(self.answer2)
+                print('Карты игрока 1', self.card_player_1, sys._getframe().f_lineno)
+            else:
+                print(False, 'Бита')
+                return 'Бита'
+        elif a == 1:
+            if (self.card_player_1[1] > self.movie or self.card_player_1[1][:2] == "10") \
+                    and self.card_player_1[1][-1:] == self.movie[-1:]:
+                print(self.movie, self.card_player_1[1])
+                self.answer2 = self.card_player_1.pop(1)
+                self.answer2_ls.append(self.answer2)
+                print('Карты игрока 1', self.card_player_1, sys._getframe().f_lineno)
+            else:
+                print(False, 'Бита')
+                return 'Бита'
+        elif a == 2:
+            if (self.card_player_1[2] > self.movie or self.card_player_1[2][:2] == "10") \
+                    and self.card_player_1[2][-1:] == self.movie[-1:]:
+                print(self.movie, self.card_player_1[2])
+                self.answer2 = self.card_player_1.pop(2)
+                self.answer2_ls.append(self.answer2)
+                print('Карты игрока 1', self.card_player_1, sys._getframe().f_lineno)
+            else:
+                print(False, 'Бита')
+                return 'Бита'
+        elif a == 3:
+            if (self.card_player_1[3] > self.movie or self.card_player_1[3][:2] == "10") \
+                    and self.card_player_1[3][-1:] == self.movie[-1:]:
+                print(self.movie, self.card_player_1[3])
+                self.answer2 = self.card_player_1.pop(3)
+                self.answer2_ls.append(self.answer2)
+                print('Карты игрока 1', self.card_player_1, sys._getframe().f_lineno)
+            else:
+                print(False, 'Бита')
+                return 'Бита'
+        elif a == 4:
+            if (self.card_player_1[4] > self.movie or self.card_player_1[4][:2] == "10") \
+                    and self.card_player_1[4][-1:] == self.movie[-1:]:
+                print(self.movie, self.card_player_1[4])
+                self.answer2 = self.card_player_1.pop(4)
+                self.answer2_ls.append(self.answer2)
+                print('Карты игрока 1', self.card_player_1, sys._getframe().f_lineno)
+            else:
+                print(False, 'Бита')
+                return 'Бита'
+        elif a == 5:
+            if (self.card_player_1[5] > self.movie or self.card_player_1[5][:2] == "10") \
+                    and self.card_player_1[5][-1:] == self.movie[-1:]:
+                print(self.movie, self.card_player_1[5])
+                self.answer2 = self.card_player_1.pop(5)
+                self.answer2_ls.append(self.answer2)
+                print('Карты игрока 1', self.card_player_1, sys._getframe().f_lineno)
+            else:
+                print(False, 'Бита')
+                return 'Бита'
+        elif a == 6:
+            if (self.card_player_1[6] > self.movie or self.card_player_1[6][:2] == "10") \
+                    and self.card_player_1[6][-1:] == self.movie[-1:]:
+                print(self.movie, self.card_player_1[6])
+                self.answer2 = self.card_player_1.pop(6)
+                self.answer2_ls.append(self.answer2)
+                print('Карты игрока 1', self.card_player_1, sys._getframe().f_lineno)
+            else:
+                print(False, 'Бита')
+                return 'Бита'
+        elif a == 7:
+            if (self.card_player_1[7] > self.movie or self.card_player_1[7][:2] == "10") \
+                    and self.card_player_1[7][-1:] == self.movie[-1:]:
+                print(self.movie, self.card_player_1[7])
+                self.answer2 = self.card_player_1.pop(7)
+                self.answer2_ls.append(self.answer2)
+                print('Карты игрока 1', self.card_player_1, sys._getframe().f_lineno)
+            else:
+                print(False, 'Бита')
+                return 'Бита'
+        elif a == -1:
+            self.flag = 0
+            print('Беру')
+            print(self.movie_ls)
+            for i in self.movie_ls: self.card_player_1.append(i)
+            for i in self.answer2_ls: self.card_player_1.append(i)
+            self.movie_ls.clear()
+            self.answer2_ls.clear()
+            self.sorted_cards(self.card_player_1)
+            print('Карты Игрока 1', self.card_player_1, sys._getframe().f_lineno)
+            return 'Бита'
+
     def getting_cards(self):
         count_pl1 = 6 - len(self.card_player_1)
         count_pl2 = 6 - len(self.card_player_2)
@@ -256,22 +409,39 @@ game.distribution_of_cards()
 # game.count_cards()
 #Кто ходит первым
 turn_start = game.players_move()
-# movie_pl1 = game.player_move()
 if turn_start == 'Ходит Игрок 1':
     while(1):
         turn_movie = game.player_move()
         if turn_movie == 'Бита':
             turn_getting = game.getting_cards()
-        if turn_movie =='Ходит Игрок 2':
-            print('Выход из цикла')
-            break
+            while(1):
+                turn_movie2 = game.player_move2()
+                if turn_movie2 == 'Бита':
+                    turn_getting = game.getting_cards()
+                turn_answer = game.answer_player()
+                if turn_answer == 'Бита':
+                    turn_getting = game.getting_cards()
+
         turn_answer2 = game.answer_player2()
         if turn_answer2 == 'Бита':
             turn_getting = game.getting_cards()
 
-# if turn_start == 'Ходит Игрок 2':
+if turn_start == 'Ходит Игрок 2':
+    while(1):
+        turn_movie2 = game.player_move2()
+        if turn_movie2 == 'Бита':
+            turn_getting = game.getting_cards()
+            while(1):
+                turn_movie = game.player_move()
+                if turn_movie == 'Бита':
+                    turn_getting = game.getting_cards()
+                turn_answer2 = game.answer_player2()
+                if turn_answer2 == 'Бита':
+                    turn_getting = game.getting_cards()
 
-
+        turn_answer = game.answer_player()
+        if turn_answer == 'Бита':
+            turn_getting = game.getting_cards()
 
 # class Card:
 #     def __init__(self):
