@@ -379,9 +379,11 @@ class Durak:
         count_pl1 = 6 - len(self.card_player_1)
         count_pl2 = 6 - len(self.card_player_2)
         if count_pl1>0:
+            print('Добор карт для игрока 1')
             for i in range(count_pl1):
                 self.card_player_1.append(self._cards_list.pop(0))
-        elif count_pl2>0:
+        if count_pl2>0:
+            print('Добор карт для игрока 2')
             for i in range(count_pl2):
                 self.card_player_2.append(self._cards_list.pop(0))
         self.sorted_cards(self.card_player_1)
@@ -410,6 +412,8 @@ game.distribution_of_cards()
 #Кто ходит первым
 turn_start = game.players_move()
 if turn_start == 'Ходит Игрок 1':
+    turn_movie2 = 0
+    turn_answer = 0
     while(1):
         turn_movie = game.player_move()
         if turn_movie == 'Бита':
@@ -418,15 +422,22 @@ if turn_start == 'Ходит Игрок 1':
                 turn_movie2 = game.player_move2()
                 if turn_movie2 == 'Бита':
                     turn_getting = game.getting_cards()
+                    break
                 turn_answer = game.answer_player()
                 if turn_answer == 'Бита':
                     turn_getting = game.getting_cards()
-
+                    break
+        if turn_movie2 == 'Бита' or turn_answer == 'Бита':
+            turn_movie2 = 0
+            turn_answer = 0
+            continue
         turn_answer2 = game.answer_player2()
         if turn_answer2 == 'Бита':
             turn_getting = game.getting_cards()
 
 if turn_start == 'Ходит Игрок 2':
+    turn_movie = 0
+    turn_answer2 = 0
     while(1):
         turn_movie2 = game.player_move2()
         if turn_movie2 == 'Бита':
@@ -435,10 +446,15 @@ if turn_start == 'Ходит Игрок 2':
                 turn_movie = game.player_move()
                 if turn_movie == 'Бита':
                     turn_getting = game.getting_cards()
+                    break
                 turn_answer2 = game.answer_player2()
                 if turn_answer2 == 'Бита':
                     turn_getting = game.getting_cards()
-
+                    break
+        if turn_movie == 'Бита' or turn_answer2 == 'Бита':
+            turn_movie2 = 0
+            turn_answer = 0
+            continue
         turn_answer = game.answer_player()
         if turn_answer == 'Бита':
             turn_getting = game.getting_cards()
