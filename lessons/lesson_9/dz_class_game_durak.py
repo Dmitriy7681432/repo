@@ -5,7 +5,7 @@ def func():
 
 class Durak:
     def __init__(self,nubmer_player=2):
-        self.nubmer_pralyer = nubmer_player
+        self.nubmer_player = nubmer_player
         #Список карт от 6 до 10
         cards_6_10 = [x for x in range(6, 11)]
         #Список старших карт
@@ -208,96 +208,77 @@ class Durak:
         print('Карты Игрока 1',self.card_player_1,sys._getframe().f_lineno)
         print('Карты Игрока 2',self.card_player_2,sys._getframe().f_lineno)
         return 'Карты получены'
-#Начало игры
-game = Durak()
-#Перемешивание карт
-game.shhuffle()
-#Раздача карт
-game.distribution_of_cards()
-# print('Игрок 1',game.card_player_1)
-# print('Игрок 2',game.card_player_2)
-# print('Общая колода',game._cards_list)
-#Сортировка карт
-# game.sorted_cards(game.card_player_1)
-# print('Игрок 1 отсортирован',game.card_player_1)
-#Определение козыря
-# game.trump_card()
-#Количество карт в колоде
-# game.count_cards()
-#Кто ходит первым
-turn_start = game.players_move()
-if turn_start == 'Ходит Игрок 1':
-    turn_movie2 = 0
-    turn_answer = 0
-    while(1):
-        turn_movie = game.player_move()
-        if turn_movie == 'Бита':
-            turn_getting = game.getting_cards()
-            while(1):
-                if (len(game.card_player_1) == 0 or len(game.card_player_2) == 0) and \
-                        len(game._cards_list) == 0:
-                    print('Переход к концу игры', sys._getframe().f_lineno)
-                    break
-                turn_movie2 = game.player_move2()
-                if turn_movie2 == 'Бита':
-                    turn_getting = game.getting_cards()
-                    break
-                turn_answer = game.answer_player()
-                if turn_answer == 'Беру':
-                    turn_getting = game.getting_cards()
-                    continue
-        if turn_movie2 == 'Бита' or turn_answer == 'Бита':
-            turn_movie2 = 0
-            turn_answer = 0
-            continue
-        if (len(game.card_player_1) == 0 or len(game.card_player_2)==0) and\
-            len(game._cards_list)==0:
-            print('Конец игры',sys._getframe().f_lineno)
-            if len(game.card_player_1)==0: print("Выиграл Игрок 1")
-            elif len(game.card_player_2)==0: print("Выиграл Игрок 2")
-            break
-        turn_answer2 = game.answer_player2()
-        if turn_answer2 == 'Беру':
-            turn_getting = game.getting_cards()
-
-if turn_start == 'Ходит Игрок 2':
-    turn_movie = 0
-    turn_answer2 = 0
-    while(1):
-        turn_movie2 = game.player_move2()
-        if turn_movie2 == 'Бита':
-            turn_getting = game.getting_cards()
-            while(1):
-                if (len(game.card_player_1) == 0 or len(game.card_player_2) == 0) and \
-                        len(game._cards_list) == 0:
-                    print('Переход к концу игры', sys._getframe().f_lineno)
-                    break
-                turn_movie = game.player_move()
-                if turn_movie == 'Бита':
-                    turn_getting = game.getting_cards()
-                    break
-                turn_answer2 = game.answer_player2()
-                if turn_answer2 == 'Беру':
-                    turn_getting = game.getting_cards()
-                    continue
-        if turn_movie == 'Бита' or turn_answer2 == 'Бита':
-            turn_movie = 0
-            turn_answer2 = 0
-            continue
-        if (len(game.card_player_1) == 0 or len(game.card_player_2)==0) and\
-            len(game._cards_list)==0:
-            print('Конец игры',sys._getframe().f_lineno)
-            if len(game.card_player_1)==0: print("Выиграл Игрок 1")
-            elif len(game.card_player_2)==0: print("Выиграл Игрок 2")
-            break
-        turn_answer = game.answer_player()
-        if turn_answer == 'Беру':
-            turn_getting = game.getting_cards()
-
-# class Card:
-#     def __init__(self):
-#         self.ip = '1,2,3,4'
-#     def __str__(self):
-#         return self.ip
-# card = Card()
-# print(card)
+# #Начало игры
+# game = Durak()
+# # #Перемешивание карт
+# game.shhuffle()
+# #Раздача карт
+# game.distribution_of_cards()
+# turn_start = game.players_move()
+# if turn_start == 'Ходит Игрок 1':
+#     turn_movie2 = 0
+#     turn_answer = 0
+#     while(1):
+#         turn_movie = game.player_move()
+#         if turn_movie == 'Бита':
+#             turn_getting = game.getting_cards()
+#             while(1):
+#                 if (len(game.card_player_1) == 0 or len(game.card_player_2) == 0) and \
+#                         len(game._cards_list) == 0:
+#                     print('Переход к концу игры', sys._getframe().f_lineno)
+#                     break
+#                 turn_movie2 = game.player_move2()
+#                 if turn_movie2 == 'Бита':
+#                     turn_getting = game.getting_cards()
+#                     break
+#                 turn_answer = game.answer_player()
+#                 if turn_answer == 'Беру':
+#                     turn_getting = game.getting_cards()
+#                     continue
+#         if turn_movie2 == 'Бита' or turn_answer == 'Бита':
+#             turn_movie2 = 0
+#             turn_answer = 0
+#             continue
+#         if (len(game.card_player_1) == 0 or len(game.card_player_2)==0) and\
+#             len(game._cards_list)==0:
+#             print('Конец игры',sys._getframe().f_lineno)
+#             if len(game.card_player_1)==0: print("Выиграл Игрок 1")
+#             elif len(game.card_player_2)==0: print("Выиграл Игрок 2")
+#             break
+#         turn_answer2 = game.answer_player2()
+#         if turn_answer2 == 'Беру':
+#             turn_getting = game.getting_cards()
+#
+# if turn_start == 'Ходит Игрок 2':
+#     turn_movie = 0
+#     turn_answer2 = 0
+#     while(1):
+#         turn_movie2 = game.player_move2()
+#         if turn_movie2 == 'Бита':
+#             turn_getting = game.getting_cards()
+#             while(1):
+#                 if (len(game.card_player_1) == 0 or len(game.card_player_2) == 0) and \
+#                         len(game._cards_list) == 0:
+#                     print('Переход к концу игры', sys._getframe().f_lineno)
+#                     break
+#                 turn_movie = game.player_move()
+#                 if turn_movie == 'Бита':
+#                     turn_getting = game.getting_cards()
+#                     break
+#                 turn_answer2 = game.answer_player2()
+#                 if turn_answer2 == 'Беру':
+#                     turn_getting = game.getting_cards()
+#                     continue
+#         if turn_movie == 'Бита' or turn_answer2 == 'Бита':
+#             turn_movie = 0
+#             turn_answer2 = 0
+#             continue
+#         if (len(game.card_player_1) == 0 or len(game.card_player_2)==0) and\
+#             len(game._cards_list)==0:
+#             print('Конец игры',sys._getframe().f_lineno)
+#             if len(game.card_player_1)==0: print("Выиграл Игрок 1")
+#             elif len(game.card_player_2)==0: print("Выиграл Игрок 2")
+#             break
+#         turn_answer = game.answer_player()
+#         if turn_answer == 'Беру':
+#             turn_getting = game.getting_cards()
