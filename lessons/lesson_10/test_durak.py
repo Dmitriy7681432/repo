@@ -12,14 +12,19 @@ class TestDurak:
 
     def test_init(self):
         game = Durak()
+        print('HE')
+
         assert game.nubmer_player==2
 
 
-def func1():
-    a = 3
-    b = 4
-    c = a+b
-    assert c ==7
-    return c
-func1()
+# def func1():
+#     a = 3
+#     b = 4
+#     c = a+b
+#     print('AA')
+#     assert c ==7
+#     return c
+# func1()
 # assert func1()==7
+test_d = TestDurak()
+test_d.test_init()
