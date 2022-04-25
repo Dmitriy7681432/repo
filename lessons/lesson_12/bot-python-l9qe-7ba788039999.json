@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "bot-python-l9qe",
+  "private_key_id": "7ba78803999945e5f3b9c305a8676af9e2ea18a1",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC/AapHch2r0JvN\nxGsz5OrUupm+st6PtURhcuUVhgkIvQp28ADERSwrTIaVhSwpieHhA8GENafUrBet\nO1SAaz3pna5mHFtbXirgMphJ7ZDhOCuSg1u5hm8QOLmB1R3V1qd0pFee+G/ErFSP\nbiphzVendypqO1Ab12Kb1CVilWDuX8RfbOOUXLULzYAJ2YYai887zkG3TQj0L1+c\nw9Sjk8DNqMay1zP5UEqUQRLNp3An9ZTGMM3S32GC0spL+QmfWR4CGQM2mzvWHUeq\nDCe+MCx+O201rTTpXFmWrTtgWa4vkU07ayj2CBSh/nFi+KYV02GuXsEU0Cml+Hsn\nBCZixqW3AgMBAAECggEAWKp2t6S/Jk93y+ymkRfudOLMVOxmiVJtlEkIE9Y9IlvS\n3ERsLrAnoU/sV8NSrVOu0cvzDKL1rjFW6lkU0Go3+tbyKr92HzNW9u01qXfI3eu7\nuk8VCMnhi6exYZYjO+1hnbFeZVLRW3xd4pkSvoTacEhOnbK77Lius0SnOBy8utpW\nAumGts58I7VCpuz6wiTRQmpxmPqXGF7blbt9UoP7DvlY9FT0rSbrOtH5FTNNpXsI\nT1otZgXEHc3tIbmdHXI54NPmq6Djk6mldG0LkvKjuWAN1aSFVLkBJpWSYphX0kuu\n9ai+HZY78JWhCv9PjcUpqRLq3XG7gp+lpyWHQ93tsQKBgQD6c0bXDLr07sIuGxt2\nyImBPHX/C0VFhhQ57pARUm/59VdteM72DAklTGke2WPtp7d5CMIU2u2HsVx6H01F\nXa1P9stfzqCTYzF6UUHViM1Hg+7411JQY6SqwMDfzigrudryXuUpnjNxL8DsG9m9\nZuT31AhkPT5i8Ikt619W54Po0QKBgQDDPS7d2qv+9k/GnGkhtbyVn1nXocIp7Eln\nYwpVBQRGdMinjwxEsQS/2+RsriCJ/wTTghH7C1TDAUmWw+MzXHTzOX+RU6Cb9w+5\nWkRh4qqyWqEUqB3NH3QaxIPs/7Xd+Vy5+s6ChwWwMSjT1mnvYGtOkNmb9FSa4rJg\nzas+jcjIBwKBgCob9b40or6J4lY0MpLvNsdm7gP61iPRXlc7ODfhX3hses2qMUoH\nTgZaaZZJQNb1ixCrm048XRGijYTu/GP8UyaNvTYXnMILPIdvYB1SCgnLMgPe2DUx\n+77F9+fpVrG7Zwe3UtqDgey29b39FMgWo8rTeLG55mJmRPpWh8op1PDxAoGATItK\nOpSm5hjvgfCEj0DPJOIKuS2kEAehZ7U+scJ7wJu8p2S/7JZyRD4TukAyZafj3oCa\nSBBTNPjmPwOhqdtPxqP+TZ251CvysDqhoLbbMX2ytYSL2oXAYVY2Ws6OIO7I2elo\n2WfSZReA6Dyh38WvjGfhyPDr0qWaRbWcs7OmyjUCgYEAp7/jO45CZp94DDeRoHh8\n7KnkC6ty/Kwla6b6ppyxzerYTPTGSw0mZ3u+CUI13d8DY2D1F/4Z55nUnIvZ6CJo\nzsMs9r/bVuOlwNus1KixmLLhLwedt2NoV0sgzxdiqGKOZoXDQXS/ovuFDd26axEa\nAi2+maaZZVWVhOywIaWvTwg=\n-----END PRIVATE KEY-----\n",
+  "client_email": "svitpower@bot-python-l9qe.iam.gserviceaccount.com",
+  "client_id": "106519601159020437260",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/svitpower%40bot-python-l9qe.iam.gserviceaccount.com"
+}
