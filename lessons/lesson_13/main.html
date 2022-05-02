@@ -18,6 +18,28 @@
 
 <a href="search.html"> Go to search page </a>
 
-
+<form action="search.html">
+    <input name="login" type="text" value="Ваше имя"/>
+    <input name="password" type="password" value="***"/><br/>
+    <br/>
+    <input name="remember" type="checkbox" value="yes"/> Запомнить<br/>
+    <br/>
+    <select name="menu">
+        <option value="1" selected="selected"> 1 позиция </option>
+        <option value="2"> 2 позиция </option>
+        <option value="3"> 3 позиция </option>
+    </select>
+    <br/>
+    <select name="menu_1" multiple="multiple">
+        <option value="1" selected="selected"> 1 позиция </option>
+        <option value="2"> 2 позиция </option>
+        <option value="3"> 3 позиция </option>
+        <option value="4"> 4 позиция </option>
+    </select>
+    <br/>
+        <textarea name="comment"></textarea>
+    <br/>
+    <input type="submit" name="enter" value="Отправить"/>
+</form>
 </body>
 </html>

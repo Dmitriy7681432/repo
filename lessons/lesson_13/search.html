@@ -15,5 +15,18 @@
     <tr> <td>Данные 11</td> <td>Данные 12</td>
     <tr> <td>Данные 21</td> <td>Данные 22</td>
 </table>
+
+<script>
+    urlParams = new URLSearchParams(window.location.search);
+    params = {};
+
+    urlParams.forEach((p, key) => {
+     params[key] = p;
+    });
+
+    document.write(params.login, "<br>")
+    document.write(params.password, "<br>")
+</script>
+
 </body>
 </html>
