@@ -1,0 +1,5 @@
+header {
+ display: block; /* Для старых браузеров */
+ height: 405px; /* Высота шапки */
+ background: url(nature.png) no-repeat center bottom;
+}
