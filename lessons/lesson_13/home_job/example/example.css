@@ -1,5 +1,23 @@
-header {
+
+/*head {
  display: block; /* Для старых браузеров */
- height: 405px; /* Высота шапки */
- background: url(nature.png) no-repeat center bottom;
+ /*height: 175px; /* Высота шапки */
+ /*background: url(nature.png) repeat-x center bottom;
 }
+ */
+ body { margin: 0; }
+   header {
+    display: block;
+    background: #00b0d8 url(header-gradient.png) repeat-x;
+                /* Градиент */
+   }
+   .header-bg {
+    background: url(header-animal.png) repeat-x center bottom;
+                /* Животные */
+    height: 405px; /* Высота шапки */
+    text-align: center; /* Выравнивание по центру */
+   }
+   .header-bg img {
+    position: relative; /* Относительное позиционирование */
+    top: 40px; /* Сдвигаем картинку вниз */
+   }
