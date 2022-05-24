@@ -5,17 +5,18 @@ from lessons.lesson_9.dz_class_game_durak import Durak
 class TestDurak:
 
     def setup(self):
-        pass
+        self.game = Durak()
+        print("Start Test")
 
     def teartdown(self):
-        pass
+        print("The end Test")
 
     def test_init(self):
-        game = Durak()
-        print('HE')
+        print('Сборка')
+        assert self.game.nubmer_player==2
 
-        assert game.nubmer_player==2
-
+    def test_counts_cards(self):
+        assert len(self.game._cards_list) == 36
 
 # def func1():
 #     a = 3
@@ -26,5 +27,5 @@ class TestDurak:
 #     return c
 # func1()
 # assert func1()==7
-test_d = TestDurak()
-test_d.test_init()
+# test_d = TestDurak()
+# test_d.test_init()
