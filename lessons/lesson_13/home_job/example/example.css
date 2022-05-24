@@ -1,0 +1,71 @@
+head {
+ display: block; /* Для старых браузеров */
+ height: 405px; /* Высота шапки */
+ background: url(nature.png) repeat-x;
+}
+.content-gradient {
+ background: #f9f2e3 url(content-gradient.png) repeat-x;
+}
+
+.content-white {
+ background: #fff; /* Белый цвет фона */
+ margin: 0 11px; /* Отступы по горизонтали */
+ padding: 20px 40px; /* Поля */
+ text-align: justify; /* Выравнивание по ширине */
+}
+footer {
+ background: url(podval.png) 50% 53px no-repeat; /* Фоновый рисунок травы */
+ margin-top: -77px; /* Поднимаем вверх */
+ overflow: auto; /* Отменяем схлопывающиеся отступы */
+ position: relative; /* Относительное позиционирование */
+}
+.footer-bg {
+ margin-top: 80px;
+}
+
+.copyright {
+ width: 740px; /* Ширина макета без полей */
+ padding: 0 10px 10px; /* Поля */
+ margin: auto; /* Выравнивание по центру */
+ color: #526118; /* Цвет текста */
+}
+.copyright p {
+ margin: 0 0 5px 170px; /* Отступы текста */
+}
+footer {
+ position: relative; /* Относительное позиционирование */
+}
+.lion {
+ position: absolute; /* Абсолютное позиционирование */
+ left: 50%; /* По центру */
+ margin-left: -347px; /* Сдвигаем влево */
+ top: 3px; /* От верхнего края */
+}
+aside { /* Правая колонка */
+ width: 200px; /* Ширина правой колонки */
+ float: right; /* Обтекание */
+}
+article { /* Левая колонка */
+ margin-right: 240px; /* Отступ справа */
+}
+
+ul.menu {
+ list-style: none; /* Убираем маркеры */
+ margin: 40px  0; /* Отступ сверху и снизу */
+ padding: 0; /* Поля */
+}
+ul.menu li {
+ padding: 5px; /* Поля */
+ font-size: 0.8em; /* Размер шрифта */
+ font-weight: bold; /* Жирное начертание */
+}
+ul.menu a, ul.menu span {
+ padding: 5px; /* Поля */
+}
+ul.menu li span {
+ padding-left: 25px; /* Поле слева */
+ background: url(bullet.png) no-repeat 5px center; /* Маркер */
+}
+ ul.menu li.current {
+ background: #f9f2e2 url(menu-gradient.png) repeat-y; /* Градиент */
+}
