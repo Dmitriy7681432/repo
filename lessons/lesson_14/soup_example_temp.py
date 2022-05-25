@@ -35,6 +35,24 @@ print(rev_plus)
 parts = soup.find('div', class_ = 'b-wrapper')
 print(len(parts.contents))
 
-for part in parts:
+for part in parts.contents:
     print('-------------------------------------')
-    print(part)
+    # print(part)
+    try:
+        print(len(part.contents))
+    except:
+        print('Error')
+
+print('ANOTHER EXAPLE')
+
+# URL_ ='https://auto.ria.com/reviews/volvo/v40/'
+URL_ = 'https://www.drom.ru/reviews/volvo/v40/'
+
+page_ = requests.get(URL_)
+print(page_.status_code)
+
+soup_ = BeautifulSoup(page_.text, 'html.parser')
+reviews_ = soup_.find_all('div', class_ = 'f-checkbox')
+
+for rev in reviews_:
+    print(rev.text)
