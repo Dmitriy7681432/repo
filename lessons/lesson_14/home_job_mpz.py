@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
 #from requests.auth import HTTPBasicAuth, HTTPDigestAuth
-import re
+import re, csv
 
 # response = requests.get('url', auth = HTTPBasicAuth('ypur_login', 'your_password'))
 
@@ -16,8 +16,10 @@ soup = BeautifulSoup(page.text, 'html.parser')
 reviews = soup.find_all('p', class_ = 'responses-text')
 print(len(reviews))
 print(reviews)
+comment = []
 for rev in reviews:
-    print(rev.text)
+    comment.append(rev.text)
+print(comment[0])
 
 #find_all
 # a_tags = soup.find_all('p')
@@ -28,16 +30,15 @@ for rev in reviews:
 # for ref in a_tags:
 #     print(ref.get('class'))
 
-
-import csv
-
-myData = [["first_name", "second_name", "Grade"],
-          ['Alex', 'Brian', 'A'],
-          ['Tom', 'Smith', 'B']]
+csv.re
+a = 'EEEEE'
+myData = [["auto" ';' "comment" ';' 'date comment'],
+          ['Alex' ';' 'Brian' ';', comment[0]],
+          ['Tom' ';' 'Smith' ';' 'B']]
 
 myFile = open('example2.csv', 'w')
 with myFile:
-    writer = csv.writer(myFile)
+    writer = csv.writer(myFile,)
     writer.writerows(myData)
-
 print("Writing complete")
+
