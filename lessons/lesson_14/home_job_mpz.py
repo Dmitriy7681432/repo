@@ -31,23 +31,34 @@ print(comment[0])
 #     print(ref.get('class'))
 
 csv.re
-a = 'EEEEE'
-myData = [["auto" ';' "comment" ';' 'date comment'],
-          ['Alex' ';' 'Brian' ';', comment[0]],
-          ['Tom' ';' 'Smith' ';' 'B']]
 
-myFile = open('example2.csv', 'w')
+myData = [["auto" ';' "comment" ';' 'date comment'],
+          ['Alex' ';' 'Brian' ';'],
+          ['Tom' ';' 'Smith' ';' 'B']]
+myData[1].append(str(comment[0]))
+print(myData,'--------------------')
+a = []
+for a1 in myData:
+    a.append(a1)
+print(a,'=============')
+myFile = open('example2.csv', 'w', newline='')
+for er in myData[1]:
+    print(er,'+++++++++++')
+
 with myFile:
-    writer = csv.writer(myFile,)
-    writer.writerows(myData)
+    for data in a:
+            # data.remove(',')
+            print(data)
+            writer = csv.writer(myFile)
+            writer.writerow(data)
 print("Writing complete")
 
 print("Writing complete")
 
 import csv
 
-header = ['name', 'area', 'country_code2', 'country_code3']
-data = ['Afghanistan', 652090, 'AF', 'AFG']
+header = ['name'';' 'area'';' 'country_code2'';' 'country_code3']
+data = ['Afghanistan'';' '652090' ';' 'AF'';' 'AFG']
 
 
 with open('countries.csv', 'w', encoding='UTF8', newline='') as f:
