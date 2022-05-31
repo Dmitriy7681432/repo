@@ -29,28 +29,28 @@ print(comment[0])
 #Получение всех ссылок
 # for ref in a_tags:
 #     print(ref.get('class'))
+alex = 'Alex'
+brian = 'Brian'
+tom = 'Tom'
+smith = 'Smith'
+for 
+head_myData = ["auto" ';' "comment" ';' 'date comment']
+# myData =  [['Alex' ';' 'Brian' ';',comment[0]],
+#           ['Tom' ';' 'Smith' ';', comment[1]],
+#           ['Tom' ';' 'Smith' ';', comment[2]]]
 
-csv.re
-
-myData = [["auto" ';' "comment" ';' 'date comment'],
-          ['Alex' ';' 'Brian' ';'],
-          ['Tom' ';' 'Smith' ';' 'B']]
-myData[1].append(str(comment[0]))
-print(myData,'--------------------')
 a = []
 for a1 in myData:
     a.append(a1)
-print(a,'=============')
 myFile = open('example2.csv', 'w', newline='')
-for er in myData[1]:
-    print(er,'+++++++++++')
-
+# csv.register_dialect('my_dialect',delimiter='\t',doublequote=';',escapechar=':',skipinitialspace='True')
 with myFile:
-    for data in a:
-            # data.remove(',')
-            print(data)
-            writer = csv.writer(myFile)
-            writer.writerow(data)
+    # for data in a:
+            # print(data)
+            writer = csv.writer(myFile,delimiter='\t')
+            # writer = csv.writer(myFile,'my_dialect')
+            writer.writerows(head_myData)
+            writer.writerows(myData)
 print("Writing complete")
 
 print("Writing complete")
