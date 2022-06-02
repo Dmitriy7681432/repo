@@ -14,12 +14,15 @@ print(page.status_code)
 # print(page.text)
 soup = BeautifulSoup(page.text, 'html.parser')
 reviews = soup.find_all('p', class_ = 'responses-text')
-print(len(reviews))
-print(reviews)
+reviews_1 = soup.find_all('div', class_ = 'responses-content')
+# print(len(reviews))
+# print(reviews)
+print(reviews_1)
 comment = []
+marka = []
 for rev in reviews:
     comment.append(rev.text)
-print(comment[0])
+print(comment)
 
 #find_all
 # a_tags = soup.find_all('p')
@@ -33,11 +36,11 @@ alex = 'Alex'
 brian = 'Brian'
 tom = 'Tom'
 smith = 'Smith'
-for 
+
 head_myData = ["auto" ';' "comment" ';' 'date comment']
-# myData =  [['Alex' ';' 'Brian' ';',comment[0]],
-#           ['Tom' ';' 'Smith' ';', comment[1]],
-#           ['Tom' ';' 'Smith' ';', comment[2]]]
+myData =  [['Alex' ';' 'Brian' ';',comment[0]],
+          ['Tom' ';' 'Smith' ';', comment[1]],
+          ['Tom' ';' 'Smith' ';', comment[2]]]
 
 a = []
 for a1 in myData:
