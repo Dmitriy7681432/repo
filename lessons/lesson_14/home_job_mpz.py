@@ -13,35 +13,30 @@ page = requests.get(URL)
 print(page.status_code)
 # print(page.text)
 soup = BeautifulSoup(page.text, 'html.parser')
-reviews = soup.find_all('p', class_ = 'responses-text')
-reviews_1 = soup.find_all('div', class_ = 'responses-content')
-# print(len(reviews))
-# print(reviews)
-print(reviews_1)
-comment = []
-marka = []
-for rev in reviews:
-    comment.append(rev.text)
+comment = [rev.text for rev in soup.find_all('p', class_ = 'responses-text')]
+# reviews_1 = soup.find_all('div', class_ = 'responses-content')
+marka_1 = BeautifulSoup(page.text, 'html.parser')
 print(comment)
+print('--'*50)
+# print(marka_1.find_all('div',class_ = 'responses-content'))
+marka = [hh.h3.text for hh in marka_1.find_all('div',class_ = 'responses-content')]
+print(marka)
+print('--'*50)
+date = [dates.text for dates in soup.find_all(style = 'float: right')]
+print(date)
+print('--'*50)
+#-------------------------------------------------------------------------------------------
 
-#find_all
-# a_tags = soup.find_all('p')
-# print(type(a_tags))
-# print(len(a_tags))
-# print(a_tags)
-#Получение всех ссылок
-# for ref in a_tags:
-#     print(ref.get('class'))
 alex = 'Alex'
 brian = 'Brian'
 tom = 'Tom'
 smith = 'Smith'
 
-head_myData = ["auto" ';' "comment" ';' 'date comment']
+head_myData = ["auto" ';' "date comment" ';' 'comment']
 myData =  [['Alex' ';' 'Brian' ';',comment[0]],
           ['Tom' ';' 'Smith' ';', comment[1]],
           ['Tom' ';' 'Smith' ';', comment[2]]]
-
+print(myData)
 a = []
 for a1 in myData:
     a.append(a1)
@@ -55,8 +50,7 @@ with myFile:
             writer.writerows(head_myData)
             writer.writerows(myData)
 print("Writing complete")
-
-print("Writing complete")
+#-------------------------------------------------------------------------------------------
 
 import csv
 
