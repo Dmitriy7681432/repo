@@ -15,10 +15,11 @@ print(page.status_code)
 soup = BeautifulSoup(page.text, 'html.parser')
 comment = [rev.text for rev in soup.find_all('p', class_ = 'responses-text')]
 # reviews_1 = soup.find_all('div', class_ = 'responses-content')
-marka_1 = BeautifulSoup(page.text, 'html.parser')
+
 print(comment)
 print('--'*50)
 # print(marka_1.find_all('div',class_ = 'responses-content'))
+marka_1 = BeautifulSoup(page.text, 'html.parser')
 marka = [hh.h3.text for hh in marka_1.find_all('div',class_ = 'responses-content')]
 print(marka)
 print('--'*50)
@@ -26,6 +27,34 @@ date = [dates.text for dates in soup.find_all(style = 'float: right')]
 print(date)
 print('--'*50)
 #-------------------------------------------------------------------------------------------
+list_temp = []
+list_csv =[]
+# list_csv= [list_temp.append(i,j) for i,j in marka]
+    # list_temp.append(i)
+    # list_temp.append(j)
+    # list_csv.append(list_temp)
+count =0
+for i in marka:
+    list_temp.append(i)
+    print(list_temp,'0')
+    for j in date[count:]:
+        list_temp.append(j)
+        print(list_temp,'1')
+        list_csv.append(list_temp)
+        print(list_csv)
+        list_temp.clear()
+        count = count+1
+        break
+print(list_csv)
+
+a = [1,2]
+b = [3,4]
+c = []
+c.append(a)
+c.append(b)
+c.clear()
+c.append(b)
+print(c)
 
 alex = 'Alex'
 brian = 'Brian'
