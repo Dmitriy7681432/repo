@@ -28,56 +28,51 @@ print(date)
 print('--'*50)
 #-------------------------------------------------------------------------------------------
 list_temp = []
-list_csv =[]
-# list_csv= [list_temp.append(i,j) for i,j in marka]
-    # list_temp.append(i)
-    # list_temp.append(j)
-    # list_csv.append(list_temp)
+lst = []
+#
 count =0
+count1 =0
+flag = 0
 for i in marka:
+    i=i+';'
     list_temp.append(i)
-    print(list_temp,'0')
     for j in date[count:]:
+        if flag ==1:
+            flag = 0
+            break
+        j=j+';'
         list_temp.append(j)
-        print(list_temp,'1')
-        list_csv.append(list_temp)
-        print(list_csv)
-        list_temp.clear()
         count = count+1
-        break
-print(list_csv)
-
-a = [1,2]
-b = [3,4]
-c = []
-c.append(a)
-c.append(b)
-c.clear()
-c.append(b)
-print(c)
+        for k in comment[count1:]:
+            list_temp.append(k)
+            lst.append(list_temp)
+            list_temp = []
+            count1 = count1 +1
+            flag = 1
+            break
+print(lst)
 
 alex = 'Alex'
 brian = 'Brian'
 tom = 'Tom'
 smith = 'Smith'
 
-head_myData = ["auto" ';' "date comment" ';' 'comment']
+head_myData = [["auto" ';' "date comment" ';' 'comment']]
 myData =  [['Alex' ';' 'Brian' ';',comment[0]],
           ['Tom' ';' 'Smith' ';', comment[1]],
           ['Tom' ';' 'Smith' ';', comment[2]]]
 print(myData)
-a = []
-for a1 in myData:
-    a.append(a1)
+
 myFile = open('example2.csv', 'w', newline='')
 # csv.register_dialect('my_dialect',delimiter='\t',doublequote=';',escapechar=':',skipinitialspace='True')
 with myFile:
     # for data in a:
             # print(data)
-            writer = csv.writer(myFile,delimiter='\t')
+            writer = csv.writer(myFile,quotechar=',', quoting=csv.QUOTE_MINIMAL)
+            # writer = csv.writer(myFile,delimiter = '|')
             # writer = csv.writer(myFile,'my_dialect')
             writer.writerows(head_myData)
-            writer.writerows(myData)
+            writer.writerows(lst)
 print("Writing complete")
 #-------------------------------------------------------------------------------------------
 
