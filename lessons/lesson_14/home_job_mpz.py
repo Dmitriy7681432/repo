@@ -29,7 +29,6 @@ print('--'*50)
 #-------------------------------------------------------------------------------------------
 list_temp = []
 lst = []
-#
 count =0
 count1 =0
 flag = 0
@@ -51,12 +50,13 @@ for i in marka:
             flag = 1
             break
 print(lst)
+A = []
+for i in range(3):
+    for j in range(3):
+        A[i][j] = 2
 
-alex = 'Alex'
-brian = 'Brian'
-tom = 'Tom'
-smith = 'Smith'
-
+print(A,'AAAA')
+#-------------------------------------------------------------------------------------------
 head_myData = [["auto" ';' "date comment" ';' 'comment']]
 myData =  [['Alex' ';' 'Brian' ';',comment[0]],
           ['Tom' ';' 'Smith' ';', comment[1]],
@@ -64,12 +64,13 @@ myData =  [['Alex' ';' 'Brian' ';',comment[0]],
 print(myData)
 
 myFile = open('example2.csv', 'w', newline='')
-csv.register_dialect('my_dialect',escapechar=T)
+# csv.register_dialect('my_dialect',delimiter='\t',doublequote=';',escapechar=':',skipinitialspace='True')
+# csv.register_dialect('my_dialect',delimiter = '\t',doublequote=True)
 with myFile:
     # for data in a:
             # print(data)
             # writer = csv.writer(myFile,quotechar=',', quoting=csv.QUOTE_MINIMAL)
-            writer = csv.writer(myFile,'my_dialect')
+            writer = csv.writer(myFile,delimiter = '\t')
             # writer = csv.writer(myFile,'my_dialect')
             writer.writerows(head_myData)
             writer.writerows(lst)
