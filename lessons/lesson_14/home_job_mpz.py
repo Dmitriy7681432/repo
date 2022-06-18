@@ -64,12 +64,12 @@ myData =  [['Alex' ';' 'Brian' ';',comment[0]],
 print(myData)
 
 myFile = open('example2.csv', 'w', newline='')
-# csv.register_dialect('my_dialect',delimiter='\t',doublequote=';',escapechar=':',skipinitialspace='True')
+csv.register_dialect('my_dialect',escapechar=T)
 with myFile:
     # for data in a:
             # print(data)
-            writer = csv.writer(myFile,quotechar=',', quoting=csv.QUOTE_MINIMAL)
-            # writer = csv.writer(myFile,delimiter = '|')
+            # writer = csv.writer(myFile,quotechar=',', quoting=csv.QUOTE_MINIMAL)
+            writer = csv.writer(myFile,'my_dialect')
             # writer = csv.writer(myFile,'my_dialect')
             writer.writerows(head_myData)
             writer.writerows(lst)
