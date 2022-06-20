@@ -1,12 +1,18 @@
-class Dexter:
-    def __init__(self):
-        self.__lol = ['1,2,3']
-        self.pop = ['3,4,5']
-    def get_lol(self):
-        return self.__lol
-    def get_pop(self):
-        return self.pop
-a = Dexter()
-print(a.get_lol())
-print(a.pop)
-print(a.__lol)
+# a = ['Hello World!\nHow are you','Hello']
+# b = [i for i in a if i!='\\r\\n'or i!='\\n']
+# print(b)
+# for i in a:
+#     if i.isspace():
+#         print(i)
+#
+
+c = 'Hello World!\nHow are you. Hello'
+print(c)
+e = []
+d = []
+for i in c:
+    if i!='\n':
+        e.append(i)
+print(e)
+print(d.append(''.join(e)))
+print(d)
