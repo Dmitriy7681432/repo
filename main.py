@@ -5,14 +5,19 @@
 #     if i.isspace():
 #         print(i)
 #
-
-c = 'Hello World!\nHow are you. Hello'
+import unicodedata
+c = 'Hello World!\r\nHow are you. Hello'
 print(c)
-e = []
-d = []
-for i in c:
-    if i!='\n':
-        e.append(i)
-print(e)
-print(d.append(''.join(e)))
-print(d)
+r =[]
+b =[]
+# [r.append(ch) for ch in c if unicodedata.category(ch)[0]!='C']
+for ch in c:
+    if unicodedata.category(ch)[0] != 'C':
+        r.append(ch)
+r=(''.join(r))
+r = list(r.split(','))
+print(r)
+mpa = dict.fromkeys(range(32))
+b.append(c.translate(mpa))
+print(r)
+print(mpa)

@@ -9,20 +9,20 @@ https://auto.exist.ru/otzyvy?page=1
 	<meta name="keyword" content="" />
 	<meta name="author" content="." />
 	<meta name="viewport" content="width=device-width" />
-
-	<title>Отзывы — Auto.Exist
+	
+	<title>Отзывы — Auto.Exist    
 </title>
 	<link rel="shortcut icon" href="/i/favicon.png" type="image/x-icon" />
 	<link rel="icon" href="/i/favicon.png" sizes="128x128" />
 	<meta itemprop="image" content="/i/favicon.png" />
 	<link rel="stylesheet" type="text/css" href="/c/new/reset.css">
 	<link rel="stylesheet" type="text/css" href="/c/new/framework.css">
-
+	
 	<!--link rel="stylesheet" type="text/css" href="/c/Site.css"-->
 	<link rel="stylesheet" type="text/css" href="/c/new/stylenew.less">
-	<link rel="stylesheet" type="text/css" href="/c/minimal.css">
+	<link rel="stylesheet" type="text/css" href="/c/minimal.css">	
 	<link rel="stylesheet" type="text/css" href="/c/chosen.css">
-
+	
 	<link href="/c/jquery.fileupload-ui.css" rel="stylesheet" type="text/css" />
 	<link href="/c/jquery.Jcrop.css" rel="stylesheet" type="text/css" />
 	<script src="/s/new/jquery-1.9.1.min.js"></script>
@@ -31,11 +31,11 @@ https://auto.exist.ru/otzyvy?page=1
 	<script src="/s/jquery-ui-1.9.2.min.js" type="text/javascript"></script>
 	<script src="/s/knockout-3.4.0.js" type="text/javascript"></script>
 	<script src="/s/autoportal.common.js" type="text/javascript"></script>
-
+	
 	<script src="/s/autoportal.ko.bindings.js" type="text/javascript"></script>
 	<script src="/s/adfox.asyn.code.ver3.js" type="text/javascript"></script>
 	<script src="/s/adfox.asyn.code.scroll.js" type="text/javascript"></script>
-
+	
 	<script src="/s/new/Utils.js?v=1" type="text/javascript"></script>
 	<script src="/s/new/ddl.js" type="text/javascript"></script>
 	<script src="/s/new/AutoComplete.js" type="text/javascript"></script>
@@ -47,7 +47,7 @@ https://auto.exist.ru/otzyvy?page=1
 	<script src="/s/icheck.min.js" type="text/javascript"></script>
 	<script src="/s/jquery.nicefileinput.min.js" type="text/javascript"></script>
 	<script src="/s/chosen.jquery.min.js" type="text/javascript"></script>
-
+	
 
 	<script type="text/javascript">
 	var modalSelectRegion;
@@ -61,12 +61,12 @@ https://auto.exist.ru/otzyvy?page=1
 		uploadImages = $("#uploadImages");
 		/*$('input').iCheck({
 			checkboxClass: 'icheckbox_minimal',
-			radioClass: 'iradio_minimal'
+			radioClass: 'iradio_minimal'			
 		});*/
 		$("input[type=file]").nicefileinput();
+				
 
-
-		//uploadDocument = $("#uploadDocument");
+		//uploadDocument = $("#uploadDocument");	
 
 		existInit();
 	});
@@ -76,10 +76,10 @@ https://auto.exist.ru/otzyvy?page=1
 	<script type="text/javascript">
 		var changeRegionReturnUrl = "";
 	</script>
-
+	
     <link href="/c/Review.css" rel="stylesheet" type="text/css" />
 
-
+	
 	<script type="text/javascript">
     var _gaq = _gaq || [];
     _gaq.push(['_setAccount', 'UA-34586184-1']);
@@ -137,7 +137,7 @@ var yaParams = {/*Здесь параметры визита*/};
 					</div>
 					<!--Логин-->
 										<noindex>
-
+						
 
 <script>
 
@@ -146,12 +146,12 @@ var yaParams = {/*Здесь параметры визита*/};
 
 		xhttp.open("POST", "//connect.exist.group/User", true);
 		xhttp.withCredentials = true;
-
+		
 		xhttp.onreadystatechange = function () {
 			if (xhttp.readyState == 4) {
 				if (xhttp.status == 200) {
 					var authUser = JSON.parse(this.response);
-
+					
 					if ((authUser.IsAuthenticated) && (document.getElementById('guestForm') != null)) {
 						var currentDomain = window.location.hostname.split('.').pop().trim(),
 							returnUrl = window.location.pathname;
@@ -166,7 +166,7 @@ var yaParams = {/*Здесь параметры визита*/};
 						document.getElementById('greetMessage').innerHTML = 'После того, как вы войдете, вы будeте перенаправлены на www.exist.' + authUser.Locale;
 					}
 				}
-			};
+			};		
 		}
 		xhttp.send();
 	}	*/
@@ -189,7 +189,7 @@ var yaParams = {/*Здесь параметры визита*/};
 		<div class="b">
 			<div class="login-box">
 				<div class="login-wrapp">
-					<div id="guestForm">
+					<div id="guestForm">						
 							<h3>Личный кабинет</h3>
 							<form id="loginForm" action="/Profile/Login?ReturnUrl=%2fotzyvy%3fpage%3d1" method="POST">
 								<div class="login-element">
@@ -218,16 +218,16 @@ var yaParams = {/*Здесь параметры визита*/};
 									<a id="mr" title="MailRu" class="icon" href="/Profile/Login?oid=MailRu">MailRu</a>
 									<a id="lv" title="Live" class="icon" href="/Profile/Login?oid=Live">Live</a>
 								</div>
-							</form>
+							</form>												
 					</div>
-
+					
 				</div>
 				<script id="tplSsoRegistered" type="text/template">
 					<div class="welcomeBack">
 						<p>Снова здравствуйте, <strong><#=Login#></strong>!</p>
 						<span>
 						Нажмите кнопку «Войти» чтобы перейти в личный кабинет
-						</span>
+						</span>	
 						<a href="/Profile/Login?ReturnUrl=<#=Url#>">Войти</a>
 					</div>
 				</script>
@@ -236,14 +236,14 @@ var yaParams = {/*Здесь параметры визита*/};
 						<p>Снова здравствуйте, <strong><#=Login#></strong>!</p>
 						<span>
 						После того, как вы войдете, вы будeте перенаправлены на www.exist.<#=Locale#>
-						</span>
+						</span>						
 						<a href="/Profile/Login?ReturnUrl=<#=Url#>">Войти</a>
 					</div>
 	</script>
-			</div>
+			</div>			
 		</div>
 	</div>
-</div>
+</div>						
 					</noindex>
 
 
@@ -305,9 +305,9 @@ var yaParams = {/*Здесь параметры визита*/};
 				<ul>
 					<li><a class="dashboard__go_to_exist" rel="nofollow" href="/kupit/">Объявления</a></li>
 					<li class="header_main__nav__item selected"><a href="https://auto.exist.ru/otzyvy" rel="nofollow" title="Отзывы">Отзывы</a></li>
-
+			
 					<li class="header_main__nav__item "><a title="Автосалоны" href="http://www.exist.ru/AutoPoints/Dealer" rel="nofollow">Автосалоны</a></li>
-
+			
 					<li class="header_main__nav__item "><a href="https://auto.exist.ru/publikacii" rel="nofollow" title="Статьи">Статьи</a></li>
 					<li class="header_main__nav__item "><a href="http://www.exist.ru/Forum/" rel="nofollow" title="Форум">Форум</a></li>
 					<li><a class="dashboard__go_to_exist" rel="nofollow" href="http://www.exist.ru/" target="_blank">запчасти</a></li>
@@ -317,7 +317,7 @@ var yaParams = {/*Здесь параметры визита*/};
 		</ul>
 	</div>
 </noindex>
-
+	
 
 <script>
 	$(document).ready(function () {
@@ -333,7 +333,7 @@ var yaParams = {/*Здесь параметры визита*/};
 			</div>
 			<div class="content-page">
 				<div class="clearfix"></div>
-
+				
 <script type="text/javascript">
     function SwitchTabs(numTab) {
         if (numTab == 2) {
@@ -404,7 +404,7 @@ var yaParams = {/*Здесь параметры визита*/};
                     }
                 });
         });
-
+        
         $("#ModelId").change(function () {
             var bodys = $("#BodyTypeId");
             ClearSelect(bodys);
@@ -441,10 +441,10 @@ var yaParams = {/*Здесь параметры визита*/};
     <div class="clear"></div>
     <div class="block_3">
             <noindex>
-                <div class="sortmenu">
+                <div class="sortmenu">                    
                     <div>
                         <form method="post" action="https://auto.exist.ru/otzyvy" id="searchReviewForm">
-
+                            
                             <div class="item make">
                                 <p>
                                     <b>Марка</b>
@@ -685,7 +685,7 @@ var yaParams = {/*Здесь параметры визита*/};
 <option value="14">Бортовая платформа/Шасси</option>
 <option value="8">Кабриолет</option>
 </select>
-                            </div>
+                            </div>                            
                             <div class="item show"><input type="submit" id="SearchSubmitButton" class="trdBtn" value="Показать" /></div>
                             <div class="item photo">
                                 <input id="WithPhotoOnly" name="WithPhotoOnly" type="checkbox" value="true" /><input name="WithPhotoOnly" type="hidden" value="false" />
@@ -697,9 +697,9 @@ var yaParams = {/*Здесь параметры визита*/};
             </noindex>
             <div class="clear"></div>
         <div class="infoBlock3 marginBottom30">
-
+            
 	<article class="responses-item">
-        <img class="car-photo" src="//img.exist.ru/img.jpg?Key=6DF89394-FC51-40C8-B5A3-A6025889F27A&Size=150x100&MethodType=33" alt="Mercedes CLC 2008" style="vertical-align:top" width="80" height="60" />
+        <img class="car-photo" src="//img.exist.ru/img.jpg?Key=6DF89394-FC51-40C8-B5A3-A6025889F27A&Size=150x100&MethodType=33" alt="Mercedes CLC 2008" style="vertical-align:top" width="80" height="60" />		
         <div class="responses-content">
                 <h3>Mercedes CLC <span>2008</span></h3>
 			<span style="float: right" class="date">22.01.2018</span>
@@ -712,10 +712,10 @@ var yaParams = {/*Здесь параметры визита*/};
             <p class="responses-text">Машина эгоист, для двух пассажиров. Крупному человеку назад сесть достаточно трудновато. Но сама машинка очень динамичная и приятная в вождении. Жена на нее пересела с Мазды. Она очень долго была под впечатлением! При своих относительно небольших габ ...</p>
             <a class="readmore" href="https://auto.exist.ru/otzyvy/3008" rel="nofollow" title="Читать отзыв">Читать отзыв</a>
 
-        </div>
+        </div>		
 	</article>
 	<article class="responses-item">
-        <img class="car-photo" src="//img.exist.ru/img.jpg?Key=17E0E5A9-5156-4810-9703-531939A9A4FE&Size=150x100&MethodType=33" alt="Ford Econovan 1984" style="vertical-align:top" width="80" height="60" />
+        <img class="car-photo" src="//img.exist.ru/img.jpg?Key=17E0E5A9-5156-4810-9703-531939A9A4FE&Size=150x100&MethodType=33" alt="Ford Econovan 1984" style="vertical-align:top" width="80" height="60" />		
         <div class="responses-content">
                 <h3>Ford Econovan <span>1984</span></h3>
 			<span style="float: right" class="date">30.11.2017</span>
@@ -728,10 +728,10 @@ var yaParams = {/*Здесь параметры визита*/};
             <p class="responses-text">Великолепная модель! 16-ть лет владею автомобилем - ощущаю, что продаю Друга... Но, есть на то причины. Ломаться практически нечему. Передний разрезной мост на шкворнях, на пружинах и амортизаторах. Задний мост на рессорах. Мягкий ход. Мощный 195-сил ...</p>
             <a class="readmore" href="https://auto.exist.ru/otzyvy/2984" rel="nofollow" title="Читать отзыв">Читать отзыв</a>
 
-        </div>
+        </div>		
 	</article>
 	<article class="responses-item">
-        <img class="car-photo" src="//img.exist.ru/img.jpg?Key=9A5F66AD-18BC-47BD-8BB1-09B7D45C1A93&Size=150x100&MethodType=33" alt="Hyundai Santa Fe 2017" style="vertical-align:top" width="80" height="60" />
+        <img class="car-photo" src="//img.exist.ru/img.jpg?Key=9A5F66AD-18BC-47BD-8BB1-09B7D45C1A93&Size=150x100&MethodType=33" alt="Hyundai Santa Fe 2017" style="vertical-align:top" width="80" height="60" />		
         <div class="responses-content">
                 <h3>Hyundai Santa Fe <span>2017</span></h3>
 			<span style="float: right" class="date">28.11.2017</span>
@@ -744,10 +744,10 @@ var yaParams = {/*Здесь параметры визита*/};
             <p class="responses-text">Круче чем БМВ</p>
             <a class="readmore" href="https://auto.exist.ru/otzyvy/2983" rel="nofollow" title="Читать отзыв">Читать отзыв</a>
 
-        </div>
+        </div>		
 	</article>
 	<article class="responses-item">
-        <img class="car-photo" src="//img.exist.ru/img.jpg?Key=41876AF6-AEE1-4900-97A9-0A7CC0E91C18&Size=150x100&MethodType=33" alt="Jeep Compass 2012" style="vertical-align:top" width="80" height="60" />
+        <img class="car-photo" src="//img.exist.ru/img.jpg?Key=41876AF6-AEE1-4900-97A9-0A7CC0E91C18&Size=150x100&MethodType=33" alt="Jeep Compass 2012" style="vertical-align:top" width="80" height="60" />		
         <div class="responses-content">
                 <h3>Jeep Compass <span>2012</span></h3>
 			<span style="float: right" class="date">28.11.2017</span>
@@ -760,10 +760,10 @@ var yaParams = {/*Здесь параметры визита*/};
             <p class="responses-text">Стильный, брутальный, комфортный, безопасный автомобиль, идеально вписывающийся в рамки большого города и интенсивного ритма жизни.</p>
             <a class="readmore" href="https://auto.exist.ru/otzyvy/2982" rel="nofollow" title="Читать отзыв">Читать отзыв</a>
 
-        </div>
+        </div>		
 	</article>
 	<article class="responses-item">
-        <img class="car-photo" src="//img.exist.ru/img.jpg?Key=E0621743-1951-491A-817F-6B59B5926E71&Size=150x100&MethodType=33" alt="Ford S-Max 2007" style="vertical-align:top" width="80" height="60" />
+        <img class="car-photo" src="//img.exist.ru/img.jpg?Key=E0621743-1951-491A-817F-6B59B5926E71&Size=150x100&MethodType=33" alt="Ford S-Max 2007" style="vertical-align:top" width="80" height="60" />		
         <div class="responses-content">
                 <h3>Ford S-Max <span>2007</span></h3>
 			<span style="float: right" class="date">28.11.2017</span>
@@ -776,10 +776,10 @@ var yaParams = {/*Здесь параметры визита*/};
             <p class="responses-text">Почти два года эксплуатирую данную машинку, проблем и лишних расходов не приносит, да и езжу уже не так часто, как раньше на Серене, форда взял на замену Ниссана (ударили в левую боковину зада), была работа ,водились деньги на дальние поездки в Сарат ...</p>
             <a class="readmore" href="https://auto.exist.ru/otzyvy/2981" rel="nofollow" title="Читать отзыв">Читать отзыв</a>
 
-        </div>
+        </div>		
 	</article>
     <div class="clear">
-    </div>
+    </div>                
 
         </div>
 
@@ -804,7 +804,7 @@ var yaParams = {/*Здесь параметры визита*/};
 </section>
 
 <section class="sidebar right">
-
+    
 
 
 <div class="grid_4 omega">
@@ -845,145 +845,145 @@ var yaParams = {/*Здесь параметры визита*/};
 
 
     <div class="seo-block marginTop seo_sidebar_temp">
-
+    
 </div>
 
 
-
-
+    
+    
 </div>
 </section>
 
 
 <!--div class="grid_12 alpha">
 <div class="block_3">
-
+    
     <div class="block_item">
             <div class="left brand">
                     <div>
                         <div class="letter"
                         >
 A                        </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/acura" title="Acura">Acura</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
                         </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/alfaromeo" title="Alfa Romeo">Alfa Romeo</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
                         </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy?MarkId=879" title="Asia Motors">Asia Motors</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
                         </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/audi" title="Audi">Audi</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
 B                        </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/baw" title="BAW">BAW</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
                         </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/bmw" title="BMW">BMW</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
 C                        </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/cadillac" title="Cadillac">Cadillac</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
                         </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/chery" title="Chery">Chery</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
                         </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/chevrolet" title="Chevrolet">Chevrolet</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
                         </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/chrysler" title="Chrysler">Chrysler</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
                         </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/citroen" title="Citroen">Citroen</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
 D                        </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/daewoo" title="Daewoo">Daewoo</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
                         </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/daihatsu" title="Daihatsu">Daihatsu</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
                         </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/dodge" title="Dodge">Dodge</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
 F                        </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/fiat" title="Fiat">Fiat</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
                         </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/ford" title="Ford">Ford</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
                         </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/fordusa" title="Ford USA">Ford USA</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
 G                        </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/geely" title="Geely">Geely</a>
                     </div>
             </div>
@@ -993,126 +993,126 @@ G                        </div>
                             style="min-height: 32px"
                         >
                         </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/gmc" title="GMC">GMC</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
                         </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/greatwall" title="Great Wall">Great Wall</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
 H                        </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/hafei" title="Hafei">Hafei</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
                         </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/haima" title="Haima">Haima</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
                         </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/honda" title="Honda">Honda</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
                         </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/hyundai" title="Hyundai">Hyundai</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
 I                        </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/infiniti" title="Infiniti">Infiniti</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
                         </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/irankhodro" title="Iran Khodro">Iran Khodro</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
                         </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/isuzu" title="Isuzu">Isuzu</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
 J                        </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/jaguar" title="Jaguar">Jaguar</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
                         </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/jeep" title="Jeep">Jeep</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
 K                        </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/kia" title="Kia">Kia</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
 L                        </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/lancia" title="Lancia">Lancia</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
                         </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/landrover" title="Land Rover">Land Rover</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
                         </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/ldv" title="LDV">LDV</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
                         </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/lexus" title="Lexus">Lexus</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
                         </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/lifan" title="Lifan">Lifan</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
                         </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/lincoln" title="Lincoln">Lincoln</a>
                     </div>
             </div>
@@ -1122,133 +1122,133 @@ L                        </div>
                             style="min-height: 32px"
                         >
 M                        </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/mazda" title="Mazda">Mazda</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
                         </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/mercedes" title="Mercedes">Mercedes</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
                         </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/mini" title="MINI">MINI</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
                         </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/mitsubishi" title="Mitsubishi">Mitsubishi</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
 N                        </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/nissan" title="Nissan">Nissan</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
 O                        </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/opel" title="Opel">Opel</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
 P                        </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/peugeot" title="Peugeot">Peugeot</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
                         </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/pontiac" title="Pontiac">Pontiac</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
                         </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/porsche" title="Porsche">Porsche</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
                         </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/proton" title="Proton">Proton</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
 R                        </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/renault" title="Renault">Renault</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
                         </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/rover" title="Rover">Rover</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
 S                        </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/saab" title="Saab">Saab</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
                         </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/saturn" title="Saturn">Saturn</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
                         </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/seat" title="Seat">Seat</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
                         </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/skoda" title="Skoda">Skoda</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
                         </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/smart" title="Smart">Smart</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
                         </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/ssangyong" title="Ssangyong">Ssangyong</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
                         </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/subaru" title="Subaru">Subaru</a>
                     </div>
             </div>
@@ -1258,98 +1258,98 @@ S                        </div>
                             style="min-height: 32px"
                         >
                         </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/suzuki" title="Suzuki">Suzuki</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
 T                        </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/tesla" title="Tesla">Tesla</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
                         </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy?MarkId=3525" title="Tianye">Tianye</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
                         </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/toyota" title="Toyota">Toyota</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
 V                        </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/volkswagen" title="Volkswagen">Volkswagen</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
                         </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/volvo" title="Volvo">Volvo</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
                         </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/vortex" title="Vortex">Vortex</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
 Б                        </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/bronto" title="Бронто">Бронто</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
 В                        </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/vaz" title="ВАЗ">ВАЗ</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
 Г                        </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/gaz" title="ГАЗ">ГАЗ</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
 З                        </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/zaz" title="ЗАЗ">ЗАЗ</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
 М                        </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/moskvic" title="Москвич">Москвич</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
 Т                        </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/tagaz" title="ТагАЗ">ТагАЗ</a>
                     </div>
                     <div>
                         <div class="letter"
                         >
 У                        </div>
-
+                        
                         <a href="https://auto.exist.ru/otzyvy/uaz" title="УАЗ">УАЗ</a>
                     </div>
             </div>
@@ -1369,8 +1369,8 @@ V                        </div>
                         <!--Площадка: auto.exist.ru / Отзывы, главная / otzyvy_728-->
                         <!--Категория: <не задана>-->
                         <!--Тип баннера: 728x90js-->
-                        <!-- ________________________AdFox Asynchronous code START__________________________ -->
-                        <script type="text/javascript">
+                        <!-- ________________________AdFox Asynchronous code START__________________________ --> 
+                        <script type="text/javascript"> 
                         <!--
                             if (typeof (pr) == 'undefined') { var pr = Math.floor(Math.random() * 1000000); }
                             if (typeof (document.referrer) != 'undefined') {
@@ -1392,13 +1392,13 @@ V                        </div>
                             if (typeof (AdFox_Scroll) != "undefined")
                             	AdFox_Scroll(pr1, 'http://ads.adfox.ru/201979/prepareCode?p1=bjjps&amp;p2=eoyk&amp;pct=a&amp;pfc=a&amp;pfb=a&amp;pr=' + pr + '&amp;pt=b&amp;pd=' + addate.getDate() + '&amp;pw=' + addate.getDay() + '&amp;pv=' + addate.getHours() + '&amp;prr=' + afReferrer + '&amp;dl=' + dl + '&amp;pr1=' + pr1);
                             // -->
-                        </script>
+                        </script> 
                         <!-- _________________________AdFox Asynchronous code END___________________________ -->
-
+               
             </div>
        </div>
-
-
+	 
+	 
     </noindex>
 </div>
 <div class="clearfix"></div>
@@ -1415,11 +1415,11 @@ V                        </div>
 	<ul>
 		<li class="footer_main_nav_item"><a rel="nofollow" href="/doc/about" title="О нас">О нас</a></li>
 		<li class="footer_main_nav_item"><a href="/Region/1__/Auth/RegisterJuridical" rel="nofollow" title="Стать партнером">Стать партнером</a></li>
-
+		
 		<li class="footer_main_nav_item"><a rel="nofollow" href="/doc/agreement" title="Правила пользования сайтом">Правила пользования сайтом</a></li>
 		<li class="footer_main_nav_item"><a rel="nofollow" href="/doc/oferta" title="Договор оферты">Договор оферты</a></li>
 		<li class="footer_main_nav_item"><a href="https://auto.exist.ru/Feedback/SendFeedback" rel="nofollow" title="Обратная связь">Обратная связь</a></li>
-
+		
 	</ul>
 </nav>
 </noindex>
@@ -1452,7 +1452,7 @@ V                        </div>
 
         <!-- Rating@Mail.ru logo -->
         <a href="http://top.mail.ru/jump?from=2408156">
-        <img src="//top-fwz1.mail.ru/counter?id=2408156;t=479;l=1"
+        <img src="//top-fwz1.mail.ru/counter?id=2408156;t=479;l=1" 
         style="border:0;" height="31" width="88" alt="Рейтинг@Mail.ru" /></a>
         <!-- //Rating@Mail.ru logo -->
     </noindex>
@@ -1480,9 +1480,9 @@ V                        </div>
 	<script src="/s/autoportal.ui.widget.js" type="text/javascript"></script>
 	<script src="/s/new/app.js"></script>
 
-
-
-
+	
+	
+	
 	<div id="dialogSelectRegion">
 		<script type="text/javascript" language="javascript">
 			function SelectedRegion(dbId, dbName) {
@@ -1638,1650 +1638,13 @@ var yaParams = {/*Здесь параметры визита*/};
 <!-- Version: 1.0.0.0  ReleaseDate: 04.03.2021 18:17:34 -->
 </html>
 
-[['Mercedes CLC 2008', ';', '22.01.2018', ';', 'Машина эгоист, для двух пассажиров. Крупному человеку назад сесть достаточно трудновато. Но сама машинка очень динамичная и приятная в вождении. Жена на нее пересела с Мазды. Она очень долго была под впечатлением! При своих относительно небольших габ ...'], ['Ford Econovan 1984', ';', '30.11.2017', ';', 'Великолепная модель! 16-ть лет владею автомобилем - ощущаю, что продаю Друга... Но, есть на то причины. Ломаться практически нечему. Передний разрезной мост на шкворнях, на пружинах и амортизаторах. Задний мост на рессорах. Мягкий ход. Мощный 195-сил ...'], ['Hyundai Santa Fe 2017', ';', '28.11.2017', ';', 'Круче чем БМВ']]
-https://auto.exist.ru/otzyvy?page=2
-<!doctype html>
-<html>
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-	<meta name="description" content="" />
-	<meta name="keyword" content="" />
-	<meta name="author" content="." />
-	<meta name="viewport" content="width=device-width" />
-
-	<title>Отзывы — Auto.Exist
-</title>
-	<link rel="shortcut icon" href="/i/favicon.png" type="image/x-icon" />
-	<link rel="icon" href="/i/favicon.png" sizes="128x128" />
-	<meta itemprop="image" content="/i/favicon.png" />
-	<link rel="stylesheet" type="text/css" href="/c/new/reset.css">
-	<link rel="stylesheet" type="text/css" href="/c/new/framework.css">
-
-	<!--link rel="stylesheet" type="text/css" href="/c/Site.css"-->
-	<link rel="stylesheet" type="text/css" href="/c/new/stylenew.less">
-	<link rel="stylesheet" type="text/css" href="/c/minimal.css">
-	<link rel="stylesheet" type="text/css" href="/c/chosen.css">
-
-	<link href="/c/jquery.fileupload-ui.css" rel="stylesheet" type="text/css" />
-	<link href="/c/jquery.Jcrop.css" rel="stylesheet" type="text/css" />
-	<script src="/s/new/jquery-1.9.1.min.js"></script>
-	<script src="/s/jquery-migrate-1.2.1.js" type="text/javascript"></script>
-	<script src="/s/jquery.unobtrusive-ajax.js" type="text/javascript"></script>
-	<script src="/s/jquery-ui-1.9.2.min.js" type="text/javascript"></script>
-	<script src="/s/knockout-3.4.0.js" type="text/javascript"></script>
-	<script src="/s/autoportal.common.js" type="text/javascript"></script>
-
-	<script src="/s/autoportal.ko.bindings.js" type="text/javascript"></script>
-	<script src="/s/adfox.asyn.code.ver3.js" type="text/javascript"></script>
-	<script src="/s/adfox.asyn.code.scroll.js" type="text/javascript"></script>
-
-	<script src="/s/new/Utils.js?v=1" type="text/javascript"></script>
-	<script src="/s/new/ddl.js" type="text/javascript"></script>
-	<script src="/s/new/AutoComplete.js" type="text/javascript"></script>
-	<script src="/s/new/Sso.ClientRequest.js" type="text/javascript"></script>
-
-	<script src="/s/jquery.validate.min.js" type="text/javascript"></script>
-	<script src="/s/jquery.validate.unobtrusive.min.js" type="text/javascript"></script>
-
-	<script src="/s/icheck.min.js" type="text/javascript"></script>
-	<script src="/s/jquery.nicefileinput.min.js" type="text/javascript"></script>
-	<script src="/s/chosen.jquery.min.js" type="text/javascript"></script>
-
-
-	<script type="text/javascript">
-	var modalSelectRegion;
-	var dialogSelectRegion;
-	var uploadImages;
-	var uploadDocument;
-
-	$(document).ready(function () {
-		modalSelectRegion = $("#modalSelectRegion");
-		dialogSelectRegion = $("#dialogSelectRegion");
-		uploadImages = $("#uploadImages");
-		/*$('input').iCheck({
-			checkboxClass: 'icheckbox_minimal',
-			radioClass: 'iradio_minimal'
-		});*/
-		$("input[type=file]").nicefileinput();
-
-
-		//uploadDocument = $("#uploadDocument");
-
-		existInit();
-	});
-
-	</script>
-
-	<script type="text/javascript">
-		var changeRegionReturnUrl = "";
-	</script>
-
-    <link href="/c/Review.css" rel="stylesheet" type="text/css" />
-
-
-	<script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-34586184-1']);
-    _gaq.push(['_setDomainName', 'exist.ru']);
-    _gaq.push(['_trackPageview']);
-
-    (function () {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-</script>
-
-</head>
-<body class="reviews">
-	<!-- Yandex.Metrika counter -->
-<script type="text/javascript">
-var yaParams = {/*Здесь параметры визита*/};
-</script>
-<script type="text/javascript">
-(function (d, w, c) {
-    (w[c] = w[c] || []).push(function() {
-        try {
-            w.yaCounter16932565 = new Ya.Metrika({id:16932565,
-                    webvisor:true,
-                    clickmap:true,
-                    trackLinks:true,
-                    accurateTrackBounce:true,params:window.yaParams||{ }});
-        } catch(e) { }
-    });
-
-    var n = d.getElementsByTagName("script")[0],
-        s = d.createElement("script"),
-        f = function () { n.parentNode.insertBefore(s, n); };
-    s.type = "text/javascript";
-    s.async = true;
-    s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
-
-    if (w.opera == "[object Opera]") {
-        d.addEventListener("DOMContentLoaded", f, false);
-    } else { f(); }
-})(document, window, "yandex_metrika_callbacks");
-</script>
-<noscript><div><img src="//mc.yandex.ru/watch/16932565" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-<!-- /Yandex.Metrika counter -->
-
-	<div class="wrapper">
-		<div class="content">
-			<div class="top">
-				<div class="topcontent">
-					<div class="shop">
-						<i class="shopicon"></i>
-						<span class="shopadr" id="dashboard_region_name">Россия</span>
-						<a class="chose_region" id="openSelectRegionWindowLink" href="javascript:void(0);">Выбрать регион</a>
-					</div>
-					<!--Логин-->
-										<noindex>
-
-
-<script>
-
-	/*checkUser = function () {
-		var xhttp = new XMLHttpRequest();
-
-		xhttp.open("POST", "//connect.exist.group/User", true);
-		xhttp.withCredentials = true;
-
-		xhttp.onreadystatechange = function () {
-			if (xhttp.readyState == 4) {
-				if (xhttp.status == 200) {
-					var authUser = JSON.parse(this.response);
-
-					if ((authUser.IsAuthenticated) && (document.getElementById('guestForm') != null)) {
-						var currentDomain = window.location.hostname.split('.').pop().trim(),
-							returnUrl = window.location.pathname;
-
-						document.getElementById('guestForm').style.display = 'none';
-						document.getElementsByClassName('welcomeBack')[0].style.display = 'block';
-						document.getElementById('currUser').innerHTML = authUser.Login;
-						document.getElementById('linkLogin').setAttribute('href', '/Profile/Login?ReturnUrl=' + returnUrl);
-
-						(currentDomain == authUser.Locale) ?
-						document.getElementById('greetMessage').innerHTML = 'Нажмите кнопку «Войти» чтобы перейти в личный кабинет' :
-						document.getElementById('greetMessage').innerHTML = 'После того, как вы войдете, вы будeте перенаправлены на www.exist.' + authUser.Locale;
-					}
-				}
-			};
-		}
-		xhttp.send();
-	}	*/
-</script>
-
-<div class="login">
-
-	<div class="register">
-		<a href="http://www.exist.ru/Profile/Registration.aspx">Регистрация</a>
-	</div>
-	<div class="DDL loginname guest" id="pnlLogin">
-		<div id="loginDDL" class="h" onclick="DDL.ToggleDropDown(this, event); SsoUser.CheckClient();">
-			<b></b>
-			<span>
-				Войти
-			</span>
-			<i></i>
-		</div>
-
-		<div class="b">
-			<div class="login-box">
-				<div class="login-wrapp">
-					<div id="guestForm">
-							<h3>Личный кабинет</h3>
-							<form id="loginForm" action="/Profile/Login?ReturnUrl=%2fotzyvy%3fpage%3d2" method="POST">
-								<div class="login-element">
-									<input name="login" tabindex="1" class="inp" id="UserLogin" type="text" placeholder="Логин" value="">
-								</div>
-								<div class="login-element">
-									<input name="pass" tabindex="2" class="inp" id="Password" type="password" placeholder="*****" value="">
-									<a class="remindtop" href="http://www.exist.ru/Profile/RemindSms.aspx">Напомнить пароль</a><br>
-									<div class="errorlabel" id="errorlabel" style="overflow:hidden;-webkit-animation:'resize' 0.2s;-moz-animation:'resize' 0.2s;animation: 'resize' 0.2s">
-										смените раскладку
-									</div>
-								</div>
-								<div style="float:right"><input id="btnLogin" type="submit" value="Войти" tabindex="4" class="login-button" /></div>
-								<div class="mem">
-									<span style="color:navy;cursor:pointer">
-										<input name="save" tabindex="3" id="tbSave" type="checkbox" value="yes">
-										<label for="tbSave">запомнить</label>
-									</span>
-								</div>
-								<div class="clearfix"></div>
-								<div class="social">
-									<a id="go" title="Google+" class="icon" href="/Profile/Login?oid=Google">Google+</a>
-									<a id="fb" title="Facebook" class="icon" href="/Profile/Login?oid=Facebook">Facebook</a>
-									<a id="ya" title="Yandex" class="icon" href="/Profile/Login?oid=Yandex">Yandex</a>
-									<a id="vk" title="Vkontakte" class="icon" href="/Profile/Login?oid=Vkontakte">Vkontakte</a>
-									<a id="mr" title="MailRu" class="icon" href="/Profile/Login?oid=MailRu">MailRu</a>
-									<a id="lv" title="Live" class="icon" href="/Profile/Login?oid=Live">Live</a>
-								</div>
-							</form>
-					</div>
-
-				</div>
-				<script id="tplSsoRegistered" type="text/template">
-					<div class="welcomeBack">
-						<p>Снова здравствуйте, <strong><#=Login#></strong>!</p>
-						<span>
-						Нажмите кнопку «Войти» чтобы перейти в личный кабинет
-						</span>
-						<a href="/Profile/Login?ReturnUrl=<#=Url#>">Войти</a>
-					</div>
-				</script>
-				<script id="tplSsoLocate" type="text/template">
-					<div class="welcomeBack">
-						<p>Снова здравствуйте, <strong><#=Login#></strong>!</p>
-						<span>
-						После того, как вы войдете, вы будeте перенаправлены на www.exist.<#=Locale#>
-						</span>
-						<a href="/Profile/Login?ReturnUrl=<#=Url#>">Войти</a>
-					</div>
-	</script>
-			</div>
-		</div>
-	</div>
-</div>
-					</noindex>
-
-
-
-				</div>
-			</div>
-			<div class="mainheader">
-
-
-<noindex><div class="logo">
-	<a href="http://auto.exist.ru"><img alt="Логотип" src="/i/logo.png"></a>
-</div>
-
-<div class="search">
-	<form method="get" action="http://auto.exist.ru/kupit">
-		<input id="pcode" class="searchinp" placeholder="Поиск по марке\модели" autocomplete="off" name="pcode" style="font-size: 18px;" type="search">
-		<input class="" value="Найти" style="width: 75px" type="submit">
-		<ul id="itemsList"></ul>
-	</form>
-</div>
-<div class="shopfunctions">
-	<a class="favorite" href="https://auto.exist.ru/cabinet/favourites" title="Избранное">Избранное</a>
-	<a class="mysearch" href="https://auto.exist.ru/cabinet/FavouriteWishes" id="btnMySearches" title="Мои поиски">Мои поиски</a>
-</div>
-
-<script type="text/javascript">
-
-	var options = new AutoCompleteOptions("/Json/SearchMark", {});
-	options.LoadMethod = "GET";
-	options.ItemsContainerId = "itemsList";
-	options.ItemTemplateId = "itemTemplate";
-	options.MinSymbols = 2;
-	options.EnterToSubmit = false;
-	options.DisplayNameProperty = "EntryName";
-	options.TriggerOnSelectionChangedOnLoad = false;
-
-	var ac = new AutoComplete(document.getElementById('pcode'), options);
-	ac.OnSelectionChanged = function(element, isUserSelection)
-	{
-		if (isUserSelection)
-		{
-			document.location.href = element.NavigateUrl;
-		}
-	}
-</script>
-
-<script type="text/template" id="itemTemplate">
-	<li><a href="<#= NavigateUrl #>"><#= EntryName #></a></li>
-</script>
-
-<div class="mainmenu">
-		<ul>
-			<li id="showMenu">
-				<hr />
-				<hr />
-				<hr />
-			</li>
-			<li id="subMenuHidden">
-				<ul>
-					<li><a class="dashboard__go_to_exist" rel="nofollow" href="/kupit/">Объявления</a></li>
-					<li class="header_main__nav__item selected"><a href="https://auto.exist.ru/otzyvy" rel="nofollow" title="Отзывы">Отзывы</a></li>
-
-					<li class="header_main__nav__item "><a title="Автосалоны" href="http://www.exist.ru/AutoPoints/Dealer" rel="nofollow">Автосалоны</a></li>
-
-					<li class="header_main__nav__item "><a href="https://auto.exist.ru/publikacii" rel="nofollow" title="Статьи">Статьи</a></li>
-					<li class="header_main__nav__item "><a href="http://www.exist.ru/Forum/" rel="nofollow" title="Форум">Форум</a></li>
-					<li><a class="dashboard__go_to_exist" rel="nofollow" href="http://www.exist.ru/" target="_blank">запчасти</a></li>
-				</ul>
-			</li>
-			<li class="dashboard__nav__item" id="addOfferLink"><a class="alter" href="https://auto.exist.ru/prodat" rel="nofollow" title="Объявление">Объявление</a></li>
-		</ul>
-	</div>
-</noindex>
-
-
-<script>
-	$(document).ready(function () {
-		$('#showMenu').click(function () {
-			$('#subMenuHidden').slideToggle(150);
-			$(this).toggleClass('active');
-		});
-	});
-</script>
-
-
-
-			</div>
-			<div class="content-page">
-				<div class="clearfix"></div>
-
-<script type="text/javascript">
-    function SwitchTabs(numTab) {
-        if (numTab == 2) {
-            $("#IsVideo").val("false");
-            $("#IsSortByDate").val("true");
-        } else if (numTab == 3) {
-            $("#IsVideo").val("true");
-            $("#IsSortByDate").val("false");
-        } else {
-            $("#IsVideo").val("false");
-            $("#IsSortByDate").val("false");
-        }
-        $("#SearchSubmitButton").click();
-    }
-
-    function FilterReviews(objForm) {
-        var baseUrl = 'https://auto.exist.ru/otzyvy';
-        var val = $("#filterModel").val().split(":");
-        if (val.length == 2) {
-            var model = val[1].toString().split('_');
-            if (model.length == 2) {
-                document.location.href = baseUrl + "/" + model[0] + "/" + model[1];
-                return false;
-            }
-        }
-        val = $("#filterMark").val().split(":");
-        if (val.length == 2) {
-            document.location.href = baseUrl + "/" + val[1];
-            return false;
-        }
-        document.location.href = baseUrl;
-        return false;
-    }
-
-    function ClearSelect(select) {
-        select.find("option[value!='0']").remove();
-    }
-
-    $(document).ready(function () {
-        $("#MarkId").change(function () {
-            var models = $("#ModelId");
-            ClearSelect(models);
-            var bodys = $("#BodyTypeId");
-            ClearSelect(bodys);
-            var val = this.value;
-                $.ajax({
-                    url: '/Region/1__/Review/GetModelsByMarkWithReviewExist',
-                    dataType: 'json',
-                    data: { markId: val, rand: (new Date()).getTime() },
-                    async: false,
-                    success: function (records) {
-                        models.empty();
-                        $(records).each(function (index, item) {
-                            models.append($("<option></option>").val(item.Value).html(item.Text));
-                        });
-                    }
-                });
-                $.ajax({
-                url: '/Region/1__/Review/GetBodyTypesWithReviewExist',
-                    dataType: 'json',
-                    data: { markId: val, rand: (new Date()).getTime() },
-                    async: false,
-                    success: function (records) {
-                        bodys.empty();
-                        $(records).each(function (index, item) {
-                            bodys.append($("<option></option>").val(item.Value).html(item.Text));
-                        });
-                    }
-                });
-        });
-
-        $("#ModelId").change(function () {
-            var bodys = $("#BodyTypeId");
-            ClearSelect(bodys);
-            var val = this.value;
-            $.ajax({
-                url: '/Region/1__/Review/GetBodyTypesWithReviewExist',
-                    dataType: 'json',
-                    data: { modelId: val, rand: (new Date()).getTime() },
-                    async: false,
-                    success: function (records) {
-                        bodys.empty();
-                        $(records).each(function (index, item) {
-                            bodys.append($("<option></option>").val(item.Value).html(item.Text));
-                        });
-                    }
-                });
-        });
-    });
-</script>
-
-<div class="selectedNavig">
-    <a href="http://auto.exist.ru">Главная</a>
-    <span class="navigateSeparator">/</span>
-			<span class="sitemapcurrent">Отзывы</span>
-</div>
-<section class="content left new_temp">
-    <div class="title marginRight0 grid_9 alpha">
-        <h1  style="float:left;">
-Отзывы        </h1>
-    </div>
-        <div class="grid_3 right marginTop25 omega">
-            <div class="add"><i></i><a class="alter" href="https://auto.exist.ru/otzyvy/New" title="Добавить отзыв">Добавить отзыв</a></div>
-        </div>
-    <div class="clear"></div>
-    <div class="block_3">
-            <noindex>
-                <div class="sortmenu">
-                    <div>
-                        <form method="post" action="https://auto.exist.ru/otzyvy" id="searchReviewForm">
-
-                            <div class="item make">
-                                <p>
-                                    <b>Марка</b>
-                                </p>
-                                <select class="" id="MarkId" name="MarkId"><option selected="selected" value="0">Не важно</option>
-<option value="1505">Acura</option>
-<option value="2">Alfa Romeo</option>
-<option value="879">Asia Motors</option>
-<option value="5">Audi</option>
-<option value="3071">BAW</option>
-<option value="16">BMW</option>
-<option value="819">Cadillac</option>
-<option value="2887">Chery</option>
-<option value="138">Chevrolet</option>
-<option value="20">Chrysler</option>
-<option value="21">Citroen</option>
-<option value="185">Daewoo</option>
-<option value="25">Daihatsu</option>
-<option value="29">Dodge</option>
-<option value="35">Fiat</option>
-<option value="36">Ford</option>
-<option value="776">Ford USA</option>
-<option value="2590">Geely</option>
-<option value="39">GMC</option>
-<option value="2903">Great Wall</option>
-<option value="2866">Hafei</option>
-<option value="3036">Haima</option>
-<option value="45">Honda</option>
-<option value="183">Hyundai</option>
-<option value="1526">Infiniti</option>
-<option value="3203">Iran Khodro</option>
-<option value="54">Isuzu</option>
-<option value="56">Jaguar</option>
-<option value="882">Jeep</option>
-<option value="184">Kia</option>
-<option value="64">Lancia</option>
-<option value="1820">Land Rover</option>
-<option value="1380">LDV</option>
-<option value="842">Lexus</option>
-<option value="3086">Lifan</option>
-<option value="1200">Lincoln</option>
-<option value="72">Mazda</option>
-<option value="74">Mercedes</option>
-<option value="1523">MINI</option>
-<option value="77">Mitsubishi</option>
-<option value="80">Nissan</option>
-<option value="84">Opel</option>
-<option value="88">Peugeot</option>
-<option value="774">Pontiac</option>
-<option value="92">Porsche</option>
-<option value="778">Proton</option>
-<option value="93">Renault</option>
-<option value="95">Rover</option>
-<option value="99">Saab</option>
-<option value="3261">Saturn</option>
-<option value="104">Seat</option>
-<option value="106">Skoda</option>
-<option value="1138">Smart</option>
-<option value="175">Ssangyong</option>
-<option value="107">Subaru</option>
-<option value="109">Suzuki</option>
-<option value="3236">Tesla</option>
-<option value="3525">Tianye</option>
-<option value="111">Toyota</option>
-<option value="121">Volkswagen</option>
-<option value="120">Volvo</option>
-<option value="3205">Vortex</option>
-<option value="3536">Бронто</option>
-<option value="63">ВАЗ</option>
-<option value="148">ГАЗ</option>
-<option value="1139">ЗАЗ</option>
-<option value="813">Москвич</option>
-<option value="3279">ТагАЗ</option>
-<option value="1553">УАЗ</option>
-</select>
-                            </div>
-
-                            <div class="item model">
-                                <p>
-                                    <b>Модель</b>
-                                </p>
-                                <select class="" id="ModelId" name="ModelId"><option selected="selected" value="0">Не важно</option>
-</select>
-                            </div>
-
-                            <div class="item year">
-                                <p>
-                                    <b>Года выпуска</b>
-                                </p>
-                                <select class="" id="YearFrom" name="YearFrom"><option value="">Не важно</option>
-<option value="2017">2017</option>
-<option value="2016">2016</option>
-<option value="2015">2015</option>
-<option value="2014">2014</option>
-<option value="2013">2013</option>
-<option value="2012">2012</option>
-<option value="2011">2011</option>
-<option value="2010">2010</option>
-<option value="2009">2009</option>
-<option value="2008">2008</option>
-<option value="2007">2007</option>
-<option value="2006">2006</option>
-<option value="2005">2005</option>
-<option value="2004">2004</option>
-<option value="2003">2003</option>
-<option value="2002">2002</option>
-<option value="2001">2001</option>
-<option value="2000">2000</option>
-<option value="1999">1999</option>
-<option value="1998">1998</option>
-<option value="1997">1997</option>
-<option value="1996">1996</option>
-<option value="1995">1995</option>
-<option value="1994">1994</option>
-<option value="1993">1993</option>
-<option value="1992">1992</option>
-<option value="1991">1991</option>
-<option value="1990">1990</option>
-<option value="1989">1989</option>
-<option value="1988">1988</option>
-<option value="1987">1987</option>
-<option value="1986">1986</option>
-<option value="1985">1985</option>
-<option value="1984">1984</option>
-<option value="1983">1983</option>
-<option value="1982">1982</option>
-<option value="1981">1981</option>
-<option value="1980">1980</option>
-<option value="1979">1979</option>
-<option value="1978">1978</option>
-<option value="1977">1977</option>
-<option value="1976">1976</option>
-<option value="1975">1975</option>
-<option value="1974">1974</option>
-<option value="1973">1973</option>
-<option value="1972">1972</option>
-<option value="1971">1971</option>
-<option value="1970">1970</option>
-<option value="1969">1969</option>
-<option value="1968">1968</option>
-<option value="1967">1967</option>
-<option value="1966">1966</option>
-<option value="1965">1965</option>
-<option value="1964">1964</option>
-<option value="1963">1963</option>
-<option value="1962">1962</option>
-<option value="1961">1961</option>
-<option value="1960">1960</option>
-<option value="1959">1959</option>
-<option value="1958">1958</option>
-<option value="1957">1957</option>
-<option value="1956">1956</option>
-<option value="1955">1955</option>
-</select>
-                                <span class="dash">—</span>
-                                <select class="" id="YearTo" name="YearTo"><option value="">Не важно</option>
-<option value="2017">2017</option>
-<option value="2016">2016</option>
-<option value="2015">2015</option>
-<option value="2014">2014</option>
-<option value="2013">2013</option>
-<option value="2012">2012</option>
-<option value="2011">2011</option>
-<option value="2010">2010</option>
-<option value="2009">2009</option>
-<option value="2008">2008</option>
-<option value="2007">2007</option>
-<option value="2006">2006</option>
-<option value="2005">2005</option>
-<option value="2004">2004</option>
-<option value="2003">2003</option>
-<option value="2002">2002</option>
-<option value="2001">2001</option>
-<option value="2000">2000</option>
-<option value="1999">1999</option>
-<option value="1998">1998</option>
-<option value="1997">1997</option>
-<option value="1996">1996</option>
-<option value="1995">1995</option>
-<option value="1994">1994</option>
-<option value="1993">1993</option>
-<option value="1992">1992</option>
-<option value="1991">1991</option>
-<option value="1990">1990</option>
-<option value="1989">1989</option>
-<option value="1988">1988</option>
-<option value="1987">1987</option>
-<option value="1986">1986</option>
-<option value="1985">1985</option>
-<option value="1984">1984</option>
-<option value="1983">1983</option>
-<option value="1982">1982</option>
-<option value="1981">1981</option>
-<option value="1980">1980</option>
-<option value="1979">1979</option>
-<option value="1978">1978</option>
-<option value="1977">1977</option>
-<option value="1976">1976</option>
-<option value="1975">1975</option>
-<option value="1974">1974</option>
-<option value="1973">1973</option>
-<option value="1972">1972</option>
-<option value="1971">1971</option>
-<option value="1970">1970</option>
-<option value="1969">1969</option>
-<option value="1968">1968</option>
-<option value="1967">1967</option>
-<option value="1966">1966</option>
-<option value="1965">1965</option>
-<option value="1964">1964</option>
-<option value="1963">1963</option>
-<option value="1962">1962</option>
-<option value="1961">1961</option>
-<option value="1960">1960</option>
-<option value="1959">1959</option>
-<option value="1958">1958</option>
-<option value="1957">1957</option>
-<option value="1956">1956</option>
-<option value="1955">1955</option>
-</select>
-                            </div>
-
-                            <div class="item type">
-                                <p>
-                                    <b>Тип кузова</b>
-                                </p>
-                                <select class="" id="BodyTypeId" name="BodyTypeId"><option selected="selected" value="0">Не важно</option>
-<option value="23">Микроавтобус</option>
-<option value="3">Хэтчбек</option>
-<option value="12">Тарга</option>
-<option value="6">Внедорожник</option>
-<option value="7">Минивэн</option>
-<option value="4">Универсал</option>
-<option value="13">Фургон</option>
-<option value="5">Купе</option>
-<option value="2">Седан</option>
-<option value="11">Пикап</option>
-<option value="14">Бортовая платформа/Шасси</option>
-<option value="8">Кабриолет</option>
-</select>
-                            </div>
-                            <div class="item show"><input type="submit" id="SearchSubmitButton" class="trdBtn" value="Показать" /></div>
-                            <div class="item photo">
-                                <input id="WithPhotoOnly" name="WithPhotoOnly" type="checkbox" value="true" /><input name="WithPhotoOnly" type="hidden" value="false" />
-                                <label for="WithPhotoOnly" class="valignTop">только с фото</label>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </noindex>
-            <div class="clear"></div>
-        <div class="infoBlock3 marginBottom30">
-
-	<article class="responses-item">
-        <img class="car-photo" src="//img.exist.ru/img.jpg?Key=8CD67BD7-F1A5-4789-83CD-D0E1BEF5C9DC&Size=150x100&MethodType=33" alt="BMW X3 2004" style="vertical-align:top" width="80" height="60" />
-        <div class="responses-content">
-                <h3>BMW X3 <span>2004</span></h3>
-			<span style="float: right" class="date">24.11.2017</span>
-            <div class="ava">
-                <img src="/i/no_user_60_60.png">
-            </div>
-            <p class="username">Пиратище <span class="driving-since"></span></p>
-
-
-            <p class="responses-text">Отличная тачка! Не продал бы, если не кризис... </p>
-            <a class="readmore" href="https://auto.exist.ru/otzyvy/2980" rel="nofollow" title="Читать отзыв">Читать отзыв</a>
-
-        </div>
-	</article>
-	<article class="responses-item">
-        <img class="car-photo" src="//img.exist.ru/img.jpg?Key=0E925493-1848-4C18-8DEB-8AD89E591B80&Size=150x100&MethodType=33" alt="Citroen Berlingo 2005" style="vertical-align:top" width="80" height="60" />
-        <div class="responses-content">
-                <h3>Citroen Berlingo <span>2005</span></h3>
-			<span style="float: right" class="date">09.11.2017</span>
-            <div class="ava">
-                <img src="/i/no_user_60_60.png">
-            </div>
-            <p class="username">Ирек2017 <span class="driving-since"></span></p>
-
-
-            <p class="responses-text">Очень хороший автомобиль для поездок большой семьёй или для перевозки всевозможных грузов. Салон легко трансформируется, 2 боковые сдвижные и 2 задние распашные двери дают свободный доступ во все уголки авто(при всей &quot;дырявости&quot; кузова он о ...</p>
-            <a class="readmore" href="https://auto.exist.ru/otzyvy/2979" rel="nofollow" title="Читать отзыв">Читать отзыв</a>
-
-        </div>
-	</article>
-	<article class="responses-item">
-        <img class="car-photo" src="//img.exist.ru/img.jpg?Key=39392B9D-1283-48A9-9B82-E670A5B6B4AF&Size=150x100&MethodType=33" alt="Skoda Fabia 2013" style="vertical-align:top" width="80" height="60" />
-        <div class="responses-content">
-                <h3>Skoda Fabia <span>2013</span></h3>
-			<span style="float: right" class="date">09.11.2017</span>
-            <div class="ava">
-                <img src="/i/no_user_60_60.png">
-            </div>
-            <p class="username">hoya <span class="driving-since"></span></p>
-
-
-            <p class="responses-text">Машина прекрасная! Внутри - как Тардис - больше, чем снаружи: узкая и короткая, идеально управляемая, легко припаркуется где угодно, но при этом места внутри более чем достаточно для четырех взрослых людей и для перевозки почти любых бытовых грузов ( ...</p>
-            <a class="readmore" href="https://auto.exist.ru/otzyvy/2978" rel="nofollow" title="Читать отзыв">Читать отзыв</a>
-
-        </div>
-	</article>
-	<article class="responses-item">
-        <img class="car-photo" src="//img.exist.ru/img.jpg?Size=150x100&MethodType=33" alt="Nissan Sentra 2014" style="vertical-align:top" width="80" height="60" />
-        <div class="responses-content">
-                <h3>Nissan Sentra <span>2014</span></h3>
-			<span style="float: right" class="date">07.11.2017</span>
-            <div class="ava">
-                <img src="/i/no_user_60_60.png">
-            </div>
-            <p class="username">Bev231075 <span class="driving-since"></span></p>
-
-
-            <p class="responses-text">Отличная машина! Очень экономичная - максимальный расход топлива зимой при включенном климат-контроле, подогреве сидений и стекол в городском режиме не более 9.4 л/100 км.
-Хорошая шумоизоляция. Прекрасная подвеска. Устойчива при входе в поворот (сра ...</p>
-            <a class="readmore" href="https://auto.exist.ru/otzyvy/2977" rel="nofollow" title="Читать отзыв">Читать отзыв</a>
-
-        </div>
-	</article>
-	<article class="responses-item">
-        <img class="car-photo" src="//img.exist.ru/img.jpg?Key=029F79AC-DDC4-4534-9092-6E28B43D74F6&Size=150x100&MethodType=33" alt="Opel Astra 2007" style="vertical-align:top" width="80" height="60" />
-        <div class="responses-content">
-                <h3>Opel Astra <span>2007</span></h3>
-			<span style="float: right" class="date">03.11.2017</span>
-            <div class="ava">
-                <img src="/i/no_user_60_60.png">
-            </div>
-            <p class="username">Gum2017 <span class="driving-since"></span></p>
-
-
-            <p class="responses-text">Машина была куплена в мае 2013 года,с пробегом 100000км  в комплектации Космо. На текущий момент пробег 185000. Интересовали параметры - клиренс и багажник, оба параметра были принципиальны. Багажник у машинки большой, вместительный, даже если не кла ...</p>
-            <a class="readmore" href="https://auto.exist.ru/otzyvy/2976" rel="nofollow" title="Читать отзыв">Читать отзыв</a>
-
-        </div>
-	</article>
-    <div class="clear">
-    </div>
-
-        </div>
-
-
-    <div class="paginationBlock pagination">
-                <div class="additional first"><noindex><a class="alter" href="https://auto.exist.ru/otzyvy?page=1" page="1" rel="nofollow" title=""></a></noindex></div>
-                <div class="additional previous"><noindex><a class="alter" href="https://auto.exist.ru/otzyvy?page=1" page="1" rel="nofollow" title=""></a></noindex></div>
-                        <div class="marginTop5 pagination__item"><noindex><a class="alter" href="https://auto.exist.ru/otzyvy?page=1" page="1" rel="nofollow" title="1">1</a></noindex></div>
-                <div class="selected marginTop5 pagination__item">2</div>
-                        <div class="marginTop5 pagination__item"><noindex><a class="alter" href="https://auto.exist.ru/otzyvy?page=3" page="3" rel="nofollow" title="3">3</a></noindex></div>
-                        <div class="marginTop5 pagination__item"><noindex><a class="alter" href="https://auto.exist.ru/otzyvy?page=4" page="4" rel="nofollow" title="4">4</a></noindex></div>
-                        <div class="marginTop5 pagination__item"><noindex><a class="alter" href="https://auto.exist.ru/otzyvy?page=5" page="5" rel="nofollow" title="5">5</a></noindex></div>
-                        <div class="marginTop5 pagination__item"><noindex><a class="alter" href="https://auto.exist.ru/otzyvy?page=6" page="6" rel="nofollow" title="6">6</a></noindex></div>
-                        <div class="marginTop5 pagination__item"><noindex><a class="alter" href="https://auto.exist.ru/otzyvy?page=7" page="7" rel="nofollow" title="7">7</a></noindex></div>
-                        <div class="marginTop5 pagination__item"><noindex><a class="alter" href="https://auto.exist.ru/otzyvy?page=8" page="8" rel="nofollow" title="8">8</a></noindex></div>
-                        <div class="marginTop5 pagination__item"><noindex><a class="alter" href="https://auto.exist.ru/otzyvy?page=9" page="9" rel="nofollow" title="9">9</a></noindex></div>
-                        <div class="marginTop5 pagination__item"><noindex><a class="alter" href="https://auto.exist.ru/otzyvy?page=10" page="10" rel="nofollow" title="10">10</a></noindex></div>
-                        <div class="marginTop5 pagination__item"><noindex><a class="alter" href="https://auto.exist.ru/otzyvy?page=11" page="11" rel="nofollow" title="11">11</a></noindex></div>
-                    <div class="additional next"><noindex><a class="alter" href="https://auto.exist.ru/otzyvy?page=3" page="3" rel="nofollow" title=""></a></noindex></div>
-                    <div class="additional last"><noindex><a class="alter" href="https://auto.exist.ru/otzyvy?page=561" page="561" rel="nofollow" title=""></a></noindex></div>
-        <div class="clearBoth"></div>
-    </div>
-    </div>
-</section>
-
-<section class="sidebar right">
-
-
-
-<div class="grid_4 omega">
-    <noindex>
-                <!--AdFox START-->
-                <!--exist.ru-->
-                <!--Площадка: auto.exist.ru / Отзывы, главная / otzyvy_240-->
-                <!--Категория: <не задана>-->
-                <!--Тип баннера: 240x400js-->
-                <!-- ________________________AdFox Asynchronous code START__________________________ -->
-                <script type="text/javascript">
-                <!--
-                    if (typeof (pr) == 'undefined') { var pr = Math.floor(Math.random() * 1000000); }
-                    if (typeof (document.referrer) != 'undefined') {
-                        if (typeof (afReferrer) == 'undefined') {
-                            afReferrer = escape(document.referrer);
-                        }
-                    } else {
-                        afReferrer = '';
-                    }
-                    var addate = new Date();
-
-
-                    var dl = escape(document.location);
-                    var pr1 = Math.floor(Math.random() * 1000000);
-
-                    document.write('<div id="AdFox_banner_' + pr1 + '"><\/div>');
-                    document.write('<div style="visibility:hidden; position:absolute;"><iframe id="AdFox_iframe_' + pr1 + '" width=1 height=1 marginwidth=0 marginheight=0 scrolling=no frameborder=0><\/iframe><\/div>');
-
-                    if (typeof (AdFox_Scroll) != "undefined")
-                    	AdFox_Scroll(pr1, 'http://ads.adfox.ru/201979/prepareCode?p1=bjjpr&amp;p2=eoyl&amp;pct=a&amp;pfc=a&amp;pfb=a&amp;pr=' + pr + '&amp;pt=b&amp;pd=' + addate.getDate() + '&amp;pw=' + addate.getDay() + '&amp;pv=' + addate.getHours() + '&amp;prr=' + afReferrer + '&amp;dl=' + dl + '&amp;pr1=' + pr1);
-                    // -->
-                </script>
-                <!-- _________________________AdFox Asynchronous code END___________________________ -->
-
-    </noindex>
-
-
-
-    <div class="seo-block marginTop seo_sidebar_temp">
-
-</div>
-
-
-
-
-</div>
-</section>
-
-
-<!--div class="grid_12 alpha">
-<div class="block_3">
-
-    <div class="block_item">
-            <div class="left brand">
-                    <div>
-                        <div class="letter"
-                        >
-A                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/acura" title="Acura">Acura</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/alfaromeo" title="Alfa Romeo">Alfa Romeo</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy?MarkId=879" title="Asia Motors">Asia Motors</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/audi" title="Audi">Audi</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-B                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/baw" title="BAW">BAW</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/bmw" title="BMW">BMW</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-C                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/cadillac" title="Cadillac">Cadillac</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/chery" title="Chery">Chery</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/chevrolet" title="Chevrolet">Chevrolet</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/chrysler" title="Chrysler">Chrysler</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/citroen" title="Citroen">Citroen</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-D                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/daewoo" title="Daewoo">Daewoo</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/daihatsu" title="Daihatsu">Daihatsu</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/dodge" title="Dodge">Dodge</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-F                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/fiat" title="Fiat">Fiat</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/ford" title="Ford">Ford</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/fordusa" title="Ford USA">Ford USA</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-G                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/geely" title="Geely">Geely</a>
-                    </div>
-            </div>
-            <div class="left brand">
-                    <div>
-                        <div class="letter"
-                            style="min-height: 32px"
-                        >
-                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/gmc" title="GMC">GMC</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/greatwall" title="Great Wall">Great Wall</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-H                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/hafei" title="Hafei">Hafei</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/haima" title="Haima">Haima</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/honda" title="Honda">Honda</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/hyundai" title="Hyundai">Hyundai</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-I                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/infiniti" title="Infiniti">Infiniti</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/irankhodro" title="Iran Khodro">Iran Khodro</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/isuzu" title="Isuzu">Isuzu</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-J                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/jaguar" title="Jaguar">Jaguar</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/jeep" title="Jeep">Jeep</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-K                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/kia" title="Kia">Kia</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-L                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/lancia" title="Lancia">Lancia</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/landrover" title="Land Rover">Land Rover</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/ldv" title="LDV">LDV</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/lexus" title="Lexus">Lexus</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/lifan" title="Lifan">Lifan</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/lincoln" title="Lincoln">Lincoln</a>
-                    </div>
-            </div>
-            <div class="left brand">
-                    <div>
-                        <div class="letter"
-                            style="min-height: 32px"
-                        >
-M                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/mazda" title="Mazda">Mazda</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/mercedes" title="Mercedes">Mercedes</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/mini" title="MINI">MINI</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/mitsubishi" title="Mitsubishi">Mitsubishi</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-N                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/nissan" title="Nissan">Nissan</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-O                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/opel" title="Opel">Opel</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-P                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/peugeot" title="Peugeot">Peugeot</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/pontiac" title="Pontiac">Pontiac</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/porsche" title="Porsche">Porsche</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/proton" title="Proton">Proton</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-R                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/renault" title="Renault">Renault</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/rover" title="Rover">Rover</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-S                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/saab" title="Saab">Saab</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/saturn" title="Saturn">Saturn</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/seat" title="Seat">Seat</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/skoda" title="Skoda">Skoda</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/smart" title="Smart">Smart</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/ssangyong" title="Ssangyong">Ssangyong</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/subaru" title="Subaru">Subaru</a>
-                    </div>
-            </div>
-            <div class="left brand">
-                    <div>
-                        <div class="letter"
-                            style="min-height: 32px"
-                        >
-                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/suzuki" title="Suzuki">Suzuki</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-T                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/tesla" title="Tesla">Tesla</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy?MarkId=3525" title="Tianye">Tianye</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/toyota" title="Toyota">Toyota</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-V                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/volkswagen" title="Volkswagen">Volkswagen</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/volvo" title="Volvo">Volvo</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/vortex" title="Vortex">Vortex</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-Б                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/bronto" title="Бронто">Бронто</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-В                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/vaz" title="ВАЗ">ВАЗ</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-Г                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/gaz" title="ГАЗ">ГАЗ</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-З                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/zaz" title="ЗАЗ">ЗАЗ</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-М                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/moskvic" title="Москвич">Москвич</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-Т                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/tagaz" title="ТагАЗ">ТагАЗ</a>
-                    </div>
-                    <div>
-                        <div class="letter"
-                        >
-У                        </div>
-
-                        <a href="https://auto.exist.ru/otzyvy/uaz" title="УАЗ">УАЗ</a>
-                    </div>
-            </div>
-            <div class="clear">
-            </div>
-    </div>
-</div>
-</div-->
-<div class="grid_16 alpha omega">
-    <noindex>
-
-       <div class="banner head">
-
-           <div class="banner-container">
-                        <!--AdFox START-->
-                        <!--exist.ru-->
-                        <!--Площадка: auto.exist.ru / Отзывы, главная / otzyvy_728-->
-                        <!--Категория: <не задана>-->
-                        <!--Тип баннера: 728x90js-->
-                        <!-- ________________________AdFox Asynchronous code START__________________________ -->
-                        <script type="text/javascript">
-                        <!--
-                            if (typeof (pr) == 'undefined') { var pr = Math.floor(Math.random() * 1000000); }
-                            if (typeof (document.referrer) != 'undefined') {
-                                if (typeof (afReferrer) == 'undefined') {
-                                    afReferrer = escape(document.referrer);
-                                }
-                            } else {
-                                afReferrer = '';
-                            }
-                            var addate = new Date();
-
-
-                            var dl = escape(document.location);
-                            var pr1 = Math.floor(Math.random() * 1000000);
-
-                            document.write('<div id="AdFox_banner_' + pr1 + '"><\/div>');
-                            document.write('<div style="visibility:hidden; position:absolute;"><iframe id="AdFox_iframe_' + pr1 + '" width=1 height=1 marginwidth=0 marginheight=0 scrolling=no frameborder=0><\/iframe><\/div>');
-
-                            if (typeof (AdFox_Scroll) != "undefined")
-                            	AdFox_Scroll(pr1, 'http://ads.adfox.ru/201979/prepareCode?p1=bjjps&amp;p2=eoyk&amp;pct=a&amp;pfc=a&amp;pfb=a&amp;pr=' + pr + '&amp;pt=b&amp;pd=' + addate.getDate() + '&amp;pw=' + addate.getDay() + '&amp;pv=' + addate.getHours() + '&amp;prr=' + afReferrer + '&amp;dl=' + dl + '&amp;pr1=' + pr1);
-                            // -->
-                        </script>
-                        <!-- _________________________AdFox Asynchronous code END___________________________ -->
-
-            </div>
-       </div>
-
-
-    </noindex>
-</div>
-<div class="clearfix"></div>
-
-
-				<div class="clearfix"></div>
-			</div>
-		</div>
-		<div class="footer">
-			<div class="footerwrap">
-
-<noindex>
-<nav class="footer_main__nav list_horizontal">
-	<ul>
-		<li class="footer_main_nav_item"><a rel="nofollow" href="/doc/about" title="О нас">О нас</a></li>
-		<li class="footer_main_nav_item"><a href="/Region/1__/Auth/RegisterJuridical" rel="nofollow" title="Стать партнером">Стать партнером</a></li>
-
-		<li class="footer_main_nav_item"><a rel="nofollow" href="/doc/agreement" title="Правила пользования сайтом">Правила пользования сайтом</a></li>
-		<li class="footer_main_nav_item"><a rel="nofollow" href="/doc/oferta" title="Договор оферты">Договор оферты</a></li>
-		<li class="footer_main_nav_item"><a href="https://auto.exist.ru/Feedback/SendFeedback" rel="nofollow" title="Обратная связь">Обратная связь</a></li>
-
-	</ul>
-</nav>
-</noindex>
-<div class="bottom-panel">
-	<!--//TODO: create utility blocks left/right and wrap this parts in them -->
-	<div class="footercopy">
-		<p class="footer_main_copy_item">&copy; Авто Exist 2014 &mdash; 2022</p>
-		<p class="footer_main_copy_item">При использовании материалов с сайта необходимо указывать ссылку на источник</p>
-	</div>
-
-	<div class="footercounter"><div class="li_ru footer__counters__item">
-    <noindex><!--LiveInternet logo--><a href="http://www.liveinternet.ru/click;AutoExist" target="_blank" rel="nofollow"><img src="//counter.yadro.ru/logo;AutoExist?44.1" title="LiveInternet" alt="" border="0" width="31" height="31"/></a><!--/LiveInternet--></noindex>
-</div>
-<div class="mail_ru footer__counters__item">
-    <noindex>
-        <!-- Rating@Mail.ru counter -->
-        <script type="text/javascript">//<![CDATA[
-            var _tmr = _tmr || [];
-            _tmr.push({ id: "2408156", type: "pageView", start: (new Date()).getTime() });
-            (function (d, w) {
-                var ts = d.createElement("script"); ts.type = "text/javascript"; ts.async = true;
-                ts.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//top-fwz1.mail.ru/js/code.js";
-                var f = function () { var s = d.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ts, s); };
-                if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); }
-            })(document, window);
-            //]]></script><noscript><div style="position:absolute;left:-10000px;">
-        <img src="//top-fwz1.mail.ru/counter?id=2408156;js=na" style="border:0;" height="1" width="1" alt="Рейтинг@Mail.ru" />
-        </div></noscript>
-        <!-- //Rating@Mail.ru counter -->
-
-        <!-- Rating@Mail.ru logo -->
-        <a href="http://top.mail.ru/jump?from=2408156">
-        <img src="//top-fwz1.mail.ru/counter?id=2408156;t=479;l=1"
-        style="border:0;" height="31" width="88" alt="Рейтинг@Mail.ru" /></a>
-        <!-- //Rating@Mail.ru logo -->
-    </noindex>
-</div>
-<div class="rambler footer__counters__item">
-    <noindex>
-        <!-- begin of Top100 code -->
-        <script id="top100Counter" type="text/javascript" src="http://counter.rambler.ru/top100.jcn?2955735"></script>
-        <noscript>
-        <a href="http://top100.rambler.ru/navi/2955735/">
-        <img src="http://counter.rambler.ru/top100.cnt?2955735" alt="Rambler's Top100" border="0" />
-        </a>
-
-        </noscript>
-        <!-- end of Top100 code -->
-    </noindex>
-</div></div>
-</div>
-			</div>
-		</div>
-	</div>
-
-	<script src="/s/new/jquery-ui-1.10.1.custom.min.js"></script>
-
-	<script src="/s/autoportal.ui.widget.js" type="text/javascript"></script>
-	<script src="/s/new/app.js"></script>
-
-
-
-
-	<div id="dialogSelectRegion">
-		<script type="text/javascript" language="javascript">
-			function SelectedRegion(dbId, dbName) {
-				var self = this;
-				self.dbId = dbId;
-				self.dbName = dbName;
-			};
-
-			// подгрузка списка городов
-			function loadCities(regionid) {
-				$.getJSON('/Regions/GetDirectSubRegionsFor', { regionid: regionid, rand: (new Date()).getTime() }, function (records) {
-					$('#cityList').empty();
-					$(records).each(function (index, item) {
-
-						$('#cityList').append('<div class="marginTopBottom5"><a href="javascript:void(0);" id="city' + item.itemid + '" onclick="activatedRegion(\'' + item.itemid + '\',\'' + item.Name + '\',\'city' + '\')">' + item.Name + '</a></div>');
-					});
-				});
-			}
-
-			//установка фильтра по региону - по нижним ссылкам
-			function activatedRegion(regionid, regionname, hierarchyRegion) {
-				$('#selectedRegionName')[0].innerHTML = regionname;
-				$('#selectRegion')[0].value = regionid;
-				switch (hierarchyRegion) {
-					case 'city':
-						{
-							$('#cityList a').removeClass('active');
-							$('#city' + regionid).addClass('active');
-							break;
-						}
-					case 'district':
-						{
-							$('#districtList a').removeClass('active');
-							$('#district' + regionid).addClass('active');
-							break;
-						}
-					case 'country':
-						{
-							$('#countryList a').removeClass('active');
-							$('#country' + regionid).addClass('active');
-							break;
-						}
-				}
-			}
-
-			//сохранение фильтра по региону
-			function setRegion() {
-				var regionid = $('#selectRegion')[0].value;
-				var regionname = $('#selectedRegionName')[0].innerHTML;
-
-				$(dialogSelectRegion).popup("closeDialog");
-				$(dialogSelectRegion).trigger('region_selected', new SelectedRegion(regionid, regionname));
-			}
-
-			$("#selectRegionData .closeWindow").click(function () {
-				$(dialogSelectRegion).popup("closeDialog");
-			});
-		</script>
-		<div id="selectRegionData">
-		</div>
-	</div>
-	<script type="text/javascript">
-
-		$(document).ready(function () {
-
-			$(dialogSelectRegion).popup({ height: 350 });
-			$('#dialogSelectRegion').css({ 'font-size': '13px', 'line-height': '1.5' });
-
-			$('#openSelectRegionWindowLink').click(function () {
-				$.ajax({
-					url: '/Regions/SelectRegion',
-					cache: false,
-					type: "GET",
-					success: function (data) {
-						$(dialogSelectRegion).popup("showDialog");
-						$("#selectRegionData").html(data);
-					}
-				});
-				return false;
-			});
-
-			$('.openSelectRegionWindowLink').click(function () {
-				$.ajax({
-					url: '/Regions/SelectRegion',
-					type: "GET",
-					success: function (data) {
-						$(dialogSelectRegion).popup("showDialog");
-						$("#selectRegionData").html(data);
-					}
-				});
-			});
-			$(dialogSelectRegion).bind('region_selected', function (event, region) {
-				var formExt = $('.search_form_ext'),
-                    convertableSelects = formExt.find('#BodyType, #DriveType, #StockStatus');
-
-				convertableSelects.each(function (selectIdx, select) {
-					$(select).find('option').each(function (optionIdx, option) {
-						if ($(option).is(':selected')) {
-							$(option).val(serverSideValuesMap[$(select).attr('id')][$(option).val()]);
-						}
-					});
-
-				});
-
-				$.ajax({
-					url: '/Regions/SetRegion',
-					type: "POST",
-					data: { id: region.dbId, returnUrl: (typeof SearchFormSerialized == "function") ? SearchFormSerialized() : changeRegionReturnUrl },
-					success: function (data) {
-						if (data.success) {
-							//$('body').html(' redirecting to ' + data.url);
-							$("#dashboard_region_name").html(data.regionName);
-							window.location.href = data.url;
-							//window.location.reload();
-						}
-					}
-				});
-			});
-		})
-	</script>
-	<!-- Yandex.Metrika counter -->
-<script type="text/javascript">
-var yaParams = {/*Здесь параметры визита*/};
-</script>
-
-<script type="text/javascript">
-(function (d, w, c) {
-    (w[c] = w[c] || []).push(function() {
-        try {
-            w.yaCounter16932565 = new Ya.Metrika({id:16932565,
-                    webvisor:true,
-                    clickmap:true,
-                    trackLinks:true,
-                    accurateTrackBounce:true,params:window.yaParams||{ }});
-        } catch(e) { }
-    });
-
-    var n = d.getElementsByTagName("script")[0],
-        s = d.createElement("script"),
-        f = function () { n.parentNode.insertBefore(s, n); };
-    s.type = "text/javascript";
-    s.async = true;
-    s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
-
-    if (w.opera == "[object Opera]") {
-        d.addEventListener("DOMContentLoaded", f, false);
-    } else { f(); }
-})(document, window, "yandex_metrika_callbacks");
-</script>
-<noscript><div><img src="//mc.yandex.ru/watch/16932565" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-<!-- /Yandex.Metrika counter -->
-</body>
-<!-- Version: 1.0.0.0  ReleaseDate: 04.03.2021 18:17:34 -->
-</html>
-
-[['Mercedes CLC 2008', ';', '22.01.2018', ';', 'Машина эгоист, для двух пассажиров. Крупному человеку назад сесть достаточно трудновато. Но сама машинка очень динамичная и приятная в вождении. Жена на нее пересела с Мазды. Она очень долго была под впечатлением! При своих относительно небольших габ ...'], ['Ford Econovan 1984', ';', '30.11.2017', ';', 'Великолепная модель! 16-ть лет владею автомобилем - ощущаю, что продаю Друга... Но, есть на то причины. Ломаться практически нечему. Передний разрезной мост на шкворнях, на пружинах и амортизаторах. Задний мост на рессорах. Мягкий ход. Мощный 195-сил ...'], ['Hyundai Santa Fe 2017', ';', '28.11.2017', ';', 'Круче чем БМВ']]
+5
+['Машина эгоист, для двух пассажиров. Крупному человеку назад сесть достаточно трудновато. Но сама машинка очень динамичная и приятная в вождении. Жена на нее пересела с Мазды. Она очень долго была под впечатлением! При своих относительно небольших габ ...', 'Великолепная модель! 16-ть лет владею автомобилем - ощущаю, что продаю Друга... Но, есть на то причины. Ломаться практически нечему. Передний разрезной мост на шкворнях, на пружинах и амортизаторах. Задний мост на рессорах. Мягкий ход. Мощный 195-сил ...', 'Круче чем БМВ', 'Стильный, брутальный, комфортный, безопасный автомобиль, идеально вписывающийся в рамки большого города и интенсивного ритма жизни.', 'Почти два года эксплуатирую данную машинку, проблем и лишних расходов не приносит, да и езжу уже не так часто, как раньше на Серене, форда взял на замену Ниссана (ударили в левую боковину зада), была работа ,водились деньги на дальние поездки в Сарат ...']
+5
+['Mercedes CLC 2008', 'Ford Econovan 1984', 'Hyundai Santa Fe 2017', 'Jeep Compass 2012', 'Ford S-Max 2007']
+5
+['22.01.2018', '30.11.2017', '28.11.2017', '28.11.2017', '28.11.2017']
+[['Mercedes CLC 2008', '22.01.2018', 'Машина эгоист, для двух пассажиров. Крупному человеку назад сесть достаточно трудновато. Но сама машинка очень динамичная и приятная в вождении. Жена на нее пересела с Мазды. Она очень долго была под впечатлением! При своих относительно небольших габ ...'], ['Ford Econovan 1984', '30.11.2017', 'Великолепная модель! 16-ть лет владею автомобилем - ощущаю, что продаю Друга... Но, есть на то причины. Ломаться практически нечему. Передний разрезной мост на шкворнях, на пружинах и амортизаторах. Задний мост на рессорах. Мягкий ход. Мощный 195-сил ...'], ['Hyundai Santa Fe 2017', '28.11.2017', 'Круче чем БМВ'], ['Jeep Compass 2012', '28.11.2017', 'Стильный, брутальный, комфортный, безопасный автомобиль, идеально вписывающийся в рамки большого города и интенсивного ритма жизни.'], ['Ford S-Max 2007', '28.11.2017', 'Почти два года эксплуатирую данную машинку, проблем и лишних расходов не приносит, да и езжу уже не так часто, как раньше на Серене, форда взял на замену Ниссана (ударили в левую боковину зада), была работа ,водились деньги на дальние поездки в Сарат ...']]
 Writing complete
 
 Process finished with exit code 0
