@@ -14,10 +14,10 @@ positive = []
 negative = []
 my_opinion = []
 lst = []
-count1 = 71
+count1 = 72
 count = -1
-flag =0
-URL = 'https://auto.exist.ru/otzyvy?page=71'
+flag =0; cnt2=0; cnt1=0;cnt=0;cnt3=0
+URL = 'https://auto.exist.ru/otzyvy?page=72'
 while (count1 < 75):
     print(URL)
     page = requests.get(URL)
@@ -28,9 +28,13 @@ while (count1 < 75):
     for i in soup.find_all('a', class_='readmore'):
         page1 = requests.get(i.get('href'))
         soup1 = BeautifulSoup(page1.text, 'html.parser')
-        ad = soup1.find('div', class_ = 'error-title')
-        if ad ==True:
-        print(type(ad))
+        ad = soup1.find_all('div', class_='error-title')
+        if ad ==[]:
+            cnt=cnt+1
+            print('cnt=',cnt)
+        elif ad != []:
+            cnt1=cnt+1
+            print('cnt1=',cnt1)
         try:
             com = soup1.find('div', class_='review-text').find('div')
             mpa = dict.fromkeys(range(32))  # Удаление управлящих символов
@@ -52,26 +56,38 @@ while (count1 < 75):
             print('Отзыв удален')
             flag =flag +1
 
-    [marka.append(hh.h3.text) for hh in soup.find_all('div', class_='responses-content')]
-    [date.append(dates.text) for dates in soup.find_all(style='float: right')]
-    # print(len(comment))
-    # print(comment)
-    # print(len(marka))
-    # print(marka)
-    # print(len(date))
-    # print(date)
-    # print(len(positive))
-    # print(positive)
-    # print(len(negative))
-    # print(negative)
-    # print(len(my_opinion))
-    # print(my_opinion)
+
+    # [marka.append(hh.h3.text) for hh in soup.find_all('div', class_='responses-content') if ad==[]]
+    for hh in soup.find_all('div', class_='responses-content'):
+        cnt2=cnt2+1
+        print('cnt2=',cnt2)
+        if cnt2!=cnt1:
+            marka.append(hh.h3.text)
+    # [date.append(dates.text) for dates in soup.find_all(style='float: right') if ad==[]]
+    for dates in soup.find_all(style='float: right'):
+        cnt3 = cnt3 + 1
+        print('cnt3=',cnt3)
+        if cnt3 != cnt1:
+            date.append(dates.text)
+
+    print(len(comment))
+    print(comment)
+    print(len(marka))
+    print(marka)
+    print(len(date))
+    print(date)
+    print(len(positive))
+    print(positive)
+    print(len(negative))
+    print(negative)
+    print(len(my_opinion))
+    print(my_opinion)
     # -------------------------------------------------------------------------------------------
     for i in range(5-flag):
         count = count + 1
         lst.append([marka[count], date[count], comment[count], positive[count], negative[count], my_opinion[count]])
     # print(lst)
-    flag =0
+    flag =0;cnt2=0;cnt1=0;cnt=0;cnt3=0
     URL = URL.replace(str(count1), str(count1 + 1))
     count1 = count1 + 1
     # -------------------------------------------------------------------------------------------
