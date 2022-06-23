@@ -7,7 +7,7 @@
 #
 import unicodedata
 c = 'Hello World!\r\nHow are you. Hello'
-print(c)
+# print(c)
 r =[]
 b =[]
 # [r.append(ch) for ch in c if unicodedata.category(ch)[0]!='C']
@@ -16,8 +16,12 @@ for ch in c:
         r.append(ch)
 r=(''.join(r))
 r = list(r.split(','))
-print(r)
+# print(r)
 mpa = dict.fromkeys(range(32))
 b.append(c.translate(mpa))
-print(r)
-print(mpa)
+# print(r)
+# print(mpa)
+
+e = [1]
+if e == [1]:
+    print('AAAA')
