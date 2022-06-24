@@ -14,11 +14,11 @@ positive = []
 negative = []
 my_opinion = []
 lst = []
-count1 = 72
+count1 = 46
 count = -1
 flag =0; cnt2=0; cnt1=0;cnt=0;cnt3=0
-URL = 'https://auto.exist.ru/otzyvy?page=72'
-while (count1 < 75):
+URL = 'https://auto.exist.ru/otzyvy?page=46'
+while (count1 < 48):
     print(URL)
     page = requests.get(URL)
     # print(page.status_code)
@@ -61,7 +61,7 @@ while (count1 < 75):
     for hh in soup.find_all('div', class_='responses-content'):
         cnt2=cnt2+1
         print('cnt2=',cnt2)
-        if cnt2!=cnt1:
+        if cnt2!=cnt1 and cnt2!=cnt4:
             marka.append(hh.h3.text)
     # [date.append(dates.text) for dates in soup.find_all(style='float: right') if ad==[]]
     for dates in soup.find_all(style='float: right'):
@@ -70,18 +70,18 @@ while (count1 < 75):
         if cnt3 != cnt1:
             date.append(dates.text)
 
-    print(len(comment))
-    print(comment)
-    print(len(marka))
-    print(marka)
-    print(len(date))
-    print(date)
-    print(len(positive))
-    print(positive)
-    print(len(negative))
-    print(negative)
-    print(len(my_opinion))
-    print(my_opinion)
+    # print(len(comment))
+    # print(comment)
+    # print(len(marka))
+    # print(marka)
+    # print(len(date))
+    # print(date)
+    # print(len(positive))
+    # print(positive)
+    # print(len(negative))
+    # print(negative)
+    # print(len(my_opinion))
+    # print(my_opinion)
     # -------------------------------------------------------------------------------------------
     for i in range(5-flag):
         count = count + 1
