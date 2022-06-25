@@ -1,7 +1,8 @@
 from bs4 import BeautifulSoup
 import requests
-#from requests.auth import HTTPBasicAuth, HTTPDigestAuth
+# from requests.auth import HTTPBasicAuth, HTTPDigestAuth
 import re, csv
+import unicodedata
 
 # response = requests.get('url', auth = HTTPBasicAuth('ypur_login', 'your_password'))
 
@@ -9,70 +10,98 @@ import re, csv
 marka = []
 comment = []
 date = []
+positive = []
+negative = []
+my_opinion = []
 lst = []
-count1 = 1
+count1 = 46
 count = -1
-URL = 'https://auto.exist.ru/otzyvy?page=1'
-while(count1<3):
+flag =0; cnt2=0; cnt1=0;cnt=0;cnt3=0
+URL = 'https://auto.exist.ru/otzyvy?page=46'
+while (count1 < 48):
     print(URL)
     page = requests.get(URL)
     # print(page.status_code)
     # print(page.text)
     soup = BeautifulSoup(page.text, 'html.parser')
-    [comment.append(rev.text) for rev in soup.find_all('p', class_ = 'responses-text')]
-    # reviews_1 = soup.find_all('div', class_ = 'responses-content')
-    # print(marka_1.find_all('div',class_ = 'responses-content'))
-    marka_1 = BeautifulSoup(page.text, 'html.parser')
-    [marka.append(hh.h3.text) for hh in marka_1.find_all('div',class_ = 'responses-content')]
-    [date.append(dates.text) for dates in soup.find_all(style = 'float: right')]
-    print(len(comment))
-    print(comment)
-    print(len(marka))
-    print(marka)
-    print(len(date))
-    print(date)
-    #-------------------------------------------------------------------------------------------
-    for i in range(5):
-        count=count+1
-        lst.append([marka[count],';',date[count],';',comment[count]])
-    print(lst)
+    # [comment.append(rev.text) for rev in soup.find_all('p', class_='responses-text')]
+    for i in soup.find_all('a', class_='readmore'):
+        page1 = requests.get(i.get('href'))
+        soup1 = BeautifulSoup(page1.text, 'html.parser')
+        ad = soup1.find_all('div', class_='error-title')
+        if ad ==[]:
+            cnt=cnt+1
+            print('cnt=',cnt)
+        elif ad != []:
+            cnt1=cnt+1
+            print('cnt1=',cnt1)
+        try:
+            com = soup1.find('div', class_='review-text').find('div')
+            mpa = dict.fromkeys(range(32))  # Удаление управлящих символов
+            comment.append(com.text.translate(mpa))
+
+
+            pos = soup1.find('div', class_='grid_12 alpha omega blockFormat Positive').find('div', class_='block_item')
+            mpa1 = dict.fromkeys(range(32))  # Удаление управлящих символов
+            positive.append(pos.text.translate(mpa1))
+            # print(pos)
+            neg = soup1.find('div', class_='grid_12 alpha omega blockFormat Negative').find('div', class_='block_item')
+            mpa2 = dict.fromkeys(range(32))  # Удаление управлящих символов
+            negative.append(neg.text.translate(mpa2))
+
+            opin = soup1.find('div', class_='grid_12 alpha omega blockFormat').find('div', class_='block_item')
+            mpa3 = dict.fromkeys(range(32))  # Удаление управлящих символов
+            my_opinion.append(opin.text.translate(mpa3))
+        except AttributeError:
+            print('Отзыв удален')
+            flag =flag +1
+
+
+    # [marka.append(hh.h3.text) for hh in soup.find_all('div', class_='responses-content') if ad==[]]
+    for hh in soup.find_all('div', class_='responses-content'):
+        cnt2=cnt2+1
+        print('cnt2=',cnt2)
+        if cnt2!=cnt1 and cnt2!=cnt4:
+            marka.append(hh.h3.text)
+    # [date.append(dates.text) for dates in soup.find_all(style='float: right') if ad==[]]
+    for dates in soup.find_all(style='float: right'):
+        cnt3 = cnt3 + 1
+        print('cnt3=',cnt3)
+        if cnt3 != cnt1:
+            date.append(dates.text)
+
+    # print(len(comment))
+    # print(comment)
+    # print(len(marka))
+    # print(marka)
+    # print(len(date))
+    # print(date)
+    # print(len(positive))
+    # print(positive)
+    # print(len(negative))
+    # print(negative)
+    # print(len(my_opinion))
+    # print(my_opinion)
+    # -------------------------------------------------------------------------------------------
+    for i in range(5-flag):
+        count = count + 1
+        lst.append([marka[count], date[count], comment[count], positive[count], negative[count], my_opinion[count]])
+    # print(lst)
+    flag =0;cnt2=0;cnt1=0;cnt=0;cnt3=0
     URL = URL.replace(str(count1), str(count1 + 1))
     count1 = count1 + 1
-    #-------------------------------------------------------------------------------------------
-head_myData = [["auto" ';' "date comment" ';' 'comment']]
-myFile = open('example2.csv', 'w', newline='')
+    # -------------------------------------------------------------------------------------------
+head_myData = [["auto", "date comment", 'comment', 'positive', 'negative', 'my opinion']]
+myFile = open('example2.csv', 'w', encoding='utf-32', newline='')
 # csv.register_dialect('my_dialect',delimiter='\t',doublequote=';',escapechar=':',skipinitialspace='True')
 # csv.register_dialect('my_dialect',delimiter = '\t',doublequote=True)
 with myFile:
     # for data in a:
-            # print(data)
-            # writer = csv.writer(myFile,quotechar=',', quoting=csv.QUOTE_MINIMAL)
-            writer = csv.writer(myFile,delimiter = '\t')
-            # writer = csv.writer(myFile,'my_dialect')
-            writer.writerows(head_myData)
-            writer.writerows(lst)
+    # print(data)
+    # writer = csv.writer(myFile,quotechar=',', quoting=csv.QUOTE_MINIMAL)
+    writer = csv.writer(myFile, delimiter='\t')
+    # writer = csv.writer(myFile,'my_dialect')
+    writer.writerows(head_myData)
+    writer.writerows(lst)
 print("Writing complete")
-#-------------------------------------------------------------------------------------------
-# lt = []
-# lt1 = [1,2,3,4,5,6]
-# lt2 = [7,8,9,0]
-# count2 = 0
-# while(count2<4):
-#     [lt.append(i) for i in lt1]
-#     count2 =count2+1
-# print(lt)
-
-import csv
-
-header = ['name'';' 'area'';' 'country_code2'';' 'country_code3']
-data = ['Afghanistan'';' '652090' ';' 'AF'';' 'AFG']
-
-
-with open('countries.csv', 'w', encoding='UTF8', newline='') as f:
-    writer = csv.writer(f)
-
-    # write the header
-    writer.writerow(header)
-
-    # write the data
-    writer.writerow(data)
+# -------------------------------------------------------------------------------------------
