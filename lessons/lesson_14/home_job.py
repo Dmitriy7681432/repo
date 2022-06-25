@@ -16,7 +16,7 @@ my_opinion = []
 lst = []
 count1 = 46
 count = -1
-flag =0; cnt2=0; cnt1=0;cnt=0;cnt3=0
+flag =0; cnt2=0; cnt1=[];cnt=0;cnt3=0
 URL = 'https://auto.exist.ru/otzyvy?page=46'
 while (count1 < 48):
     print(URL)
@@ -33,7 +33,7 @@ while (count1 < 48):
             cnt=cnt+1
             print('cnt=',cnt)
         elif ad != []:
-            cnt1=cnt+1
+            cnt1.append(cnt+1)
             print('cnt1=',cnt1)
         try:
             com = soup1.find('div', class_='review-text').find('div')
@@ -61,8 +61,11 @@ while (count1 < 48):
     for hh in soup.find_all('div', class_='responses-content'):
         cnt2=cnt2+1
         print('cnt2=',cnt2)
-        if cnt2!=cnt1 and cnt2!=cnt4:
-            marka.append(hh.h3.text)
+        if flag!=0:
+            for i in range(5):
+                if cnt2!=:
+                    marka.append(hh.h3.text)
+        else: marka.append(hh.h3.text)
     # [date.append(dates.text) for dates in soup.find_all(style='float: right') if ad==[]]
     for dates in soup.find_all(style='float: right'):
         cnt3 = cnt3 + 1
@@ -87,7 +90,7 @@ while (count1 < 48):
         count = count + 1
         lst.append([marka[count], date[count], comment[count], positive[count], negative[count], my_opinion[count]])
     # print(lst)
-    flag =0;cnt2=0;cnt1=0;cnt=0;cnt3=0
+    flag =0;cnt2=0;cnt1=[0,0,0,0,0];cnt=0;cnt3=0
     URL = URL.replace(str(count1), str(count1 + 1))
     count1 = count1 + 1
     # -------------------------------------------------------------------------------------------

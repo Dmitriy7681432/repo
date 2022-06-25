@@ -22,7 +22,7 @@ b.append(c.translate(mpa))
 # print(r)
 # print(mpa)
 
-<<<<<<< HEAD
+
 c = 'Hello World!\nHow are you. Hello'
 print(c)
 e = []
@@ -52,6 +52,11 @@ a =remove_control_characters(c)
 print(a)
 fa = [ch for ch in c if unicodedata.category(ch)[0]!="C"]
 print(''.join(fa))
-e = [1]
-if e == [1]:
-    print('AAAA')
+# e = [1]
+# if e == [1]:
+#     print('AAAA')
+ls = [0]
+# if ls ==[0]:
+#     print('AAAAAAA')
+if ls[4]==False:
+    print(len(ls))
