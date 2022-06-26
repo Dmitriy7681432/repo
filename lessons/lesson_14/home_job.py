@@ -62,8 +62,7 @@ while (count1 < 48):
         cnt2=cnt2+1
         print('cnt2=',cnt2)
         if flag!=0:
-            for i in range(5):
-                if cnt2!=:
+                if flag ==1 and cnt2!=cnt1[0]:
                     marka.append(hh.h3.text)
         else: marka.append(hh.h3.text)
     # [date.append(dates.text) for dates in soup.find_all(style='float: right') if ad==[]]
@@ -90,7 +89,7 @@ while (count1 < 48):
         count = count + 1
         lst.append([marka[count], date[count], comment[count], positive[count], negative[count], my_opinion[count]])
     # print(lst)
-    flag =0;cnt2=0;cnt1=[0,0,0,0,0];cnt=0;cnt3=0
+    flag =0;cnt2=0;cnt1=[];cnt=0;cnt3=0
     URL = URL.replace(str(count1), str(count1 + 1))
     count1 = count1 + 1
     # -------------------------------------------------------------------------------------------
