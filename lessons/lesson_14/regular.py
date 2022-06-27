@@ -1,17 +1,19 @@
 import re
 
-string = 'It was beatufil today,It was beatufil today,It was beatufil today,It was beatufil today.'
-
+# string = 'It was beatufil today,It was beatufil today,It was beatufil today,It was beatufil today.'
+string = 'Отзыв о Citroen C5 2009 — Auto.Exist'
 # pattern =r"was"
 
 #finall поиск слова_____________________________
 # print(len(re.findall(pattern, string)))
 
-# [    ] поис букв_______________________________________
+# [    ] поис букв________________________________0_______
 # pattern = r'[a]'
 # pattern = r'[a-zA-z0-9]'
 # pattern = r'[,]'
-# print(re.findall(pattern, string))
+pattern = r'[0-9]{4}' #Поиск цифр заданной длины
+# pattern= r'[^Отзыв о]'
+print((re.findall(pattern, string)))
 
 #[ . ]_______________________
 # pattern = r'[w]..'
@@ -20,7 +22,7 @@ string = 'It was beatufil today,It was beatufil today,It was beatufil today,It w
 
 #Поиск спец символов
 
-#\w- все кроме спец знаков
+#\ w- все кроме спец знаков
 #\W- все спец знаки (тире, точки, запятые и т.д)
 #\d - любая цифра
 #\D- не цифра
@@ -43,5 +45,5 @@ string = 'It was beatufil today,It was beatufil today,It was beatufil today,It w
 
 #sub_________________________________________
 
-pattern = r'\W\w{2,4}\W' #поиск слов заданной длины
-print(re.sub(pattern,r' ', string))
+# pattern = r'\W\w{2,4}\W' #поиск слов заданной длины
+# print(re.sub(pattern,r' ', string))
