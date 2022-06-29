@@ -52,25 +52,31 @@ while (count1 < 48):
             opin = soup1.find('div', class_='grid_12 alpha omega blockFormat').find('div', class_='block_item')
             mpa3 = dict.fromkeys(range(32))  # Удаление управлящих символов
             my_opinion.append(opin.text.translate(mpa3))
+
+            # print('AAAAAAAAAAAAAAA', soup1.title.text)
+            pattern = r'[^Отзыв о Auto.Exist]\w+'
+            marka.append((re.findall(pattern, soup1.title.text))[0:-1])
+            date.append((re.findall(pattern, soup1.title.text))[-1])
+
         except AttributeError:
             print('Отзыв удален')
             flag =flag +1
 
 
     # [marka.append(hh.h3.text) for hh in soup.find_all('div', class_='responses-content') if ad==[]]
-    for hh in soup.find_all('div', class_='responses-content'):
-        cnt2=cnt2+1
-        print('cnt2=',cnt2)
-        if flag!=0:
-                if flag ==1 and cnt2!=cnt1[0]:
-                    marka.append(hh.h3.text)
-        else: marka.append(hh.h3.text)
-    # [date.append(dates.text) for dates in soup.find_all(style='float: right') if ad==[]]
-    for dates in soup.find_all(style='float: right'):
-        cnt3 = cnt3 + 1
-        print('cnt3=',cnt3)
-        if cnt3 != cnt1:
-            date.append(dates.text)
+    # for hh in soup.find_all('div', class_='responses-content'):
+    #     cnt2=cnt2+1
+    #     print('cnt2=',cnt2)
+    #     # if flag!=0:
+    #             # if flag ==1 and cnt2!=cnt1[0]:
+    #     marka.append(hh.h3.text)
+    #     # else: marka.append(hh.h3.text)
+    # # [date.append(dates.text) for dates in soup.find_all(style='float: right') if ad==[]]
+    # for dates in soup.find_all(style='float: right'):
+    #     cnt3 = cnt3 + 1
+    #     print('cnt3=',cnt3)
+    #     if cnt3 != cnt1:
+    #         date.append(dates.text)
 
     # print(len(comment))
     # print(comment)
