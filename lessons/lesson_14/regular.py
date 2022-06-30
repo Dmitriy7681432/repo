@@ -1,9 +1,9 @@
 import re
 
 # string = 'It was beatufil today,It was beatufil today,It was beatufil today,It was beatufil today.'
-string = 'Отзыв о Citroen C5 2115 2032 1922 — Auto.Exist'
+string = 'Отзыв о Citroen C5 2115 2009 — Auto.Exist'
 # pattern =r"was"
-
+# string = 'ruby'
 #finall поиск слова_____________________________
 # print(len(re.findall(pattern, string)))
 
@@ -13,10 +13,13 @@ string = 'Отзыв о Citroen C5 2115 2032 1922 — Auto.Exist'
 # pattern = r'[,]'
 # pattern = r'[0-9]{4}' #Поиск цифр заданной длины
 # pattern= r'(?:19[0-9][0-9]|20[0-3][0-9])'
-pattern= r'[^19[0-9][0-9]]+'
-print((re.findall(pattern, string)))
-print(string.split(' ')[3])
 #[ . ]____________________1___
+# pattern = r'(19[0-9][0-9]|20[0-3][0-9])' #Поиск цифр заданной длины
+# pattern = r'\d+[]'
+pattern= r'[^Отзыв о Auto.Exist]\w+'
+print((re.findall(pattern, string))[0:-1])
+
+#[ . ]_______________________
 # pattern = r'[w]..'
 # print(re.findall(pattern, string))
 
