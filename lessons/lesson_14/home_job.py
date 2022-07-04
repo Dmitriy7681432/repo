@@ -58,8 +58,7 @@ while (count1 < 48):
             pattern = r'[^Отзыв о Auto.Exist]\w+'
             marka.append((re.findall(pattern, soup1.title.text))[0:-1])
             year.append((re.findall(pattern, soup1.title.text))[-1])
-            date.append((re.findall(pattern, soup1.title.text))[-1])
-            print(marka)
+            # date.append((re.findall(pattern, soup1.title.text))[-1])
         except AttributeError:
             print('Отзыв удален')
             flag =flag +1
@@ -74,12 +73,19 @@ while (count1 < 48):
     #     marka.append(hh.h3.text)
     #     # else: marka.append(hh.h3.text)
     # # [date.append(dates.text) for dates in soup.find_all(style='float: right') if ad==[]]
-    # for dates in soup.find_all(style='float: right'):
-    #     cnt3 = cnt3 + 1
-    #     print('cnt3=',cnt3)
-    #     if cnt3 != cnt1:
-    #         date.append(dates.text)
 
+    #Бывает так, когда парсишь страницу некоторые отзывы удалены, а дату их нельзя добавлять в список
+    # поэтому приходится что-то додумаывать с помощью флагов
+    for dates in soup.find_all(style='float: right'):
+        cnt3 = cnt3 + 1
+        print('cnt3=',cnt3)
+        if flag==1:
+            if cnt3 == cnt1[0]: pass
+            else:date.append(dates.text)
+        if flag==2:
+            if cnt3 == cnt1[0] or cnt3==cnt1[1]: pass
+            else:date.append(dates.text)
+        else:date.append(dates.text)
     # print(len(comment))
     # print(comment)
     # print(len(marka))
@@ -95,7 +101,7 @@ while (count1 < 48):
     # -------------------------------------------------------------------------------------------
     for i in range(5-flag):
         count = count + 1
-        lst.append([marka[count],year[count], date[count], comment[count], positive[count], negative[count], my_opinion[count]])
+        lst.append([marka[count], year[count], date[count], comment[count], positive[count], negative[count], my_opinion[count]])
     # print(lst)
     flag =0;cnt2=0;cnt1=[];cnt=0;cnt3=0
     URL = URL.replace(str(count1), str(count1 + 1))
