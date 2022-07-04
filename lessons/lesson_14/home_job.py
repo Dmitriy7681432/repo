@@ -15,11 +15,12 @@ positive = []
 negative = []
 my_opinion = []
 lst = []
-count1 = 46
+# max =559
+count1 = 1
 count = -1
-flag =0; cnt2=0; cnt1=[];cnt=0;cnt3=0
-URL = 'https://auto.exist.ru/otzyvy?page=46'
-while (count1 < 48):
+flag =0; cnt1=[];cnt=0;cnt3=0
+URL = 'https://auto.exist.ru/otzyvy?page=509'
+while (count1 < 560):
     print(URL)
     page = requests.get(URL)
     # print(page.status_code)
@@ -30,9 +31,10 @@ while (count1 < 48):
         page1 = requests.get(i.get('href'))
         soup1 = BeautifulSoup(page1.text, 'html.parser')
         ad = soup1.find_all('div', class_='error-title')
+
         if ad ==[]:
             cnt=cnt+1
-            print('cnt=',cnt)
+            # print('cnt=',cnt)
         elif ad != []:
             cnt1.append(cnt+1)
             print('cnt1=',cnt1)
@@ -40,7 +42,6 @@ while (count1 < 48):
             com = soup1.find('div', class_='review-text').find('div')
             mpa = dict.fromkeys(range(32))  # Удаление управлящих символов
             comment.append(com.text.translate(mpa))
-
 
             pos = soup1.find('div', class_='grid_12 alpha omega blockFormat Positive').find('div', class_='block_item')
             mpa1 = dict.fromkeys(range(32))  # Удаление управлящих символов
@@ -54,38 +55,36 @@ while (count1 < 48):
             mpa3 = dict.fromkeys(range(32))  # Удаление управлящих символов
             my_opinion.append(opin.text.translate(mpa3))
 
-            print('AAAAAAAAAAAAAAA', soup1.title.text)
-            pattern = r'[^Отзыв о Auto.Exist]\w+'
-            marka.append((re.findall(pattern, soup1.title.text))[0:-1])
-            year.append((re.findall(pattern, soup1.title.text))[-1])
-            # date.append((re.findall(pattern, soup1.title.text))[-1])
+            # print('AAAAAAAAAAAAAAA', soup1.title.text)
+            pattern = r'\w+'
+            # pattern = r'[^Отзыв о Auto.Exist]\w+'
+            marka.append(' '.join((re.findall(pattern, soup1.title.text))[2:-3]))
+            year.append((re.findall(pattern, soup1.title.text))[2:-2][-1])
         except AttributeError:
             print('Отзыв удален')
             flag =flag +1
-
-
-    # [marka.append(hh.h3.text) for hh in soup.find_all('div', class_='responses-content') if ad==[]]
-    # for hh in soup.find_all('div', class_='responses-content'):
-    #     cnt2=cnt2+1
-    #     print('cnt2=',cnt2)
-    #     # if flag!=0:
-    #             # if flag ==1 and cnt2!=cnt1[0]:
-    #     marka.append(hh.h3.text)
-    #     # else: marka.append(hh.h3.text)
-    # # [date.append(dates.text) for dates in soup.find_all(style='float: right') if ad==[]]
 
     #Бывает так, когда парсишь страницу некоторые отзывы удалены, а дату их нельзя добавлять в список
     # поэтому приходится что-то додумаывать с помощью флагов
     for dates in soup.find_all(style='float: right'):
         cnt3 = cnt3 + 1
-        print('cnt3=',cnt3)
+        # print('cnt3=',cnt3)
         if flag==1:
             if cnt3 == cnt1[0]: pass
             else:date.append(dates.text)
         if flag==2:
-            if cnt3 == cnt1[0] or cnt3==cnt1[1]: pass
+            if cnt3 == cnt1[0] or cnt3==cnt1[1]:pass
             else:date.append(dates.text)
-        else:date.append(dates.text)
+        if flag==3:
+            if cnt3 == cnt1[0] or cnt3==cnt1[1] or cnt3==cnt1[2]: pass
+            else:date.append(dates.text)
+        if flag==4:
+            if cnt3 == cnt1[0] or cnt3==cnt1[1] or cnt3==cnt1[2] or cnt3==cnt1[3]: pass
+            else:date.append(dates.text)
+        if flag==5:
+            if cnt3 == cnt1[0] or cnt3==cnt1[1] or cnt3==cnt1[2] or cnt3==cnt1[3]or cnt3==cnt1[4]: pass
+            else:date.append(dates.text)
+        elif flag ==0:date.append(dates.text)
     # print(len(comment))
     # print(comment)
     # print(len(marka))
@@ -103,7 +102,7 @@ while (count1 < 48):
         count = count + 1
         lst.append([marka[count], year[count], date[count], comment[count], positive[count], negative[count], my_opinion[count]])
     # print(lst)
-    flag =0;cnt2=0;cnt1=[];cnt=0;cnt3=0
+    flag =0;cnt1=[];cnt=0;cnt3=0
     URL = URL.replace(str(count1), str(count1 + 1))
     count1 = count1 + 1
     # -------------------------------------------------------------------------------------------

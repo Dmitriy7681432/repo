@@ -18,7 +18,7 @@ string = 'Отзыв о Audi A3 2012 — Auto.Exist'
 # pattern = r'(19[0-9][0-9]|20[0-3][0-9])' #Поиск цифр заданной длины
 # pattern = r'\d+[]'
 pattern= r'\w+'
-print((re.findall(pattern, string))[2:-2])
+print(' '.join((re.findall(pattern, string))[2:-3]))
 
 #[ . ]_______________________
 # pattern = r'[w]..'
