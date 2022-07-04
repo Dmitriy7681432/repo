@@ -8,6 +8,7 @@ import unicodedata
 
 # URL = 'https://www.exist.ru/Catalog/Accessory/Cars/'
 marka = []
+year = []
 comment = []
 date = []
 positive = []
@@ -53,11 +54,12 @@ while (count1 < 48):
             mpa3 = dict.fromkeys(range(32))  # Удаление управлящих символов
             my_opinion.append(opin.text.translate(mpa3))
 
-            # print('AAAAAAAAAAAAAAA', soup1.title.text)
+            print('AAAAAAAAAAAAAAA', soup1.title.text)
             pattern = r'[^Отзыв о Auto.Exist]\w+'
             marka.append((re.findall(pattern, soup1.title.text))[0:-1])
+            year.append((re.findall(pattern, soup1.title.text))[-1])
             date.append((re.findall(pattern, soup1.title.text))[-1])
-
+            print(marka)
         except AttributeError:
             print('Отзыв удален')
             flag =flag +1
@@ -93,13 +95,13 @@ while (count1 < 48):
     # -------------------------------------------------------------------------------------------
     for i in range(5-flag):
         count = count + 1
-        lst.append([marka[count], date[count], comment[count], positive[count], negative[count], my_opinion[count]])
+        lst.append([marka[count],year[count], date[count], comment[count], positive[count], negative[count], my_opinion[count]])
     # print(lst)
     flag =0;cnt2=0;cnt1=[];cnt=0;cnt3=0
     URL = URL.replace(str(count1), str(count1 + 1))
     count1 = count1 + 1
     # -------------------------------------------------------------------------------------------
-head_myData = [["auto", "date comment", 'comment', 'positive', 'negative', 'my opinion']]
+head_myData = [["auto","year of manufacture", "date comment", 'comment', 'positive', 'negative', 'my opinion']]
 myFile = open('example2.csv', 'w', encoding='utf-32', newline='')
 # csv.register_dialect('my_dialect',delimiter='\t',doublequote=';',escapechar=':',skipinitialspace='True')
 # csv.register_dialect('my_dialect',delimiter = '\t',doublequote=True)
