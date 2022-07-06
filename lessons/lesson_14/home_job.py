@@ -16,10 +16,10 @@ negative = []
 my_opinion = []
 lst = []
 # max =559
-count1 = 203
+count1 = 1
 count = -1
 flag =0; cnt1=[];cnt=0;cnt3=0;error_page=0
-URL = 'https://auto.exist.ru/otzyvy?page=203'
+URL = 'https://auto.exist.ru/otzyvy?page=1'
 while (count1 < 560):
     print(URL)
     page = requests.get(URL)
