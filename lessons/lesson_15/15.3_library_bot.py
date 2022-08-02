@@ -2,6 +2,9 @@ import telebot
 from telebot import apihelper
 import time
 
+#Прокси сервера
+# https://hidemy.name/ru/proxy-list/?country=FR&type=hs#list
+
 TOKEN = '5449407787:AAHs7AbrX9ygAab41TfoTRJ0Hp8c0uY1SdU'
 
 proxies = {
@@ -26,13 +29,22 @@ def admin(message):
         bot.reply_to(message,'Приветствую, Хозяин')
     else:
         bot.reply_to(message,'Ты не мой Хозяин')
-
+#
+# @bot.message_handler(content_types = ['text'])
+# def text_t(message):
+#     text = message.text
+#     bot.reply_to(message, f'Вы сказали:{text}')
+#     # bot.reply_to(message, text[::-1])
 
 @bot.message_handler(content_types = ['text'])
 def text_t(message):
     text = message.text
-    bot.reply_to(message, f'Вы сказали:{text}')
-    # bot.reply_to(message, text[::-1])
+    if text == 'как дела' or text == 'как ты':
+        bot.reply_to(message, "У меня все хорошо. А у тебя как?")
+    elif text == 'У меня тоже все хорошо' or text == 'У меня супер!':
+        bot.reply_to(message, "Рад за тебя. Чем можешь порадовать?")
+    elif text == 'Я учу питон' or text == 'Есть продвижения в питоне':
+        bot.reply_to(message, "Ты молодец")
 
 
 
