@@ -1,0 +1,28 @@
+body {
+    background-image: url(images/fon1.jpg);
+    background-size: 900px 750px;
+    color: #FFFACD;
+    font-family: 'Fredoka One', cursive;
+}
+h1 {
+    text-align: center;
+}
+
+a{
+    text-indent: 201px
+    text-color: #FFFACD;
+    text-decoration: none;
+    display: inline-block;
+    padding: 5px 10px;
+    letter-spacing: 2px;
+    margin: 0 20px;
+    font-size: 24px;
+    font-family: 'Fredoka One', cursive;
+    transition: .3s ease-in-out;
+    padding-bottom: 3px;
+
+}
+a:hover {
+    border-bottom: .07em solid;
+}
+
