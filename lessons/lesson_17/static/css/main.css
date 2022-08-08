@@ -9,6 +9,7 @@ h1 {
     text-align: center;
 }
 h2 {
+    margin: 20 90px 0px;
 }
 
 a{
@@ -28,6 +29,7 @@ a:hover {
     border-bottom: .07em solid;
 }
 
-p{
-	margin: 600px 500px 12px;
+img{
+
+	margin: 50px 90px 20px;
 }
