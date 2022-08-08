@@ -3,14 +3,12 @@ body {
     background-size: 900px 750px;
     color: #FFFACD;
     font-family: 'Fredoka One', cursive;
+}
 
-}
-wood{
-    background-image: url(images/wood.jpg);
-    background-size: 100px 20px;
-}
 h1 {
     text-align: center;
+}
+h2 {
 }
 
 a{
@@ -25,11 +23,11 @@ a{
     font-family: 'Fredoka One', cursive;
     transition: .3s ease-in-out;
     padding-bottom: 3px;
-
 }
 a:hover {
     border-bottom: .07em solid;
 }
 
-
-
+p{
+	margin: 600px 500px 12px;
+}
