@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital@1&display=swap');
+/* fonts.gogle.com  Виды шрифтов*/
+.main_text{
+    color: #000;
+    text-align: center;
+    font-size: 1.2em;
+    font-style: normal;
+    font-weight: 300;
+    font-family: 'Open Sans', sans-serif;
+    text-transform: lowercase;
+    word-spacing:20px;
+    letter-spacing:2px;
+    line-height:50px;
+    text-decoration: line-through;
+    cursor:copy;
+}

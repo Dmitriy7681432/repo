@@ -1,4 +1,4 @@
-body{
+#first{
     /*background-color:#657ca1;
     background-image: url('https://natureconservancy-h.assetsadobe.com/is/image/content/dam/tnc/nature/en/photos/Zugpsitze_mountain.jpg?crop=0%2C176%2C3008%2C1654&wid=4000&hei=2200&scl=0.752');
     background-repeat: no-repeat;
@@ -7,5 +7,11 @@ body{
     color:#ccd5e3;
     background: #657ca1 url('https://natureconservancy-h.assetsadobe.com/is/image/content/dam/tnc/nature/en/photos/Zugpsitze_mountain.jpg?crop=0%2C176%2C3008%2C1654&wid=4000&hei=2200&scl=0.752')
     no-repeat center center;
-    height: 100vh;
+    height: 500px;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+#second{
+    height: 2000px;
 }
