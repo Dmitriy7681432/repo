@@ -1,17 +1,62 @@
+/*color picker Цветовая гамма*/
+
 body {
     background-image: url(images/fon1.jpg);
     background-size: 900px 750px;
-    color: #FFFACD;
-    font-family: 'Fredoka One', cursive;
 }
 
 h1 {
     text-align: center;
+    color: #FFFACD;
+    font-family: 'Fredoka One', cursive;
 }
-h2 {
-    margin: 20 90px 0px;
+#nav{
+    font-family: 'Open Sans', sans-serif;
+    display: block;
+    float: left;
+    width: 50%;
+    margin-left: 25%;
+    text-align: center;
+    margin-bottom: 50px;
+    font-size: 1.1em;
+
+}
+#nav li{
+    list-style: none;
+    display: inline;
+    background: black;
+    border: 1px solid silver;
+    padding: 0 20px;
+    cursor: pointer;
 }
 
+#nav li a{
+    color: #FFFACD;
+}
+
+#nav li a:hover{
+    color: #fff;
+    background: #1803fc;
+    font-size: 1.1em;
+}
+
+.main_text{
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.2em;
+    font-style: normal;
+    font-weight: 300;
+    word-spacing: 10px;
+    letter-spacing:2px;
+    line-height:30px;
+    background: black;
+    color: #FFFACD;
+    float: left;
+    opacity: 0.7;
+    margin-bottom: 510px;
+    text-align: justify;
+}
+
+/*
 a{
     text-indent: 201px
     text-color: #FFFACD;
@@ -33,3 +78,4 @@ img{
 
 	margin: 50px 90px 20px;
 }
+*/
