@@ -19,7 +19,7 @@ print(c.sort())
 print(c)
 count=0
 d=[]
-
+#метода сравнения двух списков на уникальные параметры
 for i in a:
     if i not in b:
         d.append(i)
