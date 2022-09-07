@@ -30,34 +30,37 @@ for unit in root.findall('.//unit'):
         parameter_common_id = parameter.attrib.get('common_id')
         parameter_common_id_1 = parameter.attrib.get('common_id')
         # print(parameter_common_id)
-        if parameter_common_id == None:
-            if flag ==1:
-                parameter_common_id = count1 + 1
-                com_id = parameter_common_id
-            elif flag==0:
-                parameter_common_id=com_id +300
-                com_id = parameter_common_id
-                flag=1
-                # print('PRINTF')
-            elif flag==2:
-                parameter_common_id = com_id + 1
-                com_id = parameter_common_id
-        else:
-            if flag==1: flag =2
-        count1 = int(parameter_common_id)
 
         # print('for2')
+        flag_3=0
         for products in parameter.findall('products/'):
             SES200M1 = products.tag
             # print('for3')
-            if SES200M1 =='SES200M':
+            if SES200M1 =='SES200M' and flag_3==0:
                 SES200m = products.attrib.get('cb')
                 # print('for4')
-                if ((SES200m == 'BU_50') or (SES200m == 'BU_50')or (SES200m == 'BU_50'))\
-                        and ((parameter_type =='Измеряемый')
-                or (parameter_type =='Вычисляемый')or (parameter_type =='Внешний')
-                or (parameter_type =='Дискретный')or (parameter_type =='Сводный')):
+                if ((SES200m == 'BU_50') or (SES200m == 'BU_SES')or (SES200m == 'BU_400'))\
+                and ((parameter_type =='Измеряемый') or (parameter_type =='Вычисляемый')or
+                (parameter_type =='Внешний') or (parameter_type =='Дискретный')or
+                (parameter_type =='Сводный') or (parameter_type =='Команда')):
+                    if parameter_common_id == None:
+                        if flag ==1:
+                            parameter_common_id = count1 + 1
+                            com_id = parameter_common_id
+                        elif flag==0:
+                            parameter_common_id=com_id +300
+                            com_id = parameter_common_id
+                            flag=1
+                           # print('PRINTF')
+                        elif flag==2:
+                            parameter_common_id = com_id + 1
+                            com_id = parameter_common_id
+                    else:
+                        if flag==1: flag =2
+                    count1 = int(parameter_common_id)
                     # print('for5')
+                    flag_3=1
+
                     count =count+1
                     print(parameter_designation)
                     if parameter_common_id_1 != None: lst_com_id.append(parameter_common_id_1)
