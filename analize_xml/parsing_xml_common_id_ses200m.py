@@ -210,7 +210,7 @@ for unit in root.findall('.//unit'):
 
 for unit in root.findall('.//device'):
     unit_range = unit.attrib.get('range')
-    count1=int(unit_range)
+    count1=int(unit_range)-1
     com_id = int(unit_range)
     flag = 0
     # print('for1')
@@ -235,20 +235,22 @@ for unit in root.findall('.//device'):
                 and ((parameter_type =='Измеряемый') or (parameter_type =='Вычисляемый')or
                 (parameter_type =='Внешний') or (parameter_type =='Дискретный')or
                 (parameter_type =='Сводный') or (parameter_type =='Команда')):
+                    # if parameter_common_id == None:
+                    #     if flag ==1:
+                    #         parameter_common_id = count1 + 1
+                    #         com_id = parameter_common_id
+                    #     elif flag==0:
+                    #         parameter_common_id=com_id +300
+                    #         com_id = parameter_common_id
+                    #         flag=1
+                    #        # print('PRINTF')
+                    #     elif flag==2:
+                    #         parameter_common_id = com_id + 1
+                    #         com_id = parameter_common_id
+                    # else:
+                    #     if flag==1: flag =2
                     if parameter_common_id == None:
-                        if flag ==1:
-                            parameter_common_id = count1 + 1
-                            com_id = parameter_common_id
-                        elif flag==0:
-                            parameter_common_id=com_id +300
-                            com_id = parameter_common_id
-                            flag=1
-                           # print('PRINTF')
-                        elif flag==2:
-                            parameter_common_id = com_id + 1
-                            com_id = parameter_common_id
-                    else:
-                        if flag==1: flag =2
+                        parameter_common_id = count1 + 1
                     count1 = int(parameter_common_id)
                     # print('for5')
                     flag_3=1
@@ -297,23 +299,10 @@ for unit in root.findall('.//device'):
                 # print('for4')
                 if ((SES200m == 'BU_50') or (SES200m == 'BU_SES')or (SES200m == 'BU_400')):
                     if event_common_id == None:
-                        if flag ==1:
-                            event_common_id = count1 + 1
-                            com_id =event_common_id
-                        elif flag==0:
-                            event_common_id =com_id +300
-                            com_id = event_common_id
-                            flag=1
-                           # print('PRINTF')
-                        elif flag==2:
-                            event_common_id = com_id + 1
-                            com_id = event_common_id
-                    else:
-                        if flag==1: flag =2
+                        event_common_id = count1 + 1
                     count1 = int(event_common_id )
                     # print('for5')
                     flag_3=1
-
                     count =count+1
                     print(event_designation)
                     if event_common_id_1 != None: lst_com_id.append(event_common_id_1)
@@ -358,23 +347,10 @@ for unit in root.findall('.//device'):
                 # print('for4')
                 if ((SES200m == 'BU_50') or (SES200m == 'BU_SES')or (SES200m == 'BU_400')):
                     if limit_common_id == None:
-                        if flag ==1:
-                            limit_common_id = count1 + 1
-                            com_id = limit_common_id
-                        elif flag==0:
-                            limit_common_id =com_id +300
-                            com_id = limit_common_id
-                            flag=1
-                           # print('PRINTF')
-                        elif flag==2:
-                            limit_common_id = com_id + 1
-                            com_id = limit_common_id
-                    else:
-                        if flag==1: flag =2
+                        limit_common_id = count1 + 1
                     count1 = int(limit_common_id)
                     # print('for5')
                     flag_3=1
-
                     count =count+1
                     print(limit_designation)
                     if limit_common_id_1 != None: lst_com_id.append(limit_common_id_1)

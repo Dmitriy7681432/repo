@@ -2,7 +2,7 @@ import re
 
 # string = 'It was beatufil today,It was beatufil today,It was beatufil today,It was beatufil today.'
 # string = 'Отзыв о Citroen C5 2115 2009 — Auto.Exist'
-string = 'Отзыв о Audi A3 2012 — Auto.Exist'
+# string = 'Отзыв о Audi A3 2012 — Auto.Exist'
 # pattern =r"was"
 # string = 'ruby'
 #finall поиск слова_____________________________
@@ -17,8 +17,14 @@ string = 'Отзыв о Audi A3 2012 — Auto.Exist'
 #[ . ]____________________1___
 # pattern = r'(19[0-9][0-9]|20[0-3][0-9])' #Поиск цифр заданной длины
 # pattern = r'\d+[]'
-pattern= r'\w+'
-print(' '.join((re.findall(pattern, string))[2:-3]))
+
+# pattern= r'\w+'
+# print(' '.join((re.findall(pattern, string))[2:-3]))
+
+string = "// Наработка станции СЭП-30М"
+
+pattern= r'[//a-я]'
+print(re.findall(pattern, string))
 
 #[ . ]_______________________
 # pattern = r'[w]..'
