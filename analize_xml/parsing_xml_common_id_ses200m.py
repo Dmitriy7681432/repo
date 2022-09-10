@@ -6,7 +6,7 @@ root = tree.getroot()
 
 
 
-file = open('file1.txt', 'w+')
+file = open('file1.txt', 'w+',encoding='utf-8')
 # # BBB
 SES200m = 0
 count = 0
@@ -14,11 +14,14 @@ count1 = 0
 lst_com_id = []
 flag_1=0
 flag_2=0
+flag_4=0
 for unit in root.findall('.//unit'):
     unit_range = unit.attrib.get('range')
+    unit_name = unit.attrib.get('name')
     count1=int(unit_range)
     com_id = int(unit_range)
     flag = 0
+    flag_4 = 0
     # print('for1')
     # print(count1)
     for parameter in unit.findall('parameter'):
@@ -36,6 +39,9 @@ for unit in root.findall('.//unit'):
             # print('for3')
             if SES200M1 =='SES200M' and flag_3==0:
                 SES200m = products.attrib.get('cb')
+                if flag_4 ==0:
+                    file.write('\n' + '// Агрегат '+unit_name + '\n'+'\n')
+                    flag_4=1
                 # print('for4')
                 if ((SES200m == 'BU_50') or (SES200m == 'BU_SES')or (SES200m == 'BU_400'))\
                 and ((parameter_type =='Измеряемый') or (parameter_type =='Вычисляемый')or
@@ -82,7 +88,7 @@ for unit in root.findall('.//unit'):
                     # file.write(parameter_designation + parameter_common_id + "\n")
                    # file.write(parameter_designation +" "+ "KEY("+ str(parameter_common_id)+ ")"+ " " + \
                    #            str(count1) + " p " + str(count) + "\n")
-                    file.write(parameter_designation +" "+ "KEY("+ str(parameter_common_id)+ ")"+ " " + "\n")
+                    file.write('// '+ parameter_name + '\n'+ parameter_designation +" "+ "KEY("+ str(parameter_common_id)+ ")"+ " " + "\n")
 
                     print(lst_com_id)
                     # file.write(parameter_designation + ", 0 - " + parameter_name+ "\n")
@@ -143,7 +149,7 @@ for unit in root.findall('.//unit'):
                     # file.write(parameter_designation + parameter_common_id + "\n")
                    # file.write(parameter_designation +" "+ "KEY("+ str(parameter_common_id)+ ")"+ " " + \
                    #            str(count1) + " p " + str(count) + "\n")
-                    file.write(event_designation +" "+ "KEY("+ str(event_common_id)+ ")"+ " " + "\n")
+                    file.write('// '+ event_name + '\n'+ event_designation +" "+ "KEY("+ str(event_common_id)+ ")"+ " " + "\n")
 
                     print(lst_com_id)
 
@@ -204,15 +210,17 @@ for unit in root.findall('.//unit'):
                     # file.write(parameter_designation + parameter_common_id + "\n")
                    # file.write(parameter_designation +" "+ "KEY("+ str(parameter_common_id)+ ")"+ " " + \
                    #            str(count1) + " p " + str(count) + "\n")
-                    file.write(limit_designation +" "+ "KEY("+ str(limit_common_id)+ ")"+ " " + "\n")
+                    file.write('// '+ limit_name + '\n'+ limit_designation +" "+ "KEY("+ str(limit_common_id)+ ")"+ " " + "\n")
 
                     print(lst_com_id)
 
 for unit in root.findall('.//device'):
     unit_range = unit.attrib.get('range')
+    unit_name = unit.attrib.get('name')
     count1=int(unit_range)-1
     com_id = int(unit_range)
     flag = 0
+    flag_4 = 0
     # print('for1')
     # print(count1)
     for parameter in unit.findall('parameter'):
@@ -230,6 +238,9 @@ for unit in root.findall('.//device'):
             # print('for3')
             if SES200M1 =='SES200M' and flag_3==0:
                 SES200m = products.attrib.get('cb')
+                if flag_4 ==0:
+                    file.write('\n' + '// Устройство '+unit_name + '\n'+'\n')
+                    flag_4=1
                 # print('for4')
                 if ((SES200m == 'BU_50') or (SES200m == 'BU_SES')or (SES200m == 'BU_400'))\
                 and ((parameter_type =='Измеряемый') or (parameter_type =='Вычисляемый')or
@@ -278,7 +289,7 @@ for unit in root.findall('.//device'):
                     # file.write(parameter_designation + parameter_common_id + "\n")
                    # file.write(parameter_designation +" "+ "KEY("+ str(parameter_common_id)+ ")"+ " " + \
                    #            str(count1) + " p " + str(count) + "\n")
-                    file.write(parameter_designation +" "+ "KEY("+ str(parameter_common_id)+ ")"+ " " + "\n")
+                    file.write('// '+ parameter_name + '\n'+ parameter_designation +" "+ "KEY("+ str(parameter_common_id)+ ")"+ " " + "\n")
 
                     print(lst_com_id)
                     # file.write(parameter_designation + ", 0 - " + parameter_name+ "\n")
@@ -326,7 +337,7 @@ for unit in root.findall('.//device'):
                     # file.write(parameter_designation + parameter_common_id + "\n")
                    # file.write(parameter_designation +" "+ "KEY("+ str(parameter_common_id)+ ")"+ " " + \
                    #            str(count1) + " p " + str(count) + "\n")
-                    file.write(event_designation +" "+ "KEY("+ str(event_common_id)+ ")"+ " " + "\n")
+                    file.write('// '+ event_name + '\n'+ event_designation +" "+ "KEY("+ str(event_common_id)+ ")"+ " " + "\n")
 
                     print(lst_com_id)
 
@@ -374,7 +385,7 @@ for unit in root.findall('.//device'):
                     # file.write(parameter_designation + parameter_common_id + "\n")
                    # file.write(parameter_designation +" "+ "KEY("+ str(parameter_common_id)+ ")"+ " " + \
                    #            str(count1) + " p " + str(count) + "\n")
-                    file.write(limit_designation +" "+ "KEY("+ str(limit_common_id)+ ")"+ " " + "\n")
+                    file.write('// '+ limit_name + '\n'+ limit_designation +" "+ "KEY("+ str(limit_common_id)+ ")"+ " " + "\n")
 
                     print(lst_com_id)
 
