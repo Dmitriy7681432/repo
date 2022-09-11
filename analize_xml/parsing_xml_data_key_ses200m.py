@@ -1,9 +1,13 @@
 import xml.etree.ElementTree as ET
 
 # tree = ET.parse('appt.xml')
-tree = ET.parse('params.xml')
+tree = ET.parse('example2.xml')
 root = tree.getroot()
 
+
+
+file = open('file1.txt', 'w+',encoding='utf-8')
+# # BBB
 SES200m = 0
 count = 0
 count1 = 0
@@ -19,10 +23,15 @@ for unit in root.findall('.//unit'):
     flag = 0
     flag_4 = 0
     # print('for1')
+    # print(count1)
     for parameter in unit.findall('parameter'):
+        parameter_designation = parameter.attrib.get('designation')
+        parameter_name = parameter.attrib.get('name')
         parameter_type = parameter.attrib.get('type')
         parameter_common_id = parameter.attrib.get('common_id')
         parameter_common_id_1 = parameter.attrib.get('common_id')
+        # print(parameter_common_id)
+
         # print('for2')
         flag_3=0
         for products in parameter.findall('products/'):
@@ -31,6 +40,7 @@ for unit in root.findall('.//unit'):
             if SES200M1 =='SES200M' and flag_3==0:
                 SES200m = products.attrib.get('cb')
                 if flag_4 ==0:
+                    file.write('\n' + '// Агрегат '+unit_name + '\n'+'\n')
                     flag_4=1
                 # print('for4')
                 if ((SES200m == 'BU_50') or (SES200m == 'BU_SES')or (SES200m == 'BU_400'))\
@@ -57,6 +67,7 @@ for unit in root.findall('.//unit'):
 
                     count =count+1
                     # print(parameter_designation)
+                    if parameter_common_id_1 != None: lst_com_id.append(parameter_common_id_1)
                     if parameter_common_id_1!=None:
                         if flag_1 ==0:
                             prm_com_id = int(parameter_common_id_1)
@@ -74,12 +85,20 @@ for unit in root.findall('.//unit'):
                                 print("Error com_id1", prm_com_id_1, 'и', prm_com_id)
                             flag_1=1
                             flag_2 = 0
+                    # file.write(parameter_designation + parameter_common_id + "\n")
+                   # file.write(parameter_designation +" "+ "KEY("+ str(parameter_common_id)+ ")"+ " " + \
+                   #            str(count1) + " p " + str(count) + "\n")
+                    file.write('// '+ parameter_name + '\n'+ parameter_designation +" "+ "KEY("+ str(parameter_common_id)+ ")"+ " " + "\n")
 
                     # print(lst_com_id)
+                    # file.write(parameter_designation + ", 0 - " + parameter_name+ "\n")
 
     for event in unit.findall('event'):
+        event_designation = event.attrib.get('designation')
+        event_name = event.attrib.get('name')
         event_common_id = event.attrib.get('common_id')
         event_common_id_1 = event.attrib.get('common_id')
+        # print(parameter_common_id)
         # print('for2')
         flag_3=0
         for products in event.findall('products/'):
@@ -97,6 +116,7 @@ for unit in root.findall('.//unit'):
                             event_common_id =com_id +300
                             com_id = event_common_id
                             flag=1
+                           # print('PRINTF')
                         elif flag==2:
                             event_common_id = com_id + 1
                             com_id = event_common_id
@@ -108,6 +128,7 @@ for unit in root.findall('.//unit'):
 
                     count =count+1
                     # print(event_designation)
+                    if event_common_id_1 != None: lst_com_id.append(event_common_id_1)
                     if event_common_id_1!=None:
                         if flag_1 ==0:
                             prm_com_id = int(event_common_id_1)
@@ -125,6 +146,11 @@ for unit in root.findall('.//unit'):
                                 print("Error com_id1", prm_com_id_1, 'и', prm_com_id)
                             flag_1=1
                             flag_2 = 0
+                    # file.write(parameter_designation + parameter_common_id + "\n")
+                   # file.write(parameter_designation +" "+ "KEY("+ str(parameter_common_id)+ ")"+ " " + \
+                   #            str(count1) + " p " + str(count) + "\n")
+                    file.write('// '+ event_name + '\n'+ event_designation +" "+ "KEY("+ str(event_common_id)+ ")"+ " " + "\n")
+
                     # print(lst_com_id)
 
 
@@ -133,6 +159,7 @@ for unit in root.findall('.//unit'):
         limit_name = limit.attrib.get('name')
         limit_common_id = limit.attrib.get('common_id')
         limit_common_id_1 = limit.attrib.get('common_id')
+        # print(parameter_common_id)
         # print('for2')
         flag_3=0
         for products in limit.findall('products/'):
@@ -162,6 +189,7 @@ for unit in root.findall('.//unit'):
 
                     count =count+1
                     # print(limit_designation)
+                    if limit_common_id_1 != None: lst_com_id.append(limit_common_id_1)
                     if limit_common_id_1 !=None:
                         if flag_1 ==0:
                             prm_com_id = int(limit_common_id_1)
@@ -179,6 +207,11 @@ for unit in root.findall('.//unit'):
                                 print("Error com_id1", prm_com_id_1, 'и', prm_com_id)
                             flag_1=1
                             flag_2 = 0
+                    # file.write(parameter_designation + parameter_common_id + "\n")
+                   # file.write(parameter_designation +" "+ "KEY("+ str(parameter_common_id)+ ")"+ " " + \
+                   #            str(count1) + " p " + str(count) + "\n")
+                    file.write('// '+ limit_name + '\n'+ limit_designation +" "+ "KEY("+ str(limit_common_id)+ ")"+ " " + "\n")
+
                     # print(lst_com_id)
 
 for unit in root.findall('.//device'):
@@ -189,10 +222,15 @@ for unit in root.findall('.//device'):
     flag = 0
     flag_4 = 0
     # print('for1')
+    # print(count1)
     for parameter in unit.findall('parameter'):
+        parameter_designation = parameter.attrib.get('designation')
+        parameter_name = parameter.attrib.get('name')
         parameter_type = parameter.attrib.get('type')
         parameter_common_id = parameter.attrib.get('common_id')
         parameter_common_id_1 = parameter.attrib.get('common_id')
+        # print(parameter_common_id)
+
         # print('for2')
         flag_3=0
         for products in parameter.findall('products/'):
@@ -201,6 +239,7 @@ for unit in root.findall('.//device'):
             if SES200M1 =='SES200M' and flag_3==0:
                 SES200m = products.attrib.get('cb')
                 if flag_4 ==0:
+                    file.write('\n' + '// Устройство '+unit_name + '\n'+'\n')
                     flag_4=1
                 # print('for4')
                 if ((SES200m == 'BU_50') or (SES200m == 'BU_SES')or (SES200m == 'BU_400'))\
@@ -215,6 +254,7 @@ for unit in root.findall('.//device'):
 
                     count =count+1
                     # print(parameter_designation)
+                    if parameter_common_id_1 != None: lst_com_id.append(parameter_common_id_1)
                     if parameter_common_id_1!=None:
                         if flag_1 ==0:
                             prm_com_id = int(parameter_common_id_1)
@@ -232,10 +272,17 @@ for unit in root.findall('.//device'):
                                 print("Error com_id1", prm_com_id_1, 'и', prm_com_id)
                             flag_1=1
                             flag_2 = 0
+                    # file.write(parameter_designation + parameter_common_id + "\n")
+                   # file.write(parameter_designation +" "+ "KEY("+ str(parameter_common_id)+ ")"+ " " + \
+                   #            str(count1) + " p " + str(count) + "\n")
+                    file.write('// '+ parameter_name + '\n'+ parameter_designation +" "+ "KEY("+ str(parameter_common_id)+ ")"+ " " + "\n")
 
                     # print(lst_com_id)
+                    # file.write(parameter_designation + ", 0 - " + parameter_name+ "\n")
 
     for event in unit.findall('event'):
+        event_designation = event.attrib.get('designation')
+        event_name = event.attrib.get('name')
         event_common_id = event.attrib.get('common_id')
         event_common_id_1 = event.attrib.get('common_id')
         # print(parameter_common_id)
@@ -255,6 +302,7 @@ for unit in root.findall('.//device'):
                     flag_3=1
                     count =count+1
                     # print(event_designation)
+                    if event_common_id_1 != None: lst_com_id.append(event_common_id_1)
                     if event_common_id_1!=None:
                         if flag_1 ==0:
                             prm_com_id = int(event_common_id_1)
@@ -272,10 +320,17 @@ for unit in root.findall('.//device'):
                                 print("Error com_id1", prm_com_id_1, 'и', prm_com_id)
                             flag_1=1
                             flag_2 = 0
+                    # file.write(parameter_designation + parameter_common_id + "\n")
+                   # file.write(parameter_designation +" "+ "KEY("+ str(parameter_common_id)+ ")"+ " " + \
+                   #            str(count1) + " p " + str(count) + "\n")
+                    file.write('// '+ event_name + '\n'+ event_designation +" "+ "KEY("+ str(event_common_id)+ ")"+ " " + "\n")
+
                     # print(lst_com_id)
 
 
     for limit in unit.findall('limit'):
+        limit_designation = limit.attrib.get('designation')
+        limit_name = limit.attrib.get('name')
         limit_common_id = limit.attrib.get('common_id')
         limit_common_id_1 = limit.attrib.get('common_id')
         # print(parameter_common_id)
@@ -295,6 +350,7 @@ for unit in root.findall('.//device'):
                     flag_3=1
                     count =count+1
                     # print(limit_designation)
+                    if limit_common_id_1 != None: lst_com_id.append(limit_common_id_1)
                     if limit_common_id_1 !=None:
                         if flag_1 ==0:
                             prm_com_id = int(limit_common_id_1)
@@ -312,8 +368,13 @@ for unit in root.findall('.//device'):
                                 print("Error com_id1", prm_com_id_1, 'и', prm_com_id)
                             flag_1=1
                             flag_2 = 0
+                    # file.write(parameter_designation + parameter_common_id + "\n")
+                   # file.write(parameter_designation +" "+ "KEY("+ str(parameter_common_id)+ ")"+ " " + \
+                   #            str(count1) + " p " + str(count) + "\n")
+                    file.write('// '+ limit_name + '\n'+ limit_designation +" "+ "KEY("+ str(limit_common_id)+ ")"+ " " + "\n")
 
                     # print(lst_com_id)
 
 
+file.close()
 
