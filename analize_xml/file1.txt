@@ -573,7 +573,7 @@ EN_AUT KEY(9040)
 // Контактор ЭН
 EN_CONT KEY(9041) 
 // Контактор ЭН масла
-EN_OIL_CONT KEY(9041) 
+EN_OIL_CONT KEY(9042) 
 // Контактор ЭН ОЖ
 CONT_EN KEY(9051) 
 // Автомат ЭН отключен
@@ -588,32 +588,36 @@ EA305 KEY(9303)
 EA306 KEY(9304) 
 // КЗ в цепи ЭН
 EA322 KEY(9305) 
-// Отключен автомат ЭН
+// КЗ(отключен) автомат защиты ЭН
 EA324 KEY(9306) 
 // Неисправность контактора ЭН масла
 EA313 KEY(9307) 
+// Отключен автомат защиты ЭН
+EP324 KEY(9308) 
 // Контроль включения контактора ЭН
-LIM_WAIT_KEN_ON KEY(9308) 
+LIM_WAIT_KEN_ON KEY(9309) 
 // Контроль отключения контактора ЭН
-LIM_WAIT_KEN_OFF KEY(9309) 
+LIM_WAIT_KEN_OFF KEY(9310) 
 // КЗ фазы A ЭН
-LIM_EN_I_A_SHORT KEY(9310) 
+LIM_EN_I_A_SHORT KEY(9311) 
 // КЗ фазы B ЭН
-LIM_EN_I_B_SHORT KEY(9311) 
+LIM_EN_I_B_SHORT KEY(9312) 
 // КЗ фазы C ЭН
-LIM_EN_I_C_SHORT KEY(9312) 
+LIM_EN_I_C_SHORT KEY(9313) 
 // Обрыв фазы A ЭН
-LIM_EN_I_A_BREAK KEY(9313) 
+LIM_EN_I_A_BREAK KEY(9314) 
 // Обрыв фазы B ЭН
-LIM_EN_I_B_BREAK KEY(9314) 
+LIM_EN_I_B_BREAK KEY(9315) 
 // Обрыв фазы C ЭН
-LIM_EN_I_C_BREAK KEY(9315) 
-// Контроль состояния автомата ЭН
-LIM_EN_QF KEY(9316) 
+LIM_EN_I_C_BREAK KEY(9316) 
+// Контроль КЗ(отключен) автомат защиты ЭН
+LIM_EN_QF KEY(9317) 
 // Контроль включения контактора ЭН масла
-LIM_WAIT_KEN_OIL_ON KEY(9317) 
+LIM_WAIT_KEN_OIL_ON KEY(9318) 
 // Контроль отключения контактора ЭН масла
-LIM_WAIT_KEN_OIL_OFF KEY(9318) 
+LIM_WAIT_KEN_OIL_OFF KEY(9319) 
+// Контроль автомата защиты ЭН
+LIM_EN_AUT_OP KEY(9320) 
 
 // Агрегат BU
 
@@ -680,25 +684,23 @@ ADDR_FILTR_ROM2 KEY(12102)
 // Адрес фильтров в ПЗУ 3
 ADDR_FILTR_ROM3 KEY(12103) 
 // T воздуха в отсеке
-AIR_TEMP KEY(12300) 
-// T воздуха в отсеке
-AIR_TEMP_EXT KEY(12301) 
+AIR_TEMP KEY(12111) 
 // Начальный источник 400 В 50 Гц
-INITIAL_SOURCE KEY(12302) 
+INITIAL_SOURCE KEY(12300) 
 // Аварии ЭА
 EVENTS_EA KEY(121031) 
 // Аварии блока
-EVENTS_BLOCK_50 KEY(12303) 
+EVENTS_BLOCK_50 KEY(121032) 
 // Предупреждения ЭА
-WARNINGS_EA KEY(12304) 
+WARNINGS_EA KEY(12301) 
 // Команды БУ 400
-COMMANDS_BU_400 KEY(12305) 
+COMMANDS_BU_400 KEY(12302) 
 // Команды БУ СЭC
-COMMANDS1_BU_SES KEY(12306) 
+COMMANDS1_BU_SES KEY(12303) 
 // Команды БУ СЭC
-COMMANDS2_BU_SES KEY(12307) 
+COMMANDS2_BU_SES KEY(12304) 
 // Команды БУ 50
-COMMANDS_BU_50 KEY(12308) 
+COMMANDS_BU_50 KEY(12305) 
 // Донесения БУ 400
 DISCRETES_400 KEY(12104) 
 // Донесения2 БУ 400
@@ -712,33 +714,33 @@ DISCRETES1_50 KEY(12108)
 // Донесения 2 БУ 50
 DISCRETES2_50 KEY(12109) 
 // Режим работы
-MODE KEY(12309) 
+MODE KEY(12306) 
 // Отказ люка забора
-HATCH_IN_BREAK KEY(12310) 
+HATCH_IN_BREAK KEY(12307) 
 // Наработка изделия в часах
-STATION_HOURS KEY(12311) 
+STATION_HOURS KEY(12308) 
 // Наработка ЭА в часах
-EA_HOURS KEY(12312) 
+EA_HOURS KEY(12309) 
 // Наработка ЭА с перегрузом в часах
-EA_HOURS10 KEY(12313) 
+EA_HOURS10 KEY(12310) 
 // Состояние КА А0
 FSM_A0_STATE KEY(12014) 
 // Опрос МАВ А4
-POLLING_MAV_A4 KEY(12314) 
+POLLING_MAV_A4 KEY(12311) 
 // Опрос МАВ А4
-POLLING_MAV_A4_2 KEY(12315) 
+POLLING_MAV_A4_2 KEY(12312) 
 // Опрос МАВ А5
-POLLING_MAV_A5 KEY(12316) 
+POLLING_MAV_A5 KEY(12313) 
 // Опрос МАВ А5
-POLLING_MAV_A5_2 KEY(12317) 
+POLLING_MAV_A5_2 KEY(12314) 
 // Опрос МАВ А6
-POLLING_MAV_A6 KEY(12318) 
+POLLING_MAV_A6 KEY(12315) 
 // Опрос МАВ А6
-POLLING_MAV_A6_2 KEY(12319) 
+POLLING_MAV_A6_2 KEY(12316) 
 // Процесс синхронизации источников
 SOURCES_SINHR KEY(12110) 
 // Состояния ПЧ
-FC_STATES2 KEY(12320) 
+FC_STATES2 KEY(12317) 
 // Адрес структуры режима в ОЗУ
 ADDR_STMODE_RAM1 KEY(12015) 
 // Адрес структуры режима в ОЗУ
@@ -754,219 +756,223 @@ ADDR_STMODE_FLASH3 KEY(12020)
 // Шапка уставок. CRC32
 PRESET_HEADER_CRC KEY(12118) 
 // Шапка уставок. Дата
-PRESET_HEADER_DATE KEY(12321) 
+PRESET_HEADER_DATE KEY(12318) 
 // Шапка уставок. Время
-PRESET_HEADER_TIME KEY(12322) 
+PRESET_HEADER_TIME KEY(12319) 
 // Шапка уставок. Git commit
-PRESET_HEADER_GIT_COMMIT KEY(12323) 
+PRESET_HEADER_GIT_COMMIT KEY(12320) 
 // Шапка уставок. От дисплея?
-PRESET_HEADER_FROM_DISPLAY KEY(12324) 
+PRESET_HEADER_FROM_DISPLAY KEY(12321) 
 // Шапка уставок. Длина данных
-PRESET_HEADER_DATA_LENGTH KEY(12325) 
+PRESET_HEADER_DATA_LENGTH KEY(12322) 
 // Шапка уставок. CRC32
-PRESET_HEADER_CRC2 KEY(12326) 
+PRESET_HEADER_CRC2 KEY(12323) 
 // Шапка уставок. Дата
-PRESET_HEADER_DATE2 KEY(12327) 
+PRESET_HEADER_DATE2 KEY(12324) 
 // Шапка уставок. Время
-PRESET_HEADER_TIME2 KEY(12328) 
+PRESET_HEADER_TIME2 KEY(12325) 
 // Шапка уставок. Git commit
-PRESET_HEADER_GIT_COMMIT2 KEY(12329) 
+PRESET_HEADER_GIT_COMMIT2 KEY(12326) 
 // Шапка уставок. От дисплея?
-PRESET_HEADER_FROM_DISPLAY2 KEY(12330) 
+PRESET_HEADER_FROM_DISPLAY2 KEY(12327) 
 // Шапка уставок. Длина данных
-PRESET_HEADER_DATA_LENGTH2 KEY(12331) 
+PRESET_HEADER_DATA_LENGTH2 KEY(12328) 
 // Шапка уставок. CRC32
-PRESET_HEADER_CRC3 KEY(12332) 
+PRESET_HEADER_CRC3 KEY(12329) 
 // Шапка уставок. Дата
-PRESET_HEADER_DATE3 KEY(12333) 
+PRESET_HEADER_DATE3 KEY(12330) 
 // Шапка уставок. Время
-PRESET_HEADER_TIME3 KEY(12334) 
+PRESET_HEADER_TIME3 KEY(12331) 
 // Шапка уставок. Git commit
-PRESET_HEADER_GIT_COMMIT3 KEY(12335) 
+PRESET_HEADER_GIT_COMMIT3 KEY(12332) 
 // Шапка уставок. От дисплея?
-PRESET_HEADER_FROM_DISPLAY3 KEY(12336) 
+PRESET_HEADER_FROM_DISPLAY3 KEY(12333) 
 // Шапка уставок. Длина данных
-PRESET_HEADER_DATA_LENGTH3 KEY(12337) 
+PRESET_HEADER_DATA_LENGTH3 KEY(12334) 
 // Шапка калибровок. CRC32
-CALIBRATION_HEADER_CRC KEY(12338) 
+CALIBRATION_HEADER_CRC KEY(12335) 
 // Шапка калибровок. Дата
-CALIBRATION_HEADER_DATE KEY(12339) 
+CALIBRATION_HEADER_DATE KEY(12336) 
 // Шапка калибровок. Время
-CALIBRATION_HEADER_TIME KEY(12340) 
+CALIBRATION_HEADER_TIME KEY(12337) 
 // Шапка калибровок. Git commit
-CALIBRATION_HEADER_GIT_COMMIT KEY(12341) 
+CALIBRATION_HEADER_GIT_COMMIT KEY(12338) 
 // Шапка калибровок. От дисплея?
-CALIBRATION_HEADER_FROM_DISPLAY KEY(12342) 
+CALIBRATION_HEADER_FROM_DISPLAY KEY(12339) 
 // Шапка калибровок. Длина данных
-CALIBRATION_HEADER_DATA_LENGTH KEY(12343) 
+CALIBRATION_HEADER_DATA_LENGTH KEY(12340) 
 // Шапка калибровок. CRC32
-CALIBRATION_HEADER_CRC2 KEY(12344) 
+CALIBRATION_HEADER_CRC2 KEY(12341) 
 // Шапка калибровок. Дата
-CALIBRATION_HEADER_DATE2 KEY(12345) 
+CALIBRATION_HEADER_DATE2 KEY(12342) 
 // Шапка калибровок. Время
-CALIBRATION_HEADER_TIME2 KEY(12346) 
+CALIBRATION_HEADER_TIME2 KEY(12343) 
 // Шапка калибровок. Git commit
-CALIBRATION_HEADER_GIT_COMMIT2 KEY(12347) 
+CALIBRATION_HEADER_GIT_COMMIT2 KEY(12344) 
 // Шапка калибровок. От дисплея?
-CALIBRATION_HEADER_FROM_DISPLAY2 KEY(12348) 
+CALIBRATION_HEADER_FROM_DISPLAY2 KEY(12345) 
 // Шапка калибровок. Длина данных
-CALIBRATION_HEADER_DATA_LENGTH2 KEY(12349) 
+CALIBRATION_HEADER_DATA_LENGTH2 KEY(12346) 
 // Шапка калибровок. CRC32
-CALIBRATION_HEADER_CRC3 KEY(12350) 
+CALIBRATION_HEADER_CRC3 KEY(12347) 
 // Шапка калибровок. Дата
-CALIBRATION_HEADER_DATE3 KEY(12351) 
+CALIBRATION_HEADER_DATE3 KEY(12348) 
 // Шапка калибровок. Время
-CALIBRATION_HEADER_TIME3 KEY(12352) 
+CALIBRATION_HEADER_TIME3 KEY(12349) 
 // Шапка калибровок. Git commit
-CALIBRATION_HEADER_GIT_COMMIT3 KEY(12353) 
+CALIBRATION_HEADER_GIT_COMMIT3 KEY(12350) 
 // Шапка калибровок. От дисплея?
-CALIBRATION_HEADER_FROM_DISPLAY3 KEY(12354) 
+CALIBRATION_HEADER_FROM_DISPLAY3 KEY(12351) 
 // Шапка калибровок. Длина данных
-CALIBRATION_HEADER_DATA_LENGTH3 KEY(12355) 
+CALIBRATION_HEADER_DATA_LENGTH3 KEY(12352) 
 // Шапка фильтров. CRC32
-FILTER_HEADER_CRC KEY(12356) 
+FILTER_HEADER_CRC KEY(12353) 
 // Шапка фильтров. Дата
-FILTER_HEADER_DATE KEY(12357) 
+FILTER_HEADER_DATE KEY(12354) 
 // Шапка фильтров. Время
-FILTER_HEADER_TIME KEY(12358) 
+FILTER_HEADER_TIME KEY(12355) 
 // Шапка фильтров. Git commit
-FILTER_HEADER_GIT_COMMIT KEY(12359) 
+FILTER_HEADER_GIT_COMMIT KEY(12356) 
 // Шапка фильтров. От дисплея?
-FILTER_HEADER_FROM_DISPLAY KEY(12360) 
+FILTER_HEADER_FROM_DISPLAY KEY(12357) 
 // Шапка фильтров. Длина данных
-FILTER_HEADER_DATA_LENGTH KEY(12361) 
+FILTER_HEADER_DATA_LENGTH KEY(12358) 
 // Шапка фильтров. CRC32
-FILTER_HEADER_CRC2 KEY(12362) 
+FILTER_HEADER_CRC2 KEY(12359) 
 // Шапка фильтров. Дата
-FILTER_HEADER_DATE2 KEY(12363) 
+FILTER_HEADER_DATE2 KEY(12360) 
 // Шапка фильтров. Время
-FILTER_HEADER_TIME2 KEY(12364) 
+FILTER_HEADER_TIME2 KEY(12361) 
 // Шапка фильтров. Git commit
-FILTER_HEADER_GIT_COMMIT2 KEY(12365) 
+FILTER_HEADER_GIT_COMMIT2 KEY(12362) 
 // Шапка фильтров. От дисплея?
-FILTER_HEADER_FROM_DISPLAY2 KEY(12366) 
+FILTER_HEADER_FROM_DISPLAY2 KEY(12363) 
 // Шапка фильтров. Длина данных
-FILTER_HEADER_DATA_LENGTH2 KEY(12367) 
+FILTER_HEADER_DATA_LENGTH2 KEY(12364) 
 // Шапка фильтров. CRC32
-FILTER_HEADER_CRC3 KEY(12368) 
+FILTER_HEADER_CRC3 KEY(12365) 
 // Шапка фильтров. Дата
-FILTER_HEADER_DATE3 KEY(12369) 
+FILTER_HEADER_DATE3 KEY(12366) 
 // Шапка фильтров. Время
-FILTER_HEADER_TIME3 KEY(12370) 
+FILTER_HEADER_TIME3 KEY(12367) 
 // Шапка фильтров. Git commit
-FILTER_HEADER_GIT_COMMIT3 KEY(12371) 
+FILTER_HEADER_GIT_COMMIT3 KEY(12368) 
 // Шапка фильтров. От дисплея?
-FILTER_HEADER_FROM_DISPLAY3 KEY(12372) 
+FILTER_HEADER_FROM_DISPLAY3 KEY(12369) 
 // Шапка фильтров. Длина данных
-FILTER_HEADER_DATA_LENGTH3 KEY(12373) 
+FILTER_HEADER_DATA_LENGTH3 KEY(12370) 
 // Режимы включения источников
 SOURCE_MODES KEY(12172) 
 // Сообщение о необходимости включить ПХЗ,ПАЗ
-PAZ_PHZ_ON KEY(12374) 
+PAZ_PHZ_ON KEY(12371) 
 // Сообщение о необходимости включить тревогу
-ALARM_ON KEY(12375) 
+ALARM_ON KEY(12372) 
 // СЭС откл
 SES_OFF KEY(12175) 
 // СЭС откл исполнено
-SES_OFF_PERFORMING KEY(12376) 
+SES_OFF_PERFORMING KEY(12373) 
 // Номер режима вкл
-NUM_MODE_ON KEY(12377) 
+NUM_MODE_ON KEY(12374) 
 // Номер режима вкл исполнено
-NUM_MODE_ON_PERFORMING KEY(12378) 
+NUM_MODE_ON_PERFORMING KEY(12375) 
 // Сеть готова
-NET_READY KEY(12379) 
+NET_READY KEY(12376) 
 // Сеть неисправна
-NET_ALARM KEY(12380) 
+NET_ALARM KEY(12377) 
 // ДЭС готова
-SES_READY KEY(12381) 
+SES_READY KEY(12378) 
 // ДЭС неисправна
-SES_ALARM KEY(12382) 
+SES_ALARM KEY(12379) 
 // Блок управления 1
-UNIT_CONTROL_1 KEY(12383) 
+UNIT_CONTROL_1 KEY(12380) 
 // Блок управления 2
 UNIT_CONTROL_2 KEY(12184) 
 // Блок управления 3
 UNIT_CONTROL_3 KEY(12185) 
 // Пожар СЭС
-FIRE_SES KEY(12384) 
+FIRE_SES KEY(12186) 
 // ДУ вкл
-PDU_ON KEY(12385) 
+PDU_ON KEY(12187) 
 // МУ вкл
-LOCAL_ON KEY(12386) 
+LOCAL_ON KEY(12188) 
 // Режимы вкл и исполнено
-NUM_MODES_PERF KEY(12387) 
+NUM_MODES_PERF KEY(12189) 
 // Контроль аварий по аварийному уровню топлива
-CONTROL_ALARM_LEVEL KEY(12388) 
+CONTROL_ALARM_LEVEL KEY(12190) 
+// Аварии блока бу 400
+EVENTS_BLOCK_400 KEY(12191) 
 // Обрыв датчика температуры воздуха
-EA352 KEY(12389) 
+EA352 KEY(12381) 
 // КЗ(отключен) автомат Q16 (ПC)
-EP425 KEY(12390) 
+EP425 KEY(12382) 
 // Липовая авария
-EA999 KEY(12391) 
+EA999 KEY(12383) 
+// Не норма ПС
+EP426 KEY(12384) 
 // Контроль отказа люка забора
-LIM_HATCH_IN_BREAK KEY(12392) 
+LIM_HATCH_IN_BREAK KEY(12385) 
 // Обрыв датчика температуры воздуха
-LIM_BREAK_AIR_TEMP KEY(12393) 
+LIM_BREAK_AIR_TEMP KEY(12386) 
 // Контроль включения контактора фидера 1
-LIM_WAIT_KFID1_ON KEY(12394) 
+LIM_WAIT_KFID1_ON KEY(12387) 
 // Контроль включения контактора фидера 1
-LIM_WAIT_KFID1_OFF KEY(12395) 
+LIM_WAIT_KFID1_OFF KEY(12388) 
 // Контроль включения контактора фидера 2
-LIM_WAIT_KFID2_ON KEY(12396) 
+LIM_WAIT_KFID2_ON KEY(12389) 
 // Контроль включения контактора фидера 2
-LIM_WAIT_KFID2_OFF KEY(12397) 
+LIM_WAIT_KFID2_OFF KEY(12390) 
 // Контроль включения контактора фидера 3
-LIM_WAIT_KFID3_ON KEY(12398) 
+LIM_WAIT_KFID3_ON KEY(12391) 
 // Контроль включения контактора фидера 3
-LIM_WAIT_KFID3_OFF KEY(12399) 
+LIM_WAIT_KFID3_OFF KEY(12392) 
 // Контроль включения контактора фидера 3-1
-LIM_WAIT_KFID3_1_ON KEY(12400) 
+LIM_WAIT_KFID3_1_ON KEY(12393) 
 // Контроль включения контактора фидера 3-1
-LIM_WAIT_KFID3_1_OFF KEY(12401) 
+LIM_WAIT_KFID3_1_OFF KEY(12394) 
 // Контроль включения контактора фидера 3-2
-LIM_WAIT_KFID3_2_ON KEY(12402) 
+LIM_WAIT_KFID3_2_ON KEY(12395) 
 // Контроль отключения контактора фидера 3-2
-LIM_WAIT_KFID3_2_OFF KEY(12403) 
+LIM_WAIT_KFID3_2_OFF KEY(12396) 
 // Контроль включения контактора фидера 4
-LIM_WAIT_KFID4_ON KEY(12404) 
+LIM_WAIT_KFID4_ON KEY(12397) 
 // Контроль отключения контактора фидера 3-2
-LIM_WAIT_KFID4_OFF KEY(12405) 
+LIM_WAIT_KFID4_OFF KEY(12398) 
 // Контроль аварий по аварийному уровню топливу
-LIM_CONTROL_ALARM_LEVEL KEY(12406) 
+LIM_CONTROL_ALARM_LEVEL KEY(12399) 
 
 // Агрегат UR400
 
-// Автомат фидера 3
+// КЗ(автомат) фидера 3
 FID3_AUT KEY(18300) 
-// Автомат фидера 3 отключен
+// Автомат фидера 3 включен
 FID3_AUT_OP KEY(18301) 
 // Контактор фидера 3
 FID3_CONT KEY(18302) 
 // Автомат фидера 3-1
 FID3_1_AUT KEY(18303) 
-// Автомат фидера 3-1 отключен
+// Автомат фидера 3-1 включен
 FID3_1_AUT_OP KEY(18304) 
 // Контактор фидера 3-1
 FID3_1_CONT KEY(18305) 
 // Автомат фидера 3-2
 FID3_2_AUT KEY(18306) 
-// Автомат фидера 3-2 отключен
+// Автомат фидера 3-2 включен
 FID3_2_AUT_OP KEY(18307) 
 // Контактор фидера 3-2
 FID3_2_CONT KEY(18308) 
 // Автомат фидера 4
 FID4_AUT KEY(18309) 
-// Автомат фидера 4 отключен
+// Автомат фидера 4 включен
 FID4_AUT_OP KEY(18310) 
 // Контактор фидера 4
 FID4_CONT KEY(18311) 
 // Автомат трансформатора 1
 TRANS_AUT KEY(18312) 
-// Автомат трансформатора 1 отключен
+// Автомат трансформатора 1 включен
 TRANS_AUT_OP KEY(18313) 
 // Автомат трансформатора 2
 TRANS2_AUT KEY(18314) 
-// Автомат трансформатора 2 отключен
+// Автомат трансформатора 2 включен
 TRANS2_AUT_OP KEY(18315) 
 // Автомат СИПТ
 SIPT_AUT KEY(18316) 
@@ -997,7 +1003,7 @@ CONT_VENT KEY(18327)
 
 // Автомат фидера 1
 FID1_AUT KEY(19300) 
-// Автомат фидера 1 отключен
+// Автомат фидера 1 включен
 FID1_AUT_OP KEY(19301) 
 // Контактор фидера 1
 FID1_CONT KEY(19302) 
@@ -1019,10 +1025,222 @@ CONT_FID1 KEY(19309)
 CONT_FID2 KEY(19310) 
 // Контактор фидера 22
 CONT_FID22 KEY(19311) 
+// КЗ(отключен) автомат защиты фидера 1
+EA336 KEY(19312) 
+// Отключен автомат защиты фидера 1
+EP336 KEY(19313) 
+// КЗ(отключен) автомат защиты фидера 3
+EA337 KEY(19314) 
+// Отключен автомат защиты фидера 3
+EP337 KEY(19315) 
+// КЗ(отключен) автомат защиты фидера 3-1
+EA338 KEY(19316) 
+// Отключен автомат защиты фидера 3-1
+EP338 KEY(19317) 
+// КЗ(отключен) автомат защиты фидера 3-2
+EA339 KEY(19318) 
+// Отключен автомат защиты фидера 3-2
+EP339 KEY(19319) 
+// КЗ(отключен) автомат защиты фидера 4
+EA346 KEY(19320) 
+// Отключен автомат защиты фидера 4
+EP346 KEY(19321) 
+// КЗ(отключен) автомат защиты трансформатора 1
+EA347 KEY(19322) 
+// Отключен автомат защиты трансформатора 1
+EP347 KEY(19323) 
+// КЗ(отключен) автомат защиты трансформатора 2
+EA348 KEY(19324) 
+// Отключен автомат защиты трансформатора 2
+EP348 KEY(19325) 
+// КЗ(отключен) автомат защиты фидера 5
+EA349 KEY(19326) 
+// Отключен автомат защиты фидера 5
+EP349 KEY(19327) 
+// КЗ(отключен) автомат защиты фидера 5-1
+EA351 KEY(19328) 
+// Отключен автомат защиты фидера 5-1
+EP351 KEY(19329) 
+// КЗ(отключен) автомат защиты фидера 6
+EA353 KEY(19330) 
+// Отключен автомат защиты фидера 6
+EP353 KEY(19331) 
+// КЗ(отключен) автомат защиты фидера 6-1
+EA356 KEY(19332) 
+// Отключен автомат защиты фидера 6-1
+EP356 KEY(19333) 
+// КЗ(отключен) автомат защиты фидера 7
+EA357 KEY(19334) 
+// Отключен автомат защиты фидера 7
+EP357 KEY(19335) 
+// КЗ(отключен) автомат защиты фидера 8
+EA358 KEY(19336) 
+// Отключен автомат защиты фидера 8
+EP358 KEY(19337) 
+// КЗ(отключен) автомат защиты фидера 9
+EA359 KEY(19338) 
+// Отключен автомат защиты фидера 9
+EP359 KEY(19339) 
+// КЗ(отключен) автомат защиты фидера 10
+EA360 KEY(19340) 
+// Отключен автомат защиты фидера 10
+EP360 KEY(19341) 
+// КЗ(отключен) автомат защиты фидера 11
+EA361 KEY(19342) 
+// Отключен автомат защиты фидера 11
+EP361 KEY(19343) 
+// КЗ(отключен) автомат защиты фидера 11-1
+EA362 KEY(19344) 
+// Отключен автомат защиты фидера 11-1
+EP362 KEY(19345) 
+// КЗ(отключен) автомат защиты фидера 12
+EA363 KEY(19346) 
+// Отключен автомат защиты фидера 12
+EP363 KEY(19347) 
+// КЗ(отключен) автомат защиты фидера 13
+EA364 KEY(19348) 
+// Отключен автомат защиты фидера 13
+EP364 KEY(19349) 
+// КЗ(отключен) автомат защиты фидера 14
+EA365 KEY(19350) 
+// Отключен автомат защиты фидера 14
+EP365 KEY(19351) 
+// КЗ(отключен) автомат защиты фидера 15
+EA366 KEY(19352) 
+// Отключен автомат защиты фидера 15
+EP366 KEY(19353) 
+// КЗ(отключен) автомат защиты фидера 16
+EA367 KEY(19354) 
+// Отключен автомат защиты фидера 16
+EP367 KEY(19355) 
+// КЗ(отключен) автомат защиты фидера 16-1
+EA368 KEY(19356) 
+// Отключен автомат защиты фидера 16-1
+EP368 KEY(19357) 
+// КЗ(отключен) автомат защиты фидера 2
+EA369 KEY(19358) 
+// Отключен автомат защиты фидера 2
+EP369 KEY(19359) 
+// КЗ(отключен) автомат защиты фидера 17
+EA370 KEY(19360) 
+// Отключен автомат защиты фидера 17
+EP370 KEY(19361) 
+// КЗ(отключен) автомат защиты фидера 18
+EA371 KEY(19362) 
+// Отключен автомат защиты фидера 18
+EP371 KEY(19363) 
+// КЗ(отключен) автомат защиты фидера 22
+EA372 KEY(19364) 
+// Отключен автомат защиты фидера 22
+EP372 KEY(19365) 
 // Контроль включения контактора фидера 22
-LIM_WAIT_KFID22_ON KEY(19312) 
+LIM_WAIT_KFID22_ON KEY(19366) 
 // Контроль включения контактора фидера 22
-LIM_WAIT_KFID22_OFF KEY(19313) 
+LIM_WAIT_KFID22_OFF KEY(19367) 
+// Контроль КЗ(отключен) автомат защиты фидера 1
+LIM_FID1_AUT KEY(19368) 
+// Контроль состояния автомата защиты фидера 1
+LIM_FID1_AUT_OP KEY(19369) 
+// Контроль КЗ(отключен) автомат защиты фидера 3
+LIM_FID3_AUT KEY(19370) 
+// Контроль состояния автомата защиты фидера 3
+LIM_FID3_AUT_OP KEY(19371) 
+// Контроль КЗ(отключен) автомат защиты фидера 3-1
+LIM_FID3_1_AUT KEY(19372) 
+// Контроль состояния автомата защиты фидера 3-1
+LIM_FID3_1_AUT_OP KEY(19373) 
+// Контроль КЗ(отключен) автомат защиты фидера 3-2
+LIM_FID3_2_AUT KEY(19374) 
+// Контроль состояния автомата защиты фидера 3-2
+LIM_FID3_2_AUT_OP KEY(19375) 
+// Контроль КЗ(отключен) автомат защиты фидера 4
+LIM_FID4_AUT KEY(19376) 
+// Контроль состояния автомата защиты фидера 4
+LIM_FID4_AUT_OP KEY(19377) 
+// Контроль КЗ(отключен) автомат защиты трансформатора 1
+LIM_TRANS_AUT KEY(19378) 
+// Контроль состояния автомата защиты трансформатора 1
+LIM_TRANS_AUT_OP KEY(19379) 
+// Контроль КЗ(отключен) автомат защиты трансформатора 2
+LIM_TRANS2_AUT KEY(19380) 
+// Контроль состояния автомата защиты трансформатора 2
+LIM_TRANS2_AUT_OP KEY(19381) 
+// Контроль КЗ(отключен) автомат защиты фидера 5
+LIM_FID5_AUT KEY(19382) 
+// Контроль состояния автомата защиты фидера 5
+LIM_FID5_AUT_OP KEY(19383) 
+// Контроль КЗ(отключен) автомат защиты фидера 5-1
+LIM_FID5_1_AUT KEY(19384) 
+// Контроль состояния автомата защиты фидера 5-1
+LIM_FID5_1_AUT_OP KEY(19385) 
+// Контроль КЗ(отключен) автомат защиты фидера 6
+LIM_FID6_AUT KEY(19386) 
+// Контроль состояния автомата защиты фидера 6
+LIM_FID6_AUT_OP KEY(19387) 
+// Контроль КЗ(отключен) автомат защиты фидера 6-1
+LIM_FID6_1_AUT KEY(19388) 
+// Контроль состояния автомата защиты фидера 6
+LIM_FID6_1_AUT_OP KEY(19389) 
+// Контроль КЗ(отключен) автомат защиты фидера 7
+LIM_FID7_AUT KEY(19390) 
+// Контроль состояния автомата защиты фидера 7
+LIM_FID7_AUT_OP KEY(19391) 
+// Контроль КЗ(отключен) автомат защиты фидера 8
+LIM_FID8_AUT KEY(19392) 
+// Контроль состояния автомата защиты фидера 8
+LIM_FID8_AUT_OP KEY(19393) 
+// Контроль КЗ(отключен) автомат защиты фидера 9
+LIM_FID9_AUT KEY(19394) 
+// Контроль состояния автомата защиты фидера 9
+LIM_FID9_AUT_OP KEY(19395) 
+// Контроль КЗ(отключен) автомат защиты фидера 10
+LIM_FID10_AUT KEY(19396) 
+// Контроль состояния автомата защиты фидера 10
+LIM_FID10_AUT_OP KEY(19397) 
+// Контроль КЗ(отключен) автомат защиты фидера 11
+LIM_FID11_AUT KEY(19398) 
+// Контроль состояния автомата защиты фидера 11
+LIM_FID11_AUT_OP KEY(19399) 
+// Контроль КЗ(отключен) автомат защиты фидера 11-1
+LIM_FID11_1_AUT KEY(19400) 
+// Контроль состояния автомата защиты фидера 11
+LIM_FID11_1_AUT_OP KEY(19401) 
+// Контроль КЗ(отключен) автомат защиты фидера 12
+LIM_FID12_AUT KEY(19402) 
+// Контроль состояния автомата защиты фидера 12
+LIM_FID12_AUT_OP KEY(19403) 
+// Контроль КЗ(отключен) автомат защиты фидера 13
+LIM_FID13_AUT KEY(19404) 
+// Контроль состояния автомата защиты фидера 13
+LIM_FID13_AUT_OP KEY(19405) 
+// Контроль КЗ(отключен) автомат защиты фидера 14
+LIM_FID14_AUT KEY(19406) 
+// Контроль состояния автомата защиты фидера 14
+LIM_FID14_AUT_OP KEY(19407) 
+// Контроль КЗ(отключен) автомат защиты фидера 15
+LIM_FID15_AUT KEY(19408) 
+// Контроль состояния автомата защиты фидера 15
+LIM_FID15_AUT_OP KEY(19409) 
+// Контроль КЗ(отключен) автомат защиты фидера 16
+LIM_FID16_AUT KEY(19410) 
+// Контроль состояния автомата защиты фидера 16
+LIM_FID16_AUT_OP KEY(19411) 
+// Контроль КЗ(отключен) автомат защиты фидера 16-1
+LIM_FID16_1_AUT KEY(19412) 
+// Контроль состояния автомата защиты фидера 16-1
+LIM_FID16_1_AUT_OP KEY(19413) 
+// Контроль КЗ(отключен) автомат защиты фидера 2
+LIM_FID2_AUT KEY(19414) 
+// Контроль состояния автомата защиты фидера 2
+LIM_FID2_AUT_OP KEY(19415) 
+// Контроль состояния автомата защиты фидера 17
+LIM_FID17_AUT KEY(19416) 
+// Контроль состояния автомата защиты фидера 18
+LIM_FID18_AUT KEY(19417) 
+// Контроль КЗ(отключен) автомат защиты фидера 22
+LIM_FID22_AUT KEY(19418) 
+// Контроль состояния автомата защиты фидера 22
+LIM_FID22_AUT_OP KEY(19419) 
 
 // Агрегат BK220
 
@@ -1225,9 +1443,9 @@ LIM_WAIT_KFID16_1_OFF KEY(20396)
 
 // U АБ СТ
 U_AB_STARTER KEY(21300) 
-// Режим работы люков
+// Режим работы люков забора
 H_MODE KEY(21301) 
-// Режим работы люков
+// Режим работы люков выброса
 H_MODE_2 KEY(21302) 
 // U аккумулятора ОП
 U_AB_OP KEY(21303) 
@@ -1239,61 +1457,58 @@ VENT_MANUAL KEY(21305)
 VENT_AUTOMATIC KEY(21306) 
 // Контактор фидера 17
 FID17_CONT KEY(21307) 
-// Автомат фидера 17
+// КЗ (отключен) автомат защиты фидера 17
 FID17_AUT KEY(21308) 
+// Автомат фидера 17 включен
+FID17_AUT_OP KEY(21309) 
 // Контактор фидера 18
-FID18_CONT KEY(21309) 
+FID18_CONT KEY(21310) 
 // Автомат фидера 18
-FID18_AUT KEY(21310) 
+FID18_AUT KEY(21311) 
 // Автомат экстренного отключения
-Q6_AUT KEY(21311) 
+Q6_AUT KEY(21312) 
 // Контактор заряда АБ ХД
-AB_SHASSIS_CONT KEY(21312) 
+AB_SHASSIS_CONT KEY(21313) 
 // Контактор массы АБ ХД
-MASS_AB_SHASSIS_CONT KEY(21313) 
+MASS_AB_SHASSIS_CONT KEY(21314) 
 // АБ ХД на массе
-MASS_AB_SHASSIS KEY(21314) 
+MASS_AB_SHASSIS KEY(21315) 
 // Питание САУ от АБ ХД
-SAU_FROM_AB_SHASSIS KEY(21315) 
+SAU_FROM_AB_SHASSIS KEY(21316) 
 // Норма СИПТ
-SIPT_NORM KEY(21316) 
+SIPT_NORM KEY(21317) 
 // Контактор фидера 17
-CONT_FID17 KEY(21317) 
+CONT_FID17 KEY(21318) 
 // Контактор фидера 18
-CONT_FID18 KEY(21318) 
+CONT_FID18 KEY(21319) 
 // Контактор заряда АБ ХД
-CONT_AB_SHASSIS KEY(21319) 
+CONT_AB_SHASSIS KEY(21320) 
 // Контактор массы АБ ХД
-CONT_MASS_AB_SHASSIS KEY(21320) 
+CONT_MASS_AB_SHASSIS KEY(21321) 
+// Не норма ПС
+SIPT_NO_NORM KEY(21322) 
 // Контроль включения контактора фидера 17
-LIM_WAIT_KFID17_ON KEY(21321) 
+LIM_WAIT_KFID17_ON KEY(21323) 
 // Контроль включения контактора фидера 17
-LIM_WAIT_KFID17_OFF KEY(21322) 
+LIM_WAIT_KFID17_OFF KEY(21324) 
 // Контроль включения контактора фидера 18
-LIM_WAIT_KFID18_ON KEY(21323) 
+LIM_WAIT_KFID18_ON KEY(21325) 
 // Контроль включения контактора фидера 18
-LIM_WAIT_KFID18_OFF KEY(21324) 
-
-// Агрегат RS485_CAN
-
-// Уровень топлива
-L_F_DTU KEY(22300) 
-// Уровень топлива во внешнем баке
-L_EXT_F_DTU KEY(22301) 
+LIM_WAIT_KFID18_OFF KEY(21326) 
 
 // Агрегат FUEL_PUMP
 
-// Уровень топлива
+// Уровень топлива во внутреннем баке c датчика
 LEVEL_FUEL KEY(23300) 
-// Уровень топлива во внешнем баке
+// Уровень топлива во внешнем баке с датчика
 LEVEL_EXT_FUEL KEY(23301) 
-// Градиент уровня топлива
+// Градиент уровня топлива во внутреннем баке
 GRADIENT_LEVEL_FUEL KEY(23302) 
 // Градиент уровня топлива во внешнем баке
 GRADIENT_LEVEL_EXT_FUEL KEY(23303) 
 // Состояние НЗТ
 NZT_STATE KEY(23304) 
-// Уровень топлива, вычисляемый в %
+// Уровень топлива во внутреннем баке, вычисляемый в %
 LEVEL_FUEL_CALC KEY(23305) 
 // Уровень топлива во внешнем баке, вычисляемый в %
 LEVEL_EXT_FUEL_CALC KEY(23306) 
@@ -1587,6 +1802,8 @@ LIM_I_SIPT_SHORT KEY(29312)
 LIM_SIPT_NORM KEY(29313) 
 // СИПТ отключен
 LIM_NO_SIPT_NORM KEY(29314) 
+// Не норма ПС
+LIM_SIPT_NO_NORM KEY(29315) 
 
 // Агрегат HATCH_5
 
@@ -2043,7 +2260,7 @@ EA557_2 KEY(33337)
 EA558_2 KEY(33338) 
 // Неисправность реле самовозбуждения ПЧ2
 EA559_2 KEY(33339) 
-// Срабатывание МКИ ПЧ2
+// Срабатывание МКИ ПЧ 2
 EA560_2 KEY(33120) 
 // Отказ корректора возбуждения ПЧ2
 EA561_2 KEY(33340) 
@@ -2179,11 +2396,15 @@ EA_RPM KEY(2000000)
 VENT_STATE KEY(3000000) 
 // Неисправность контактора вентилятора
 EA600 KEY(3000001) 
-// Неисправность автомата защиты вентилятора
+// КЗ(отключен) автомат защиты вентилятора
 EA601 KEY(3000002) 
 // Отключен автомат защиты вентилятора
 EP602 KEY(3000003) 
+// Контроль КЗ(отключен) автомат защиты вентилятора
+LIM_VENT_AUT KEY(3000004) 
+// Контроль состояния автомата защиты вентилятора
+LIM_VENT_AUT_OP KEY(3000005) 
 // Контроль включения контактора вентилятора
-LIM_WAIT_KVENT_ON KEY(3000004) 
+LIM_WAIT_KVENT_ON KEY(3000006) 
 // Контроль отключения контактора вентилятора
-LIM_WAIT_KVENT_OFF KEY(3000005) 
+LIM_WAIT_KVENT_OFF KEY(3000007) 
