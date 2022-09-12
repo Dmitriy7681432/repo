@@ -1,7 +1,7 @@
 import xml.etree.ElementTree as ET
 
 # tree = ET.parse('appt.xml')
-tree = ET.parse('params.xml')
+tree = ET.parse('example2.xml')
 root = tree.getroot()
 
 SES200m = 0
