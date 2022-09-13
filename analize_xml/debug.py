@@ -1,16 +1,11 @@
-flag =0
-flag_1 =0
-flag_2 = 0
-if flag ==0:
-    print('Flag')
-    flag_1 =1
-elif flag_1 ==1:
-    print('Flag_1')
-    flag_2 = 1
-elif flag_2 ==1:
-    print('Flag_2')
-    flag = 0
-else:
-    print('ELSE')
+from goto_py import goto
 
+a = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
+for i in a:
+    i = i + 1
+    print(i)
+print('i1=', i)
+for i in a:
+    goto(5, once_only=True)
+    print('i1=', i)

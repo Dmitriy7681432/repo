@@ -189,8 +189,7 @@ def main(main_tag):
                                 flag_1=1; flag_2 = 0
 
 
-    main('device')
-
 
 if __name__ == "__main__":
     main('unit')
+    main('device')

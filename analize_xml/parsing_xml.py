@@ -10,7 +10,8 @@ import xml.etree.ElementTree as ET
 
 def main():
 
-    tree = ET.parse('station_data/params.xml')
+    # tree = ET.parse('station_data/params.xml')
+    tree = ET.parse('example2.xml')
     root = tree.getroot()
 
     #lst_com_id = []
