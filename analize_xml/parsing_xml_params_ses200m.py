@@ -36,7 +36,7 @@ print(params_xml_list)
 #_________________________________________________________________________________________
 #Парсинг params.c
 # file = open('C:/projects/TAKI00014-01/src/init/params.c', 'r', encoding='UTF-8')
-file = open('params.txt', 'r')
+file = open('params.c', 'r',encoding='utf-8')
 text = file.readlines()
 file.close()
 # print(type(text))
