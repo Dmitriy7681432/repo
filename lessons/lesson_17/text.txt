@@ -1,0 +1,101 @@
+
+1    Разработчик Python (по написанию парсеров)
+    Системный администратор Linux
+2    Преподаватель программирования Python для детей (удаленно)
+3    Разработчик Python (Django, DRF)
+    Инженер DevOps
+    Преподаватель программирования для детей
+4    Middle Python developer
+    Методолог в школу программирования
+5    Data Engineer (Python), remote
+6    Разработчик Python
+    Преподаватель программирования для детей
+7    Python разработчик (Middle)
+8    Ведущий Python-developer
+9    Python-разработчик
+    Data Engineer
+10    Преподаватель по курсу Python
+    Data-инженер
+    Data scientist
+    DevOps Инженер
+11    Team Lead Python
+12    Middle/Senior Python-разработчик в команду Добычи данных
+13    Python разработчик
+14    Преподаватель Web-разработки на Python+JavaScript
+15    Python-разработчик (Django)
+    Преподаватель программирования
+16    Python developer
+17    Middle python разработчик
+18    Senior Python разработчик
+    Стажер-инженер Linux (системы мониторинга, рабочие места)
+19    Senior/Lead Python-разработчик
+    Разработчик SQL (Middle)
+20    Senior Python developer (remote/Serbia)
+21    Senior Python Разработчик / DevOps (PT Container Security)
+    Data-инженер
+22    Senior Python Разработчик (PT Container Security)
+    Devops - инженер
+    Старший разработчик (Ruby)
+    DevOps-инженер (Казань)
+    Ведущий Data Engineer (Ozon Fresh)
+    Руководитель группы прогнозирования (Data science), Ozon Fresh
+    Преподаватель программирования / робототехники в детскую школу Инжинириум МГТУ (им. Баумана, Казань)
+    Аналитик данных (онлайн-школа)
+    Аналитик (SOC)
+    Аналитик киберполигона (SOC)
+    Web-программист
+    QA automation
+    Системный программист в отдел адаптации ОС Аврора
+    Администратор системы управления инженерными данными (СУИД, HxGN, SDX)
+    Senior С++ Developer
+    Principal Programmer
+    Младший специалист по аналитике
+    Инженер технической поддержки
+    Тестировщик / Middle
+    Администратор cетей
+    Ведущий инженер АСУ ТП Yokogawa (Centum, Prosafe, Stardom)
+    Executive Technical Director
+    Специалист службы поддержки с техническими знаниями в Яндекс Поиск
+    Technical Director
+    Ведущий инженер АСУ ТП
+    Ведущий инженер АСУТП (ПТК DeltaV)
+    Инженер-Конструктор ПГС (AUTODESK REVIT)
+    Руководитель группы инфраструктурных сервисов
+    Аналитик
+    Руководитель направления настройки риск-стратегий
+    Инженер системной интеграции
+    Системный инженер Linux
+    Преподаватель программирования в онлайн школу
+    Маркетинговый аналитик
+    Senior Full-stack Developer (to Cyprus)
+    Senior Golang Developer (to Cyprus)
+    Системный администратор 2 линия
+    Руководитель направления безопасности кода
+    Game Data Analyst
+    Ведущий аналитик L3 (SOC)
+    DevOps Engineer / SRE
+    Devops Engineer
+    Devops TeamLead
+    Lead of Analytics
+    Технический писатель (SOC)
+    Инженер отдела поддержки проектов (DevOps инженер)
+    Руководитель группы сетевых инженеров.CCNP и выше
+    Web-аналитик
+    QA automation
+    Full-Stack Разработчик (react\node.js)
+    Менеджер проекта
+    Аналитик (SOC, Сети)
+    CTO / Директор IT (EdTech)
+    Data analyst
+    Программист С++
+    Frontend-разработчик (VueJS)
+    Senior PHP-разработчик
+    Спикер на курс «QA тестирование»
+    Разработчик 1С
+    Консультант 1С
+    QA Team Lead
+    Senior C++ Developer (Gameplay)
+    VOIP Engineer
+    Специалист по автотестированию
+    IOS разработчик в инфраструктурный проект
+    DevOps/CI инженер в сервис мобильных приложений
