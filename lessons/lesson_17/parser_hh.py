@@ -1,5 +1,6 @@
 import requests,csv
 import pandas as pd
+import seaborn as sns
 def pars_hh(vacancy,city):
     number_of_pages = 1
     # job_tittle = ["'Data Analyst' and 'data scientist'"]
@@ -9,6 +10,7 @@ def pars_hh(vacancy,city):
     job_tittle_lower= job_tittle_t.lower()
     lst_rows = []
     lst_rows1 = []
+    ls=[]
     ind =0
     city_loc =int(pars_city(city))
     for job in job_tittle:
@@ -27,7 +29,6 @@ def pars_hh(vacancy,city):
                 lst_rows.append(ind)
                 try:
                     name = i.get('name')
-                    print(type(name))
                     lst_rows.append(name)
                 except AttributeError: name ='-'; lst_rows.append(name)
                 try:
@@ -58,22 +59,30 @@ def pars_hh(vacancy,city):
                     alternate_url = i.get('alternate_url')
                     lst_rows.append(alternate_url)
                 except AttributeError: alternate_url ='-'; lst_rows.append(alternate_url)
-
+                # print(type(ind),type(name),type(adress_raw),type(adress_metro_station_name),
+                #       type(employer_name),type(salary_from),type(salary_to),type(salary_currency),
+                #       type(alternate_url))
                 lst_rows1.append(lst_rows)
                 lst_rows=[]
         # print(lst_rows1)
+                pd.options.display.max_columns = 200
+                pd.options.display.max_rows = 200
+                pd.set_option('display.max_colwidth',None)
+                pd.set_option('display.width',None)
                 df =pd.DataFrame({
                   '№ п.п.':ind,
                   'Название вакансии':name,
-                  'Адерс': adress_raw,
+                  'Адрес': adress_raw,
                   'Метро': adress_metro_station_name,
                   'Организация':employer_name,
                   'Зарплат от':salary_from,
                   'Зарплат до':salary_to,
                   'Валюта':salary_currency,
                   'Ссылка':alternate_url
-                })
+                },index=[ind])
+                # print(df['Название вакансии'])
                 print(df)
+                ls.append(df)
 
 
         lst_head = [['№ п.п.', 'Название вакансии','Адрес','Метро','Организация',
@@ -87,6 +96,10 @@ def pars_hh(vacancy,city):
             writer = csv.writer(myFile, delimiter='\t')
             writer.writerows(lst_head)
             writer.writerows(lst_rows1)
+
+        myFile1 = open('text.txt', 'w')
+        with myFile1:
+            myFile1.write(str(ls))
 
             # vacancy_details= data[0]['items'][0].keys()
             # print(type(vacancy_details))
