@@ -1,6 +1,7 @@
 import requests,csv
 import pandas as pd
 import seaborn as sns
+import style
 def pars_hh(vacancy,city):
     number_of_pages = 1
     # job_tittle = ["'Data Analyst' and 'data scientist'"]
@@ -63,31 +64,50 @@ def pars_hh(vacancy,city):
                 #       type(employer_name),type(salary_from),type(salary_to),type(salary_currency),
                 #       type(alternate_url))
                 lst_rows1.append(lst_rows)
-                lst_rows=[]
-        # print(lst_rows1)
-                pd.options.display.max_columns = 200
-                pd.options.display.max_rows = 200
-                pd.set_option('display.max_colwidth',None)
-                pd.set_option('display.width',None)
-                df =pd.DataFrame({
-                  '№ п.п.':ind,
-                  'Название вакансии':name,
-                  'Адрес': adress_raw,
-                  'Метро': adress_metro_station_name,
-                  'Организация':employer_name,
-                  'Зарплат от':salary_from,
-                  'Зарплат до':salary_to,
-                  'Валюта':salary_currency,
-                  'Ссылка':alternate_url
-                },index=[ind])
-                # print(df['Название вакансии'])
-                print(df)
-                ls.append(df)
+                # print(type(lst_rows[4]))
 
+                lst_rows=[]
+
+                # df =pd.DataFrame({
+                #   '№ п.п.':ind,
+                #   'Название вакансии':name,
+                #   'Адрес': adress_raw,
+                #   'Метро': adress_metro_station_name,
+                #   'Организация':employer_name,
+                #   'Зарплат от':salary_from,
+                #   'Зарплат до':salary_to,
+                #   'Валюта':salary_currency,
+                #   'Ссылка':alternate_url
+                # },index=[ind])
+                # # print(df['Название вакансии'])
+                # print(df)
+
+        pd.options.display.max_columns = 200
+        pd.options.display.max_rows = 200
+        pd.set_option('display.max_colwidth',None)
+        pd.set_option('display.width',None)
+
+        df =pd.DataFrame({
+          '№ п.п.':[i[0] for i in lst_rows1],
+          # '№ п.п.':[1,2,3,4]
+          'Название вакансии':[i[1] for i in lst_rows1],
+          'Адрес':[i[2] for i in lst_rows1],
+          'Метро': [i[3] for i in lst_rows1],
+          'Организация':[i[4] for i in lst_rows1],
+          'Зарплат от':[i[5] for i in lst_rows1],
+          'Зарплат до':[i[6] for i in lst_rows1],
+          'Валюта':[i[7] for i in lst_rows1],
+          'Ссылка':[i[8] for i in lst_rows1],
+        })
+        # df.reset_index(drop=True,inplace=True)
+        # df = df.style.hide_index()
+        df =df.to_string(index=False)
+        print(df)
+        ls.append(df)
 
         lst_head = [['№ п.п.', 'Название вакансии','Адрес','Метро','Организация',
                      'Зарплата от','Зарплата до','Валюта','Ссылка']]
-
+        # print(lst_rows1[1][0])
 
 
         #Запись в csv
@@ -112,6 +132,7 @@ def pars_hh(vacancy,city):
             #         ind+=1
         # csv_name = job +'.csv'
         # df.to_csv(csv_name,encoding='utf-32')
+    return df
 def pars_city(city):
     data =[]
     url = 'https://api.hh.ru/areas/113'

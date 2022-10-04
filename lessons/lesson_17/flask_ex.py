@@ -1,5 +1,5 @@
 from flask import Flask, render_template,request
-
+from parser_hh import pars_hh
 app = Flask(__name__)
 
 @app.route('/main')
@@ -7,9 +7,15 @@ app = Flask(__name__)
 def main():
     return render_template('main.html')
 
-@app.route('/page_parser')
+@app.route('/page_parser',methods =['POST', 'GET'])
 def page_parser():
-    return render_template('page_parser.html')
+    if request.method == 'POST':
+        city = request.form['City']
+        position = request.form['Position']
+
+        return pars_hh(position,city)
+    else:
+        return render_template('page_parser.html')
 
 @app.route('/my_info')
 def my_info():
