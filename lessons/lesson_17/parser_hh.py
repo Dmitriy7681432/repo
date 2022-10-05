@@ -46,10 +46,12 @@ def pars_hh(vacancy,city):
                 except AttributeError: employer_name ='-'; lst_rows.append(employer_name)
                 try:
                     salary_from = i.get('salary').get('from')
+                    if salary_from == None: salary_from ="-"
                     lst_rows.append(salary_from)
                 except AttributeError: salary_from ='-'; lst_rows.append(salary_from)
                 try:
                     salary_to = i.get('salary').get('to')
+                    if salary_to == None: salary_to ="-"
                     lst_rows.append(salary_to)
                 except AttributeError: salary_to ='-'; lst_rows.append(salary_to)
                 try:
@@ -102,7 +104,7 @@ def pars_hh(vacancy,city):
         # df.reset_index(drop=True,inplace=True)
         # df = df.style.hide_index()
         df =df.to_string(index=False)
-        print(df)
+        # print(df)
         ls.append(df)
 
         lst_head = [['№ п.п.', 'Название вакансии','Адрес','Метро','Организация',
@@ -117,22 +119,15 @@ def pars_hh(vacancy,city):
             writer.writerows(lst_head)
             writer.writerows(lst_rows1)
 
-        myFile1 = open('text.txt', 'w')
-        with myFile1:
-            myFile1.write(str(ls))
-
-            # vacancy_details= data[0]['items'][0].keys()
-            # print(type(vacancy_details))
-            # df = pd.DataFrame(columns =list(vacancy_details))
-            # print(df)
-            # ind = 0
-            # for i in range(len(data)):
-            #     for j in range(len(data[i]['items'])):
-            #         df.loc[ind] = data[i]['items'][j]
-            #         ind+=1
-        # csv_name = job +'.csv'
-        # df.to_csv(csv_name,encoding='utf-32')
-    return df
+        # myFile1 = open('text.txt', 'w')
+        # with myFile1:
+        #     myFile1.write(str(ls))
+        # ad = pd.read_csv('example2.csv',encoding='utf-32',sep='\t')
+        # print(ad)
+    # print(lst_rows1)
+    for i in lst_rows1:
+        print(' '.join(map(str,i)))
+    return lst_rows1
 def pars_city(city):
     data =[]
     url = 'https://api.hh.ru/areas/113'
