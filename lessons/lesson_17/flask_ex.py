@@ -23,13 +23,31 @@ def page_parser():
 def vacancy():
     global city, position
     vacancy = list(pars_hh(position,city))
-    print(vacancy)
+    # print(vacancy)
     vacancy_lst =[]
+    vacancy_lst1 =[]
     for elem in vacancy:
          vacancy_lst.append('     '.join(map(str,elem)))
-    print(vacancy_lst)
-    ard = [['1','Prgram','Python']]
-    return render_template('vacansies.html',vacancy=list(vacancy_lst))
+    vacancy_lst1.append(vacancy_lst)
+    print(vacancy_lst1)
+    print('\n')
+    print(vacancy)
+    return render_template('vacansies.html',vacancy=vacancy)
+
+# @app.route('/vacansies')
+# def vacancy1():
+#     global city, position
+#     vacancy = list(pars_hh(position,city))
+#     # print(vacancy)
+#     vacancy_lst =[]
+#     vacancy_lst1 =[]
+#     for elem in vacancy:
+#          vacancy_lst.append('     '.join(map(str,elem)))
+#     vacancy_lst1.append(vacancy_lst)
+#     print(vacancy_lst1)
+#     print('\n')
+#     print(vacancy)
+#     return render_template('vacansies.html',vacancy1=vacancy)
 
 @app.route('/my_info')
 def my_info():
