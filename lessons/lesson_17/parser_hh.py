@@ -3,7 +3,7 @@ import pandas as pd
 import seaborn as sns
 import style
 def pars_hh(vacancy,city):
-    number_of_pages = 1
+    number_of_pages = 200
     # job_tittle = ["'Data Analyst' and 'data scientist'"]
     job_tittle = []
     job_tittle.append(vacancy)
@@ -18,7 +18,7 @@ def pars_hh(vacancy,city):
         data =[]
         for i in range(number_of_pages):
             url = 'https://api.hh.ru/vacancies'
-            par = {'text': job, 'area':city_loc, 'per_page':'4','page':i}
+            par = {'text': job, 'area':city_loc, 'per_page':'100','page':i}
             r =requests.get(url,params=par)
             e= r.json()
             data.append(e)

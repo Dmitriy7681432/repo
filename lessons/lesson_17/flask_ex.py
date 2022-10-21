@@ -29,9 +29,9 @@ def vacancy():
     for elem in vacancy:
          vacancy_lst.append('     '.join(map(str,elem)))
     vacancy_lst1.append(vacancy_lst)
-    print(vacancy_lst1)
-    print('\n')
-    print(vacancy)
+    # print(vacancy_lst1)
+    # print('\n')
+    # print(vacancy)
     return render_template('vacansies.html',vacancy=vacancy)
 
 # @app.route('/vacansies')
