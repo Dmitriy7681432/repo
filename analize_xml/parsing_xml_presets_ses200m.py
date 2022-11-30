@@ -31,7 +31,7 @@ for preset in root.findall('.//setting'):
 #--------------------------------------------------------------------------------------------
 # print(params_xml_list)
 # print('Количество уставок с повторениями =',len(params_xml_list))
-# preset_xml_list.append(list(unique(params_xml_list)))
+preset_xml_list.append(list(unique(params_xml_list)))
 # print(*preset_xml_list)
 # print('Количество уставок с неповторениями = ',len(*preset_xml_list))
 #--------------------------------------------------------------------------------------------
