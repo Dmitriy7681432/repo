@@ -1,0 +1,9 @@
+Error com_id1 52 и 51
+Error com_id1 2064 и 2042
+Error com_id1 2075 и 2065
+Error com_id1 5044 и 1043
+Error com_id 5054 и 1051
+Error com_id 120112 и 12013
+Error com_id 121032 и 12104
+Error com_id 12109 и 12014
+Error com_id 12110 и 12015

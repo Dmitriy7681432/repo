@@ -1,0 +1,28 @@
+div div ul li{
+    color: red;
+    text-indent: 1em;
+    padding: 0px 20px;
+    white-space: nowrap;
+    display: block;
+    float: left;
+}
+
+table {
+    width: 100%; /* Ширина таблицы */
+    background: white; /* Цвет фона таблицы */
+    color: white; /* Цвет текста */
+    border-spacing: 1px; /* Расстояние между ячейками */
+}
+
+td, th {
+    background: maroon; /* Цвет фона ячеек */
+    padding: 5px; /* Поля вокруг текста */
+}
+td {
+    padding-left: 0.5%; /* Поля вокруг текста */
+}
+td a {
+    display:block; /* Поля вокруг текста */
+    color: white; /* Цвет текста */
+}
+}

@@ -20,7 +20,7 @@ count1 = 1
 count = -1
 flag =0; cnt1=[];cnt=0;cnt3=0;error_page=0
 URL = 'https://auto.exist.ru/otzyvy?page=1'
-while (count1 < 560):
+while (count1 < 3):
     print(URL)
     page = requests.get(URL)
     # print(page.status_code)
@@ -103,6 +103,7 @@ head_myData = [["auto","year of manufacture", "date comment", 'comment', 'positi
 myFile = open('example2.csv', 'w', encoding='utf-32', newline='')
 # csv.register_dialect('my_dialect',delimiter='\t',doublequote=';',escapechar=':',skipinitialspace='True')
 # csv.register_dialect('my_dialect',delimiter = '\t',doublequote=True)
+print(lst)
 with myFile:
     # for data in a:
     # print(data)
