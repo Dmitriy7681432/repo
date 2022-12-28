@@ -67,7 +67,7 @@ except lite.Error as e:
 # Редактирование данных (UPDATE and WHERE)
 # with connect:
 #     cur = connect.cursor()
-#     uPrice = 100
+#     uPrice = 200
 #     uId = 2
 #     cur.execute("UPDATE cars SET price=? WHERE id>?",(uPrice,uId))
 #     print(f"Number of rows updated: {cur.rowcount}")
@@ -80,14 +80,15 @@ except lite.Error as e:
 #     cur.execute(f"DELETE FROM cars WHERE id ={uId}")
 #     print(f"Number of rows updated: {cur.rowcount}")
 
-# with connect:
-#     cur = connect.cursor()
-#     uId = 5
-#     cars = 'cars'
-#     rowsQuery = f"SELECT Count() FROM cars WHERE id > {uId}"
-#     cur.execute(rowsQuery)
-#     number0fRows = cur.fetchone()[0]
-#     print(number0fRows)
+# Подсчет рядов с определенными условиями (Count)
+with connect:
+    cur = connect.cursor()
+    uId = 5
+    cars = 'cars'
+    rowsQuery = f"SELECT Count() FROM cars WHERE id > {uId}"
+    cur.execute(rowsQuery)
+    number0fRows = cur.fetchone()[0]
+    print(number0fRows)
 
 #Сортировка (ORDER By)
 
