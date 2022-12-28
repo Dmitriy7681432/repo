@@ -10,12 +10,15 @@
     <title>Вакансии</title>
 </head>
 <body>
+    {{vacancy_lst1}}
     <div class="container mt-5">
-        {% for el in vacancy_lst %}
+        {% for el in vacancy_lst1 %}
+        {% for elem in el %}
         <div class="alert alert-info">
-            <p>{{ el }}</p>
+            <p>{{ elem }}</p>
         </div>
     </div>
+    {% endfor %}
     {% endfor %}
 
 </body>

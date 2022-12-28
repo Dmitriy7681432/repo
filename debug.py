@@ -8,3 +8,4 @@ for i in c:
 print(d)
 for i in d:
     print(i)
+print([b])
