@@ -298,13 +298,13 @@
 				</SES150>
 			</products>
 		</parameter>
-		<parameter name="Наработка станции СЭП-30М" type="Вычисляемый" designation="STATION_MOTOHOURS" size="4 Байта" datatype="Целочисленный" common_id="2" ctype="int">
+		<parameter name="Наработка изделия" type="Вычисляемый" designation="STATION_MOTOHOURS" size="4 Байта" datatype="Целочисленный" common_id="2" ctype="int">
 			<comment>Наработка станции = время включенного оперативного питания. Сохраняем с тактом 10 минут.</comment>
 			<products>
 				<SVEP30M cb="BU_EA"/>
 				<TOR-ARCTICA cb="BU_EA"/>
 				<SEP30M cb="BU_SEP"/>
-				<SES200M cb="BU_50"/>
+				<SES200M cb="BU_50" hidden="true"/>
 				<SES150 cb="BU_SES"/>
 			</products>
 		</parameter>
@@ -312,7 +312,7 @@
 			<comment>Режим нейтрали сетевого ввода: 0 - глухозаземленная, 1 - изолированная.</comment>
 			<products>
 				<SVEP30M cb="BU_EA"/>
-				<SES200M cb="BU_50"/>
+				<SES200M cb="BU_50" hidden="true"/>
 				<SES150 cb="BU_SES"/>
 			</products>
 		</parameter>
@@ -338,7 +338,7 @@
 			<products>
 				<SVEP30M cb="BU_EA"/>
 				<SEP30M cb="BU_SEP"/>
-				<SES200M cb="BU_50"/>
+				<SES200M cb="BU_50" hidden="true"/>
 				<SES150 cb="BU_SES"/>
 			</products>
 		</parameter>
@@ -363,7 +363,7 @@
 			<comment>Формат дистанционного управления: 0 - параллельный СЭП-30М; 1 - параллельный СЭС-200М; 
 			128 - последовательный по UDP СЭП-30М; 129 - последовательный по UDP СЭС-200М. Прочие значения зарезервированы.</comment>
 			<products>
-				<SES200M cb="BU_SES"/>
+				<SES200M cb="BU_SES" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Состояние ЭА источника" type="Вычисляемый" designation="EL_DEV_STATE" size="4 байта " datatype="Целочисленный" common_id="52">
@@ -375,8 +375,7 @@
 			<products>
 				<SEP30M cb="BU_SEP"/>
 				<SES200M cb="BU_50"/>
-				<SES200M cb="BU_SES"/>
-				<SES150 cb="BU_SES"/>
+				<SES200M cb="BU_SES" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Аварии электростанции" type="Сводный" designation="EVENTS_PS" size="4 байта " datatype="Целочисленный">
@@ -428,7 +427,7 @@
 				<SEP30M cb="BU_400" hidden="true">
 					<channel>CAN1</channel>
 				</SEP30M>
-				<SES200M cb="BU_50">
+				<SES200M cb="BU_50" hidden="true">
 					<channel>CAN1</channel>
 				</SES200M>
 			</products>
@@ -436,7 +435,7 @@
 		<parameter name="Пожар" type="Внешний" designation="FIRE_EXT2" size="1 бит" datatype="Логический" ctype="int">
 			<comment />
 			<products>
-				<SES200M cb="BU_400">
+				<SES200M cb="BU_400" hidden="true">
 					<channel>CAN1</channel>
 				</SES200M>
 			</products>
@@ -466,7 +465,7 @@
 				<SEP30M cb="BU_SEP"/>
 				<SES200M cb="BU_400"/>
 				<SES200M cb="BU_SES"/>
-				<SES200M cb="BU_50"/>
+				<SES200M cb="BU_50" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Режим управления станцией СЭП30М внешний" type="Внешний" designation="STATION_CONTROL_MODE_EXT" size="32 бита" datatype="Целочисленный" ctype="int">
@@ -477,7 +476,7 @@
         <parameter name="Аварии блока" type="Сводный" designation="EVENTS_BLOCK" size="4 байта " datatype="Целочисленный"	common_id="51">
 			<comment> Пока использую для BU_SES </comment>
 			<products>
-				<SES200M cb="BU_SES">
+				<SES200M cb="BU_SES" hidden="true">
 					<field shift="0" size="1" join="EA301" 	    description="Пожар"/>
 					<field shift="1" size="1" join="EA350" 	    description="Отказ НЗТ"/>
 					<field shift="2" size="1" join="EP006" 	    description="Отказ контактора НЗТ"/>
@@ -505,17 +504,17 @@
 					<field shift="22" size="1" join="EP369" 	description=""/>
 					<field shift="23" size="1" join="EA370" 	description=""/>
 					
-					<field shift="24" size="1" join="EP370" 	description=""/>
+					<field shift="24" size="1" join="" 	description=""/>
 					<field shift="25" size="1" join="EA371" 	description=""/>
-					<field shift="26" size="1" join="EP371" 	description=""/>
+					<field shift="26" size="1" join="" 	description=""/>
 					<field shift="27" size="1" join="EA372" 	description=""/>
 					<field shift="28" size="1" join="EP372"		description=""/>
 					<field shift="29" size="1" join="EA601" 	description="КЗ(отключен)автомат защиты вентилятора"/>
 					<field shift="30" size="1" join="EP602" 	description="Отключен автомат защиты вентилятора"/>
 					<field shift="31" size="1" join="EA352" 	description="Обрыв датчика температуры воздуха"/>
 				</SES200M>
-				<SES200M cb="BU_50"/>
-				<SES200M cb="BU_400"/>
+				<SES200M cb="BU_50" hidden="true"/>
+				<SES200M cb="BU_400" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Запрет ручного управления" type="Команда" designation="PROHIBIT_MANUAL" size="1 бит" datatype="Логический">
@@ -528,7 +527,7 @@
 		</parameter>
     	<parameter name="Сырое значение корректора напряжения ЭА" type="Вычисляемый" designation="CORRECTOR_VALUE" size="32 бита" datatype="Целочисленный" ctype="int">
 			<products>				
-				<SES200M cb="BU_50"/>
+				<SES200M cb="BU_50" hidden="true"/>
 			</products>
 		</parameter>
         <!-- События -->
@@ -585,7 +584,7 @@
 				<SES200M cb="BU_400"/>
 			</products>
 		</event>
-        <event name="Предупреждение: низкое напряжение АКБ" designation="EP323" size="1 бит" datatype="Логический">
+        <event name="Пониженное напряжение АКБ" designation="EP323" size="1 бит" datatype="Логический">
 			<comment />
 			<products>
 				<SES200M cb="BU_SES"/>
@@ -740,7 +739,7 @@
 				<SES150 cb="BU_SES"/>
 			</products>
 		</limit>
-		<limit name="Предупреждение: низкое напряжение АКБ" designation="LIM_U_AB_STARTER_MANUAL" param="U_AB_STARTER" ev="EP323" preset_value="s_239" preset_time="s_240">
+		<limit name="Предупреждение: низкое напряжение АКБ" designation="LIM_U_AB_STARTER_MANUAL" param="U_AB_STARTER" ev="EP323" preset_value="s_448" preset_time="s_240">
 			<products>
 				<SES200M cb="BU_SES"/>
 			</products>
@@ -760,6 +759,11 @@
 				<SES200M cb="BU_SES"/>
 			</products>
 		</limit>	
+        <limit name="Не cработало РБП" designation="LIM_RBP_OFF" param="RBP" ev="" preset_value="" preset_time="s_1">
+			<products>
+				<SES200M cb="BU_50"/>
+			</products>
+		</limit>
 	</unit>
 	<!-- Агрегат "Общая шина" -->
 	<unit name="Bus" range="1000">
@@ -959,6 +963,12 @@
 				</SES150>
 			</products>
 		</parameter>
+		<parameter name="Косинус" type="Вычисляемый" designation="B_COS_PHI" size="4 Байта" datatype="Вещественный" common_id="1022" ctype="float">
+			<comment />
+			<products>
+				<SES150 cb="BU_SES"/>
+			</products>
+		</parameter>
 		<!-- Общие донесения -->
 		<parameter name="МКИ включен" type="Дискретный" designation="B_MKI_ON" size="1 бит" datatype="Логический" common_id="1043">
 			<comment />
@@ -991,7 +1001,7 @@
 		<parameter name="Не норма изоляции 50  Гц" type="Внешний" designation="B_MKI_AI_EXT" size="1 бит" datatype="Логический" ctype="int">
 			<comment />
 			<products>
-				<SES200M cb="BU_SES">
+				<SES200M cb="BU_SES" hidden="true">
 					<channel>CAN1</channel>
 				</SES200M>
 			</products>
@@ -1577,6 +1587,7 @@
                     </calibration>
 					<filter type="Скользящее среднее" length="4"/>
 				</SES200M>
+				<SES150 cb="BU_SES"/>
 			</products>
 		</parameter>
 		<parameter name="I фазы B" type="Вычисляемый" designation="N_I_B" size="4 Байта" datatype="Вещественный" common_id="2014" ctype="float">
@@ -1593,6 +1604,7 @@
                     </calibration>
 					<filter type="Скользящее среднее" length="4"/>
 				</SES200M>
+				<SES150 cb="BU_SES"/>
 			</products>
 		</parameter>
 		<parameter name="I фазы C" type="Вычисляемый" designation="N_I_C" size="4 Байта" datatype="Вещественный" common_id="2015" ctype="float">
@@ -1609,6 +1621,7 @@
                     </calibration>
 					<filter type="Скользящее среднее" length="4"/>
 				</SES200M>
+				<SES150 cb="BU_SES"/>
 			</products>
 		</parameter>
 		<parameter name="F I фазы А" type="Вычисляемый" designation="N_F_I_A" size="4 Байта" datatype="Вещественный" common_id="2016" ctype="float">
@@ -1714,6 +1727,7 @@
 				<SVEP30M cb="BU_EA"/>
 				<TOR-ARCTICA cb="BU_EA"/>
 				<SEP30M cb="BU_SEP"/>
+				<SES200M cb="BU_50" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Фазировка" type="Вычисляемый" designation="N_PH" size="1 бит" datatype="Логический" common_id="2028" ctype="int">
@@ -1722,7 +1736,7 @@
 				<SVEP30M cb="BU_EA"/>
 				<TOR-ARCTICA cb="BU_EA"/>
 				<SEP30M cb="BU_SEP"/>
-				<SES200M cb="BU_50"/>
+				<SES200M cb="BU_50" hidden="true"/>
 				<SES150 cb="BU_SES"/>
 			</products>
 		</parameter>		
@@ -1873,6 +1887,9 @@
 				<SEP30M cb="BU_SEP">
 					<channel>OUT15 A11:X2:11 - ПРУ - K6.1(2), QF1.2(1) БА1</channel>
 				</SEP30M>
+				<SES150 cb="BU_SES">
+					<channel>OUT4 A10:X1:7 - УР380 11:4 K7(QF1) </channel>
+				</SES150>
 			</products>
 		</parameter>
 		<!-- Общие параметры - углы между фазами -->
@@ -1975,7 +1992,7 @@
 			<comment />
 			<products>				
 				<SEP30M cb="BU_SEP"/>
-				<SES200M cb="BU_50"/>
+				<SES200M cb="BU_50" hidden="true"/>
 				<SES150 cb="BU_SES"/>
 			</products>
 		</parameter>
@@ -2018,7 +2035,7 @@
 					<field shift="30" size="1" join="" description="резерв"/>
 					<field shift="31" size="1" join="" description="резерв"/>
 				</SEP30M>
-				<SES200M cb="BU_50">
+				<SES200M cb="BU_50" hidden="true">
                     <field shift="0" size="1" join="EA200"	description="Напряжение сети выше нормы"/>
 					<field shift="1" size="1" join="EA201"	description="Напряжение сети ниже нормы"/>
 					<field shift="2" size="1" join="EA202"	description="Неверная фазировка, обрыв фаз"/>
@@ -2042,7 +2059,7 @@
 					<field shift="20" size="1" join="EA324" description="КЗ(отключен) автомат  защиты ЭН"/>
 					<field shift="21" size="1" join="EA313" description="Неисправность конактора ЭН масла"/>
 					<field shift="22" size="1" join="EP324" description="Отключен автомат защиты ЭН"/>
-					<field shift="23" size="1" join="" description="резерв"/>
+					<field shift="23" size="1" join="EA217" description="Аварийный перегруз сети по мощности"/>
 					
 					<field shift="24" size="1" join="" description="резерв"/>
 					<field shift="25" size="1" join="" description="резерв"/>
@@ -2053,8 +2070,9 @@
 					<field shift="30" size="1" join="" description="резерв"/>
 					<field shift="31" size="1" join="" description="резерв"/>
                 </SES200M>
-				<SES200M cb="BU_400"/>
-				<SES200M cb="BU_SES"/>
+				<SES200M cb="BU_400" hidden="true"/>
+				<SES200M cb="BU_SES" hidden="true"/>
+				<SES150 cb="BU_SES"/>
 			</products>
 		</parameter>
 		<parameter name="U линейное AB2" type="Измеряемый" designation="N_U_AB2" size="4 Байта" datatype="Вещественный" ctype="float">
@@ -2075,11 +2093,17 @@
 						Вычисляется периодически.</comment>
 			<products>
 				<SEP30M cb="BU_SEP"/>
-				<SES200M cb="BU_50"/>
-				<SES200M cb="BU_SES"/>
+				<SES200M cb="BU_50" hidden="true"/>
+				<SES200M cb="BU_SES" hidden="true"/>
 			</products>
 		</parameter>
-		<!-- События -->
+        <parameter name="Активная мощность сети 1, вычисляемый" type="Вычисляемый" designation="N_P_CALC" size="4 Байта" datatype="Вещественный" ctype="int">
+			<comment />
+			<products>
+				<SES200M cb="BU_50" hidden="true"/>
+			</products>
+		</parameter>
+        <!-- События -->
 		<event name="Напряжение сети 1 выше нормы" designation="EA200" size="1 бит" datatype="Логический" common_id="2065">
 			<comment > Кривенко 18.04.22 Авария теперь входит во все блоки изделия СЭС200М </comment>
 			<products>
@@ -2202,10 +2226,16 @@
 				<SES150 cb="BU_SES"/>
 			</products>
         </event>
-	    <parameter name="U линейное AB сырое значение" type="Вычисляемый" designation="N_U_AB_RAW" size="4 Байта" datatype="Вещественный" common_id="2075" ctype="float">
+	    <event name="Аварийный перегруз сети 1 по мощности" designation="EA217" size="1 бит" datatype="Логический">
+			<comment />
+			<products>			
+				<SES200M cb="BU_50"/>
+			</products>
+        </event>
+        <parameter name="U линейное AB сырое значение" type="Вычисляемый" designation="N_U_AB_RAW" size="4 Байта" datatype="Вещественный" common_id="2075" ctype="float">
             <comment> Сырое  значение линейного напряжения AB. Сырое значение - значение полученное с модуля аналоговых входов  </comment>
 			<products>
-				<SES200M cb="BU_50">
+				<SES200M cb="BU_50" hidden="true">
 				</SES200M>
 			</products>
 		</parameter>
@@ -2532,7 +2562,7 @@
                 <SES200M cb="BU_50"/>
 			</products>
 		</limit>
-		<limit name="Перегруз сети 1 по мощности" designation="LIM_P_N" param="N_P" ev="EP225" preset_value="s_307" preset_time="s_297">
+		<limit name="Перегруз сети 1 по мощности" designation="LIM_P_N" param="N_P_CALC" ev="EP225" preset_value="s_172" preset_time="s_297">
 			<products>
                 <SES200M cb="BU_50"/>
 			</products>
@@ -2555,13 +2585,12 @@
                 <SES150 cb="BU_SES"/>
 			</products>
 		</limit>
-		<limit name="Перегруз сети 1 по мощности" designation="LIM_P_N" param="N_P" ev="EP225" preset_value="s_307" preset_time="s_297">
+		<limit name="Перегруз сети 1 по мощности выше max" designation="LIM_P_N_MAX" param="N_P" ev="EA217" preset_value="s_450" preset_time="s_297">
 			<comment> TODO изменить уставку </comment>
 			<products>
-                <SES150 cb="BU_SES"/>
+                <SES200M cb="BU_50"/>
 			</products>
      	</limit>
-		
     </unit>
 	<!-- Агрегат "Сеть2", он же "ВИП2" -->
 	<unit name="Net2" range="3000">
@@ -2847,21 +2876,21 @@
 			<comment />
 			<products>
 				<SEP30M cb="BU_SEP"/>
-				<SES200M cb="BU_50"/>
+				<SES200M cb="BU_50" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Фазировка" type="Вычисляемый" designation="N2_PH" size="1 бит" datatype="Логический" common_id="3028" ctype="int">
 			<comment />
 			<products>
 				<SEP30M cb="BU_SEP"/>
-				<SES200M cb="BU_50"/>
+				<SES200M cb="BU_50" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Обрыв фазы" type="Вычисляемый" designation="N2_PH_PHASE" size="1 бит" datatype="Логический" common_id="3029" ctype="int">
 			<comment />
 			<products>
 				<SEP30M cb="BU_SEP"/>
-				<SES200M cb="BU_50"/>
+				<SES200M cb="BU_50" hidden="true"/>
 			</products>
 		</parameter>
 		<!-- Общие донесения -->
@@ -3004,7 +3033,7 @@
 					<field shift="30" size="1" join="" description="резерв"/>
 					<field shift="31" size="1" join="" description="резерв"/>
 				</SEP30M>
-				<SES200M cb="BU_50">
+				<SES200M cb="BU_50" hidden="true">
                     <field shift="0" size="1" join="EA200_2" 	description="Напряжение сети выше нормы"/>
 					<field shift="1" size="1" join="EA201_2" 	description="Напряжение сети ниже нормы"/>
 					<field shift="2" size="1" join="EA202_2" 	description="Неверная фазировка, обрыв фаз"/>
@@ -3022,7 +3051,7 @@
 					<field shift="15" size="1" join="" 			description="резерв"/>
 
 					<field shift="16" size="1" join="EP225_2" 	description="Перегруз сети по мощности"/>
-					<field shift="17" size="1" join="" 	description="резерв"/>
+					<field shift="17" size="1" join="EA218" 	description="Аварийный перегруз сети по мощности"/>
 					<field shift="18" size="1" join="" description="резерв"/>
 					<field shift="19" size="1" join="" description="резерв"/>
 					<field shift="20" size="1" join="" description="резерв"/>
@@ -3039,8 +3068,8 @@
 					<field shift="30" size="1" join="" description="резерв"/>
 					<field shift="31" size="1" join="" description="резерв"/>
                 </SES200M>
-				<SES200M cb="BU_400"/>
-				<SES200M cb="BU_SES"/>
+				<SES200M cb="BU_400" hidden="true"/>
+				<SES200M cb="BU_SES" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Состояние источника сети 2" type="Вычисляемый" designation="N2_SOURCE_STATE" size="4 Байта" datatype="Целочисленный" common_id="3065" ctype="int">
@@ -3050,10 +3079,16 @@
 			<products>
                 <SEP30M cb="BU_SEP"/>
 				<SES200M cb="BU_50"/>
-				<SES200M cb="BU_SES"/>
+				<SES200M cb="BU_SES" hidden="true"/>
 			</products>
 		</parameter>
-		<!-- События -->
+        <parameter name="Активная мощность сети 2, вычисляемый" type="Вычисляемый" designation="N2_P_CALC" size="4 Байта" datatype="Вещественный" ctype="int">
+			<comment />
+			<products>
+				<SES200M cb="BU_50" hidden="true"/>
+			</products>
+		</parameter>
+        <!-- События -->
 		<event name="Напряжение сети 2 выше нормы" designation="EA200_2" size="1 бит" datatype="Логический"	common_id="3066">
 			<comment />
 			<products>
@@ -3151,7 +3186,13 @@
 				<SES200M cb="BU_50"/>
 			</products>
 		</event>
-		<!-- Пороги -->
+		<event name="Аварийный перегруз сети 2 по мощности" designation="EA218" size="1 бит" datatype="Логический">
+			<comment />
+			<products>			
+				<SES200M cb="BU_50"/>
+			</products>
+		</event>
+        <!-- Пороги -->
 		<limit name="U фазы A выше нормы" designation="LIM_N2_U_A_HIGH" param="N2_U_A" ev="EA200_2" preset_value="s_76" preset_time="s_78">
 			<products>
 			</products>
@@ -3265,7 +3306,7 @@
 				<SES200M cb="BU_50"/>
 			</products>
 		</limit>
-		<limit name="Перегруз сети 2 по мощности" designation="LIM_P_N2" param="N2_P" ev="EP225_2" preset_value="s_305" preset_time="s_297">
+		<limit name="Перегруз сети 2 по мощности" designation="LIM_P_N2" param="N2_P_CALC" ev="EP225_2" preset_value="s_305" preset_time="s_297">
 			<products>
 				<SEP30M cb="BU_SEP"/>
 				<SES200M cb="BU_50"/>
@@ -3313,7 +3354,12 @@
 				<SES200M cb="BU_50"/>
             </products>
 		</limit>
-	</unit>
+	<limit name="Перегруз сети 2 по мощности выше max" designation="LIM_P_N2_MAX" param="N_P2" ev="EA218" preset_value="s_450" preset_time="s_297">
+			<products>
+                <SES200M cb="BU_50"/>
+			</products>
+     	</limit>
+    </unit>
 	<!-- Агрегат "Электроагрегат" -->
 	<unit name="EA" range="5000">
 		<!-- Общие параметры -->
@@ -3477,8 +3523,8 @@
 				<SES150 cb="BU_SES">
 					<channel measuring_instrument="mav380">УР380 6:3,4 - IN2 A5:X1:3,4</channel>
 					<calibration type="Линейная">
-					<k IND ="k" value ="0.074409"    type 	="float"/>
-					<k IND ="b" value ="-0.037208"   type 	="float"/>
+					<k IND ="k" value ="0.1"      type 	="float"/>
+					<k IND ="b" value ="0.0"      type 	="float"/>
 					</calibration>
 					<filter type="Скользящее среднее" length="4"/>
 				</SES150>
@@ -3515,8 +3561,8 @@
 				<SES150 cb="BU_SES">
 					<channel measuring_instrument="mav380">УР380 6:3,4 - IN2 A5:X1:3,4</channel>
 					<calibration type="Линейная">
-					<k IND ="k" value ="0.074409"    type 	="float"/>
-					<k IND ="b" value ="-0.037208"   type 	="float"/>
+					<k IND ="k" value ="0.1"      type 	="float"/>
+					<k IND ="b" value ="0.0"      type 	="float"/>
 					</calibration>
 					<filter type="Скользящее среднее" length="4"/>
 				</SES150>
@@ -3553,8 +3599,8 @@
 				<SES150 cb="BU_SES">
 					<channel measuring_instrument="mav380">УР380 6:3,4 - IN2 A5:X1:3,4</channel>
 					<calibration type="Линейная">
-					<k IND ="k" value ="0.074409"    type 	="float"/>
-					<k IND ="b" value ="-0.037208"   type 	="float"/>
+					<k IND ="k" value ="0.1"      type 	="float"/>
+					<k IND ="b" value ="0.0"      type 	="float"/>
 					</calibration>
 					<filter type="Скользящее среднее" length="4"/>
 				</SES150>
@@ -3628,6 +3674,7 @@
                     </calibration>
 					<filter type="Скользящее среднее" length="4"/>
 				</SES200M>
+				<SES150 cb="BU_SES"/>
 			</products>
 		</parameter>
 		<parameter name="I фазы B" type="Вычисляемый" designation="EA_I_B" size="4 Байта" datatype="Вещественный" common_id="5014" ctype="float">
@@ -3644,6 +3691,7 @@
                     </calibration>
 					<filter type="Скользящее среднее" length="4"/>
 				</SES200M>
+				<SES150 cb="BU_SES"/>
 			</products>
 		</parameter>
 		<parameter name="I фазы C" type="Вычисляемый" designation="EA_I_C" size="4 Байта" datatype="Вещественный" common_id="5015" ctype="float">
@@ -3660,6 +3708,7 @@
                     </calibration>
 					<filter type="Скользящее среднее" length="4"/>
 				</SES200M>
+				<SES150 cb="BU_SES"/>
 			</products>
 		</parameter>
 		<parameter name="F I фазы А" type="Вычисляемый" designation="EA_F_I_A" size="4 Байта" datatype="Вещественный" common_id="5016" ctype="float">
@@ -3733,6 +3782,7 @@
 				<TOR-ARCTICA cb="BU_EA"/>
 				<SEP30M cb="BU_SEP"/>
 				<SES200M cb="BU_50"/>
+				<SES150 cb="BU_SES"/>
 			</products>
 		</parameter>
 		<parameter name="Реактивная мощность" type="Вычисляемый" designation="EA_Q" size="4 Байта" datatype="Вещественный" common_id="5024" ctype="float">
@@ -3773,8 +3823,7 @@
 				<SVEP30M cb="BU_EA"/>
 				<TOR-ARCTICA cb="BU_EA"/>
 				<SEP30M cb="BU_SEP"/>
-				<SES200M cb="BU_50"/>
-				<SES150 cb="BU_SES"/>
+				<SES200M cb="BU_50" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="t охлаждающей жидкости" type="Измеряемый" designation="EA_t_COOL" size="4 Байта" datatype="Вещественный" common_id="5029" ctype="float">
@@ -3805,7 +3854,7 @@
 				</SES200M>
 				<SES200M cb="BU_SES"/>
 				<SES150 cb="BU_SES">
-					<channel measuring_instrument="mav420">ЭА 1:4,5 - AN8 A4:X2:7,8</channel>
+					<channel measuring_instrument="mav420">ЭА 1:4,5 - AN7 A4:X2:7,8</channel>
                     <calibration type="Линейная">
 					<k IND ="k" value ="0.25696"       type 	="float"/>
 					<k IND ="b" value ="-258.458"      type 	="float"/>
@@ -3879,11 +3928,11 @@
 				<SVEP30M cb="BU_EA"/>
 				<TOR-ARCTICA cb="BU_EA"/>
 				<SEP30M cb="BU_SEP"/>
-				<SES200M cb="BU_50"/>
+				<SES200M cb="BU_50" hidden="true"/>
 				<SES150 cb="BU_SES"/>
 			</products>
 		</parameter>
-		<parameter name="Скорость схождения фаз " type="Вычисляемый" designation="SPEED_PHASE" size="4 Байта" datatype="Вещественный">
+		<parameter name="Скорость схождения фаз" type="Вычисляемый" designation="SPEED_PHASE" size="4 Байта" datatype="Вещественный">
 			<comment>Скорость схождения фаз между двумя вычислениями</comment> 
 			<products>
 				<TOR-ARCTICA cb="BU_EA">
@@ -3927,7 +3976,7 @@
 			<products>
 				<TOR-ARCTICA cb="BU_EA"/>
 				<SEP30M cb="BU_SEP"/>
-				<SES200M cb="BU_50"/>
+				<SES200M cb="BU_50" hidden="true"/>
 				<SES150 cb="BU_SES"/>
 			</products>
 		</parameter>
@@ -3937,7 +3986,13 @@
 				<TOR-ARCTICA cb="BU_EA"/>
 			</products>
 		</parameter>
-		<!-- Общие донесения -->
+        <parameter name="Активная мощность, вычисляемый" type="Вычисляемый" designation="EA_P_CALC" size="4 Байта" datatype="Вещественный" ctype="int">
+			<comment />
+			<products>
+				<SES200M cb="BU_50" hidden="true"/>
+			</products>
+		</parameter>
+        <!-- Общие донесения -->
 		<parameter name="Контактор ЭА" type="Дискретный" designation="EA_CONT" size="1 бит" datatype="Логический" common_id="5041">
 			<comment />
 			<products>
@@ -4064,7 +4119,31 @@
 				<TOR-ARCTICA cb="BU_EA"/>
 			</products>
 		</parameter>
-		<!-- Общие команды -->
+        <parameter name="Наработка ЭА до ТО" type="Вычисляемый" designation="EA_MOTOHOURS_TO" size="4 Байта" datatype="Целочисленный" ctype="int">
+			<comment />
+			<products>
+				<SES200M cb="BU_50" hidden="true"/>
+			</products>
+		</parameter>
+        <parameter name="Истекло время наработки ЭА до ТО" type="Внешний" designation="EA_MOTOHOURS_TO_END" size="4 Байта" datatype="Целочисленный" ctype="int">
+			<comment />
+			<products>
+				<SES200M cb="BU_50" hidden="true"/>
+			</products>
+		</parameter>
+        <parameter name="Количество произведенного ТО" type="Внешний" designation="EA_MOTOHOURS_TO_COUNT" size="4 Байта" datatype="Целочисленный" ctype="int">
+			<comment />
+			<products>
+				<SES200M cb="BU_50" hidden="true"/>
+			</products>
+		</parameter>
+        <parameter name="Наработка ЭА до ТО, в часах" type="Вычисляемый" designation="EA_HOURS_TO" size="4 Байта" datatype="Целочисленный" ctype="int">
+			<comment />
+			<products>
+				<SES200M cb="BU_50" hidden="true"/>
+			</products>
+		</parameter>
+        <!-- Общие команды -->
 		<parameter name="Контактор ЭА" type="Команда" designation="CONT_EA" size="1 бит" datatype="Логический" common_id="5051">
 			<comment />
 			<products>
@@ -4278,7 +4357,7 @@
 				<SVEP30M cb="BU_EA"/>
 				<TOR-ARCTICA cb="BU_EA"/>
 				<SEP30M cb="BU_SEP"/>
-				<SES200M cb="BU_50"/>
+				<SES200M cb="BU_50" hidden="true"/>
 				<SES150 cb="BU_SES"/>
 			</products>
 		</parameter>
@@ -4347,7 +4426,7 @@
 			<comment />
 			<products>
 				<SEP30M cb="BU_SEP"/>
-				<SES200M cb="BU_50"/>
+				<SES200M cb="BU_50" hidden="true"/>
 				<SES150 cb="BU_SES"/>
 			</products>		
 		</parameter>
@@ -4388,6 +4467,7 @@
 					<channel>K7 ПРУ - IN11 A9:X1:21</channel>
 				</SEP30M>
                 <SES200M cb="BU_50"/>
+				<SES150 cb="BU_SES"/>
 			</products>
 		</parameter>
 		<parameter name="Температура ОЖ аварийная" type="Дискретный" designation="T_COOL_ALERT" size="1 бит" datatype="Логический">
@@ -4499,7 +4579,7 @@
 		<parameter name="U корректора" type="Вычисляемый" designation="U_CORR_EA" size="4 Байта" datatype="Вещественный">
 			<comment>Значение этого параметра записывается в ЦАП модуля 4-20.</comment>
 			<products>
-				<SES200M cb="BU_50">
+				<SES200M cb="BU_50" hidden="true">
 					<channel>OUT1 A3:X3:1,2 - R1 БА ЭА</channel>
 				</SES200M>
 			</products>
@@ -4520,7 +4600,13 @@
 				</SES200M>
 			</products>
 		</parameter>
-		<!-- События -->
+        <parameter name="Разнос по трем фазам" type="Вычисляемый" designation="EA_F_ABC_PHASE" size="4 байта" datatype="Целочисленный">
+			<comment></comment>
+			<products>
+				<SES200M cb="BU_50" hidden="true"/>
+			</products>
+		</parameter>
+       <!-- События -->
 		<event name="Неудавшийся пуск" designation="EA000" size="1 бит" datatype="Логический"				common_id="5064">
 			<comment> Прошло три попытки запуска дизеля. Все попытки неудачные.
 			</comment>
@@ -4693,7 +4779,6 @@
 				<SVEP30M cb="BU_EA"/>
 				<TOR-ARCTICA cb="BU_EA"/>
 				<SEP30M cb="BU_SEP"/>
-				<SES200M cb="BU_50"/>
 				<SES150 cb="BU_SES"/>
 			</products>
 		</event>
@@ -4830,6 +4915,12 @@
 				<SES150 cb="BU_SES"/>
 			</products>
 		</event>
+        <event name="Аварийный перегруз по мощности" designation="EA109" size="1 бит" datatype="Логический">
+			<comment />
+			<products>			
+				<SES200M cb="BU_50"/>
+			</products>
+		</event>
         <!-- Пороги -->
 		<limit name="U фазы A выше нормы" designation="LIM_EA_U_A_HIGH" param="EA_U_A" ev="EA100" preset_value="s_40" preset_time="s_45">
 			<products>
@@ -4918,6 +5009,11 @@
 				<TOR-ARCTICA cb="BU_EA"/>
 				<SEP30M cb="BU_SEP"/>
 				<SES200M cb="BU_50"/>
+				<SES150 cb="BU_SES"/>
+			</products>
+		</limit>
+		<limit name="Низкое давление масла" designation="LIM_EA_P_OIL_MIN_SLOW" param="EA_P_OIL" ev="EA001" preset_value="s_43" preset_time="s_447">
+			<products>
 				<SES150 cb="BU_SES"/>
 			</products>
 		</limit>
@@ -5120,7 +5216,7 @@
 				<SES150 cb="BU_SES"/>
 			</products>
 		</limit>
-		<limit name="Перегруз по мощности ЭА" designation="LIM_P_EA" param="EA_P" ev="EP109" preset_value="s_296" preset_time="s_297">
+		<limit name="Перегруз по мощности ЭА" designation="LIM_P_EA" param="EA_P_CALC" ev="EP109" preset_value="s_296" preset_time="s_297">
 			<products>
 				<SEP30M cb="BU_SEP"/>				
 				<SES200M cb="BU_50"/>
@@ -5137,7 +5233,17 @@
 				<SEP30M cb="BU_SEP"/>				
 			</products>
 		</limit>
-		<!-- Пороги 400 Гц -->
+		<limit name="Требование ТО" designation="LIM_EA_MOTOHOURS_TO_END" param="EA_MOTOHOURS_TO_END" ev="EP008" preset_value="s_172" preset_time="s_2_2">
+			<products>
+				<SES200M cb="BU_50"/>
+			</products>
+		</limit>
+		<limit name="Перегруз по мощности ЭА выше max" designation="LIM_P_EA_MAX" param="EA_P" ev="EA109" preset_value="s_307" preset_time="s_297">
+			<products>
+				<SES200M cb="BU_50"/>
+			</products>
+		</limit>
+        <!-- Пороги 400 Гц -->
 		<limit name="U фазы A выше нормы" designation="LIM_EA_U_A_HIGH_400" param="EA_U_A" ev="EA100" preset_value="s_123" preset_time="s_45">
 			<products>
 				<TOR-ARCTICA cb="BU_EA"/>
@@ -5315,6 +5421,11 @@
 		<limit name="Авария от БРЗУ" designation="LIM_EA_BRZU_ALARM" param="EA_BRZU_ALARM" ev="EP010" preset_value="s_237" preset_time="s_238">
 			<products>
 				<TOR-ARCTICA cb="BU_EA"/>
+			</products>
+		</limit>
+        <limit name="Сброс аварии Температура ОЖ ниже нормы" designation="LIM_T_LIQ_HIGH_400_RESET" param="EA_t_COOL" ev="" preset_value="s_14" preset_time="s_47">
+			<products>				
+				<SES200M cb="BU_50"/>
 			</products>
 		</limit>
 	</unit>
@@ -7092,13 +7203,13 @@
 			<products>
 				<SVEP30M cb="BU_SVEP"/>
 				<SEP30M cb="BU_400"/>
-				<SES200M cb="BU_50"/>
+				<SES200M cb="BU_50" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Метка времени" type="Вычисляемый" designation="TIME_STAMP3" size="4 Байта" datatype="Целочисленный" common_id="12003" ctype="int">
 			<comment></comment>
 			<products>
-				<SES200M cb="BU_400"/>
+				<SES200M cb="BU_400" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Команды оператора" type="Внешний" designation="OPERATOR_COMMAND" size="1 Байт" datatype="Целочисленный" common_id="12011" ctype="int">
@@ -7114,13 +7225,13 @@
 				<SEP30M cb="BU_SEP">
 					<channel>CAN1</channel>
 				</SEP30M>
-				<SES200M cb="BU_SES">
+				<SES200M cb="BU_SES" hidden="true">
 					<channel>CAN1</channel>
 				</SES200M>
-				<SES200M cb="BU_50">
+				<SES200M cb="BU_50" hidden="true">
 					<channel>CAN1</channel>
 				</SES200M>
-				<SES200M cb="BU_400">
+				<SES200M cb="BU_400" hidden="true">
 					<channel>CAN1</channel>
 				</SES200M>
 				<SES150 cb="BU_SES">
@@ -7132,18 +7243,18 @@
 			<comment>Параметр для команд источником которых является последовательный интерфейс Ethernet. Кривенко 30.03.2022.
 			Пока только для станции СЭС200М</comment>
 			<products>
-				<SES200M cb="BU_SES"></SES200M>
-				<SES200M cb="BU_50"></SES200M>
-				<SES200M cb="BU_400"></SES200M>
+				<SES200M cb="BU_SES" hidden="true"></SES200M>
+				<SES200M cb="BU_50" hidden="true"></SES200M>
+				<SES200M cb="BU_400" hidden="true"></SES200M>
 			</products>
 		</parameter>
 		<parameter name="Команды оператора" type="Внешний" designation="PARALLEL_COMMAND" size="1 Байт" datatype="Целочисленный" common_id="120112" ctype="int">
 			<comment>Параметр для команд источником которых является параллельный интерфейс. Кривенко 30.03.2022.
 			Пока только для станции СЭС200М. Параллельный интерфейс приходит на БУ СЭС.</comment>
 			<products>
-				<SES200M cb="BU_SES"></SES200M>
-				<SES200M cb="BU_50"></SES200M>
-				<SES200M cb="BU_400"></SES200M>
+				<SES200M cb="BU_SES" hidden="true"></SES200M>
+				<SES200M cb="BU_50" hidden="true"></SES200M>
+				<SES200M cb="BU_400" hidden="true"></SES200M>
 			</products>
 		</parameter>
 		<parameter name="Команды оператора" type="Внешний" designation="OPERATOR_COMMAND2" size="1 Байт" datatype="Целочисленный" common_id="12012" ctype="int">
@@ -7161,9 +7272,10 @@
 		<parameter name="Внешняя команда" type="Внешний" designation="EXTERNAL_COMMAND" size="4 Байта" datatype="Целочисленный" common_id="12013" ctype="int">
 			<comment>Команда используется для отладки. Формата пока нет. 20.05.22 Казанцев</comment>
 			<products>
-				<SES200M cb="BU_SES"></SES200M>
-				<SES200M cb="BU_50"></SES200M>
-				<SES200M cb="BU_400"></SES200M>
+				<SES200M cb="BU_SES" hidden="true"></SES200M>
+				<SES200M cb="BU_50" hidden="true"></SES200M>
+				<SES200M cb="BU_400" hidden="true"></SES200M>
+				<SES150 cb="BU_SES"></SES150>
 			</products>
 		</parameter>
 		<parameter name="Адрес уставок в ОЗУ" type="Вычисляемый" designation="ADDR_PRESET_RAM" size="4 Байта" datatype="Целочисленный" common_id="12021" ctype="int">
@@ -7173,7 +7285,7 @@
 				<SVEP30M cb="BU_EA"/>
 				<TOR-ARCTICA cb="BU_EA"/>
 				<SEP30M cb="BU_SEP"/>
-				<SES200M cb="BU_SES"/>
+				<SES200M cb="BU_SES" hidden="true"/>
 				<SES150 cb="BU_SES"/>
 			</products>
 		</parameter>
@@ -7182,13 +7294,13 @@
 			<products>
 				<SVEP30M cb="BU_SVEP"/>
 				<SEP30M cb="BU_400"/>
-				<SES200M cb="BU_50"/>
+				<SES200M cb="BU_50" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Адрес уставок в ОЗУ 3" type="Вычисляемый" designation="ADDR_PRESET_RAM3" size="4 Байта" datatype="Целочисленный" common_id="12023" ctype="int">
 			<comment></comment>
 			<products>
-				<SES200M cb="BU_400"/>
+				<SES200M cb="BU_400" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Адрес уставок в ПЗУ" type="Вычисляемый" designation="ADDR_PRESET_ROM" size="4 Байта" datatype="Целочисленный" common_id="12031" ctype="int">
@@ -7198,7 +7310,7 @@
 				<SVEP30M cb="BU_EA"/>
 				<TOR-ARCTICA cb="BU_EA"/>
 				<SEP30M cb="BU_SEP"/>
-				<SES200M cb="BU_SES"/>
+				<SES200M cb="BU_SES" hidden="true"/>
 				<SES150 cb="BU_SES"/>
 			</products>
 		</parameter>
@@ -7207,13 +7319,13 @@
 			<products>
 				<SVEP30M cb="BU_SVEP"/>
 				<SEP30M cb="BU_400"/>
-				<SES200M cb="BU_50"/>
+				<SES200M cb="BU_50" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Адрес уставок в ПЗУ 3" type="Вычисляемый" designation="ADDR_PRESET_ROM3" size="4 Байта" datatype="Целочисленный" common_id="12033" ctype="int">
 			<comment></comment>
 			<products>
-				<SES200M cb="BU_400"/>
+				<SES200M cb="BU_400" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Адрес калибровок в ОЗУ" type="Вычисляемый" designation="ADDR_CALIBR_RAM" size="4 Байта" datatype="Целочисленный" common_id="12041" ctype="int">
@@ -7223,7 +7335,7 @@
 				<SVEP30M cb="BU_EA"/>
 				<TOR-ARCTICA cb="BU_EA"/>
 				<SEP30M cb="BU_SEP"/>
-				<SES200M cb="BU_SES"/>
+				<SES200M cb="BU_SES" hidden="true"/>
 				<SES150 cb="BU_SES"/>
 			</products>
 		</parameter>
@@ -7232,13 +7344,13 @@
 			<products>
 				<SVEP30M cb="BU_SVEP"/>
 				<SEP30M cb="BU_400"/>
-				<SES200M cb="BU_50"/>
+				<SES200M cb="BU_50" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Адрес калибровок в ОЗУ 3" type="Вычисляемый" designation="ADDR_CALIBR_RAM3" size="4 Байта" datatype="Целочисленный" common_id="12043" ctype="int">
 			<comment></comment>
 			<products>
-				<SES200M cb="BU_400"/>
+				<SES200M cb="BU_400" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Адрес калибровок в ПЗУ" type="Вычисляемый" designation="ADDR_CALIBR_ROM" size="4 Байта" datatype="Целочисленный" common_id="12051" ctype="int">
@@ -7248,7 +7360,7 @@
 				<SVEP30M cb="BU_EA"/>
 				<TOR-ARCTICA cb="BU_EA"/>
 				<SEP30M cb="BU_SEP"/>
-				<SES200M cb="BU_SES"/>
+				<SES200M cb="BU_SES" hidden="true"/>
 				<SES150 cb="BU_SES"/>
 			</products>
 		</parameter>
@@ -7257,13 +7369,13 @@
 			<products>
 				<SVEP30M cb="BU_SVEP"/>
 				<SEP30M cb="BU_400"/>
-				<SES200M cb="BU_50"/>
+				<SES200M cb="BU_50" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Адрес калибровок в ПЗУ 3" type="Вычисляемый" designation="ADDR_CALIBR_ROM3" size="4 Байта" datatype="Целочисленный" common_id="12053" ctype="int">
 			<comment></comment>
 			<products>
-				<SES200M cb="BU_400"/>
+				<SES200M cb="BU_400" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Адрес наработки" type="Вычисляемый" designation="ADDR_MOTOHOURS" size="4 Байта" datatype="Целочисленный" common_id="12061" ctype="int">
@@ -7273,7 +7385,7 @@
 				<SVEP30M cb="BU_EA"/>
 				<TOR-ARCTICA cb="BU_EA"/>
 				<SEP30M cb="BU_SEP"/>
-				<SES200M cb="BU_SES"/>
+				<SES200M cb="BU_SES" hidden="true"/>
 				<SES150 cb="BU_SES"/>
 			</products>
 		</parameter>
@@ -7288,13 +7400,13 @@
 			</comment>
 			<products>				
 				<SEP30M cb="BU_400"/>
-				<SES200M cb="BU_50"/>
+				<SES200M cb="BU_50" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Адрес наработки 3" type="Вычисляемый" designation="ADDR_MOTOHOURS3" size="4 Байта" datatype="Целочисленный" common_id="12064" ctype="int">
 			<comment></comment>
 			<products>				
-				<SES200M cb="BU_400"/>
+				<SES200M cb="BU_400" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Угол между фазами А сети и ЭА" type="Измеряемый" designation="DPHI_N_EA" size="4 Байта" datatype="Целочисленный" common_id="12070" ctype="int">
@@ -7329,7 +7441,7 @@
 			<products>
 				<SVEP30M cb="BU_EA"/>
 				<SEP30M cb="BU_SEP"/>
-				<SES200M cb="BU_SES"/>
+				<SES200M cb="BU_SES" hidden="true"/>
 				<SES150 cb="BU_SES"/>
 			</products>
 		</parameter>
@@ -7338,20 +7450,20 @@
 			<products>
 				<SVEP30M cb="BU_SVEP"/>
 				<SEP30M cb="BU_400"/>
-				<SES200M cb="BU_50"/>
+				<SES200M cb="BU_50" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Версия ПО модуля управления 3" type="Вычисляемый" designation="SW_VERSION3" size="4 Байта" datatype="Целочисленный" common_id="12082" ctype="int">
 			<comment/>
 			<products>
-				<SES200M cb="BU_400"/>
+				<SES200M cb="BU_400" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Адрес фильтров в ОЗУ" type="Вычисляемый" designation="ADDR_FILTR_RAM" size="4 Байта" datatype="Целочисленный" common_id="12091" ctype="int">
 			<comment></comment>
 			<products>
 				<SEP30M cb="BU_SEP"/>
-				<SES200M cb="BU_SES"/>
+				<SES200M cb="BU_SES" hidden="true"/>
 				<SES150 cb="BU_SES"/>
 			</products>
 		</parameter>
@@ -7359,20 +7471,20 @@
 			<comment></comment>
 			<products>
 				<SEP30M cb="BU_400"/>
-				<SES200M cb="BU_50"/>
+				<SES200M cb="BU_50" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Адрес фильтров в ОЗУ 3" type="Вычисляемый" designation="ADDR_FILTR_RAM3" size="4 Байта" datatype="Целочисленный" common_id="12093" ctype="int">
 			<comment></comment>
 			<products>
-				<SES200M cb="BU_400"/>
+				<SES200M cb="BU_400" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Адрес фильтров в ПЗУ" type="Вычисляемый" designation="ADDR_FILTR_ROM" size="4 Байта" datatype="Целочисленный" common_id="12101" ctype="int">
 			<comment></comment>
 			<products>				
 				<SEP30M cb="BU_SEP"/>
-				<SES200M cb="BU_SES"/>
+				<SES200M cb="BU_SES" hidden="true"/>
 				<SES150 cb="BU_SES"/>
 			</products>
 		</parameter>
@@ -7380,13 +7492,13 @@
 			<comment></comment>
 			<products>				
 				<SEP30M cb="BU_400"/>
-				<SES200M cb="BU_50"/>
+				<SES200M cb="BU_50" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Адрес фильтров в ПЗУ 3" type="Вычисляемый" designation="ADDR_FILTR_ROM3" size="4 Байта" datatype="Целочисленный" common_id="12103" ctype="int">
 			<comment></comment>
 			<products>				
-				<SES200M cb="BU_400"/>
+				<SES200M cb="BU_400" hidden="true"/>
 			</products>
 		</parameter>
 		<!-- Параметры -->
@@ -7506,8 +7618,7 @@
 			<products>
 				<SVEP30M cb="BU_EA"/>
 				<SEP30M cb="BU_SEP"/>
-				<SES200M cb="BU_50"/>
-				<SES150 cb="BU_SES"/>
+				<SES200M cb="BU_50" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Аварии сети 1 и БУ ЭА" type="Сводный" designation="EVENTS_NET_BU_EA" size="4 Байта" datatype="Целочисленный" ctype="int">
@@ -7692,12 +7803,12 @@
 					<field shift="30" size="1" join="" 		description="резерв"/>
 					<field shift="31" size="1" join="" 		description="резерв"/>
 				</SEP30M>
-                <SES200M cb="BU_50">
+                <SES200M cb="BU_50" hidden="true">
                     <field shift="0" size="1" join="EA000" 	description="Неудавшийся пуск"/>
 					<field shift="1" size="1" join="EA001" 	description="Давление масла ниже нормы"/>
 					<field shift="2" size="1" join="EA002" 	description="Перегрев охлаждающей жидкости"/>
 					<field shift="3" size="1" join="EA003" 	description="Низкий уровень ОЖ"/>
-					<field shift="4" size="1" join="EP304" 	description="Не норма изоляции МКИ 50 Гц"/>
+					<field shift="4" size="1" join="" 	description=""/>
 					<field shift="5" size="1" join="EA005" 	description="Незавершенный останов"/>
 					<field shift="6" size="1" join="EP007" 	description="Пониженное давление масла"/>
 					<field shift="7" size="1" join="EA007" 	description="Обрыв датчика температуры ОЖ"/>
@@ -7724,13 +7835,50 @@
 					<field shift="25" size="1" join="EP109"	description="Перегруз мощности ЭА"/>
                     <field shift="26" size="1" join="EA326"	description="Контроль вкл/откл контактора МКИ"/>
 					<field shift="27" size="1" join="EA112" description="Перегрев масла двигателя"/>
-					<field shift="28" size="1" join="" 		description="резерв"/>
-					<field shift="29" size="1" join="" 		description="резерв"/>
+					<field shift="28" size="1" join="EP008"	description="Требуется ТО"/>
+					<field shift="29" size="1" join="EA109" 		description="Аварийный перегруз по мощности"/>
 					<field shift="30" size="1" join="" 		description="резерв"/>
 					<field shift="31" size="1" join="" 		description="резерв"/>
                 </SES200M>
-				<SES200M cb="BU_400"/>
-				<SES200M cb="BU_SES"/>
+				<SES200M cb="BU_400" hidden="true"/>
+				<SES200M cb="BU_SES" hidden="true"/>
+				<SES150 cb="BU_SES">
+                    <field shift="0" size="1" join="EA000" 	description="Неудавшийся пуск"/>
+					<field shift="1" size="1" join="EA001" 	description="Давление масла ниже нормы"/>
+					<field shift="2" size="1" join="EA002" 	description="Перегрев охлаждающей жидкости"/>
+					<field shift="3" size="1" join="EA003" 	description="Низкий уровень ОЖ"/>
+					<field shift="4" size="1" join="EP304" 	description="Не норма изоляции МКИ 50 Гц"/>
+					<field shift="5" size="1" join="EA005" 	description="Незавершенный останов"/>
+					<field shift="6" size="1" join="EP007" 	description="Пониженное давление масла"/>
+					<field shift="7" size="1" join="EA007" 	description="Обрыв датчика температуры ОЖ"/>
+
+					<field shift="8" size="1" join="EA008" 	description="Обрыв датчика давления масла"/>
+					<field shift="9" size="1" join="EA009" 	description="Частота ЭА выше нормы"/>
+					<field shift="10" size="1" join="EA010" description="Частота ЭА ниже нормы"/>
+					<field shift="11" size="1" join="EP003"	description="Температура ОЖ ниже нормы"/>
+					<field shift="12" size="1" join="EA012" description="Разнос"/>
+					<field shift="13" size="1" join="EA100" description="Напряжение генератора выше нормы"/>
+					<field shift="14" size="1" join="EA101" description="Напряжение генератора ниже нормы"/>
+					<field shift="15" size="1" join="EA102" description="Неисправность контактора генератора"/>
+
+					<field shift="16" size="1" join="EA103" description="Перегруз по току"/>
+					<field shift="17" size="1" join="EA106" description="КЗ генератора или нагрузки"/>
+					<field shift="18" size="1" join="EA108" description="Пропало донесение от КГ во время работы"/>
+					<field shift="19" size="1" join="EA110" description="Перегрев генератора ЭА"/>
+					<field shift="20" size="1" join="EA111" description="Перегрев заднего подшипника ЭА"/>
+					<field shift="21" size="1" join=""	description="Люк выброса 1"/>
+					<field shift="22" size="1" join=""	description="Люк выброса 2"/>
+					<field shift="23" size="1" join="EP001"	description="Воздушный фильтр засорен"/>   
+					
+					<field shift="24" size="1" join="EA107" description="Ошибка синхронизации"/>
+					<field shift="25" size="1" join="EP109"	description="Перегруз мощности ЭА"/>
+                    <field shift="26" size="1" join="EA326"	description="Контроль вкл/откл контактора МКИ"/>
+					<field shift="27" size="1" join="EA112" description="Перегрев масла двигателя"/>
+					<field shift="28" size="1" join="EA113" description="Перегрев переднего подшипника ЭА"/>
+					<field shift="29" size="1" join="" 		description="резерв"/>
+					<field shift="30" size="1" join="" 		description="резерв"/>
+					<field shift="31" size="1" join="" 		description="резерв"/>
+                </SES150>
             </products>
 		</parameter>
 		<parameter name="Состояние" type="Вычисляемый" designation="EVENTS_EA_EXT" size="4 Байта" datatype="Целочисленный" ctype="int">
@@ -7755,7 +7903,7 @@
 		</parameter>
 		<parameter name="Аварии блока" type="Сводный" designation="EVENTS_BLOCK_50" size="4 байта " datatype="Целочисленный" common_id="121032" >
 			<products>
-				<SES200M cb="BU_50">
+				<SES200M cb="BU_50" hidden="true">
 					<field shift="0" size="1" join="EA600" 	description="Отказ контактора вентилятора"/>
 					<field shift="1" size="1" join="EA336" 		description=""/>
 					<field shift="2" size="1" join="EP336" 		description=""/>
@@ -7833,7 +7981,7 @@
 					<field shift="30" size="1" join="" 		description=""/>
 					<field shift="31" size="1" join="" 		description=""/>
 				</SEP30M>
-				<SES200M cb="BU_50">
+				<SES200M cb="BU_50" hidden="true">
 					<field shift="0" size="1" join="EP003" 	description="Температура ОЖ ниже нормы"/>
 					<field shift="1" size="1" join="" 	description=""/>
 					<field shift="2" size="1" join="" 	description=""/>
@@ -7964,7 +8112,7 @@
 					<field shift="30" size="1" join="" description=""/>
 					<field shift="31" size="1" join="" description=""/>
 			    </SEP30M>
-				<SES200M cb="BU_400">
+				<SES200M cb="BU_400" hidden="true">
 					<field shift="0" size="1" join="CONT_FID5" description=""/>
 					<field shift="1" size="1" join="CONT_FID5_1" description=""/>
 					<field shift="2" size="1" join="CONT_FID6" description=""/>
@@ -8050,7 +8198,7 @@
 			<comment>Параметр содержит команды, выдаваемые БУ СЭC.
 			</comment>
 			<products>
-				<SES200M cb="BU_SES">
+				<SES200M cb="BU_SES" hidden="true">
 					<field shift="0" size="1" join="AB_ST_TO_STARTER" description=""/>
 					<field shift="1" size="1" join="AB_SHASSIS_TO_STARTER" description=""/>
 					<field shift="2" size="1" join="CONT_FID22" description=""/>
@@ -8089,11 +8237,11 @@
 				</SES200M>
 			</products>
 		</parameter>
-		<parameter name="Команды БУ СЭC" type="Сводный" designation="COMMANDS2_BU_SES" size="4 Байта" datatype="Целочисленный" ctype="int">
+		<parameter name="Команды БУ СЭC, часть 2" type="Сводный" designation="COMMANDS2_BU_SES" size="4 Байта" datatype="Целочисленный" ctype="int">
 			<comment>Параметр содержит команды, выдаваемые БУ СЭC.
 			</comment>
 			<products>
-				<SES200M cb="BU_SES">
+				<SES200M cb="BU_SES" hidden="true">
 					<field shift="0" size="1" join="ALARM_400HZ_PDU" description=""/>
 					<field shift="1" size="1" join="" description="Резерв"/>
 					<field shift="2" size="1" join="" description="Резерв"/>
@@ -8136,7 +8284,7 @@
 			<comment>Параметр содержит команды, выдаваемые БУ 50.
 			</comment>
 			<products>
-				<SES200M cb="BU_50">
+				<SES200M cb="BU_50" hidden="true">
 					<field shift="0" size="1" join="CONT_NET" description=""/>
 					<field shift="1" size="1" join="CONT_NET2" description=""/>
 					<field shift="2" size="1" join="CONT_EA" description=""/>
@@ -8264,7 +8412,7 @@
 					<field shift="30" size="1" join="SIPT_AUT_EXT" description="Автомат СИПТ"/>
 					<field shift="31" size="1" join="PROTECTIONS_STATE2" description="Состояние защит"/>
 				</SEP30M>
-				<SES200M cb="BU_400">
+				<SES200M cb="BU_400" hidden="true">
 					<field shift="0" size="1" join="FID5_AUT" description=""/>
 					<field shift="1" size="1" join="FID5_AUT_OP" description=""/>
 					<field shift="2" size="1" join="FID5_CONT" description=""/>
@@ -8301,7 +8449,7 @@
 					<field shift="30" size="1" join="FID12_AUT" description=""/>
 					<field shift="31" size="1" join="FID12_AUT_OP" description=""/>
 				</SES200M>
-				<SES200M cb="BU_50"/>
+				<SES200M cb="BU_50" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Донесения2 БУ 400" type="Сводный" designation="DISCRETES2_400" size="4 Байта" datatype="Целочисленный" common_id="12105" ctype="int">			
@@ -8309,7 +8457,7 @@
 					Кривенко. 12.04.2022. Добавил параметр в блок BU_50 изд.SES200M. Но таким параметрам необходимо сразу присваивать common_id.
 			</comment>
 			<products>
-				<SES200M cb="BU_400">
+				<SES200M cb="BU_400" hidden="true">
 					<field shift="0" size="1" join="FID12_CONT" description=""/>
 					<field shift="1" size="1" join="FID13_AUT" description=""/>
 					<field shift="2" size="1" join="FID13_AUT_OP" description=""/>
@@ -8346,7 +8494,7 @@
 					<field shift="30" size="1" join="ON_FC2_CORRECTOR" description=""/>
 					<field shift="31" size="1" join="ALARM_CORRECTOR_FC2" description=""/>
 				</SES200M>
-				<SES200M cb="BU_50"/>
+				<SES200M cb="BU_50" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Донесения 1 БУ СЭП" type="Сводный" designation="DISCRETES1_SEP" size="4 Байта" datatype="Целочисленный" ctype="int">			
@@ -8474,9 +8622,46 @@
 					<field shift="28" size="1" join="ON_C_H_1" description=""/>
 					<field shift="29" size="1" join="O_H_2" description=""/>
 					<field shift="30" size="1" join="C_H_2" description=""/>
-					<field shift="31" size="1" join="ON_O_H_2" description=""/>
+					<field shift="31" size="1" join="ON_O_H_2" description=""/>				
 				</SES200M>
-				<SES200M cb="BU_50"/>
+				<SES200M cb="BU_50" hidden="true"/>
+				<SES150 cb="BU_SES">
+					<field shift="0" size="1" join="N_CONT" description=""/>
+					<field shift="1" size="1" join="EA_CONT" description=""/>
+					<field shift="2" size="1" join="VEA1_CONT" description=""/>
+					<field shift="3" size="1" join="VEA2_CONT" description=""/>
+					<field shift="4" size="1" join="FID1_AUT" description=""/>
+					<field shift="5" size="1" join="FID2_AUT" description=""/>
+					<field shift="6" size="1" join="FID3_AUT" description=""/>
+					<field shift="7" size="1" join="FID4_AUT" description=""/>
+
+					<field shift="8" size="1" join="FID5_AUT" description=""/>
+					<field shift="9" size="1" join="FID6_AUT" description=""/>
+					<field shift="10" size="1" join="" description="здесь будет параметр работа СИПТ"/>
+					<field shift="11" size="1" join="EN_CONT" description=""/>
+					<field shift="12" size="1" join="" description="резерв"/>
+					<field shift="13" size="1" join="" description="резерв"/>
+					<field shift="14" size="1" join="" description="резерв"/>
+					<field shift="15" size="1" join="" description="резерв"/>
+					
+					<field shift="16" size="1" join="" description="резерв"/>
+					<field shift="17" size="1" join="" description="резерв"/>
+					<field shift="18" size="1" join="" description="резерв"/>
+					<field shift="19" size="1" join="" description="резерв"/>
+					<field shift="20" size="1" join="" description="резерв"/>
+					<field shift="21" size="1" join="" description="резерв"/>
+					<field shift="22" size="1" join="" description="резерв"/>
+					<field shift="23" size="1" join="" description="резерв"/>
+					
+					<field shift="24" size="1" join="" description="резерв"/>
+					<field shift="25" size="1" join="" description="резерв"/>
+					<field shift="26" size="1" join="" description="резерв"/>
+					<field shift="27" size="1" join="" description="резерв"/>
+					<field shift="28" size="1" join="" description="резерв"/>
+					<field shift="29" size="1" join="" description="резерв"/>
+					<field shift="30" size="1" join="" description="резерв"/>
+					<field shift="31" size="1" join="" description="резерв"/>
+				</SES150>
 			</products>
 		</parameter>
 		<parameter name="Донесения 2 БУ СЭС" type="Сводный" designation="DISCRETES2_SES" size="4 Байта" datatype="Целочисленный" 	common_id="12107" ctype="int">			
@@ -8520,14 +8705,14 @@
 					<field shift="30" size="1" join="" description=""/>
 					<field shift="31" size="1" join="" description=""/>
 				</SES200M>
-				<SES200M cb="BU_50"/>
+				<SES200M cb="BU_50" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Донесения 1 БУ 50" type="Сводный" designation="DISCRETES1_50" size="4 Байта" datatype="Целочисленный" 		common_id="12108" ctype="int">			
 			<comment>Параметр содержит донесения, поступающие в БУ 50. Параметр отправляется по CAN в пульт местного управления для отображения.
 			</comment>
 			<products>
-				<SES200M cb="BU_50">
+				<SES200M cb="BU_50" hidden="true">
 					<field shift="0" size="1" join="RBP" description=""/>
 					<field shift="1" size="1" join="N_CONT" description=""/>
 					<field shift="2" size="1" join="N2_CONT" description=""/>
@@ -8570,7 +8755,7 @@
 			<comment>Параметр содержит донесения, поступающие в БУ 50.
 			</comment>
 			<products>
-				<SES200M cb="BU_50">
+				<SES200M cb="BU_50" hidden="true">
 					<field shift="0" size="1" join="TRANS2_AUT_OP" description=""/>
 					<field shift="1" size="1" join="VENT_CONT" description=""/>
 					<field shift="2" size="1" join="FID1_AUT" description=""/>
@@ -8600,7 +8785,7 @@
 					
 					<field shift="24" size="1" join="LOW_EXT_FUEL" 		description=""/>
 					<field shift="25" size="1" join="PROTECTIONS_STATE" description=""/>
-					<field shift="26" size="1" join="" description=""/>
+					<field shift="26" size="1" join="EA_MOTOHOURS_TO_END" description=""/>
 					<field shift="27" size="1" join="" description=""/>
 					<field shift="28" size="1" join="" description=""/>
 					<field shift="29" size="1" join="" description=""/>
@@ -8781,7 +8966,7 @@
 			</comment>
 			<products>
 				<SEP30M cb="BU_SEP"/>
-				<SES200M cb="BU_SES"/>
+				<SES200M cb="BU_SES" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Общая наработка двух дизелей" type="Вычисляемый" designation="EA_SA_TIME_ALL" size="4 Байта" datatype="Целочисленный" ctype="int">
@@ -8864,7 +9049,7 @@
 			<products>
 				<TOR-ARCTICA cb="BU_EA"/>
 				<SEP30M cb="BU_SEP"/>
-				<SES200M cb="BU_SES"/>
+				<SES200M cb="BU_SES" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Запрет пуска ИБП при АФК" type="Вычисляемый" designation="AFC_IBP_BLOCK" size="1 бит" datatype="Логический" ctype="int">
@@ -9008,9 +9193,9 @@
 			<products>
 				<SVEP30M cb="BU_EA"/>
 				<SEP30M cb="BU_SEP"/>
-				<SES200M cb="BU_SES"/>
-				<SES200M cb="BU_50"/>
-				<SES200M cb="BU_400"/>
+				<SES200M cb="BU_SES" hidden="true"/>
+				<SES200M cb="BU_50" hidden="true"/>
+				<SES200M cb="BU_400" hidden="true"/>
 				<SES150 cb="BU_SES"/>
 			</products>
 		</parameter>
@@ -9045,6 +9230,7 @@
 			<products>
 				<SEP30M cb="BU_SEP" hidden="true"/>
 				<SES200M cb="BU_50" hidden="true"/>
+				<SES150 cb="BU_SES" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Опрос МАВ А5" type="Вычисляемый" designation="POLLING_MAV_A5_2" size="4 Байта" datatype="Целочисленный" ctype="int">
@@ -9058,6 +9244,7 @@
 			<products>
 				<SEP30M cb="BU_SEP" hidden="true"/>
 				<SES200M cb="BU_50" hidden="true"/>
+				<SES150 cb="BU_SES" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Опрос МАВ А6" type="Вычисляемый" designation="POLLING_MAV_A6_2" size="4 Байта" datatype="Целочисленный" ctype="int">
@@ -9108,7 +9295,7 @@
 		<parameter name="Состояния ПЧ" type="Сводный" designation="FC_STATES2" size="4 Байта" datatype="Целочисленный" ctype="int">
 			<comment>Состояния обоих генераторов ПЧ Необходимо внести изменения</comment>
 			<products>
-				<SES200M cb="BU_400">
+				<SES200M cb="BU_400" hidden="true">
 					<field shift="0" size="8" join="FC1_GEN_STATE" 	description="Состояние генератора ПЧ1"/>
 					<field shift="8" size="8" join="FC2_GEN_STATE" 	description="Состояние генератора ПЧ2"/>
 					<field shift="16" size="1" join="UR220.KM7_1" 	description="Поле _Состояние КМ7 БА1_"/>
@@ -9125,7 +9312,7 @@
 			Т.к. эти переменные отправляются по CAN.
 			</comment>
 			<products>
-				<SES200M cb="BU_SES"/>
+				<SES200M cb="BU_SES" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Адрес структуры режима в ОЗУ" type="Вычисляемый" designation="ADDR_STMODE_RAM2" size="4 Байта" datatype="Целочисленный" common_id="12016" ctype="int">
@@ -9134,7 +9321,7 @@
 			Т.к. эти переменные отправляются по CAN.
 			</comment>
 			<products>
-				<SES200M cb="BU_400"/>
+				<SES200M cb="BU_400" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Адрес структуры режима в ОЗУ" type="Вычисляемый" designation="ADDR_STMODE_RAM3" size="4 Байта" datatype="Целочисленный" common_id="12017" ctype="int">
@@ -9143,7 +9330,7 @@
 			Т.к. эти переменные отправляются по CAN.
 			</comment>
 			<products>
-				<SES200M cb="BU_50"/>
+				<SES200M cb="BU_50" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Адрес структуры режима в ПЗУ" type="Вычисляемый" designation="ADDR_STMODE_FLASH1" size="4 Байта" datatype="Целочисленный" common_id="12018" ctype="int">
@@ -9152,7 +9339,7 @@
 			Т.к. эти переменные отправляются по CAN.
 			</comment>
 			<products>
-				<SES200M cb="BU_SES"/>
+				<SES200M cb="BU_SES" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Адрес структуры режима в ПЗУ" type="Вычисляемый" designation="ADDR_STMODE_FLASH2" size="4 Байта" datatype="Целочисленный" common_id="12019" ctype="int">
@@ -9161,7 +9348,7 @@
 			Т.к. эти переменные отправляются по CAN.
 			</comment>
 			<products>
-				<SES200M cb="BU_400"/>
+				<SES200M cb="BU_400" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Адрес структуры режима в ПЗУ" type="Вычисляемый" designation="ADDR_STMODE_FLASH3" size="4 Байта" datatype="Целочисленный" common_id="12020" ctype="int">
@@ -9170,14 +9357,14 @@
 			Т.к. эти переменные отправляются по CAN.
 			</comment>
 			<products>
-				<SES200M cb="BU_50"/>
+				<SES200M cb="BU_50" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Шапка уставок. CRC32" type="Вычисляемый" designation="PRESET_HEADER_CRC" size="4 Байта" datatype="Целочисленный" common_id="12118" ctype="int">
 			<comment>Параметр добавлен 24.03.2022. Для вывода шапки бинарного файла уставок
 			</comment>
 			<products>
-				<SES200M cb="BU_SES" />
+				<SES200M cb="BU_SES" hidden="true"/>
 				<SES150 cb="BU_SES"/>
 			</products>
 		</parameter>
@@ -9185,7 +9372,7 @@
 			<comment>Параметр добавлен 24.03.2022. Для вывода шапки бинарного файла уставок
 			</comment>
 			<products>
-				<SES200M cb="BU_SES" />
+				<SES200M cb="BU_SES" hidden="true"/>
 				<SES150 cb="BU_SES"/>
 			</products>
 		</parameter>
@@ -9193,7 +9380,7 @@
 			<comment>Параметр добавлен 24.03.2022. Для вывода шапки бинарного файла уставок
 			</comment>
 			<products>
-				<SES200M cb="BU_SES" />
+				<SES200M cb="BU_SES" hidden="true" />
 				<SES150 cb="BU_SES"/>
 			</products>
 		</parameter>
@@ -9201,7 +9388,7 @@
 			<comment>Параметр добавлен 24.03.2022. Для вывода шапки бинарного файла уставок
 			</comment>
 			<products>
-				<SES200M cb="BU_SES" />
+				<SES200M cb="BU_SES" hidden="true" />
 				<SES150 cb="BU_SES"/>
 			</products>
 		</parameter>
@@ -9209,7 +9396,7 @@
 			<comment>Параметр добавлен 24.03.2022. Для вывода шапки бинарного файла уставок
 			</comment>
 			<products>
-				<SES200M cb="BU_SES" />
+				<SES200M cb="BU_SES" hidden="true" />
 				<SES150 cb="BU_SES"/>
 			</products>
 		</parameter>
@@ -9217,7 +9404,7 @@
 			<comment>Параметр добавлен 24.03.2022. Для вывода шапки бинарного файла уставок
 			</comment>
 			<products>
-				<SES200M cb="BU_SES" />
+				<SES200M cb="BU_SES" hidden="true" />
 				<SES150 cb="BU_SES"/>
 			</products>
 		</parameter>
@@ -9225,91 +9412,91 @@
 			<comment>Параметр добавлен 24.03.2022. Для вывода шапки бинарного файла уставок
 			</comment>
 			<products>
-				<SES200M cb="BU_50" />
+				<SES200M cb="BU_50" hidden="true" />
 			</products>
 		</parameter>
 		<parameter name="Шапка уставок. Дата" type="Вычисляемый" designation="PRESET_HEADER_DATE2" size="4 Байта" datatype="Целочисленный" ctype="int">
 			<comment>Параметр добавлен 24.03.2022. Для вывода шапки бинарного файла уставок
 			</comment>
 			<products>
-				<SES200M cb="BU_50" />
+				<SES200M cb="BU_50" hidden="true" />
 			</products>
 		</parameter>
 		<parameter name="Шапка уставок. Время" type="Вычисляемый" designation="PRESET_HEADER_TIME2" size="4 Байта" datatype="Целочисленный" ctype="int">
 			<comment>Параметр добавлен 24.03.2022. Для вывода шапки бинарного файла уставок
 			</comment>
 			<products>
-				<SES200M cb="BU_50" />
+				<SES200M cb="BU_50" hidden="true" />
 			</products>
 		</parameter>
 		<parameter name="Шапка уставок. Git commit" type="Вычисляемый" designation="PRESET_HEADER_GIT_COMMIT2" size="4 Байта" datatype="Целочисленный" ctype="int">
 			<comment>Параметр добавлен 24.03.2022. Для вывода шапки бинарного файла уставок
 			</comment>
 			<products>
-				<SES200M cb="BU_50" />
+				<SES200M cb="BU_50" hidden="true" />
 			</products>
 		</parameter>
 		<parameter name="Шапка уставок. От дисплея?" type="Вычисляемый" designation="PRESET_HEADER_FROM_DISPLAY2" size="4 Байта" datatype="Целочисленный" ctype="int">
 			<comment>Параметр добавлен 24.03.2022. Для вывода шапки бинарного файла уставок
 			</comment>
 			<products>
-				<SES200M cb="BU_50" />
+				<SES200M cb="BU_50" hidden="true" />
 			</products>
 		</parameter>
 		<parameter name="Шапка уставок. Длина данных" type="Вычисляемый" designation="PRESET_HEADER_DATA_LENGTH2" size="4 Байта" datatype="Целочисленный" ctype="int">
 			<comment>Параметр добавлен 24.03.2022. Для вывода шапки бинарного файла уставок
 			</comment>
 			<products>
-				<SES200M cb="BU_50" />
+				<SES200M cb="BU_50" hidden="true" />
 			</products>
 		</parameter>
 		<parameter name="Шапка уставок. CRC32" type="Вычисляемый" designation="PRESET_HEADER_CRC3" size="4 Байта" datatype="Целочисленный" ctype="int">
 			<comment>Параметр добавлен 24.03.2022. Для вывода шапки бинарного файла уставок
 			</comment>
 			<products>
-				<SES200M cb="BU_400" />
+				<SES200M cb="BU_400" hidden="true" />
 			</products>
 		</parameter>
 		<parameter name="Шапка уставок. Дата" type="Вычисляемый" designation="PRESET_HEADER_DATE3" size="4 Байта" datatype="Целочисленный" ctype="int">
 			<comment>Параметр добавлен 24.03.2022. Для вывода шапки бинарного файла уставок
 			</comment>
 			<products>
-				<SES200M cb="BU_400" />
+				<SES200M cb="BU_400" hidden="true" />
 			</products>
 		</parameter>
 		<parameter name="Шапка уставок. Время" type="Вычисляемый" designation="PRESET_HEADER_TIME3" size="4 Байта" datatype="Целочисленный" ctype="int">
 			<comment>Параметр добавлен 24.03.2022. Для вывода шапки бинарного файла уставок
 			</comment>
 			<products>
-				<SES200M cb="BU_400" />
+				<SES200M cb="BU_400" hidden="true" />
 			</products>
 		</parameter>
 		<parameter name="Шапка уставок. Git commit" type="Вычисляемый" designation="PRESET_HEADER_GIT_COMMIT3" size="4 Байта" datatype="Целочисленный" ctype="int">
 			<comment>Параметр добавлен 24.03.2022. Для вывода шапки бинарного файла уставок
 			</comment>
 			<products>
-				<SES200M cb="BU_400" />
+				<SES200M cb="BU_400" hidden="true" />
 			</products>
 		</parameter>
 		<parameter name="Шапка уставок. От дисплея?" type="Вычисляемый" designation="PRESET_HEADER_FROM_DISPLAY3" size="4 Байта" datatype="Целочисленный" ctype="int">
 			<comment>Параметр добавлен 24.03.2022. Для вывода шапки бинарного файла уставок
 			</comment>
 			<products>
-				<SES200M cb="BU_400" />
+				<SES200M cb="BU_400" hidden="true" />
 			</products>
 		</parameter>
 		<parameter name="Шапка уставок. Длина данных" type="Вычисляемый" designation="PRESET_HEADER_DATA_LENGTH3" size="4 Байта" datatype="Целочисленный" ctype="int">
 			<comment>Параметр добавлен 24.03.2022. Для вывода шапки бинарного файла уставок
 			</comment>
 			<products>
-				<SES200M cb="BU_400" />
+				<SES200M cb="BU_400" hidden="true" />
 			</products>
 		</parameter>
 		<parameter name="Шапка калибровок. CRC32" type="Вычисляемый" designation="CALIBRATION_HEADER_CRC" size="4 Байта" datatype="Целочисленный" ctype="int">
 			<comment>Параметр добавлен 28.03.2022. Для вывода шапки бинарного файла калибровок
 			</comment>
 			<products>
-				<SES200M cb="BU_SES" />
+				<SES200M cb="BU_SES" hidden="true" />
 				<SES150 cb="BU_SES"/>
 			</products>
 		</parameter>
@@ -9317,7 +9504,7 @@
 			<comment>Параметр добавлен 28.03.2022. Для вывода шапки бинарного файла калибровок
 			</comment>
 			<products>
-				<SES200M cb="BU_SES" />
+				<SES200M cb="BU_SES" hidden="true" />
 				<SES150 cb="BU_SES"/>
 			</products>
 		</parameter>
@@ -9325,7 +9512,7 @@
 			<comment>Параметр добавлен 28.03.2022. Для вывода шапки бинарного файла калибровок
 			</comment>
 			<products>
-				<SES200M cb="BU_SES" />
+				<SES200M cb="BU_SES" hidden="true" />
 				<SES150 cb="BU_SES"/>
 			</products>
 		</parameter>
@@ -9333,7 +9520,7 @@
 			<comment>Параметр добавлен 28.03.2022. Для вывода шапки бинарного файла калибровок
 			</comment>
 			<products>
-				<SES200M cb="BU_SES" />
+				<SES200M cb="BU_SES" hidden="true" />
 				<SES150 cb="BU_SES"/>
 			</products>
 		</parameter>
@@ -9341,7 +9528,7 @@
 			<comment>Параметр добавлен 28.03.2022. Для вывода шапки бинарного файла калибровок
 			</comment>
 			<products>
-				<SES200M cb="BU_SES" />
+				<SES200M cb="BU_SES" hidden="true" />
 				<SES150 cb="BU_SES"/>
 			</products>
 		</parameter>
@@ -9349,7 +9536,7 @@
 			<comment>Параметр добавлен 28.03.2022. Для вывода шапки бинарного файла калибровок
 			</comment>
 			<products>
-				<SES200M cb="BU_SES" />
+				<SES200M cb="BU_SES" hidden="true" />
 				<SES150 cb="BU_SES"/>
 			</products>
 		</parameter>
@@ -9357,91 +9544,91 @@
 			<comment>Параметр добавлен 28.03.2022. Для вывода шапки бинарного файла калибровок
 			</comment>
 			<products>
-				<SES200M cb="BU_50" />
+				<SES200M cb="BU_50" hidden="true" />
 			</products>
 		</parameter>
 		<parameter name="Шапка калибровок. Дата" type="Вычисляемый" designation="CALIBRATION_HEADER_DATE2" size="4 Байта" datatype="Целочисленный" ctype="int">
 			<comment>Параметр добавлен 28.03.2022. Для вывода шапки бинарного файла калибровок
 			</comment>
 			<products>
-				<SES200M cb="BU_50" />
+				<SES200M cb="BU_50" hidden="true" />
 			</products>
 		</parameter>
 		<parameter name="Шапка калибровок. Время" type="Вычисляемый" designation="CALIBRATION_HEADER_TIME2" size="4 Байта" datatype="Целочисленный" ctype="int">
 			<comment>Параметр добавлен 28.03.2022. Для вывода шапки бинарного файла калибровок
 			</comment>
 			<products>
-				<SES200M cb="BU_50" />
+				<SES200M cb="BU_50" hidden="true" />
 			</products>
 		</parameter>
 		<parameter name="Шапка калибровок. Git commit" type="Вычисляемый" designation="CALIBRATION_HEADER_GIT_COMMIT2" size="4 Байта" datatype="Целочисленный" ctype="int">
 			<comment>Параметр добавлен 28.03.2022. Для вывода шапки бинарного файла калибровок
 			</comment>
 			<products>
-				<SES200M cb="BU_50" />
+				<SES200M cb="BU_50" hidden="true" />
 			</products>
 		</parameter>
 		<parameter name="Шапка калибровок. От дисплея?" type="Вычисляемый" designation="CALIBRATION_HEADER_FROM_DISPLAY2" size="4 Байта" datatype="Целочисленный" ctype="int">
 			<comment>Параметр добавлен 28.03.2022. Для вывода шапки бинарного файла калибровок
 			</comment>
 			<products>
-				<SES200M cb="BU_50" />
+				<SES200M cb="BU_50" hidden="true" />
 			</products>
 		</parameter>
 		<parameter name="Шапка калибровок. Длина данных" type="Вычисляемый" designation="CALIBRATION_HEADER_DATA_LENGTH2" size="4 Байта" datatype="Целочисленный" ctype="int">
 			<comment>Параметр добавлен 28.03.2022. Для вывода шапки бинарного файла калибровок
 			</comment>
 			<products>
-				<SES200M cb="BU_50" />
+				<SES200M cb="BU_50" hidden="true" />
 			</products>
 		</parameter>
 		<parameter name="Шапка калибровок. CRC32" type="Вычисляемый" designation="CALIBRATION_HEADER_CRC3" size="4 Байта" datatype="Целочисленный" ctype="int">
 			<comment>Параметр добавлен 28.03.2022. Для вывода шапки бинарного файла калибровок
 			</comment>
 			<products>
-				<SES200M cb="BU_400" />
+				<SES200M cb="BU_400" hidden="true" />
 			</products>
 		</parameter>
 		<parameter name="Шапка калибровок. Дата" type="Вычисляемый" designation="CALIBRATION_HEADER_DATE3" size="4 Байта" datatype="Целочисленный" ctype="int">
 			<comment>Параметр добавлен 28.03.2022. Для вывода шапки бинарного файла калибровок
 			</comment>
 			<products>
-				<SES200M cb="BU_400" />
+				<SES200M cb="BU_400" hidden="true" />
 			</products>
 		</parameter>
 		<parameter name="Шапка калибровок. Время" type="Вычисляемый" designation="CALIBRATION_HEADER_TIME3" size="4 Байта" datatype="Целочисленный" ctype="int">
 			<comment>Параметр добавлен 28.03.2022. Для вывода шапки бинарного файла калибровок
 			</comment>
 			<products>
-				<SES200M cb="BU_400" />
+				<SES200M cb="BU_400" hidden="true" />
 			</products>
 		</parameter>
 		<parameter name="Шапка калибровок. Git commit" type="Вычисляемый" designation="CALIBRATION_HEADER_GIT_COMMIT3" size="4 Байта" datatype="Целочисленный" ctype="int">
 			<comment>Параметр добавлен 28.03.2022. Для вывода шапки бинарного файла калибровок
 			</comment>
 			<products>
-				<SES200M cb="BU_400" />
+				<SES200M cb="BU_400" hidden="true" />
 			</products>
 		</parameter>
 		<parameter name="Шапка калибровок. От дисплея?" type="Вычисляемый" designation="CALIBRATION_HEADER_FROM_DISPLAY3" size="4 Байта" datatype="Целочисленный" ctype="int">
 			<comment>Параметр добавлен 28.03.2022. Для вывода шапки бинарного файла калибровок
 			</comment>
 			<products>
-				<SES200M cb="BU_400" />
+				<SES200M cb="BU_400" hidden="true" />
 			</products>
 		</parameter>
 		<parameter name="Шапка калибровок. Длина данных" type="Вычисляемый" designation="CALIBRATION_HEADER_DATA_LENGTH3" size="4 Байта" datatype="Целочисленный" ctype="int">
 			<comment>Параметр добавлен 28.03.2022. Для вывода шапки бинарного файла калибровок
 			</comment>
 			<products>
-				<SES200M cb="BU_400" />
+				<SES200M cb="BU_400" hidden="true" />
 			</products>
 		</parameter>
 		<parameter name="Шапка фильтров. CRC32" type="Вычисляемый" designation="FILTER_HEADER_CRC" size="4 Байта" datatype="Целочисленный" ctype="int">
 			<comment>Параметр добавлен 28.03.2022. Для вывода шапки бинарного файла фильтров
 			</comment>
 			<products>
-				<SES200M cb="BU_SES" />
+				<SES200M cb="BU_SES" hidden="true" />
 				<SES150 cb="BU_SES"/>
 			</products>
 		</parameter>
@@ -9449,7 +9636,7 @@
 			<comment>Параметр добавлен 28.03.2022. Для вывода шапки бинарного файла фильтров
 			</comment>
 			<products>
-				<SES200M cb="BU_SES" />
+				<SES200M cb="BU_SES" hidden="true" />
 				<SES150 cb="BU_SES"/>
 			</products>
 		</parameter>
@@ -9457,7 +9644,7 @@
 			<comment>Параметр добавлен 28.03.2022. Для вывода шапки бинарного файла фильтров
 			</comment>
 			<products>
-				<SES200M cb="BU_SES" />
+				<SES200M cb="BU_SES" hidden="true" />
 				<SES150 cb="BU_SES"/>
 			</products>
 		</parameter>
@@ -9465,7 +9652,7 @@
 			<comment>Параметр добавлен 28.03.2022. Для вывода шапки бинарного файла фильтров
 			</comment>
 			<products>
-				<SES200M cb="BU_SES" />
+				<SES200M cb="BU_SES" hidden="true" />
 				<SES150 cb="BU_SES"/>
 			</products>
 		</parameter>
@@ -9473,7 +9660,7 @@
 			<comment>Параметр добавлен 28.03.2022. Для вывода шапки бинарного файла фильтров
 			</comment>
 			<products>
-				<SES200M cb="BU_SES" />
+				<SES200M cb="BU_SES" hidden="true" />
 				<SES150 cb="BU_SES"/>
 			</products>
 		</parameter>
@@ -9481,7 +9668,7 @@
 			<comment>Параметр добавлен 28.03.2022. Для вывода шапки бинарного файла фильтров
 			</comment>
 			<products>
-				<SES200M cb="BU_SES" />
+				<SES200M cb="BU_SES" hidden="true" />
 				<SES150 cb="BU_SES"/>
 			</products>
 		</parameter>
@@ -9489,207 +9676,207 @@
 			<comment>Параметр добавлен 28.03.2022. Для вывода шапки бинарного файла фильтров
 			</comment>
 			<products>
-				<SES200M cb="BU_50" />
+				<SES200M cb="BU_50" hidden="true" />
 			</products>
 		</parameter>
 		<parameter name="Шапка фильтров. Дата" type="Вычисляемый" designation="FILTER_HEADER_DATE2" size="4 Байта" datatype="Целочисленный" ctype="int">
 			<comment>Параметр добавлен 28.03.2022. Для вывода шапки бинарного файла фильтров
 			</comment>
 			<products>
-				<SES200M cb="BU_50" />
+				<SES200M cb="BU_50" hidden="true" />
 			</products>
 		</parameter>
 		<parameter name="Шапка фильтров. Время" type="Вычисляемый" designation="FILTER_HEADER_TIME2" size="4 Байта" datatype="Целочисленный" ctype="int">
 			<comment>Параметр добавлен 28.03.2022. Для вывода шапки бинарного файла фильтров
 			</comment>
 			<products>
-				<SES200M cb="BU_50" />
+				<SES200M cb="BU_50" hidden="true" />
 			</products>
 		</parameter>
 		<parameter name="Шапка фильтров. Git commit" type="Вычисляемый" designation="FILTER_HEADER_GIT_COMMIT2" size="4 Байта" datatype="Целочисленный" ctype="int">
 			<comment>Параметр добавлен 28.03.2022. Для вывода шапки бинарного файла фильтров
 			</comment>
 			<products>
-				<SES200M cb="BU_50" />
+				<SES200M cb="BU_50" hidden="true" />
 			</products>
 		</parameter>
 		<parameter name="Шапка фильтров. От дисплея?" type="Вычисляемый" designation="FILTER_HEADER_FROM_DISPLAY2" size="4 Байта" datatype="Целочисленный" ctype="int">
 			<comment>Параметр добавлен 28.03.2022. Для вывода шапки бинарного файла фильтров
 			</comment>
 			<products>
-				<SES200M cb="BU_50" />
+				<SES200M cb="BU_50" hidden="true" />
 			</products>
 		</parameter>
 		<parameter name="Шапка фильтров. Длина данных" type="Вычисляемый" designation="FILTER_HEADER_DATA_LENGTH2" size="4 Байта" datatype="Целочисленный" ctype="int">
 			<comment>Параметр добавлен 28.03.2022. Для вывода шапки бинарного файла фильтров
 			</comment>
 			<products>
-				<SES200M cb="BU_50" />
+				<SES200M cb="BU_50" hidden="true" />
 			</products>
 		</parameter>
 		<parameter name="Шапка фильтров. CRC32" type="Вычисляемый" designation="FILTER_HEADER_CRC3" size="4 Байта" datatype="Целочисленный" ctype="int">
 			<comment>Параметр добавлен 28.03.2022. Для вывода шапки бинарного файла фильтров
 			</comment>
 			<products>
-				<SES200M cb="BU_400" />
+				<SES200M cb="BU_400" hidden="true" />
 			</products>
 		</parameter>
 		<parameter name="Шапка фильтров. Дата" type="Вычисляемый" designation="FILTER_HEADER_DATE3" size="4 Байта" datatype="Целочисленный" ctype="int">
 			<comment>Параметр добавлен 28.03.2022. Для вывода шапки бинарного файла фильтров
 			</comment>
 			<products>
-				<SES200M cb="BU_400" />
+				<SES200M cb="BU_400" hidden="true" />
 			</products>
 		</parameter>
 		<parameter name="Шапка фильтров. Время" type="Вычисляемый" designation="FILTER_HEADER_TIME3" size="4 Байта" datatype="Целочисленный" ctype="int">
 			<comment>Параметр добавлен 28.03.2022. Для вывода шапки бинарного файла фильтров
 			</comment>
 			<products>
-				<SES200M cb="BU_400" />
+				<SES200M cb="BU_400" hidden="true" />
 			</products>
 		</parameter>
 		<parameter name="Шапка фильтров. Git commit" type="Вычисляемый" designation="FILTER_HEADER_GIT_COMMIT3" size="4 Байта" datatype="Целочисленный" ctype="int">
 			<comment>Параметр добавлен 28.03.2022. Для вывода шапки бинарного файла фильтров
 			</comment>
 			<products>
-				<SES200M cb="BU_400" />
+				<SES200M cb="BU_400" hidden="true" />
 			</products>
 		</parameter>
 		<parameter name="Шапка фильтров. От дисплея?" type="Вычисляемый" designation="FILTER_HEADER_FROM_DISPLAY3" size="4 Байта" datatype="Целочисленный" ctype="int">
 			<comment>Параметр добавлен 28.03.2022. Для вывода шапки бинарного файла фильтров
 			</comment>
 			<products>
-				<SES200M cb="BU_400" />
+				<SES200M cb="BU_400" hidden="true" />
 			</products>
 		</parameter>
 		<parameter name="Шапка фильтров. Длина данных" type="Вычисляемый" designation="FILTER_HEADER_DATA_LENGTH3" size="4 Байта" datatype="Целочисленный" ctype="int">
 			<comment>Параметр добавлен 28.03.2022. Для вывода шапки бинарного файла фильтров
 			</comment>
 			<products>
-				<SES200M cb="BU_400" />
+				<SES200M cb="BU_400" hidden="true" />
 			</products>
 		</parameter>
         <parameter name="Режимы включения источников" type="Внешний" designation="SOURCE_MODES" size="4 Байта" datatype="Целочисленный" common_id="12172" ctype="int">
 			<products>
-				<SES200M cb="BU_SES" />
-				<SES200M cb="BU_50" />
-				<SES200M cb="BU_400" />
+				<SES200M cb="BU_SES" hidden="true" />
+				<SES200M cb="BU_50" hidden="true" />
+				<SES200M cb="BU_400" hidden="true"/>
 			</products>
 		</parameter>
         <parameter name="Сообщение о необходимости включить ПХЗ,ПАЗ" type="Внешний" designation="PAZ_PHZ_ON" size="4 Байта" datatype="Целочисленный" ctype="int">
 			<comment>Для последовательного интерфейса</comment>
 			<products>
-				<SES200M cb="BU_SES" />
+				<SES200M cb="BU_SES" hidden="true" />
 			</products>
 		</parameter>
         <parameter name="Сообщение о необходимости включить тревогу" type="Внешний" designation="ALARM_ON" size="4 Байта" datatype="Целочисленный" ctype="int">
 			<comment>Для последовательного интерфейса</comment>
 			<products>
-				<SES200M cb="BU_SES" />
+				<SES200M cb="BU_SES" hidden="true" />
 			</products>
 		</parameter>
         <parameter name="СЭС откл" type="Вычисляемый" designation="SES_OFF" size="4 Байта" datatype="Целочисленный" common_id="12175" ctype="int">
 			<comment>Для последовательного интерфейса</comment>
 			<products>
-				<SES200M cb="BU_SES" />
-				<SES200M cb="BU_50" />
-				<SES200M cb="BU_400" />
+				<SES200M cb="BU_SES" hidden="true" />
+				<SES200M cb="BU_50" hidden="true" />
+				<SES200M cb="BU_400" hidden="true"/>
 			</products>
 		</parameter>
         <parameter name="СЭС откл исполнено" type="Вычисляемый" designation="SES_OFF_PERFORMING" size="4 Байта" datatype="Целочисленный" ctype="int">
 			<comment>Для последовательного интерфейса</comment>
 			<products>
-				<SES200M cb="BU_SES" />
+				<SES200M cb="BU_SES" hidden="true" />
 			</products>
 		</parameter>
         <parameter name="Номер режима вкл" type="Вычисляемый" designation="NUM_MODE_ON" size="4 Байта" datatype="Целочисленный" ctype="int">
 			<comment>Для последовательного интерфейса</comment>
 			<products>
-				<SES200M cb="BU_SES" />
+				<SES200M cb="BU_SES" hidden="true" />
 			</products>
 		</parameter>
         <parameter name="Номер режима вкл исполнено" type="Вычисляемый" designation="NUM_MODE_ON_PERFORMING" size="4 Байта" datatype="Целочисленный" ctype="int">
 			<comment>Для последовательного интерфейса</comment>
 			<products>
-				<SES200M cb="BU_SES" />
+				<SES200M cb="BU_SES" hidden="true" />
 			</products>
 		</parameter>
         <parameter name="Сеть готова" type="Вычисляемый" designation="NET_READY" size="4 Байта" datatype="Целочисленный" ctype="int">
 			<comment>Для последовательного интерфейса</comment>
 			<products>
-				<SES200M cb="BU_SES" />
+				<SES200M cb="BU_SES" hidden="true" />
 			</products>
 		</parameter>
         <parameter name="Сеть неисправна" type="Вычисляемый" designation="NET_ALARM" size="4 Байта" datatype="Целочисленный" ctype="int">
 			<comment>Для последовательного интерфейса</comment>
 			<products>
-				<SES200M cb="BU_SES" />
+				<SES200M cb="BU_SES" hidden="true" />
 			</products>
 		</parameter>
         <parameter name="ДЭС готова" type="Вычисляемый" designation="SES_READY" size="4 Байта" datatype="Целочисленный" ctype="int">
             <comment>Для последовательного интерфейса. О готовности ЭА и ПЧ к пуску и приему нагрузки</comment>
 			<products>
-				<SES200M cb="BU_SES" />
+				<SES200M cb="BU_SES" hidden="true" />
 			</products>
 		</parameter>
         <parameter name="ДЭС неисправна" type="Вычисляемый" designation="SES_ALARM" size="4 Байта" datatype="Целочисленный" ctype="int">
             <comment>Для последовательного интерфейса. О неисправности станции</comment>
 			<products>
-				<SES200M cb="BU_SES" />
+				<SES200M cb="BU_SES" hidden="true" />
 			</products>
 		</parameter>
         <parameter name="Блок управления 1" type="Вычисляемый" designation="UNIT_CONTROL_1" size="4 Байта" datatype="Целочисленный" ctype="int">
             <comment>Для последовательного интерфейса</comment>
 			<products>
-				<SES200M cb="BU_SES" />
+				<SES200M cb="BU_SES" hidden="true" />
 			</products>
 		</parameter>
         <parameter name="Блок управления 2" type="Вычисляемый" designation="UNIT_CONTROL_2" size="4 Байта" datatype="Целочисленный" common_id="12184" ctype="int">
             <comment>Для последовательного интерфейса</comment>
 			<products>
 				<SES200M cb="BU_400" />
-				<SES200M cb="BU_SES" />
+				<SES200M cb="BU_SES" hidden="true" />
 			</products>
 		</parameter>
         <parameter name="Блок управления 3" type="Вычисляемый" designation="UNIT_CONTROL_3" size="4 Байта" datatype="Целочисленный" common_id="12185" ctype="int">
             <comment>Для последовательного интерфейса</comment>
 			<products>
-				<SES200M cb="BU_50" />
-				<SES200M cb="BU_SES" />
+				<SES200M cb="BU_50" hidden="true" />
+				<SES200M cb="BU_SES" hidden="true"  />
 			</products>
 		</parameter>
         <parameter name="Пожар СЭС" type="Вычисляемый" designation="FIRE_SES" size="4 Байта" datatype="Целочисленный" common_id="12186" ctype="int">
             <comment>Для последовательного интерфейса</comment>
 			<products>
-				<SES200M cb="BU_SES" />
+				<SES200M cb="BU_SES" hidden="true" />
 			</products>
 		</parameter>
         <parameter name="ДУ вкл" type="Вычисляемый" designation="PDU_ON" size="4 Байта" datatype="Целочисленный" common_id="12187" ctype="int">
             <comment>Для последовательного интерфейса. Включен дист. послед. режим</comment>
 			<products>
-				<SES200M cb="BU_SES" />
+				<SES200M cb="BU_SES" hidden="true" />
 			</products>
 		</parameter>
         <parameter name="МУ вкл" type="Вычисляемый" designation="LOCAL_ON" size="4 Байта" datatype="Целочисленный" common_id="12188" ctype="int">
             <comment>Для последовательного интерфейса. Включен местный режим</comment>
 			<products>
-				<SES200M cb="BU_SES" />
+				<SES200M cb="BU_SES" hidden="true" />
 			</products>
 		</parameter>
         <parameter name="Режимы вкл и исполнено" type="Вычисляемый" designation="NUM_MODES_PERF" size="4 Байта" datatype="Целочисленный" common_id="12189" ctype="int">
             <comment>Для последовательного интерфейса. Включен № режима и исполнен</comment>
 			<products>
-				<SES200M cb="BU_SES" />
+				<SES200M cb="BU_SES" hidden="true" />
 			</products>
 		</parameter>
         <parameter name="Контроль аварий по аварийному уровню топлива" type="Вычисляемый" designation="CONTROL_ALARM_LEVEL" size="4 Байта" datatype="Целочисленный" common_id="12190" ctype="int">
 			<products>
-				<SES200M cb="BU_50" />
+				<SES200M cb="BU_50" hidden="true" />
 			</products>
 		</parameter>
         <parameter name="Аварии блока бу 400" type="Сводный" designation="EVENTS_BLOCK_400" size="4 байта " datatype="Целочисленный" common_id="12191">
 			<products>
-				<SES200M cb="BU_400">
+				<SES200M cb="BU_400" hidden="true">
 					<field shift="0" size="1" join="EA349" 	    description=""/>
 					<field shift="1" size="1" join="EP349" 		description=""/>
 					<field shift="2" size="1" join="EA351" 		description=""/>
@@ -10044,6 +10231,51 @@
 			<comment />
 			<products>
 				<SES200M cb="BU_SES"/>
+			</products>
+		</event>	
+        <event name="Не соответствие CRC уставок БУ 50" designation="EP427" size="1 бит" datatype="Логический">
+			<products>
+				<SES200M cb="BU_50"/>
+			</products>
+		</event>	
+        <event name="Не соответствие CRC калибровок БУ 50" designation="EP428" size="1 бит" datatype="Логический">
+			<products>
+				<SES200M cb="BU_50"/>
+			</products>
+		</event>	
+        <event name="Не соответствие CRC фильтров БУ 50" designation="EP429" size="1 бит" datatype="Логический">
+			<products>
+				<SES200M cb="BU_50"/>
+			</products>
+		</event>	
+        <event name="Не соответствие CRC уставок БУ СЭС" designation="EP430" size="1 бит" datatype="Логический">
+			<products>
+				<SES200M cb="BU_SES"/>
+			</products>
+		</event>	
+        <event name="Не соответствие CRC калибровок БУ СЭС" designation="EP431" size="1 бит" datatype="Логический">
+			<products>
+				<SES200M cb="BU_SES"/>
+			</products>
+		</event>	
+        <event name="Не соответствие CRC фильтров БУ СЭС" designation="EP432" size="1 бит" datatype="Логический">
+			<products>
+				<SES200M cb="BU_SES"/>
+			</products>
+		</event>	
+        <event name="Не соответствие CRC уставок БУ 400" designation="EP433" size="1 бит" datatype="Логический">
+			<products>
+				<SES200M cb="BU_400"/>
+			</products>
+		</event>	
+        <event name="Не соответствие CRC калибровок БУ 400" designation="EP434" size="1 бит" datatype="Логический">
+			<products>
+				<SES200M cb="BU_400"/>
+			</products>
+		</event>	
+        <event name="Не соответствие CRC фильтров БУ 400" designation="EP435" size="1 бит" datatype="Логический">
+			<products>
+				<SES200M cb="BU_400"/>
 			</products>
 		</event>	
         <!-- Пороги -->
@@ -11575,20 +11807,6 @@
 				</SES150>
 			</products>
 		</parameter>
-		<parameter name="Контактор К1" type="Дискретный" designation="K1_CONT" size="1 бит" datatype="Логический">
-			<products>
-				<SES150 cb="BU_SES">
-					<channel>УРСЭС 24:1 K4(К1) - IN17 A8:X2:1</channel>
-				</SES150>
-			</products>
-		</parameter>		
-		<parameter name="Контактор К2" type="Дискретный" designation="K2_CONT" size="1 бит" datatype="Логический">
-			<products>
-				<SES150 cb="BU_SES">
-					<channel>УРСЭС 24:2 K5(К2) - IN18 A8:X2:3</channel>
-				</SES150>
-			</products>
-		</parameter>	
 		<parameter name="Контактор К3" type="Дискретный" designation="K3_CONT" size="1 бит" datatype="Логический">
 			<products>
 				<SES150 cb="BU_SES">
@@ -11646,7 +11864,6 @@
 				</SES150>
 			</products>
 		</parameter>
-				<!--HERE-->		
 		<!-- Команды -->
 		<parameter name="Контактор фидера 3" type="Команда" designation="CONT_FID3" size="1 бит" datatype="Логический">
 			<comment />
@@ -11688,35 +11905,11 @@
 				</SES200M>
 			</products>
 		</parameter>
-		<parameter name="Отключить автомат сети" type="Команда" designation="AUT_NET" size="1 бит" datatype="Логический">
-			<comment />
-			<products>
-				<SES150 cb="BU_SES">
-					<channel>OUT4 A10:X1:7 - УР380 11:4 K7(QF1) </channel>
-				</SES150>
-			</products>
-		</parameter>
 		<parameter name="Отключить автомат нагрузки" type="Команда" designation="AUT_LOAD" size="1 бит" datatype="Логический">
 			<comment />
 			<products>
 				<SES150 cb="BU_SES">
 					<channel>OUT5 A10:X1:9 - УР380 11:5 K8(QF2) </channel>
-				</SES150>
-			</products>
-		</parameter>
-		<parameter name="Контактор К1" type="Команда" designation="CONT_K1" size="1 бит" datatype="Логический">
-			<comment> Контактор внешнего ЭА 100 кВт </comment>
-			<products>
-				<SES150 cb="BU_SES">
-					<channel>OUT10 A10:X2:1 - УРСЭС 21:1 К4(K1) </channel>
-				</SES150>
-			</products>
-		</parameter>
-		<parameter name="Контактор К2" type="Команда" designation="CONT_K2" size="1 бит" datatype="Логический">
-			<comment> Контактор внешнего ЭА 50 кВт </comment>
-			<products>
-				<SES150 cb="BU_SES">
-					<channel>OUT11 A10:X2:3 - УРСЭС 21:2 К5(K2) </channel>
 				</SES150>
 			</products>
 		</parameter>
@@ -11860,7 +12053,7 @@
 				</SES200M>
 			</products>
 		</parameter>
-		<parameter name="Автомат фидера 2 отключен" type="Дискретный" designation="FID2_AUT_OP" size="1 бит" datatype="Логический">
+		<parameter name="Автомат фидера 2 включен" type="Дискретный" designation="FID2_AUT_OP" size="1 бит" datatype="Логический">
 			<comment>Ручное отключение автомата</comment>
 			<products>
 				<SES200M cb="BU_SES">
@@ -11884,7 +12077,7 @@
 				</SES200M>
 			</products>
 		</parameter>
-		<parameter name="Автомат фидера 22 отключен" type="Дискретный" designation="FID22_AUT_OP" size="1 бит" datatype="Логический">
+		<parameter name="Автомат фидера 22 включен" type="Дискретный" designation="FID22_AUT_OP" size="1 бит" datatype="Логический">
 			<comment>Ручное отключение автомата</comment>
 			<products>
 				<SES200M cb="BU_SES">
@@ -12313,22 +12506,12 @@
 				<SES200M cb="BU_SES"/>
 			</products>
 		</event>
-		<event name="Отключен автомат защиты фидера 17" designation="EP370" size="1 бит" datatype="Логический">
+        <event name="КЗ(отключен) автомат защиты фидера 18" designation="EA371" size="1 бит" datatype="Логический">
 			<products>
 				<SES200M cb="BU_SES"/>
 			</products>
 		</event>
-		<event name="КЗ(отключен) автомат защиты фидера 18" designation="EA371" size="1 бит" datatype="Логический">
-			<products>
-				<SES200M cb="BU_SES"/>
-			</products>
-		</event>
-		<event name="Отключен автомат защиты фидера 18" designation="EP371" size="1 бит" datatype="Логический">
-			<products>
-				<SES200M cb="BU_SES"/>
-			</products>
-		</event>
-		<event name="КЗ(отключен) автомат защиты фидера 22" designation="EA372" size="1 бит" datatype="Логический">
+        <event name="КЗ(отключен) автомат защиты фидера 22" designation="EA372" size="1 бит" datatype="Логический">
 			<products>
 				<SES200M cb="BU_SES"/>
 			</products>
@@ -13172,7 +13355,7 @@
 				</SES200M>
 			</products>
 		</parameter>
-		<parameter name="Автомат фидера 5 отключен" type="Дискретный" designation="FID5_AUT_OP" size="1 бит" datatype="Логический">
+		<parameter name="Автомат фидера 5 включен" type="Дискретный" designation="FID5_AUT_OP" size="1 бит" datatype="Логический">
 			<comment>Ручное отключение автомата</comment>
 			<products>
 				<SES200M cb="BU_400">
@@ -13196,7 +13379,7 @@
 				</SES200M>
 			</products>
 		</parameter>
-		<parameter name="Автомат фидера 5-1 отключен" type="Дискретный" designation="FID5_1_AUT_OP" size="1 бит" datatype="Логический">
+		<parameter name="Автомат фидера 5-1 включен" type="Дискретный" designation="FID5_1_AUT_OP" size="1 бит" datatype="Логический">
 			<comment>Ручное отключение автомата</comment>
 			<products>
 				<SES200M cb="BU_400">
@@ -13220,7 +13403,7 @@
 				</SES200M>
 			</products>
 		</parameter>
-		<parameter name="Автомат фидера 6 отключен" type="Дискретный" designation="FID6_AUT_OP" size="1 бит" datatype="Логический">
+		<parameter name="Автомат фидера 6 включен" type="Дискретный" designation="FID6_AUT_OP" size="1 бит" datatype="Логический">
 			<comment>Ручное отключение автомата</comment>
 			<products>
 				<SES200M cb="BU_400">
@@ -13244,7 +13427,7 @@
 				</SES200M>
 			</products>
 		</parameter>
-		<parameter name="Автомат фидера 6-1 отключен" type="Дискретный" designation="FID6_1_AUT_OP" size="1 бит" datatype="Логический">
+		<parameter name="Автомат фидера 6-1 включен" type="Дискретный" designation="FID6_1_AUT_OP" size="1 бит" datatype="Логический">
 			<comment>Ручное отключение автомата</comment>
 			<products>
 				<SES200M cb="BU_400">
@@ -13268,7 +13451,7 @@
 				</SES200M>
 			</products>
 		</parameter>
-		<parameter name="Автомат фидера 7 отключен" type="Дискретный" designation="FID7_AUT_OP" size="1 бит" datatype="Логический">
+		<parameter name="Автомат фидера 7 включен" type="Дискретный" designation="FID7_AUT_OP" size="1 бит" datatype="Логический">
 			<comment>Ручное отключение автомата</comment>
 			<products>
 				<SES200M cb="BU_400">
@@ -13292,7 +13475,7 @@
 				</SES200M>
 			</products>
 		</parameter>
-		<parameter name="Автомат фидера 8 отключен" type="Дискретный" designation="FID8_AUT_OP" size="1 бит" datatype="Логический">
+		<parameter name="Автомат фидера 8 включен" type="Дискретный" designation="FID8_AUT_OP" size="1 бит" datatype="Логический">
 			<comment>Ручное отключение автомата</comment>
 			<products>
 				<SES200M cb="BU_400">
@@ -13316,7 +13499,7 @@
 				</SES200M>
 			</products>
 		</parameter>
-		<parameter name="Автомат фидера 9 отключен" type="Дискретный" designation="FID9_AUT_OP" size="1 бит" datatype="Логический">
+		<parameter name="Автомат фидера 9 включен" type="Дискретный" designation="FID9_AUT_OP" size="1 бит" datatype="Логический">
 			<comment>Ручное отключение автомата</comment>
 			<products>
 				<SES200M cb="BU_400">
@@ -13340,7 +13523,7 @@
 				</SES200M>
 			</products>
 		</parameter>
-		<parameter name="Автомат фидера 10 отключен" type="Дискретный" designation="FID10_AUT_OP" size="1 бит" datatype="Логический">
+		<parameter name="Автомат фидера 10 включен" type="Дискретный" designation="FID10_AUT_OP" size="1 бит" datatype="Логический">
 			<comment>Ручное отключение автомата</comment>
 			<products>
 				<SES200M cb="BU_400">
@@ -13364,7 +13547,7 @@
 				</SES200M>
 			</products>
 		</parameter>
-		<parameter name="Автомат фидера 11 отключен" type="Дискретный" designation="FID11_AUT_OP" size="1 бит" datatype="Логический">
+		<parameter name="Автомат фидера 11 включен" type="Дискретный" designation="FID11_AUT_OP" size="1 бит" datatype="Логический">
 			<comment>Ручное отключение автомата</comment>
 			<products>
 				<SES200M cb="BU_400">
@@ -13388,7 +13571,7 @@
 				</SES200M>
 			</products>
 		</parameter>
-		<parameter name="Автомат фидера 11-1 отключен" type="Дискретный" designation="FID11_1_AUT_OP" size="1 бит" datatype="Логический">
+		<parameter name="Автомат фидера 11-1 включен" type="Дискретный" designation="FID11_1_AUT_OP" size="1 бит" datatype="Логический">
 			<comment>Ручное отключение автомата</comment>
 			<products>
 				<SES200M cb="BU_400">
@@ -13412,7 +13595,7 @@
 				</SES200M>
 			</products>
 		</parameter>
-		<parameter name="Автомат фидера 12 отключен" type="Дискретный" designation="FID12_AUT_OP" size="1 бит" datatype="Логический">
+		<parameter name="Автомат фидера 12 включен" type="Дискретный" designation="FID12_AUT_OP" size="1 бит" datatype="Логический">
 			<comment>Ручное отключение автомата</comment>
 			<products>
 				<SES200M cb="BU_400">
@@ -13436,7 +13619,7 @@
 				</SES200M>
 			</products>
 		</parameter>
-		<parameter name="Автомат фидера 13 отключен" type="Дискретный" designation="FID13_AUT_OP" size="1 бит" datatype="Логический">
+		<parameter name="Автомат фидера 13 включен" type="Дискретный" designation="FID13_AUT_OP" size="1 бит" datatype="Логический">
 			<comment>Ручное отключение автомата</comment>
 			<products>
 				<SES200M cb="BU_400">
@@ -13460,7 +13643,7 @@
 				</SES200M>
 			</products>
 		</parameter>
-		<parameter name="Автомат фидера 14 отключен" type="Дискретный" designation="FID14_AUT_OP" size="1 бит" datatype="Логический">
+		<parameter name="Автомат фидера 14 включен" type="Дискретный" designation="FID14_AUT_OP" size="1 бит" datatype="Логический">
 			<comment>Ручное отключение автомата</comment>
 			<products>
 				<SES200M cb="BU_400">
@@ -13484,7 +13667,7 @@
 				</SES200M>
 			</products>
 		</parameter>
-		<parameter name="Автомат фидера 15 отключен" type="Дискретный" designation="FID15_AUT_OP" size="1 бит" datatype="Логический">
+		<parameter name="Автомат фидера 15 включен" type="Дискретный" designation="FID15_AUT_OP" size="1 бит" datatype="Логический">
 			<comment>Ручное отключение автомата</comment>
 			<products>
 				<SES200M cb="BU_400">
@@ -13508,7 +13691,7 @@
 				</SES200M>
 			</products>
 		</parameter>
-		<parameter name="Автомат фидера 16 отключен" type="Дискретный" designation="FID16_AUT_OP" size="1 бит" datatype="Логический">
+		<parameter name="Автомат фидера 16 включен" type="Дискретный" designation="FID16_AUT_OP" size="1 бит" datatype="Логический">
 			<comment>Ручное отключение автомата</comment>
 			<products>
 				<SES200M cb="BU_400">
@@ -13532,7 +13715,7 @@
 				</SES200M>
 			</products>
 		</parameter>
-		<parameter name="Автомат фидера 16-1 отключен" type="Дискретный" designation="FID16_1_AUT_OP" size="1 бит" datatype="Логический">
+		<parameter name="Автомат фидера 16-1 включен" type="Дискретный" designation="FID16_1_AUT_OP" size="1 бит" datatype="Логический">
 			<comment>Ручное отключение автомата</comment>
 			<products>
 				<SES200M cb="BU_400">
@@ -14086,7 +14269,7 @@
 	<!-- Агрегат "УР27", он же - "БК27" в ТОР-АРКТИКА: распределение постоянного напряжения 27 В -->
 	<unit name="UR27" range="21000">
 		<!-- Параметры -->
-		<parameter name="I стартера" type="Измеряемый" designation="I_STARTER" size="4 Байта" datatype="Вещественный" ctype="float">
+		<parameter name="I стартера" type="Измеряемый" designation="I_STARTER" size="4 Байта" datatype="Вещественный" common_id="21001" ctype="float">
 			<comment > 31.05.21. Кривенко. Использовал параметр I стартера для изделия СЭП-30М. Измеряемый параметр тока приходит по CAN от УКПТ.
 			Мы его фильтруем и именно его отображаем на мониторе.
 			</comment>
@@ -14101,7 +14284,7 @@
 				</SEP30M>
 			</products>
 		</parameter>
-		<parameter name="U АБ СТ" type="Измеряемый" designation="U_AB_STARTER" size="4 Байта" datatype="Вещественный" ctype="float">
+		<parameter name="U АБ СТ" type="Измеряемый" designation="U_AB_STARTER" size="4 Байта" datatype="Вещественный" common_id="21002" ctype="float">
 			<comment> 31.05.21 Кривенко. Использовал этот параметр U аккумулятора стартера для изделия СЭП-30М. Измеряемый параметр приходит по CAN от УКПТ.
 			</comment>
 			<products>
@@ -14130,7 +14313,7 @@
 				</SES150>
 			</products>
 		</parameter>
-		<parameter name="U аккумулятора стартера" type="Внешний" designation="U_AB_STARTER_EXT" size="4 Байта" datatype="Вещественный" ctype="float">
+		<parameter name="U аккумулятора стартера" type="Внешний" designation="U_AB_STARTER_EXT" size="4 Байта" datatype="Вещественный" common_id="21003" ctype="float">
 			<comment />
 			<products>
 				<SVEP30M cb="BU_EA">
@@ -14138,7 +14321,7 @@
 				</SVEP30M>
 			</products>
 		</parameter>
-		<parameter name="U аккумулятора СВЭП" type="Измеряемый" designation="U_AB_SVEP" size="4 Байта" datatype="Вещественный" ctype="float">
+		<parameter name="U аккумулятора СВЭП" type="Измеряемый" designation="U_AB_SVEP" size="4 Байта" datatype="Вещественный" common_id="21004" ctype="float">
 			<comment />
 			<products>
 				<SVEP30M cb="BU_SVEP">
@@ -14148,7 +14331,7 @@
 				</SVEP30M>
 			</products>
 		</parameter>
-		<parameter name="U 27 В" type="Измеряемый" designation="U_27_V" size="4 Байта" datatype="Вещественный" ctype="float">
+		<parameter name="U 27 В" type="Измеряемый" designation="U_27_V" size="4 Байта" datatype="Вещественный" common_id="21005" ctype="float">
 			<comment />
 			<products>
 				<TOR-ARCTICA cb="BU_EA">
@@ -14158,7 +14341,7 @@
 				</TOR-ARCTICA>
 			</products>
 		</parameter>
-		<parameter name="U выпрямителя 1" type="Измеряемый" designation="U_RECTIFIER1" size="4 Байта" datatype="Вещественный" ctype="float">
+		<parameter name="U выпрямителя 1" type="Измеряемый" designation="U_RECTIFIER1" size="4 Байта" datatype="Вещественный" common_id="21006" ctype="float">
 			<comment />
 			<products>
 				<SVEP30M cb="BU_SVEP">
@@ -14168,7 +14351,7 @@
 				</SVEP30M>
 			</products>
 		</parameter>
-		<parameter name="U выпрямителя 2" type="Измеряемый" designation="U_RECTIFIER2" size="4 Байта" datatype="Вещественный" ctype="float">
+		<parameter name="U выпрямителя 2" type="Измеряемый" designation="U_RECTIFIER2" size="4 Байта" datatype="Вещественный" common_id="21007" ctype="float">
 			<comment />
 			<products>
 				<SVEP30M cb="BU_SVEP">
@@ -14178,7 +14361,7 @@
 				</SVEP30M>
 			</products>
 		</parameter>
-		<parameter name="Режим работы люков забора" type="Внешний" designation="H_MODE" size="1 бит" datatype="Логический" ctype="int">
+		<parameter name="Режим работы люков забора" type="Внешний" designation="H_MODE" size="1 бит" datatype="Логический" common_id="21008" ctype="int">
 			<comment>Параметр добавлен 13.01.2020, отредактирован 26.02.2020. Кодирует режим работы люков: автоматический или ручной.
 			</comment>
 			<products>
@@ -14191,24 +14374,24 @@
 				<SEP30M cb="BU_SEP">
 					<channel>CAN1</channel>
 				</SEP30M>
-				<SES200M cb="BU_SES">
+				<SES200M cb="BU_SES" hidden="true">
 					<channel>CAN1</channel>
 				</SES200M>
 			</products>
 		</parameter>
-		<parameter name="Режим работы люков выброса" type="Внешний" designation="H_MODE_2" size="1 бит" datatype="Логический" ctype="int">
+		<parameter name="Режим работы люков выброса" type="Внешний" designation="H_MODE_2" size="1 бит" datatype="Логический" common_id="21009" ctype="int">
 			<comment>Кодирует режим работы люка: автоматический или ручной.
 			</comment>
 			<products>
 				<SEP30M cb="BU_400">
 					<channel>CAN1</channel>
 				</SEP30M>				
-				<SES200M cb="BU_50">
+				<SES200M cb="BU_50" hidden="true">
 					<channel>CAN1</channel>
 				</SES200M>
 			</products>
 		</parameter>
-		<parameter name="U аккумулятора ОП" type="Измеряемый" designation="U_AB_OP" size="4 Байта" datatype="Вещественный" ctype="float">
+		<parameter name="U аккумулятора ОП" type="Измеряемый" designation="U_AB_OP" size="4 Байта" datatype="Вещественный" common_id="21010" ctype="float">
 			<comment> 02.07.21 Напряжение АКБ оперативного питания.
 			</comment>
 			<products>
@@ -14572,6 +14755,7 @@
 				<SES200M cb="BU_SES">
 					<channel>K33.2 БА2 - IN1 A7:X1:1</channel>
 				</SES200M>
+                <SES200M cb="BU_50"/>
 			</products>
 		</parameter>
 		<parameter name="Питание стартера от АБ СТ" type="Дискретный" designation="STARTER_FROM_AB_ST" size="1 бит" datatype="Логический">
@@ -14951,7 +15135,7 @@
 		<parameter name="Не норма ПС" type="Вычисляемый" designation="SIPT_NO_NORM" size="1 бит" datatype="Целочисленный" ctype="int">
 			<comment />
 			<products>
-                <SES200M cb="BU_SES"/>
+                <SES200M cb="BU_SES" hidden="true"/>
 			</products>
 		</parameter>
 		<!-- События -->
@@ -15425,6 +15609,7 @@
 					<k IND ="b" value ="0.0"         type 	="float"/>
 					</calibration>
 				</SES200M>
+				<SES150 cb="BU_SES"/>
 			</products>
 		</parameter>
 		<parameter name="Уровень топлива во внешнем баке, вычисляемый в %" type="Вычисляемый" designation="LEVEL_EXT_FUEL_CALC" size="4 Байта" datatype="Вещественный" ctype="float">
@@ -15436,6 +15621,7 @@
 					<k IND ="b" value ="0.0"         type 	="float"/>
 					</calibration>
 				</SES200M>
+				<SES150 cb="BU_SES"/>
 			</products>
 		</parameter>
         <parameter name="Внутренний ДНУТ залит" type="Внешний" designation="LOW_FUEL_EXT" size="4 Байта" datatype="Целочисленный" ctype="int">
@@ -15564,7 +15750,7 @@
 				<SES200M cb="BU_SES"/>
 			</products>
 		</limit>
-    <limit name="Аварийный уровень топлива бака 2" designation="LIM_ALARM_FUEL_TANK2" param="LOW_EXT_FUEL_EXT" ev="EA355" preset_value="s_236" preset_time="s_229">
+		<limit name="Аварийный уровень топлива бака 2" designation="LIM_ALARM_FUEL_TANK2" param="LOW_EXT_FUEL_EXT" ev="EA355" preset_value="s_236" preset_time="s_229">
 			<products>
 				<SES200M cb="BU_SES"/>
 			</products>
@@ -15587,7 +15773,7 @@
 			<comment />
 			<products>
 				<SEP30M cb="BU_SEP"/>
-				<SES200M cb="BU_SES"/>
+				<SES200M cb="BU_SES" hidden="true"/>
 			</products>
 		</parameter>
 		<!-- Команды -->
@@ -15674,12 +15860,12 @@
 			<comment />
 			<products>
 				<SEP30M cb="BU_SEP"/>
-				<SES200M cb="BU_SES"/>
+				<SES200M cb="BU_SES" hidden="true"/>
 			</products>
 		</parameter>
         <parameter name="Отказ люка забора 2" type="Вычисляемый" designation="HATCH_2_BREAK" size="4 Байта" datatype="Целочисленный" ctype="int">
 			<products>				
-				<SES200M cb="BU_SES"/>
+				<SES200M cb="BU_SES" hidden="true"/>
 			</products>
 		</parameter>
 		<!-- Команды -->
@@ -15773,14 +15959,14 @@
 			<comment />
 			<products>
 				<SEP30M cb="BU_SEP"/>
-				<SES200M cb="BU_SES"/>
+				<SES200M cb="BU_SES" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Отказ люка забора 3" type="Вычисляемый" designation="HATCH_IN2_BREAK" size="4 Байта" datatype="Целочисленный" ctype="int">
 			<comment>В случае отказа люка забора2 устанавливается в 1</comment>
 			<products>				
 				<SEP30M cb="BU_SEP"/>
-				<SES200M cb="BU_SES"/>
+				<SES200M cb="BU_SES" hidden="true"/>
 			</products>
 		</parameter>
 		<!-- Команды -->
@@ -15885,14 +16071,14 @@
 			</comment>
 			<products>
 				<SEP30M cb="BU_400"/>
-				<SES200M cb="BU_SES"/>
+				<SES200M cb="BU_SES" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Отказ люка забора 4" type="Вычисляемый" designation="HATCH_4_BREAK" size="1 бит" datatype="Логический">
 			<comment>В случае отказа люка выброса2 устанавливается в 1</comment>
 			<products>				
 				<SEP30M cb="BU_400"/>
-				<SES200M cb="BU_SES"/>
+				<SES200M cb="BU_SES" hidden="true"/>
 			</products>
 		</parameter>
 		<!-- Команды -->
@@ -15988,33 +16174,33 @@
 			Параметр формируется БУ СЭП по командам монитора "Есть последовательное ДУ", "Нет последовательного ДУ".</comment>
 			<products>
 				<SEP30M cb="BU_SEP"/>
-				<SES200M cb="BU_SES"/>
+				<SES200M cb="BU_SES" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Наличие параллельного ДУ" type="Вычисляемый" designation="PDU_CONNECTED" size="1 бит" datatype="Логический">
 			<comment>Признак наличия кабеля параллельного формата дистанционного управления. </comment>
 			<products>
-				<SES200M cb="BU_SES"/>
+				<SES200M cb="BU_SES" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Кoманда параллельного ДУ" type="Вычисляемый" designation="PDU_COMMAND" size="4 байта" datatype="Целочисленный" common_id="28000" ctype="int" >
 			<comment>Команда, поступающая с параллельного ДУ </comment>
 			<products>
-				<SES200M cb="BU_SES"/>
-				<SES200M cb="BU_400"/>
-				<SES200M cb="BU_50"/>
+				<SES200M cb="BU_SES" hidden="true"/>
+				<SES200M cb="BU_400" hidden="true"/>
+				<SES200M cb="BU_50" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Дистанционный режим (параллельный интерфейс)" type="Вычисляемый" designation="PDU_MODE" size="1 бит" datatype="Логический">
 			<comment>Требование перехода на дистанционное управление с пульта параллельного ДУ  </comment>
 			<products>
-				<SES200M cb="BU_SES"/>
+				<SES200M cb="BU_SES" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Дистанционный режим (последовательный интерфейс)" type="Вычисляемый" designation="VOLS_MODE" size="1 бит" datatype="Логический">
 			<comment>Требование перехода на дистанционное управление с пульта параллельного ДУ  </comment>
 			<products>
-				<SES200M cb="BU_SES"/>
+				<SES200M cb="BU_SES" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Местный режим" type="Вычисляемый" designation="LOCAL_MODE" size="1 бит" datatype="Логический">
@@ -16022,20 +16208,20 @@
 			Параметр формируется БУ СЭП по командам ПДУ последовательного формата "Включить местный режим", "Отключить местный режим".</comment>
 			<products>
 				<SEP30M cb="BU_SEP"/>
-				<SES200M cb="BU_SES"/>
+				<SES200M cb="BU_SES" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Меандр 1 Гц" type="Вычисляемый" designation="MEANDR_1_HZ" size="1 бит" datatype="Логический">
 			<comment>Параметр, инвертируемый каждые 500 мс, формирующий мигающие сигналы на ПДУ. Начальное значение - 0.</comment>
 			<products>
-				<SES200M cb="BU_SES"/>
+				<SES200M cb="BU_SES" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Разрешение меандра" type="Вычисляемый" designation="MEANDR_OUT" size="1 бит" datatype="Логический">
 			<comment>Параметр, формируемый алгоритмами 4 и 5, используемый в вычислении параметров EA_START_PDU и MODE_PERFORMING_PDU. Начальное значение - 0.</comment>
 			<products>
 				<SEP30M cb="BU_SEP"/>
-				<SES200M cb="BU_SES"/>
+				<SES200M cb="BU_SES" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Сводный параметр для послед. интерфейса" type="Сводный" designation="PDU_SUMM_PRM" size="4 Байта" datatype="Целочисленный">
@@ -16059,7 +16245,7 @@
 					<field shift="14" size="1" join="NET_ON_PDU" 			description="Сеть1 вкл."/>
 					<field shift="15" size="1" join="MODE_PERFORMING_PDU"	description="Режим исполняется"/>
 				</SEP30M>
-                <SES200M cb="BU_SES">
+                <SES200M cb="BU_SES" hidden="true">
 					<field shift="0" size="1" join="SES_OFF" 		    	description="СЭС откл - исполняется команда"/>
 					<field shift="1" size="1" join="SES_OFF_PERFORMING"		description="СЭС откл исполнено - команда исполнена"/>
 					<field shift="2" size="2" join="PDU_ON"	                description="Дист.послед. включен"/>
@@ -16088,7 +16274,7 @@
 			<comment>Вычисляемый параметр для формирования команды "Готовность ЭА"</comment>
 			<products>
 				<SEP30M cb="BU_SEP"/>
-				<SES200M cb="BU_SES"/>
+				<SES200M cb="BU_SES" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Неисправность ЭА" type="Вычисляемый" designation="EA_ALARM_PARAM" size="1 бит" datatype="Логический">
@@ -16113,7 +16299,7 @@
 			<comment>Вычисляемый параметр для формирования команды "Режим исполняется"</comment>
 			<products>
 				<SEP30M cb="BU_SEP"/>
-				<SES200M cb="BU_SES"/>
+				<SES200M cb="BU_SES" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Неисправность СЭП-30М" type="Вычисляемый" designation="SEP_ALARM_PARAM" size="1 бит" datatype="Логический">
@@ -16126,7 +16312,7 @@
 			<comment>Вычисляемый параметр для формирования команды "Неисправность сети"</comment>
 			<products>
 				<SEP30M cb="BU_SEP"/>
-				<SES200M cb="BU_SES"/>
+				<SES200M cb="BU_SES" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Сеть 1 включена" type="Вычисляемый" designation="NET_ON_PARAM" size="1 бит" datatype="Логический">
@@ -16139,43 +16325,43 @@
 			<comment>Вычисляемый параметр для формирования команды "Готовность сети"</comment>
 			<products>
 				<SEP30M cb="BU_SEP"/>
-				<SES200M cb="BU_SES"/>
+				<SES200M cb="BU_SES" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Режим1 исполняется" type="Вычисляемый" designation="MODE1_PERFORMING_PARAM" size="1 бит" datatype="Логический">
 			<comment>Вычисляемый параметр для формирования команды "Режим 1 исполняется"</comment>
 			<products>
-				<SES200M cb="BU_SES"/>
+				<SES200M cb="BU_SES" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Режим2 исполняется" type="Вычисляемый" designation="MODE2_PERFORMING_PARAM" size="1 бит" datatype="Логический">
 			<comment>Вычисляемый параметр для формирования команды "Режим 2 исполняется"</comment>
 			<products>
-				<SES200M cb="BU_SES"/>
+				<SES200M cb="BU_SES" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Режим3 исполняется" type="Вычисляемый" designation="MODE3_PERFORMING_PARAM" size="1 бит" datatype="Логический">
 			<comment>Вычисляемый параметр для формирования команды "Режим 3 исполняется"</comment>
 			<products>
-				<SES200M cb="BU_SES"/>
+				<SES200M cb="BU_SES" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Режим4 исполняется" type="Вычисляемый" designation="MODE4_PERFORMING_PARAM" size="1 бит" datatype="Логический">
 			<comment>Вычисляемый параметр для формирования команды "Режим 4 исполняется"</comment>
 			<products>
-				<SES200M cb="BU_SES"/>
+				<SES200M cb="BU_SES" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Режим5 исполняется" type="Вычисляемый" designation="MODE5_PERFORMING_PARAM" size="1 бит" datatype="Логический">
 			<comment>Вычисляемый параметр для формирования команды "Режим 5 исполняется"</comment>
 			<products>
-				<SES200M cb="BU_SES"/>
+				<SES200M cb="BU_SES" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Режим6 исполняется" type="Вычисляемый" designation="MODE6_PERFORMING_PARAM" size="1 бит" datatype="Логический">
 			<comment>Вычисляемый параметр для формирования команды "Режим 6 исполняется"</comment>
 			<products>
-				<SES200M cb="BU_SES"/>
+				<SES200M cb="BU_SES" hidden="true"/>
 			</products>
 		</parameter>
 		<!-- Команды -->
@@ -16711,14 +16897,14 @@
 			<comment />
 			<products>
 				<SEP30M cb="BU_400"/>
-				<SES200M cb="BU_SES"/>
+				<SES200M cb="BU_50" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Наработка СИПТ в часах" type="Вычисляемый" designation="SIPT_HOURS" size="4 Байта" datatype="Целочисленный" ctype="int">
 			<comment />
 			<products>
 				<SEP30M cb="BU_400"/>
-				<SES200M cb="BU_SES"/>
+				<SES200M cb="BU_50"/>
 			</products>
 		</parameter>
         <parameter name="Запоминание команды стоп СИПТ" type="Вычисляемый" designation="SIPT_STOP_MEM" size="4 Байта" datatype="Целочисленный" ctype="int">
@@ -16989,12 +17175,12 @@
 		<parameter name="Состояние люка выброса 1" type="Вычисляемый" designation="HATCH_5_STATE" size="4 Байта" datatype="Целочисленный" ctype="int">
 			<comment />
 			<products>
-				<SES200M cb="BU_50"/>
+				<SES200M cb="BU_50" hidden="true"/>
 			</products>
 		</parameter>
         <parameter name="Отказ люка выброса 1" type="Вычисляемый" designation="HATCH_5_BREAK" size="4 Байта" datatype="Целочисленный" ctype="int">
 			<products>				
-				<SES200M cb="BU_50"/>
+				<SES200M cb="BU_50" hidden="true"/>
 			</products>
 		</parameter>
         <!-- Команды -->
@@ -17068,12 +17254,12 @@
 		<parameter name="Состояние люка выброса 2" type="Вычисляемый" designation="HATCH_6_STATE" size="4 Байта" datatype="Целочисленный" ctype="int">
 			<comment />
 			<products>
-				<SES200M cb="BU_50"/>
+				<SES200M cb="BU_50" hidden="true"/>
 			</products>
 		</parameter>
         <parameter name="Отказ люка выброса 2" type="Вычисляемый" designation="HATCH_6_BREAK" size="4 Байта" datatype="Целочисленный" ctype="int">
 			<products>				
-				<SES200M cb="BU_50"/>
+				<SES200M cb="BU_50" hidden="true"/>
 			</products>
 		</parameter>
         <!-- Команды -->
@@ -17431,13 +17617,13 @@
 		<parameter name="Фазировка ПЧ 1" type="Вычисляемый" designation="FC1_PH" size="1 бит" datatype="Логический" common_id="32028" ctype="int">
 			<comment> 0 - фазировка в норме; 1 - неверная фазировка</comment>
 			<products>
-				<SES200M cb="BU_400"/>
+				<SES200M cb="BU_400" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Обрыв фазы ПЧ 1" type="Вычисляемый" designation="FC1_PH_PHASE" size="1 бит" datatype="Логический" common_id="32029" ctype="int">
 			<comment> 0 - нет обрыва, 1 - обрыв одной из фаз ПЧ</comment>
 			<products>
-				<SES200M cb="BU_400"/>
+				<SES200M cb="BU_400" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Активная мощность ПЧ 1" type="Вычисляемый" designation="FC1_P" size="4 Байта" datatype="Вещественный" common_id="32030" ctype="float">
@@ -17612,19 +17798,19 @@
 			<comment>Для отключения лимитов по перегрузу тока генератора, кз генератора, перегруз сети1 и сети2, кз сети1 и сети2. Кривенко 09.04.2022
 			</comment>
 			<products>
-				<SES200M cb="BU_50"/>
+				<SES200M cb="BU_50" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Индикация что ПЧ 1 запущен или остановлен" type="Вычисляемый" designation="FC1_ON_OFF" size="4 Байта" datatype="Целочисленный" ctype="int">
 			<comment>Для отключения лимитов по перегрузу тока генератора, кз генератора, перегруз сети1 и сети2, кз сети1 и сети2. Кривенко 09.04.2022
 			</comment>
 			<products>
-				<SES200M cb="BU_50"/>
+				<SES200M cb="BU_50" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Составной параметр аварий ПЧ 2 на БУ400" type="Вычисляемый" designation="EVENTS_FC1_400" size="4 Байта" datatype="Целочисленный" common_id="32100" ctype="int">
 			<products>
-				<SES200M cb="BU_400">
+				<SES200M cb="BU_400" hidden="true">
 					<field shift="0" size="1"   join="EA500_1" 	description="Напряжение на выходе ПЧ1 выше нормы"/>
 					<field shift="1" size="1"   join="EA501_1" 	description="Напряжение на выходе ПЧ1 ниже нормы"/>
 					<field shift="2" size="1"   join="EA502_1" 	description="Неверная фазировка сети 400 Гц"/>
@@ -17661,14 +17847,14 @@
 					<field shift="30" size="1"  join="" 		description="резерв"/>
 					<field shift="31" size="1"  join="" 		description="резерв"/>
 				</SES200M>
-				<SES200M cb="BU_50"/>
-				<SES200M cb="BU_SES"/>
+				<SES200M cb="BU_50" hidden="true"/>
+				<SES200M cb="BU_SES" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Составной параметр аварий ПЧ 1 БУ50" type="Вычисляемый" designation="EVENTS_FC1_50" size="4 Байта" datatype="Целочисленный" common_id="32101" ctype="int">
 			<comment>Кривенко 27.04.2022. Составной параметра аварий ПЧ1 с блока БУ50</comment>
 			<products>
-				<SES200M cb="BU_50">
+				<SES200M cb="BU_50" hidden="true">
 					<field shift="0"  size="1"   join="EA550_1" 	description="Неисправность контактора питания АД ПЧ"/>
 					<field shift="1"  size="1"   join="EA551_1" 	description="Неисправность контактора питания АД ПЧ звездой"/>
 					<field shift="2"  size="1"   join="EA552_1" 	description="Неисправность контактора питания АД ПЧ треугольником"/>
@@ -17695,18 +17881,18 @@
 					<field shift="23" size="1"   join="EA566_2" 	description="Превышение I АД ПЧ 250%"/>
 
                 </SES200M>
-				<SES200M cb="BU_400"/>
-				<SES200M cb="BU_SES"/>
+				<SES200M cb="BU_400" hidden="true"/>
+				<SES200M cb="BU_SES" hidden="true"/>
 			</products>
 		</parameter>	
         <parameter name="Наработка ПЧ 1" type="Вычисляемый" designation="FC1_MOTOHOURS" size="4 Байта" datatype="Целочисленный" ctype="int">
 			<products>
-				<SES200M cb="BU_50"/>
+				<SES200M cb="BU_50" hidden="true"/>
 			</products>
 		</parameter>
         <parameter name="Наработка ПЧ2" type="Вычисляемый" designation="FC2_MOTOHOURS" size="4 Байта" datatype="Целочисленный" ctype="int">
 			<products>
-				<SES200M cb="BU_50"/>
+				<SES200M cb="BU_50" hidden="true"/>
 			</products>
 		</parameter>
         <parameter name="Наработка ПЧ 1, в часах" type="Вычисляемый" designation="FC1_HOURS" size="4 Байта" datatype="Целочисленный" ctype="int">
@@ -18464,13 +18650,13 @@
 		<parameter name="Фазировка ПЧ" type="Вычисляемый" designation="FC2_PH" size="1 бит" datatype="Логический" common_id="33028" ctype="int">
 			<comment> 0 - фазировка в норме; 1 - неверная фазировка</comment>
 			<products>
-				<SES200M cb="BU_400"/>
+				<SES200M cb="BU_400" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Обрыв фазы ПЧ" type="Вычисляемый" designation="FC2_PH_PHASE" size="1 бит" datatype="Логический" common_id="33029" ctype="int">
 			<comment> 0 - нет обрыва, 1 - обрыв одной из фаз ПЧ</comment>
 			<products>
-				<SES200M cb="BU_400"/>
+				<SES200M cb="BU_400" hidden="true"/>
 			</products>
 		</parameter>
 				<parameter name="Активная мощность ПЧ2" type="Вычисляемый" designation="FC2_P" size="4 Байта" datatype="Вещественный" common_id="33030" ctype="float">
@@ -18481,7 +18667,7 @@
 		</parameter>
         <parameter name="Составной параметр аварий ПЧ2 на БУ400" type="Вычисляемый" designation="EVENTS_FC2_400" size="4 Байта" datatype="Целочисленный" common_id="33100" ctype="int">
 			<products>
-				<SES200M cb="BU_400">
+				<SES200M cb="BU_400" hidden="true">
 					<field shift="0" size="1"   join="EA500_2" 	description="Напряжение на выходе ПЧ2 выше нормы"/>
 					<field shift="1" size="1"   join="EA501_2" 	description="Напряжение на выходе ПЧ2 ниже нормы"/>
 					<field shift="2" size="1"   join="EA502_2" 	description="Неверная фазировка сети 400 Гц"/>
@@ -18518,8 +18704,8 @@
 					<field shift="30" size="1"  join="" 		description="резерв"/>
 					<field shift="31" size="1"  join="" 		description="резерв"/>
 				</SES200M>
-				<SES200M cb="BU_50"/>
-				<SES200M cb="BU_SES"/>
+				<SES200M cb="BU_50" hidden="true"/>
+				<SES200M cb="BU_SES" hidden="true"/>
 			</products>
 		</parameter>
 		<!-- Донесения -->
@@ -18688,14 +18874,14 @@
 			<comment>Для отключения лимитов по перегрузу тока генератора, кз генератора, перегруз сети1 и сети2, кз сети1 и сети2. Кривенко 09.04.2022
 			</comment>
 			<products>
-				<SES200M cb="BU_50"/>
+				<SES200M cb="BU_50" hidden="true"/>
 			</products>
 		</parameter>
 		<parameter name="Индикация что ПЧ100 1 запущен или остановлен" type="Вычисляемый" designation="FC2_ON_OFF" size="4 Байта" datatype="Целочисленный" ctype="int">
 			<comment>Для отключения лимитов по перегрузу тока генератора, кз генератора, перегруз сети1 и сети2, кз сети1 и сети2. Кривенко 09.04.2022
 			</comment>
 			<products>
-				<SES200M cb="BU_50"/>
+				<SES200M cb="BU_50" hidden="true"/>
 			</products>
 		</parameter>
 		<!-- События -->
@@ -19144,11 +19330,11 @@
 	<!-- Агрегат "Внешний электроагрегат 1" -->
 	<unit name="VEA1" range="35000">
 		<!-- Общие параметры -->
-		<parameter name="U линейное AB" type="Вычисляемый" designation="EA_U_AB" size="4 Байта" datatype="Вещественный" common_id="35004" ctype="float">
+		<parameter name="U линейное AB" type="Вычисляемый" designation="VEA1_U_AB" size="4 Байта" datatype="Вещественный" common_id="35004" ctype="float">
 			<comment />
 			<products>
 				<SES150 cb="BU_SES">
-					<channel measuring_instrument="mav380">XXX</channel>
+					<channel measuring_instrument="mav380">УРСЭС 12:1,2 - IN1 A6:X1:1,2</channel>
 					<calibration type="Линейная">
 					<k IND ="k" value ="0.074409"    type 	="float"/>
 					<k IND ="b" value ="-0.037208"   type 	="float"/>
@@ -19157,11 +19343,11 @@
 				</SES150>
 			</products>
 		</parameter>
-		<parameter name="U линейное BC" type="Вычисляемый" designation="EA_U_BC" size="4 Байта" datatype="Вещественный" common_id="35005" ctype="float">
+		<parameter name="U линейное BC" type="Вычисляемый" designation="VEA1_U_BC" size="4 Байта" datatype="Вещественный" common_id="35005" ctype="float">
 			<comment />
 			<products>
 				<SES150 cb="BU_SES">
-					<channel measuring_instrument="mav380">XXX</channel>
+					<channel measuring_instrument="mav380">УРСЭС 12:3,4 - IN2 A6:X1:3,4</channel>
 					<calibration type="Линейная">
 					<k IND ="k" value ="0.074409"    type 	="float"/>
 					<k IND ="b" value ="-0.037208"   type 	="float"/>
@@ -19170,11 +19356,11 @@
 				</SES150>
 			</products>
 		</parameter>
-		<parameter name="U линейное AC" type="Вычисляемый" designation="EA_U_AC" size="4 Байта" datatype="Вещественный" common_id="35006" ctype="float">
+		<parameter name="U линейное AC" type="Вычисляемый" designation="VEA1_U_AC" size="4 Байта" datatype="Вещественный" common_id="35006" ctype="float">
 			<comment />
 			<products>
 				<SES150 cb="BU_SES">
-					<channel measuring_instrument="mav380">XXX</channel>
+					<channel measuring_instrument="mav380">УРСЭС 12:5,6 - IN3 A6:X1:5,6</channel>
 					<calibration type="Линейная">
 					<k IND ="k" value ="0.074409"    type 	="float"/>
 					<k IND ="b" value ="-0.037208"   type 	="float"/>
@@ -19183,7 +19369,52 @@
 				</SES150>
 			</products>
 		</parameter>
-		<parameter name="Состояние ЭА" type="Вычисляемый" designation="VEA1_STATE" size="1 Байт" datatype="Целочисленный" common_id="35026" ctype="int">
+		<parameter name="F U фазы A" type="Измеряемый" designation="VEA1_F_U_A" size="4 Байта" datatype="Вещественный" common_id="35007" ctype="float">
+			<comment>Понимая, что частота фазных и линейных наряжений совпадает, 
+			не будем заводить отдельно частоту линейных напряжений EA_U_AB,EA_U_BC,EA_U_AC
+			</comment>
+			<products>
+				<SES150 cb="BU_SES">
+					<channel measuring_instrument="mav380">УРСЭС 12:1,2 - IN1 A6:X1:1,2</channel>
+					<calibration type="Линейная">
+					<k IND ="k" value ="0.1"      type 	="float"/>
+					<k IND ="b" value ="0.0"      type 	="float"/>
+					</calibration>
+					<filter type="Скользящее среднее" length="4"/>
+				</SES150>
+			</products>
+		</parameter>
+		<parameter name="F U фазы B" type="Измеряемый" designation="VEA1_F_U_B" size="4 Байта" datatype="Вещественный" common_id="35008" ctype="float">
+			<comment>Понимая, что частота фазных и линейных наряжений совпадает, 
+			не будем заводить отдельно частоту линейных напряжений EA_U_AB,EA_U_BC,EA_U_AC
+			</comment>
+			<products>
+				<SES150 cb="BU_SES">
+					<channel measuring_instrument="mav380">УРСЭС 12:3,4 - IN2 A6:X1:3,4</channel>
+					<calibration type="Линейная">
+					<k IND ="k" value ="0.1"      type 	="float"/>
+					<k IND ="b" value ="0.0"      type 	="float"/>
+					</calibration>
+					<filter type="Скользящее среднее" length="4"/>
+				</SES150>
+			</products>
+		</parameter>
+		<parameter name="F U фазы C" type="Измеряемый" designation="VEA1_F_U_C" size="4 Байта" datatype="Вещественный" common_id="35009" ctype="float">
+			<comment>Понимая, что частота фазных и линейных наряжений совпадает, 
+			не будем заводить отдельно частоту линейных напряжений EA_U_AB,EA_U_BC,EA_U_AC
+			</comment>
+			<products>
+				<SES150 cb="BU_SES">
+					<channel measuring_instrument="mav380">УРСЭС 12:5,6 - IN3 A6:X1:5,6</channel>
+					<calibration type="Линейная">
+					<k IND ="k" value ="0.1"      type 	="float"/>
+					<k IND ="b" value ="0.0"      type 	="float"/>
+					</calibration>
+					<filter type="Скользящее среднее" length="4"/>
+				</SES150>
+			</products>
+		</parameter>
+		<parameter name="Состояние ВЭА1" type="Вычисляемый" designation="VEA1_STATE" size="1 Байт" datatype="Целочисленный" common_id="35026" ctype="int">
 			<comment></comment>
 			<products>
 				<SES150 cb="BU_SES"/>
@@ -19194,28 +19425,70 @@
 			<comment />
 			<products>
 				<SES150 cb="BU_SES">
-					<channel>XXX</channel>
+					<channel>УРСЭС 24:1 K4(К1) - IN17 A8:X2:1</channel>
 				</SES150>
 			</products>
 		</parameter>
 		<!-- Общие команды -->
 		<parameter name="Контактор ВЭА1" type="Команда" designation="CONT_VEA1" size="1 бит" datatype="Логический" common_id="35051">
-			<comment />
+			<comment> Контактор внешнего ЭА 100 кВт </comment>
 			<products>
 				<SES150 cb="BU_SES">
-					<channel>XXX </channel>
+					<channel>OUT10 A10:X2:1 - УРСЭС 21:1 К4(K1) </channel>
 				</SES150>
+			</products>
+		</parameter>
+		<parameter name="Аварии ВЭА 100" type="Сводный" designation="EVENTS_VEA1" size="4 Байта" datatype="Целочисленный" common_id="35064" ctype="int">
+			<comment>
+			</comment>
+			<products>
+				<SES150 cb="BU_SES">
+                    <field shift="0" size="1" join="0"	description="Напряжение сети выше нормы"/>
+					<field shift="1" size="1" join="0"	description="Напряжение сети ниже нормы"/>
+					<field shift="2" size="1" join="0"	description="Неверная фазировка, обрыв фаз"/>
+					<field shift="3" size="1" join="0"	description="Обрыв фаз"/>
+					<field shift="4" size="1" join="0"	description="Неисправность контактора сети"/>
+					<field shift="7" size="1" join="0"	description="КЗ сети"/>
+
+					<field shift="8" size="1" join="0"	description="Нештатное отключение сети"/>
+					<field shift="9" size="1" join="0" 	description="Не норма изоляции от РБП"/>
+					<field shift="10" size="1" join="0" description="Частота сети ниже нормы"/>
+					<field shift="11" size="1" join="0" description="Частота сети выше нормы"/>
+					<field shift="12" size="1" join="0" description="резерв"/>
+					<field shift="13" size="1" join="0" description="резерв"/>
+					<field shift="14" size="1" join="0" description="резерв"/>
+					<field shift="15" size="1" join="0" description="резерв"/>
+
+					<field shift="16" size="1" join="0" description="Перегруз сети по мощности"/>
+					<field shift="17" size="1" join="0" description="КЗ в цепи ЭН"/>
+                    <field shift="18" size="1" join="0" description="Обрыв фаз ЭН"/>
+					<field shift="19" size="1" join="0" description="Неисправность конактора ЭН"/>
+					<field shift="20" size="1" join="0" description="КЗ(отключен) автомат  защиты ЭН"/>
+					<field shift="21" size="1" join="0" description="Неисправность конактора ЭН масла"/>
+					<field shift="22" size="1" join="0" description="Отключен автомат защиты ЭН"/>
+					<field shift="23" size="1" join="0" description="Аварийный перегруз сети по мощности"/>
+					
+					<field shift="24" size="1" join="" description="резерв"/>
+					<field shift="25" size="1" join="" description="резерв"/>
+					<field shift="26" size="1" join="" description="резерв"/>
+					<field shift="27" size="1" join="" description="резерв"/>
+					<field shift="28" size="1" join="" description="резерв"/>
+					<field shift="29" size="1" join="" description="резерв"/>
+					<field shift="30" size="1" join="" description="резерв"/>
+					<field shift="31" size="1" join="" description="резерв"/>
+                </SES150>
 			</products>
 		</parameter>
 	</unit>
+	<!--HERE-->
 	<!-- Агрегат "Внешний электроагрегат 2" -->
 	<unit name="VEA2" range="36000">
 		<!-- Общие параметры -->
-		<parameter name="U линейное AB" type="Вычисляемый" designation="EA_U_AB" size="4 Байта" datatype="Вещественный" common_id="36004" ctype="float">
+		<parameter name="U линейное AB" type="Вычисляемый" designation="VEA2_U_AB" size="4 Байта" datatype="Вещественный" common_id="36004" ctype="float">
 			<comment />
 			<products>
 				<SES150 cb="BU_SES">
-					<channel measuring_instrument="mav380">XXX</channel>
+					<channel measuring_instrument="mav380">УРСЭС 12:9,10 - IN4 A6:X1:7,8</channel>
 					<calibration type="Линейная">
 					<k IND ="k" value ="0.074409"    type 	="float"/>
 					<k IND ="b" value ="-0.037208"   type 	="float"/>
@@ -19224,11 +19497,11 @@
 				</SES150>
 			</products>
 		</parameter>
-		<parameter name="U линейное BC" type="Вычисляемый" designation="EA_U_BC" size="4 Байта" datatype="Вещественный" common_id="36005" ctype="float">
+		<parameter name="U линейное BC" type="Вычисляемый" designation="VEA2_U_BC" size="4 Байта" datatype="Вещественный" common_id="36005" ctype="float">
 			<comment />
 			<products>
 				<SES150 cb="BU_SES">
-					<channel measuring_instrument="mav380">XXX</channel>
+					<channel measuring_instrument="mav380">УРСЭС 12:11,12 - IN5 A6:X1:9,10</channel>
 					<calibration type="Линейная">
 					<k IND ="k" value ="0.074409"    type 	="float"/>
 					<k IND ="b" value ="-0.037208"   type 	="float"/>
@@ -19237,11 +19510,11 @@
 				</SES150>
 			</products>
 		</parameter>
-		<parameter name="U линейное AC" type="Вычисляемый" designation="EA_U_AC" size="4 Байта" datatype="Вещественный" common_id="36006" ctype="float">
+		<parameter name="U линейное AC" type="Вычисляемый" designation="VEA2_U_AC" size="4 Байта" datatype="Вещественный" common_id="36006" ctype="float">
 			<comment />
 			<products>
 				<SES150 cb="BU_SES">
-					<channel measuring_instrument="mav380">XXX</channel>
+					<channel measuring_instrument="mav380">УРСЭС 12:13,20 - IN6 A6:X1:11,12</channel>
 					<calibration type="Линейная">
 					<k IND ="k" value ="0.074409"    type 	="float"/>
 					<k IND ="b" value ="-0.037208"   type 	="float"/>
@@ -19250,7 +19523,52 @@
 				</SES150>
 			</products>
 		</parameter>
-		<parameter name="Состояние ЭА" type="Вычисляемый" designation="VEA1_STATE" size="1 Байт" datatype="Целочисленный" common_id="36026" ctype="int">
+		<parameter name="F U фазы A" type="Измеряемый" designation="VEA2_F_U_A" size="4 Байта" datatype="Вещественный" common_id="35007" ctype="float">
+			<comment>Понимая, что частота фазных и линейных наряжений совпадает, 
+			не будем заводить отдельно частоту линейных напряжений EA_U_AB,EA_U_BC,EA_U_AC
+			</comment>
+			<products>
+				<SES150 cb="BU_SES">
+					<channel measuring_instrument="mav380">УРСЭС 12:9,10 - IN4 A6:X1:7,8</channel>
+					<calibration type="Линейная">
+					<k IND ="k" value ="0.1"      type 	="float"/>
+					<k IND ="b" value ="0.0"      type 	="float"/>
+					</calibration>
+					<filter type="Скользящее среднее" length="4"/>
+				</SES150>
+			</products>
+		</parameter>
+		<parameter name="F U фазы B" type="Измеряемый" designation="VEA2_F_U_B" size="4 Байта" datatype="Вещественный" common_id="35008" ctype="float">
+			<comment>Понимая, что частота фазных и линейных наряжений совпадает, 
+			не будем заводить отдельно частоту линейных напряжений EA_U_AB,EA_U_BC,EA_U_AC
+			</comment>
+			<products>
+				<SES150 cb="BU_SES">
+					<channel measuring_instrument="mav380">УРСЭС 12:11,12 - IN5 A6:X1:9,10</channel>
+					<calibration type="Линейная">
+					<k IND ="k" value ="0.1"      type 	="float"/>
+					<k IND ="b" value ="0.0"      type 	="float"/>
+					</calibration>
+					<filter type="Скользящее среднее" length="4"/>
+				</SES150>
+			</products>
+		</parameter>
+		<parameter name="F U фазы C" type="Измеряемый" designation="VEA2_F_U_C" size="4 Байта" datatype="Вещественный" common_id="35009" ctype="float">
+			<comment>Понимая, что частота фазных и линейных наряжений совпадает, 
+			не будем заводить отдельно частоту линейных напряжений EA_U_AB,EA_U_BC,EA_U_AC
+			</comment>
+			<products>
+				<SES150 cb="BU_SES">
+					<channel measuring_instrument="mav380">УРСЭС 12:13,20 - IN6 A6:X1:11,12</channel>
+					<calibration type="Линейная">
+					<k IND ="k" value ="0.1"      type 	="float"/>
+					<k IND ="b" value ="0.0"      type 	="float"/>
+					</calibration>
+					<filter type="Скользящее среднее" length="4"/>
+				</SES150>
+			</products>
+		</parameter>
+		<parameter name="Состояние ЭА" type="Вычисляемый" designation="VEA2_STATE" size="1 Байт" datatype="Целочисленный" common_id="36026" ctype="int">
 			<comment></comment>
 			<products>
 				<SES150 cb="BU_SES"/>
@@ -19261,17 +19579,58 @@
 			<comment />
 			<products>
 				<SES150 cb="BU_SES">
-					<channel>XXX </channel>
+					<channel>УРСЭС 24:2 K5(К2) - IN18 A8:X2:3</channel>
 				</SES150>
 			</products>
 		</parameter>
 		<!-- Общие команды -->
 		<parameter name="Контактор ВЭА2" type="Команда" designation="CONT_VEA2" size="1 бит" datatype="Логический" common_id="36051">
-			<comment />
+			<comment> Контактор внешнего ЭА 50 кВт </comment>
 			<products>
 				<SES150 cb="BU_SES">
-					<channel>XXX </channel>
+					<channel>OUT11 A10:X2:3 - УРСЭС 21:2 К5(K2) </channel>
 				</SES150>
+			</products>
+		</parameter>
+		<parameter name="Аварии ВЭА 50" type="Сводный" designation="EVENTS_VEA2" size="4 Байта" datatype="Целочисленный" common_id="36064" ctype="int">
+			<comment>
+			</comment>
+			<products>
+				<SES150 cb="BU_SES">
+                    <field shift="0" size="1" join="0"	description="Напряжение сети выше нормы"/>
+					<field shift="1" size="1" join="0"	description="Напряжение сети ниже нормы"/>
+					<field shift="2" size="1" join="0"	description="Неверная фазировка, обрыв фаз"/>
+					<field shift="3" size="1" join="0"	description="Обрыв фаз"/>
+					<field shift="4" size="1" join="0"	description="Неисправность контактора сети"/>
+					<field shift="7" size="1" join="0"	description="КЗ сети"/>
+
+					<field shift="8" size="1" join="0"	description="Нештатное отключение сети"/>
+					<field shift="9" size="1" join="0" 	description="Не норма изоляции от РБП"/>
+					<field shift="10" size="1" join="0" description="Частота сети ниже нормы"/>
+					<field shift="11" size="1" join="0" description="Частота сети выше нормы"/>
+					<field shift="12" size="1" join="0" description="резерв"/>
+					<field shift="13" size="1" join="0" description="резерв"/>
+					<field shift="14" size="1" join="0" description="резерв"/>
+					<field shift="15" size="1" join="0" description="резерв"/>
+
+					<field shift="16" size="1" join="0" description="Перегруз сети по мощности"/>
+					<field shift="17" size="1" join="0" description="КЗ в цепи ЭН"/>
+                    <field shift="18" size="1" join="0" description="Обрыв фаз ЭН"/>
+					<field shift="19" size="1" join="0" description="Неисправность конактора ЭН"/>
+					<field shift="20" size="1" join="0" description="КЗ(отключен) автомат  защиты ЭН"/>
+					<field shift="21" size="1" join="0" description="Неисправность конактора ЭН масла"/>
+					<field shift="22" size="1" join="0" description="Отключен автомат защиты ЭН"/>
+					<field shift="23" size="1" join="0" description="Аварийный перегруз сети по мощности"/>
+					
+					<field shift="24" size="1" join="" description="резерв"/>
+					<field shift="25" size="1" join="" description="резерв"/>
+					<field shift="26" size="1" join="" description="резерв"/>
+					<field shift="27" size="1" join="" description="резерв"/>
+					<field shift="28" size="1" join="" description="резерв"/>
+					<field shift="29" size="1" join="" description="резерв"/>
+					<field shift="30" size="1" join="" description="резерв"/>
+					<field shift="31" size="1" join="" description="резерв"/>
+                </SES150>
 			</products>
 		</parameter>
 	</unit>
@@ -19424,6 +19783,9 @@
 				<SES200M cb="BU_SES">
 					<channel>R2 - УКПТ A8 - CAN 1</channel>
 				</SES200M>
+				<SES150 cb="BU_SES">
+					<channel>УКПТ - CAN 1</channel>
+				</SES150>
 			</products>
 		</parameter>
 		<parameter name="U СИПТ" type="Внешний" designation="U_SIPT" size="4 Байта" datatype="Вещественный" ctype="float">
@@ -19431,6 +19793,15 @@
 				<SES200M cb="BU_SES">
 					<channel>R2 - УКПТ A8 - CAN 1</channel>
 				</SES200M>
+				<SES150 cb="BU_SES">
+					<channel>УКПТ - CAN 1</channel>
+				</SES150>
+			</products>
+		</parameter>
+		<parameter name="P СИПТ" type="Вычисляемый" designation="P_SIPT" size="4 Байта" datatype="Вещественный" ctype="float">
+			<comment />
+			<products>				
+				<SES150 cb="BU_SES"/>
 			</products>
 		</parameter>
 	</device>
@@ -19512,6 +19883,7 @@
 				<SES200M cb="BU_SES"/>
 				<SES200M cb="BU_50"/>
 				<SES200M cb="BU_400"/>
+				<SES150 cb="BU_SES"/>
 			</products>
 		</setting>
 		<setting number="s_one" designation="Единица" dimension="1" default_value="1" min="1" max="1" ctype="int">
@@ -19522,6 +19894,7 @@
 				<SES200M cb="BU_SES"/>
 				<SES200M cb="BU_50"/>
 				<SES200M cb="BU_400"/>
+				<SES150 cb="BU_SES"/>
 			</products>
 		</setting>
 		<setting number="s_zero_time" designation="Пауза длительностью 0 мс" dimension="с" default_value="0" min="0" max="0" ctype="int">
@@ -19595,6 +19968,7 @@
 			<algorithms>Пуск ЭА, Останов ЭА, Экстренный останов ЭА</algorithms>
 			<products>
 				<SVEP30M cb="BU_EA"/>
+                <SES200M cb="BU_50"/>
 			</products>
 		</setting>
 		<setting number="s_3" designation="f генератора выключения ЭА,[Гц]" dimension="Гц" default_value="5" min="3" max="7" ctype="float">
@@ -20179,7 +20553,7 @@
 				<SES150 cb="BU_SES"/>
 			</products>
 		</setting>
-		<setting number="s_43" designation="Нижний порог нормального давления ЭА" dimension="МПа" default_value="0.15" min="0.1" max="0.2" ctype="float">
+		<setting number="s_43" designation="Нижний порог нормального давления ЭА" dimension="МПа" default_value="0.2" min="0.1" max="0.2" ctype="float">
 			<description>Нижний порог нормального давления масла</description>
 			<conditions>s_43 меньше s_4 меньше s_8</conditions>
 			<algorithms>Контроль ЭА</algorithms>
@@ -20314,7 +20688,7 @@
 				<SEP30M cb="BU_SEP"/>
 			</products>
 		</setting>
-		<setting number="s_56" designation="t допустимых 200 % I ОШ,[мС]" dimension="с" default_value="5" min="1" max="6" ctype="int">
+		<setting number="s_56" designation="t допустимых 200 % I ОШ,[мС]" dimension="с" default_value="10" min="1" max="6" ctype="int">
 			<description>Допустимая длительность тока точки 4 ВТХ ЭА</description>
 			<conditions>s_62 меньше s_60 меньше s_58 меньше s_56 меньше s_54 меньше s_52 меньше s_50</conditions>
 			<algorithms>Контроль ЭА</algorithms>
@@ -20438,6 +20812,7 @@
 				<SVEP30M cb="BU_EA"/>
 				<SEP30M cb="BU_SEP"/>
 				<SES200M cb="BU_50"/>
+				<SES150 cb="BU_SES"/>
 			</products>
 		</setting>
 		<!-- Уставки подогрева резервного дизеля -->
@@ -20521,6 +20896,7 @@
 				<SVEP30M cb="BU_EA"/>
 				<SEP30M cb="BU_SEP"/>
 				<SES200M cb="BU_50"/>
+				<SES150 cb="BU_SES"/>
 			</products>
 		</setting>
 		<setting number="s_79" designation="t задержки нижнего порога U сети,[мС]" dimension="с" default_value="5" min="5" max="15" ctype="int">
@@ -20531,6 +20907,7 @@
 				<SVEP30M cb="BU_EA"/>
 				<SEP30M cb="BU_SEP"/>
 				<SES200M cb="BU_50"/>
+				<SES150 cb="BU_SES"/>
 			</products>
 		</setting>
 		<setting number="s_80" designation="t задержки неверной фазировки,[мС]" dimension="с" default_value="2.5" min="0.5" max="5.5" ctype="int">
@@ -20545,6 +20922,7 @@
 				<SEP30M cb="BU_400"/>
 				<SES200M cb="BU_50"/>
 				<SES200M cb="BU_400"/>
+				<SES150 cb="BU_SES"/>
 			</products>
 		</setting>
 		<!-- Уставки ЭНов -->
@@ -21017,7 +21395,7 @@
 				<SES200M cb="BU_50"/>
 			</products>
 		</setting>
-		<setting number="s_120" designation="Штатная частота сети" dimension="Гц" default_value="51.6667" min="49.7" max="50.3" ctype="float">
+		<setting number="s_120" designation="Штатная частота сети" dimension="Гц" default_value="51.0" min="49.7" max="50.3" ctype="float">
 			<description>Штатная частота сети. По ГОСТу - 49,5..50,5 Гц, с учетом уставки s_16 получаем диапазон 49,7..50,3 Гц</description>
 			<conditions />
 			<algorithms>Переход между источниками</algorithms>
@@ -21214,7 +21592,7 @@
 				<SEP30M cb="BU_SEP"/>
 			</products>
 		</setting>
-		<setting number="s_143" designation="t задержки ниженего порога P масла" dimension="с" default_value="10" min="30" max="120" ctype="int">
+		<setting number="s_143" designation="t задержки нижнего порога P масла" dimension="с" default_value="10" min="30" max="120" ctype="int">
 			<description>Таймаут просадки давления масла ниже уставки s_142</description>
 			<conditions />
 			<algorithms>Контроль ЭА</algorithms>
@@ -21223,6 +21601,7 @@
 				<TOR-ARCTICA cb="BU_EA"/>
 				<SEP30M cb="BU_SEP"/>
 				<SES200M cb="BU_50"/>
+				<SES150 cb="BU_SES"/>
 			</products>
 		</setting>
 		<!--Уставки сети 400 Гц-->
@@ -21467,6 +21846,7 @@
 				<SVEP30M cb="BU_EA"/>
 				<SEP30M cb="BU_SEP"/>
 				<SES200M cb="BU_50"/>
+				<SES150 cb="BU_SES"/>
 			</products>
 		</setting>
 		<setting number="s_171" designation="Максимальное аварийное значение f,[Гц]" dimension="Гц" default_value="50.4" min="50.5" max="50.6" ctype="float">
@@ -21477,6 +21857,7 @@
 				<SVEP30M cb="BU_EA"/>
 				<SEP30M cb="BU_SEP"/>
 				<SES200M cb="BU_50"/>
+				<SES150 cb="BU_SES"/>
 			</products>
 		</setting>
 		<setting number="s_172" designation="Порог для фазировки" dimension="1" default_value="1" min="1" max="1" ctype="int">
@@ -21493,6 +21874,7 @@
 				<SES200M cb="BU_SES"/>
 				<SES200M cb="BU_50"/>
 				<SES200M cb="BU_400"/>
+				<SES150 cb="BU_SES"/>
 			</products>
 		</setting>
 		<!-- Уставки частоты для сети 400 Гц -->
@@ -21525,6 +21907,7 @@
 				<SEP30M cb="BU_400"/>
 				<SES200M cb="BU_50"/>
 				<SES200M cb="BU_400"/>
+				<SES150 cb="BU_SES"/>
 			</products>
 		</setting>
 		<!-- Уставки для ЭА 400 Гц -->
@@ -21560,6 +21943,7 @@
 				<TOR-ARCTICA cb="BU_EA"/>
 				<SEP30M cb="BU_SEP"/>
 				<SES200M cb="BU_50"/>
+				<SES150 cb="BU_SES"/>
 			</products>
 		</setting>
 		<setting number="s_180" designation="Ток ОШ номинальный" dimension="А" default_value="196.8" min="195.8" max="197.8" ctype="float">
@@ -21842,6 +22226,7 @@
 				<SEP30M cb="BU_400"/>
 				<SES200M cb="BU_50"/>
 				<SES200M cb="BU_SES"/>
+				<SES150 cb="BU_SES"/>
 			</products>
 		</setting>
 		<setting number="s_214" designation="Время задержки минимального значения f,[мС]" dimension="с" default_value="5" min="3" max="10" ctype="int">
@@ -21852,6 +22237,7 @@
 				<TOR-ARCTICA cb="BU_EA"/>
 				<SEP30M cb="BU_SEP"/>
 				<SES200M cb="BU_50"/>
+				<SES150 cb="BU_SES"/>
 			</products>
 		</setting>
 		<!--Уставки для ЭА 400 Гц-->
@@ -21876,6 +22262,7 @@
 				<SVEP30M cb="BU_EA"/>
 				<SEP30M cb="BU_SEP"/>
 				<SES200M cb="BU_50"/>
+				<SES150 cb="BU_SES"/>
 			</products>
 		</setting>
 		<setting number="s_217" designation="Обрыв ЭН" dimension="А" default_value="2" min="1" max="3" ctype="float">
@@ -21887,6 +22274,7 @@
 				<SVEP30M cb="BU_EA"/>
 				<SEP30M cb="BU_SEP"/>
 				<SES200M cb="BU_50"/>
+				<SES150 cb="BU_SES"/>
 			</products>
 		</setting>
         <setting number="s_218" designation="t задержки отключения ЭН" dimension="с" default_value="3.5" min="1" max="10" ctype="int">
@@ -21898,6 +22286,7 @@
 				<SVEP30M cb="BU_EA"/>
 				<SEP30M cb="BU_SEP"/>
 				<SES200M cb="BU_50"/>
+				<SES150 cb="BU_SES"/>
 			</products>
 		</setting>
 		<setting number="s_219" designation="Норма P масла,[Мпа]" dimension="МПа" default_value="0.25" min="0.2" max="0.3" ctype="float">
@@ -21908,6 +22297,7 @@
 				<TOR-ARCTICA cb="BU_EA"/>
 				<SEP30M cb="BU_SEP"/>
 				<SES200M cb="BU_50"/>
+				<SES150 cb="BU_SES"/>
 			</products>
 		</setting>
 		<setting number="s_220" designation="Норма уровня ОЖ" dimension="1" default_value="1" min="1" max="1" ctype="int">
@@ -21918,6 +22308,7 @@
 				<TOR-ARCTICA cb="BU_EA"/>
 				<SEP30M cb="BU_SEP"/>
 				<SES200M cb="BU_50"/>
+				<SES150 cb="BU_SES"/>
 			</products>
 		</setting>
 		<setting number="s_221" designation="t задержки не нормы уровня ОЖ" dimension="с" default_value="0.5" min="1" max="1.5" ctype="int">
@@ -22008,13 +22399,14 @@
 				<TOR-ARCTICA cb="BU_EA"/>
 			</products>
 		</setting>
-		<setting number="s_231" designation="t задержки изменения f ЭА" dimension="с" default_value="1.5" min="1.5" max="1.5" ctype="int">
+		<setting number="s_231" designation="t задержки изменения f ЭА" dimension="с" default_value="5.0" min="1.5" max="1.5" ctype="int">
 			<description></description>
 			<conditions/>
 			<algorithms>Переход между источниками</algorithms>
 			<products>			
 				<TOR-ARCTICA cb="BU_EA"/>
 				<SES200M cb="BU_50"/>
+				<SES150 cb="BU_SES"/>
 			</products>
 		</setting>
 		<setting number="s_232" designation="Время задержки низкого уровня ОЖ" dimension="с" default_value="5" min="3" max="7" ctype="int">
@@ -22025,6 +22417,7 @@
 				<TOR-ARCTICA cb="BU_EA"/>
 				<SEP30M cb="BU_SEP"/>
 				<SES200M cb="BU_50"/>
+				<SES150 cb="BU_SES"/>
 			</products>
 		</setting>
 		<setting number="s_233" designation="Аварийный стоп" dimension="1" default_value="1" min="1" max="1" ctype="int">
@@ -22046,7 +22439,7 @@
 				<SES150 cb="BU_SES"/>
 			</products>
 		</setting>
-		<setting number="s_235" designation="t ожидания включения_отключения контактора" dimension="с" default_value="0.4" min="0.1" max="0.5" ctype="int">
+		<setting number="s_235" designation="t ожидания включения_отключения контактора" dimension="с" default_value="0.8" min="0.1" max="0.5" ctype="int">
 			<description>При включении и отключении контактора ожидаем донесение. Время ожидания в уставке S_233.</description>
 			<conditions />
 			<algorithms>Контроль контакторов:Сети, Генератора, ГТА </algorithms>
@@ -22059,6 +22452,7 @@
 				<SES200M cb="BU_SES"/>
 				<SES200M cb="BU_50"/>
 				<SES200M cb="BU_400"/>
+				<SES150 cb="BU_SES"/>
 			</products>
 		</setting>
 		<setting number="s_236" designation="Порог для аварий у который аварийный уровень - 0" dimension="1" default_value="0" min="0" max="0" ctype="int">
@@ -22095,6 +22489,7 @@
 				<SEP30M cb="BU_400"/>
 				<SEP30M cb="BU_SEP"/>
 				<SES200M cb="BU_50"/>
+				<SES150 cb="BU_SES"/>
 			</products>
 		</setting>
 		<setting number="s_239" designation="Низкое U АКБ" dimension="В" default_value="18" min="17" max="19" ctype="float">
@@ -22117,6 +22512,7 @@
 				<SEP30M cb="BU_400"/>
 				<SES200M cb="BU_SES"/>
 				<SES200M cb="BU_50"/>
+				<SES150 cb="BU_SES"/>
 			</products>
 		</setting>
 		<setting number="s_241" designation="T обрыва датчика ОЖ" dimension="°С" default_value="250" min="450" max="550" ctype="int">
@@ -22128,6 +22524,7 @@
 				<SEP30M cb="BU_SEP"/>
 				<SES200M cb="BU_50"/>
 				<SES200M cb="BU_SES"/>
+				<SES150 cb="BU_SES"/>
 			</products>
 		</setting>
 		<setting number="s_242" designation="t задержки обрыва датчика ОЖ" dimension="с" default_value="2" min="1" max="1.5" ctype="int">
@@ -22139,6 +22536,7 @@
 				<SEP30M cb="BU_SEP"/>
 				<SES200M cb="BU_50"/>
 				<SES200M cb="BU_SES"/>
+				<SES150 cb="BU_SES"/>
 			</products>
 		</setting>
 		<setting number="s_243" designation="Значение P масла при обрыв датчика P масла" dimension="1" default_value="99" min="98" max="100" ctype="int">
@@ -22149,6 +22547,7 @@
 				<TOR-ARCTICA cb="BU_EA"/>
 				<SEP30M cb="BU_SEP"/>
 				<SES200M cb="BU_50"/>
+				<SES150 cb="BU_SES"/>
 			</products>
 		</setting>
 		<setting number="s_244" designation="t обрыва датчика P масла" dimension="с" default_value="2" min="1" max="1.5" ctype="int">
@@ -22159,6 +22558,7 @@
 				<TOR-ARCTICA cb="BU_EA"/>
 				<SEP30M cb="BU_SEP"/>
 				<SES200M cb="BU_50"/>
+				<SES150 cb="BU_SES"/>
 			</products>
 		</setting>
 		<setting number="s_245" designation="Пожар" dimension="1" default_value="1" min="1" max="1" ctype="int">
@@ -22493,6 +22893,7 @@
 			<products>				
 				<SEP30M cb="BU_SEP"/>
 				<SES200M cb="BU_50"/>
+				<SES150 cb="BU_SES"/>
 			</products>
 		</setting>	
 		<setting number="s_284" designation="t ожидания донесения от люка выброса 2 СПЧ, мс" dimension="с" default_value="20" min="70" max="110" ctype="int">
@@ -22630,6 +23031,7 @@
 				<SEP30M cb="BU_400"/>
 				<SEP30M cb="BU_SEP"/>
 				<SES200M cb="BU_50"/>
+				<SES150 cb="BU_SES"/>
 			</products>
 		</setting>
 		<!-- 2022-03-15 Никонов С.Ю. ctype изменён на float, так как он был неверным -->
@@ -22641,6 +23043,7 @@
 				<SEP30M cb="BU_400"/>
 				<SEP30M cb="BU_SEP"/>
 				<SES200M cb="BU_50"/>
+				<SES150 cb="BU_SES"/>
 			</products>
 		</setting>
 		<setting number="s_300" designation="Значение состояния net_off в объекте net " dimension="1" default_value="4" min="4" max="4" ctype="int">
@@ -22651,6 +23054,7 @@
 				<SEP30M cb="BU_400"/>
 				<SEP30M cb="BU_SEP"/>
 				<SES200M cb="BU_50"/>
+				<SES150 cb="BU_SES"/>
 			</products>
 		</setting>
 		<setting number="s_301" designation="t задержки для аварии для уставки s_300" dimension="с" default_value="2" min="1" max="10" ctype="int">
@@ -22661,9 +23065,10 @@
 				<SEP30M cb="BU_SEP"/>
 				<SEP30M cb="BU_400"/>
 				<SES200M cb="BU_50"/>
+				<SES150 cb="BU_SES"/>
 			</products>
 		</setting>
-		<setting number="s_302" designation="t задержки обрыва сети,[мС]" dimension="с" default_value="2.5" min="0.5" max="5.5" ctype="int">
+		<setting number="s_302" designation="t задержки обрыва сети,[мС]" dimension="с" default_value="3.5" min="0.5" max="5.5" ctype="int">
 			<description>Необходимо разделить задержку неверной фазировки s_80 и задержку обрыва фаз
 			</description>
 			<conditions/>
@@ -22671,6 +23076,7 @@
 			<products>
 				<SEP30M cb="BU_SEP"/>
 				<SES200M cb="BU_50"/>
+				<SES150 cb="BU_SES"/>
 			</products>
 		</setting>
 		<setting number="s_303" designation="Значение ручного режима" dimension="1" default_value="16" min="16" max="16" ctype="int">
@@ -22702,7 +23108,7 @@
 				<SES200M cb="BU_50"/>
 			</products>
         </setting>
-        <setting number="s_307" designation="Мощность перегруза источника" dimension="Вт" default_value="250" min="249" max="251" ctype="float">
+        <setting number="s_307" designation="Мощность перегруза источника" dimension="Вт" default_value="251" min="249" max="251" ctype="float">
 			<products>
 				<SES200M cb="BU_50"/>
 			</products>
@@ -22968,7 +23374,7 @@
 				<SES200M cb="BU_50"/>
 			</products>
 		</setting>
-		<setting number="s_328_1" designation="U низкое" dimension="В" default_value="225" min="223" max="225" ctype="float">
+		<setting number="s_328_1" designation="U низкое" dimension="В" default_value="220" min="223" max="225" ctype="float">
 			<description>Минимально допустимое напряжение генератора 400 Гц</description>
 			<conditions />
 			<algorithms>Контроль ПЧ</algorithms>
@@ -22984,7 +23390,7 @@
 				<SES200M cb="BU_400"/>
 			</products>
 		</setting>
-		<setting number="s_329_1" designation="U высокое" dimension="В" default_value="235" min="233" max="237" ctype="float">
+		<setting number="s_329_1" designation="U высокое" dimension="В" default_value="240" min="233" max="237" ctype="float">
 			<description>Максимально допустимое напряжение генератора 400 Гц</description>
 			<conditions />
 			<algorithms>Контроль ПЧ</algorithms>
@@ -23105,7 +23511,7 @@
 				<SES200M cb="BU_SES"/>
 			</products>
 		</setting>
-        <setting number="s_338" designation="Ток ОШ 150 %" dimension="А" default_value="615.0" min="600.0" max="630.0" ctype="float">
+        <setting number="s_338" designation="Ток ОШ 110 %" dimension="А" default_value="500.0" min="500.0" max="630.0" ctype="float">
 			<products>
 				<SES200M cb="BU_50"/>
 			</products>
@@ -23273,6 +23679,7 @@
         <setting number="s_359" designation="Значение для корректора напряжения" dimension="1" default_value="33128" min="33127" max="33129" ctype="int">
 			<products>
 				<SES200M cb="BU_50"/>
+				<SES150 cb="BU_SES"/>
 			</products>
 		</setting>
 		<setting number="s_360" designation="Частота для подстройки ЭА во время прожига" dimension="Гц" default_value="49.5" min="49.5" max="49.5" ctype="float">
@@ -23394,33 +23801,37 @@
 			</description>
 			<products>
 				<SES200M cb="BU_50"/>
+				<SES150 cb="BU_SES"/>
 			</products>
 		</setting>
-		<setting number="s_380" designation="Превышение напряжения ЭА для перехода" dimension="В" default_value="7.0" min="5.0" max="10.0" ctype="float">
+		<setting number="s_380" designation="Превышение напряжения ЭА для перехода" dimension="В" default_value="5.0" min="5.0" max="10.0" ctype="float">
             <description>Объект transition. Функция сведения фаз.
 						Для перехода между источниками напряжение ЭА должно быть немного выше напряжения сети для защиты ЭА
 						Казанцев 19.05.22
 			</description>
 			<products>
                 <SES200M cb="BU_50"/>
+				<SES150 cb="BU_SES"/>
             </products>
         </setting>
-		<setting number="s_381" designation="Минимальное превышение напряжения ЭА для перехода" dimension="В" default_value="3.0" min="3.0" max="5.0" ctype="float">
+		<setting number="s_381" designation="Минимальное превышение напряжения ЭА для перехода" dimension="В" default_value="0.0" min="0.0" max="5.0" ctype="float">
             <description>Объект transition. Функция сведения фаз.
 						Для перехода между источниками напряжение ЭА должно быть немного выше напряжения сети для защиты ЭА
 						Казанцев 19.05.22
 			</description>
 			<products>
                 <SES200M cb="BU_50"/>
+				<SES150 cb="BU_SES"/>
             </products>
         </setting>
-		<setting number="s_382" designation="Максимальное превышение напряжения ЭА для перехода" dimension="В" default_value="10.0" min="5.0" max="10.0" ctype="float">
+		<setting number="s_382" designation="Максимальное превышение напряжения ЭА для перехода" dimension="В" default_value="15.0" min="5.0" max="20.0" ctype="float">
             <description>Объект transition. Функция сведения фаз.
 						Для перехода между источниками напряжение ЭА должно быть немного выше напряжения сети для защиты ЭА
 						Казанцев 19.05.22
 			</description>
 			<products>
                 <SES200M cb="BU_50"/>
+				<SES150 cb="BU_SES"/>
             </products>
         </setting>
 		<setting number="s_383" designation="Минимальное превышение частоты ЭА для перехода" dimension="Гц" default_value="0.1" min="0.1" max="0.015" ctype="float">
@@ -23430,6 +23841,7 @@
 			</description>
 			<products>
                 <SES200M cb="BU_50"/>
+				<SES150 cb="BU_SES"/>
             </products>
         </setting>
 		<setting number="s_384" designation="Максимальное превышение частоты ЭА для перехода" dimension="Гц" default_value="0.3" min="0.25" max="0.35" ctype="float">
@@ -23439,6 +23851,7 @@
 			</description>
 			<products>
                 <SES200M cb="BU_50"/>
+				<SES150 cb="BU_SES"/>
             </products>
         </setting>
         <setting number="s_385" designation="T ОЖ включения ЭН маса,[°С]" dimension="°С" default_value="0" min="0" max="0" ctype="int">
@@ -23451,7 +23864,7 @@
 				<SES200M cb="BU_50"/>
 			</products>
 		</setting>
-        <setting number="s_389" designation="T масла перегрева ЭА,[°С]" dimension="°С" default_value="118" min="100" max="118" ctype="int">
+        <setting number="s_389" designation="T масла перегрева ЭА,[°С]" dimension="°С" default_value="130" min="100" max="118" ctype="int">
 			<description>Порог температуры охлаждающей масла, выше которого наступает перегрев</description>
 			<algorithms>Контроль ЭА</algorithms>
 			<products>
@@ -23740,9 +24153,49 @@
 				<SES200M cb="BU_SES"/>
 			</products>
 		</setting>
-    <setting number="s_446" designation="t запуска СИПТ" dimension="с" default_value="15" min="3" max="10" ctype="int">
+		<setting number="s_446" designation="t запуска СИПТ" dimension="с" default_value="15" min="3" max="10" ctype="int">
 			<products>
 				<SES200M cb="BU_SES"/>
+			</products>
+		</setting>
+		<setting number="s_447" designation="t задержки нижнего порога давления ЭА" dimension="с" default_value="120" min="120" max="120" ctype="int">
+			<description>Таймаут просадки давления масла ниже уставки s_43 во время запуска. 
+						Датчик масла может замерзать, поэтому даже при наличии масла в двигателе, датчик не реагирует.
+						Ждем 2 минуты. Казанцев 14.09.22</description>
+			<conditions />
+			<algorithms>Контроль ЭА</algorithms>
+			<products>
+				<SES150 cb="BU_SES"/>
+			</products>
+		</setting>
+       <setting number="s_448" designation="Пониженное U АКБ" dimension="В" default_value="20.0" min="17" max="19" ctype="float">
+			<description>Контроль АКБ</description>
+			<conditions/>
+			<algorithms>Контроль 27 В</algorithms>
+			<products>			
+				<SES200M cb="BU_SES"/>
+			</products>
+		</setting>
+		<setting number="s_449" designation="t допустимых 110 % I ОШ, [мС]" dimension="с" default_value="60" min="60" max="180" ctype="int">
+			<description>Допустимая длительность тока точки 3 ВТХ ЭА</description>
+			<algorithms>Контроль ЭА</algorithms>
+			<products>
+				<SES200M cb="BU_50"/>
+			</products>
+		</setting>
+        <setting number="s_450" designation="Мощность перегруза источника max" dimension="Вт" default_value="275" min="249" max="251" ctype="float">
+			<products>
+				<SES200M cb="BU_50"/>
+			</products>
+		</setting>
+        <setting number="s_451" designation="Задержка запуска ПЧ 1" dimension="с" default_value="3" min="2" max="4" ctype="int">
+			<products>
+				<SES200M cb="BU_50"/>
+			</products>
+		</setting>
+        <setting number="s_452" designation="Задержка запуска ПЧ 2" dimension="с" default_value="3" min="2" max="4" ctype="int">
+			<products>
+				<SES200M cb="BU_50"/>
 			</products>
 		</setting>
     </presets>
@@ -23758,6 +24211,7 @@
 				<SES200M cb="BU_SES" value="10"/>
 				<SES200M cb="BU_50" value="10"/>
 				<SES200M cb="BU_400" value="10"/>
+				<SES150 cb="BU_SES" value="10"/>
 			</products>
 		</can>
 		<can purpose="COMMAND_CB">
@@ -23780,6 +24234,7 @@
 				<SES200M cb="BU_50" value="21"/>
 				<SES200M cb="BU_400" value="22"/>
 				<SES200M cb="485_CAN" value="29"/>
+				<SES150 cb="BU_SES" value="20"/>
 			</products>
 		</can>
 		<can purpose="CONFIRMATION_CB">
@@ -23822,6 +24277,7 @@
 				<SES200M cb="BU_400" 	value="52"/>
 				<SES200M cb="UKPT2" 	value="60"/>
 				<SES200M cb="UKPT3" 	value="61"/>
+				<SES150 cb="BU_SES" 	value="50"/>
 			</products>
 		</can>
 		<can purpose="RS485_CAN_INTERACTION">
@@ -23871,6 +24327,7 @@
 				<SES200M cb="BU_400" value="1570"/>
 				<SES200M cb="UKPT2" value="1580"/>
 				<SES200M cb="UKPT3" value="1590"/>
+				<SES150 cb="BU_SES" value="1550"/>
 			</products>
 		</can>
 		<can purpose="DATA_VALUE">
@@ -23890,6 +24347,7 @@
 				<SES200M cb="BU_400" value="1620"/>
 				<SES200M cb="UKPT2" value="1630"/>
 				<SES200M cb="UKPT3" value="1640"/>
+				<SES150 cb="BU_SES" value="1610"/>
 			</products>
 		</can>
 		<can purpose="WRITE_DATA">
@@ -23909,6 +24367,7 @@
 				<SES200M cb="BU_400" value="1571"/>
 				<SES200M cb="UKPT2" value="1581"/>
 				<SES200M cb="UKPT3" value="1591"/>
+				<SES150 cb="BU_SES" value="1551"/>
 			</products>
 		</can>
 		<can purpose="ERASE_SECTOR">
@@ -23928,12 +24387,29 @@
 				<SES200M cb="BU_400" value="1572"/>
 				<SES200M cb="UKPT2" value="1582"/>
 				<SES200M cb="UKPT3" value="1592"/>
+				<SES150 cb="BU_SES" value="1552"/>
 			</products>
 		</can>
 		<can puprose="DEBUG_ALARM">
 			<products>
 				<TOR-ARCTICA cb="BU_EA" value="2001"/>
 				<comment>2001 CAN_ID для отладки аварий на изделии ТОР.На этот CAN_ID можно отправить команду для включения и отключения аварии</comment>
+			</products>
+		</can>
+		<can purpose="TUMBLERS_POSITION">
+			<products>
+				<SES150 cb="BU_SES" value="1700"/>
+			</products>
+		</can>
+		<can puprose="EXTERNAL_COMMAND">
+			<products>
+				<SES150 cb="BU_SES" value="1563"/>
+				<comment>CAN_ID для отладки аварий на изделии СЭС150.На этот CAN_ID можно отправить команду для изменения поведения системы</comment>
+			</products>
+		</can>
+		<can puprose="MESSAGE_TO_RC">
+			<products>
+				<SES150 cb="BU_SES" value="1650"/>
 			</products>
 		</can>
 	</identifiers>
@@ -23950,6 +24426,7 @@
 				<SES200M cb="BU_SES"	value="0xFA"/>
 				<SES200M cb="BU_50"		value="0xFA"/>
 				<SES200M cb="BU_400"	value="0xFA"/>
+				<SES150 cb="BU_SES"	value="0xFA"/>
 			</products>
 		</code>
 		<code order="PERFORM_AFC">
@@ -23988,18 +24465,21 @@
 			<comment>Команда запускает двигатель</comment>
 			<products>
 				<SES200M cb="BU_50"		value="0x01"/>
+				<SES150 cb="BU_SES"	value="0x01"/>
 			</products>
 		</code>
 		<code order="STOP_EA_COMMAND">
 			<comment>Команда останавливает двигатель</comment>
 			<products>
 				<SES200M cb="BU_50"		value="0x02"/>
+				<SES150 cb="BU_SES"	value="0x02"/>
 			</products>
 		</code>
 		<code order="SWITCH_ON_CONT_EA">
 			<comment>Команда включает контактор генератора</comment>
 			<products>
 				<SES200M cb="BU_50"		value="0x21"/>
+				<SES150 cb="BU_SES"	value="0x21"/>
 			</products>
 		</code>
 		<code order="SWITCH_OFF_CONT_EA">
@@ -24012,6 +24492,7 @@
 			<comment>Команда включает контактор сети1</comment>
 			<products>
 				<SES200M cb="BU_50"		value="0x11"/>
+				<SES150 cb="BU_SES"	value="0x11"/>
 			</products>
 		</code>
 		<code order="SWITCH_OFF_CONT_NET1">
@@ -24035,25 +24516,25 @@
 		<code order="START_FC1">
 			<comment>Команда запускает преобразователь частоты 1. FC - frequency converter</comment>
 			<products>
-				<SES200M cb="BU_50"		value="0xC0"/>
+				<SES200M cb="BU_50"		value="0x50"/>
 			</products>
 		</code>
 		<code order="STOP_FC1">
 			<comment>Команда останавливает преобразователь частоты 1. FC - frequency converter</comment>
 			<products>
-				<SES200M cb="BU_50"		value="0xC1"/>
+				<SES200M cb="BU_50"		value="0x51"/>
 			</products>
 		</code>
 		<code order="START_FC2">
 			<comment>Команда запускает преобразователь частоты 2. FC - frequency converter</comment>
 			<products>
-				<SES200M cb="BU_50"		value="0xC2"/>
+				<SES200M cb="BU_50"		value="0x52"/>
 			</products>
 		</code>
 		<code order="STOP_FC1">
 			<comment>Команда останавливает преобразователь частоты 2. FC - frequency converter</comment>
 			<products>
-				<SES200M cb="BU_50"		value="0xC3"/>
+				<SES200M cb="BU_50"		value="0x53"/>
 			</products>
 		</code>
 		<code order="MODE_COMMAND">
@@ -24108,6 +24589,18 @@
 			<products>
 				<SES200M cb="BU_50"		value="0xB2"/>
 				<SES200M cb="BU_SES"	value="0xB2"/>
+			</products>
+		</code>
+		<code order="OPEN_ALL_HATCHES">
+			<comment>Открыть все люки</comment>
+			<products>
+				<SES200M cb="BU_SES"	value="0xB0"/>
+			</products>
+		</code>
+		<code order="CLOSE_ALL_HATCHES">
+			<comment>Закрыть все люки</comment>
+			<products>
+				<SES200M cb="BU_SES"	value="0xBF"/>
 			</products>
 		</code>
         <code order="OPEN_HATCH_IN1">
@@ -24226,9 +24719,9 @@
 		<code order="SET_ISOLATED_NEUTRAL">
 			<comment>Задать режим изолированной нейтрали</comment>
 			<products>
-				<SES200M cb="BU_SES"  value="0x55"/>
-				<SES200M cb="BU_50"   value="0x55"/>
-				<SES200M cb="BU_400"  value="0x55"/>
+				<SES200M cb="BU_SES"  value="0x5B"/>
+				<SES200M cb="BU_50"   value="0x5B"/>
+				<SES200M cb="BU_400"  value="0x5B"/>
             </products>
 		</code>
 		<code order="SET_GROUNDED_NEUTRAL">
@@ -24243,25 +24736,218 @@
 			<comment>Включить дистан параллельный режим АЛМАЗ 1. Команда оператора.	</comment>
 			<products>
 				<SES200M cb="BU_SES"  value="0xC2"/>
-				<SES200M cb="BU_50"   value="0xC2"/>
-				<SES200M cb="BU_400"  value="0xC2"/>
             </products>
 		</code>
 		<code order="SET_REMOTE_PAR_CNTRL_2_ALMAZ">
 			<comment>Включить дистан параллельный режим АЛМАЗ 2. Команда оператора.	</comment>
 			<products>
 				<SES200M cb="BU_SES"  value="0xC3"/>
-				<SES200M cb="BU_50"   value="0xC3"/>
-				<SES200M cb="BU_400"  value="0xC3"/>
             </products>
 		</code>
 		<code order="SET_REMOTE_PAR_CNTRL_3_ALMAZ">
 			<comment>Включить дистан параллельный режим АЛМАЗ 3. Команда оператора.	</comment>
 			<products>
 				<SES200M cb="BU_SES"  value="0xC4"/>
-				<SES200M cb="BU_50"   value="0xC4"/>
-				<SES200M cb="BU_400"  value="0xC4"/>
             </products>
 		</code>
+		<code order="SET_REMOTE_PAR_CNTRL_1_LEMZ">
+			<comment>Включить дистан параллельный режим ЛЭМЗ 1. Команда оператора.	</comment>
+			<products>
+				<SES200M cb="BU_SES"  value="0xC5"/>
+            </products>
+		</code>
+		<code order="SET_REMOTE_PAR_CNTRL_2_LEMZ">
+			<comment>Включить дистан параллельный режим ЛЭМЗ 2. Команда оператора.	</comment>
+			<products>
+				<SES200M cb="BU_SES"  value="0xC6"/>
+            </products>
+		</code>
+		<code order="SET_REMOTE_PAR_CNTRL_3_LEMZ">
+			<comment>Включить дистан параллельный режим ЛЭМЗ 3. Команда оператора.	</comment>
+			<products>
+				<SES200M cb="BU_SES"  value="0xC7"/>
+            </products>
+		</code>
+		<code order="SET_REMOTE_PAR_CNTRL_3_LEMZ">
+			<comment>Включить дистан параллельный режим ЛЭМЗ 3. Команда оператора.	</comment>
+			<products>
+				<SES200M cb="BU_SES"  value="0xC7"/>
+            </products>
+		</code>
+		<code order="DIST_SET_LOCAL_MODE">
+			<comment>Включить местный режим. Подтверждение от дист. посл. Команда приходит по последовательному дистанционному интерфейсу Ethernet.	</comment>
+			<products>
+				<SES200M cb="BU_SES"  value="0xC8"/>
+            </products>
+		</code>
+		<code order="DIST_SET_DIST_MODE">
+			<comment>Включить дист режим. Подтверждение от дист. посл.Команда приходит по последовательному дистанционному интерфейсу Ethernet.	</comment>
+			<products>
+				<SES200M cb="BU_SES"  value="0xC9"/>
+            </products>
+		</code>
+		<code order="VOLS_OFF">
+			<comment>Нет связи по ВОЛС	</comment>
+			<products>
+				<SES200M cb="BU_SES"  value="0xE8"/>
+            </products>
+		</code>
+		<code order="VOLS_ON">
+			<comment>Есть связь по ВОЛС	</comment>
+			<products>
+				<SES200M cb="BU_SES"  value="0xE9"/>
+            </products>
+		</code>
+		<code order="ON_PAZ_PZH">
+			<comment>Включить ПАЗ-ПЗХ</comment>
+			<products>
+				<SES200M cb="BU_SES"  value="0x29"/>
+            </products>
+		</code>
+		<code order="OFF_PAZ_PZH">
+			<comment>Выключить ПАЗ-ПЗХ</comment>
+			<products>
+				<SES200M cb="BU_SES"  value="0x2A"/>
+            </products>
+		</code>
+		<code order="ON_ALARM">
+			<comment>Включить сигнал тревоги</comment>
+			<products>
+				<SES200M cb="BU_SES"  value="0x2E"/>
+            </products>
+		</code>
+		<code order="OFF_ALARM">
+			<comment>Выключить сигнал тревоги</comment>
+			<products>
+				<SES200M cb="BU_SES"  value="0x2C"/>
+            </products>
+		</code>
+		<code order="RESET_MOTOHOURS_EA_COMMAND">
+			<comment>Учесть замену/кап. ремонт ЭА. Работает в местном  режиме.	</comment>
+			<products>
+				<SES200M cb="BU_50"   value="0xF0"/>
+            </products>
+		</code>
+		<code order="RESET_SERVICE_EA_COMMAND">
+			<comment>Учесть выполнение ТО ЭА  Работает в местном  режиме.	</comment>
+			<products>
+				<SES200M cb="BU_50"   value="0xF1"/>
+            </products>
+		</code>
+		<code order="RESET_SERVICE_FC1_COMMAND">
+			<comment>Учесть выполнение ТО ПЧ1  Работает в местном  режиме.	</comment>
+			<products>
+				<SES200M cb="BU_50"   value="0xF2"/>
+            </products>
+		</code>
+		<code order="RESET_SERVICE_FC2_COMMAND">
+			<comment>Учесть выполнение ТО ПЧ2  Работает в местном  режиме.	</comment>
+			<products>
+				<SES200M cb="BU_50"   value="0xF3"/>
+            </products>
+		</code>
+		<code order="RESET_MOTOHOURS_FC1_COMMAND">
+			<comment> Учесть замену/кап. ремонт ПЧ1  Работает в местном  режиме.	</comment>
+			<products>
+				<SES200M cb="BU_50"   value="0xF4"/>
+            </products>
+		</code>
+		<code order="RESET_MOTOHOURS_FC2_COMMAND">
+			<comment> Учесть замену/кап. ремонт ПЧ2  Работает в местном  режиме.	</comment>
+			<products>
+				<SES200M cb="BU_50"   value="0xF5"/>
+            </products>
+		</code>
+		<code order="RESET_MOTOHOURS_SIPT_COMMAND">
+			<comment> Учесть замену/кап. ремонт СИПТ.  Работает в местном  режиме.	</comment>
+			<products>
+				<SES200M cb="BU_SES"   value="0xFC"/>
+            </products>
+		</code>
+		<code order="TO_COMPLETED">
+			<comment> ТО завершено. 2  Работает в местном  режиме.	</comment>
+			<products>
+				<SES200M cb="BU_50"   value="0x57"/>
+            </products>
+		</code>
+		<code order="PROTECTION_ON_CMND_DIST">
+			<comment>Заблокировать защиты. Работает в дистан режиме.	</comment>
+			<products>
+				<SES200M cb="BU_SES"  value="0x2B"/>
+				<SES200M cb="BU_50"   value="0x2B"/>
+				<SES200M cb="BU_400"  value="0x2B"/>
+            </products>
+		</code>
+		<code order="PROTECTION_OFF_CMND_DIST">
+			<comment>Разблокировать защиты. Работает в дистан режиме.	</comment>
+			<products>
+				<SES200M cb="BU_SES"  value="0x2D"/>
+				<SES200M cb="BU_50"   value="0x2D"/>
+				<SES200M cb="BU_400"  value="0x2D"/>
+            </products>
+		</code>
+		<code order="SET_FUEL_TANKS_MODE_MAN">
+			<comment> Задать ручной режим выбора баков. Работает только в местном режиме.	</comment>
+			<products>
+				<SES200M cb="BU_SES"   value="0x60"/>
+            </products>
+		</code>
+		<code order="SET_FUEL_TANKS_MODE_AUT">
+			<comment> Задать автоматический режим выбора баков. Работает только в местном режиме.	</comment>
+			<products>
+				<SES200M cb="BU_SES"   value="0x61"/>
+            </products>
+		</code>
+		<code order="USE_INTERNAL_FUEL_TANK">
+			<comment> Использовать внутренний бак. Работает только в местном режиме.	</comment>
+			<products>
+				<SES200M cb="BU_SES"   value="0x63"/>
+            </products>
+		</code>
+		<code order="USE_EXTERNAL_FUEL_TANK">
+			<comment> Использовать внешний бак. Работает только в местном режиме.	</comment>
+			<products>
+				<SES200M cb="BU_SES"   value="0x64"/>
+            </products>
+		</code>
+		<code order="SET_FUEL_PUMP_MODE_MAN">
+			<comment> Задать ручной режим НЗТ. Работает только в местном режиме.	</comment>
+			<products>
+				<SES200M cb="BU_SES"   value="0x65"/>
+            </products>
+		</code>
+		<code order="SET_FUEL_PUMP_MODE_AUT">
+			<comment> Задать автоматический режим НЗТ. Работает только в местном режиме.	</comment>
+			<products>
+				<SES200M cb="BU_SES"   value="0x66"/>
+            </products>
+		</code>
+		<code order="SWITCH_ON_FUEL_PUMP">
+			<comment> Включить НЗТ. Работает только в местном режиме.	</comment>
+			<products>
+				<SES200M cb="BU_SES"   value="0x67"/>
+            </products>
+		</code>
+		<code order="SWITCH_OFF_FUEL_PUMP">
+			<comment> Отключить НЗТ. Работает только в местном режиме.	</comment>
+			<products>
+				<SES200M cb="BU_SES"   value="0x68"/>
+            </products>
+		</code>
+		<code order="SET_STARTER_FROM_AB_ST">
+			<comment> Питать стартер от АБ СТ Работает только в местном режиме.	</comment>
+			<products>
+				<SES200M cb="BU_SES"   value="0x3B"/>
+            </products>
+		</code>
+		<code order="SET_STARTER_FROM_AB_XD">
+			<comment> Питать стартер от АБ ХД. Работает только в местном режиме.	</comment>
+			<products>
+				<SES200M cb="BU_SES"   value="0x3C"/>
+            </products>
+		</code>
+
+
+		
     </command_codes>
 </station>

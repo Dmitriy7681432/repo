@@ -3,7 +3,7 @@ import pandas as pd
 import seaborn as sns
 import style
 def pars_hh(vacancy,city):
-    number_of_pages = 1
+    number_of_pages = 200
     # job_tittle = ["'Data Analyst' and 'data scientist'"]
     job_tittle = []
     job_tittle.append(vacancy)
@@ -18,7 +18,7 @@ def pars_hh(vacancy,city):
         data =[]
         for i in range(number_of_pages):
             url = 'https://api.hh.ru/vacancies'
-            par = {'text': job, 'area':city_loc, 'per_page':'4','page':i}
+            par = {'text': job, 'area':city_loc, 'per_page':'100','page':i}
             r =requests.get(url,params=par)
             e= r.json()
             data.append(e)
@@ -70,20 +70,6 @@ def pars_hh(vacancy,city):
 
                 lst_rows=[]
 
-                # df =pd.DataFrame({
-                #   '№ п.п.':ind,
-                #   'Название вакансии':name,
-                #   'Адрес': adress_raw,
-                #   'Метро': adress_metro_station_name,
-                #   'Организация':employer_name,
-                #   'Зарплат от':salary_from,
-                #   'Зарплат до':salary_to,
-                #   'Валюта':salary_currency,
-                #   'Ссылка':alternate_url
-                # },index=[ind])
-                # # print(df['Название вакансии'])
-                # print(df)
-
         pd.options.display.max_columns = 200
         pd.options.display.max_rows = 200
         pd.set_option('display.max_colwidth',None)
@@ -125,9 +111,10 @@ def pars_hh(vacancy,city):
         # ad = pd.read_csv('example2.csv',encoding='utf-32',sep='\t')
         # print(ad)
     # print(lst_rows1)
-    for i in lst_rows1:
-        print(' '.join(map(str,i)))
+    # for i in lst_rows1:
+    #     print(' '.join(map(str,i)))
     return lst_rows1
+
 def pars_city(city):
     data =[]
     url = 'https://api.hh.ru/areas/113'
