@@ -81,14 +81,14 @@ except lite.Error as e:
 #     print(f"Number of rows updated: {cur.rowcount}")
 
 # Подсчет рядов с определенными условиями (Count)
-with connect:
-    cur = connect.cursor()
-    uId = 5
-    cars = 'cars'
-    rowsQuery = f"SELECT Count() FROM cars WHERE id > {uId}"
-    cur.execute(rowsQuery)
-    number0fRows = cur.fetchone()[0]
-    print(number0fRows)
+# with connect:
+#     cur = connect.cursor()
+#     uId = 5
+#     cars = 'cars'
+#     rowsQuery = f"SELECT Count() FROM cars WHERE id > {uId}"
+#     cur.execute(rowsQuery)
+#     number0fRows = cur.fetchone()[0]
+#     print(number0fRows)
 
 #Сортировка (ORDER By)
 
@@ -122,5 +122,27 @@ with connect:
 #     rows = cur.fetchall()
 #     for row in rows:
 #         print(row)
-
+#
+'''
+Работаем с изображениями
+'''
+# with connect:
+#     cur = connect.cursor()
+#     img = readImage('python.png')
+#     img_binary = lite.Binary(img)
+#     id = 1
+#     #cur.execute("CREATE TABLE images(id INT, data BLOB)")
+#     sqlite_insert_blob_query = """ INSERT INTO images (id, data) VALUES (?, ?)"""
+#     cur.execute(sqlite_insert_blob_query, (id, img_binary))
+#
+# with connect:
+#     cur = connect.cursor()
+#     sqlite_select_query = """SELECT * from images"""
+#     cur.execute(sqlite_select_query)
+#     records = cur.fetchall()
+#
+#     print(len(records))
+#
+#     for row in records:
+#         print(row)
 connect.close()
