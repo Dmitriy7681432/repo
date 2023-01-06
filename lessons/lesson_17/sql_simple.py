@@ -4,7 +4,11 @@ import  sys
 
 connect = None
 try:
+<<<<<<< HEAD
     connect =lite.connect('test3.db')
+=======
+    connect =lite.connect('test2.db')
+>>>>>>> c239831e14b1dc212554c2b06d5f8dbd04fef052
 
     cur =connect.cursor()
     cur.execute('SELECT SQLITE_VERSION()')
@@ -123,5 +127,26 @@ for row in records:
 #     for row in rows:
 #         print(row)
 
-connect.commit()
+'''
+Работаем с изображениями
+'''
+# with connect:
+#     cur = connect.cursor()
+#     img = readImage('python.png')
+#     img_binary = lite.Binary(img)
+#     id = 1
+#     #cur.execute("CREATE TABLE images(id INT, data BLOB)")
+#     sqlite_insert_blob_query = """ INSERT INTO images (id, data) VALUES (?, ?)"""
+#     cur.execute(sqlite_insert_blob_query, (id, img_binary))
+#
+# with connect:
+#     cur = connect.cursor()
+#     sqlite_select_query = """SELECT * from images"""
+#     cur.execute(sqlite_select_query)
+#     records = cur.fetchall()
+#
+#     print(len(records))
+#
+#     for row in records:
+#         print(row)
 connect.close()
