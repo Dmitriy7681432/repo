@@ -2,7 +2,6 @@ import requests,csv
 import pandas as pd
 import seaborn as sns
 import style
-lst_rows1 = []
 
 def pars_hh(vacancy,city):
     number_of_pages = 200
@@ -12,6 +11,7 @@ def pars_hh(vacancy,city):
     job_tittle_t = (''.join(job_tittle)).title()
     job_tittle_lower= job_tittle_t.lower()
     lst_rows = []
+    lst_rows1 = []
     ls=[]
     ind =0
     city_loc =int(pars_city(city))

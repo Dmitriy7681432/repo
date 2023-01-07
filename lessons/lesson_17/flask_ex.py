@@ -6,7 +6,6 @@ import sys
 app = Flask(__name__)
 city = 0
 position =0
-vacancy_1 = 1
 
 @app.route('/main')
 @app.route('/')
@@ -28,8 +27,8 @@ def func_vac(x):
     return x
 @app.route('/vacansies')
 def vacancy():
-    global city, position,vacancy_1
-
+    global city, position
+    vacancy_1 =[]
     #Подлключение БД
     # connect = None
     # try:
@@ -51,10 +50,21 @@ def vacancy():
     vacancy_1 = pars_hh(position,city)
     print('type_vacancy_1 = ', type(vacancy_1))
     print('vacancy_1 = ', vacancy_1)
-    func_vac(vacancy_1)
-    # import vacancy_sqlalchemy
-    from repo.lessons.lesson_18 import mod1
 
+    #Добавление в бд через ORM sqlalchemy
+    # import vacancy_sqlalchemy
+    # from sqlalchemy.orm import sessionmaker
+    # # vacancy_sqlalchemy.Base.metadata.drop_all(vacancy_sqlalchemy.engine)
+    # vacancy_sqlalchemy.Base.metadata.create_all(vacancy_sqlalchemy.engine)
+    # Session =sessionmaker(bind=vacancy_sqlalchemy.engine)
+    # session = Session()
+    # for vac in vacancy_1:
+    #     vac_sql = vacancy_sqlalchemy.Vacancy_sqlalchemy(vac[0],vac[1],vac[2],vac[3],vac[4],vac[5],vac[6],vac[7],vac[8])
+    #     session.add(vac_sql)
+    # session.commit()
+
+
+    #Добавление в бд не через ORM
     # for vac in vacancy:
     #     cur.execute("INSERT INTO vacancy VALUES(?,?,?,?,?,?,?,?,?)",(vac[0],vac[1],vac[2],vac[3],vac[4],vac[5],vac[6],vac[7],vac[8]))
     #

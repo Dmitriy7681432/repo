@@ -9,7 +9,7 @@
 #     a = func1()
 # func()
 
-from repo.lessons.lesson_17.flask_ex import func_vac,vacancy_1
-
-print('TYPE_FLASK=', type(func_vac(vacancy_1)))
-print('FLASK=', func_vac(vacancy_1))
+# from repo.lessons.lesson_17.flask_ex import func_vac,vacancy_1
+#
+# print('TYPE_FLASK=', type(func_vac(vacancy_1)))
+# print('FLASK=', func_vac(vacancy_1))
