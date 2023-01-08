@@ -9,7 +9,7 @@ position =0
 
 @app.route('/main')
 @app.route('/')
-def main(self):
+def main():
     return render_template('main.html')
 
 @app.route('/page_parser',methods =['POST', 'GET'])
