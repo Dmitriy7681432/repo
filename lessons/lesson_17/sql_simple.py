@@ -4,7 +4,11 @@ import  sys
 
 connect = None
 try:
+<<<<<<< HEAD
+    connect =lite.connect('test3.db')
+=======
     connect =lite.connect('test2.db')
+>>>>>>> c239831e14b1dc212554c2b06d5f8dbd04fef052
 
     cur =connect.cursor()
     cur.execute('SELECT SQLITE_VERSION()')
@@ -32,13 +36,13 @@ for car in cars_list:
     cur.execute("INSERT INTO cars VALUES(?,?,?)",(car[0],car[1],car[2]))
 
 #Выгрузка всей инфы с бд
-# sqlite_select_query = """SELECT * from cars"""
-# cur.execute(sqlite_select_query)
-#
-# records = cur.fetchall()
-# print(len(records))
-# for row in records:
-#     print(row)
+sqlite_select_query = """SELECT * from cars"""
+cur.execute(sqlite_select_query)
+
+records = cur.fetchall()
+print(len(records))
+for row in records:
+    print(row)
 
 #Выгрузка инфы по строчно, результат тип кортежа
 # with connect:
@@ -122,7 +126,7 @@ for car in cars_list:
 #     rows = cur.fetchall()
 #     for row in rows:
 #         print(row)
-#
+
 '''
 Работаем с изображениями
 '''

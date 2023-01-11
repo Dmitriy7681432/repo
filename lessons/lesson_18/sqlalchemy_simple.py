@@ -34,7 +34,7 @@ session.add(car_2)
 
 session.commit()
 
-cars_query =session.query(Car)
-print(type(cars_query))
-for car in cars_query:
-    print(car)
+# cars_query =session.query(Car)
+# print(type(cars_query))
+# for car in cars_query:
+#     print(car)

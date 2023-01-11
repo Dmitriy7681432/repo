@@ -2,6 +2,7 @@ import requests,csv
 import pandas as pd
 import seaborn as sns
 import style
+
 def pars_hh(vacancy,city):
     number_of_pages = 200
     # job_tittle = ["'Data Analyst' and 'data scientist'"]
@@ -129,6 +130,7 @@ def pars_city(city):
             for i in ac:
                 if i.get('name') == city:
                     return i.get('id')
+
 
 if __name__ == '__main__':
     pars_hh('Java','Москва')
