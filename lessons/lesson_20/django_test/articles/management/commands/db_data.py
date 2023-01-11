@@ -16,3 +16,19 @@ class Command(BaseCommand):
         #get
         art_ = Article.objects.get(article_name = 'Happy loin')
         print(art_)
+        #filter
+        tags=Tag.objects.filter(tag_name='nature')
+        print(tags)
+        #Связанные поля
+        print(art_.article_tag.all())
+        print(art_.article_tag.first())
+        #Добавление в БД
+        Tag.objects.create(tag_name = 'Tavelling')
+        tags = Tag.objects.all()
+        print(tags)
+        #Удаление
+        tag=Tag.objects.filter(tag_name='Tavelling')
+        tag.delete()
+        tags = Tag.objects.all()
+        print(tags)
+
