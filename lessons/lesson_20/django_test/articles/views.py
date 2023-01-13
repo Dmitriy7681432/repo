@@ -6,7 +6,8 @@ from .models import Article, Tag
 def main_page(request):
     art_all = Article.objects.all()
     # return HttpResponse(f'number of articles {len(art_all)}')
-    return render(request, 'articles/articles_main.html', {'articles': art_all})
+    # return render(request, 'articles/articles_main.html', {'articles': art_all})
+    return render(request, 'articles/category.html', {'articles': art_all})
 def article_description(request, id):
     # art_one = Article.objects.first()
     # return HttpResponse(f'Text: {art_one.article_text}')

@@ -1,6 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
+from articles.models import Article, Tag
 
 # Create your views here.
 def home_page(request):
-    return HttpResponse('This is the home page')
+    random_idx = random.randint(0, Article.object.count() - 1)
+    # return HttpResponse('This is the home page')
+    art_random = get_object_or_404(Article, id=random_idx+1)
+    return render(request, 'articles/index.html',{'articles':art_random})
