@@ -17,9 +17,9 @@ from django.contrib import admin
 from django.urls import path,include
 from articles import views
 
-# app_name= 'articles'
+app_name= 'articles'
 
 urlpatterns = [
     path('', views.main_page, name = 'index'),
-    path('article/', views.article_description, name ='article'),
+    path('<int:id>/', views.article_description, name ='article'),
 ]
