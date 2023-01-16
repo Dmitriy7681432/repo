@@ -12,4 +12,4 @@ def article_description(request, id):
     # art_one = Article.objects.first()
     # return HttpResponse(f'Text: {art_one.article_text}')
     art_one = get_object_or_404(Article, id =id)
-    return render(request, 'articles/article_one.html', {'article': art_one})
+    return render(request, 'articles/single.html', {'article': art_one})

@@ -12,6 +12,7 @@ class Article(models.Model):
     article_text = models.CharField(max_length= 1000)
     article_date = models.DateTimeField('date published')
     article_tag = models.ManyToManyField(Tag)
+    article_img = models.ImageField(upload_to='articles',null=True,blank=True)
 
     def __str__(self):
         return f'{self.article_name}, published: {self.article_date}'
