@@ -9,6 +9,7 @@ class ArticleForm(forms.Form):
     tags = forms.ModelMultipleChoiceField(queryset=Tag.objects.all(), widget=forms.CheckboxSelectMultiple())
 '''
 class ArticleForm(forms.ModelForm):
+    # article_name = forms.CharField(label='Название статьи')
     class Meta:
         model = Article
         fields = '__all__'
