@@ -37,6 +37,14 @@
     <!-- Custom styles for this template -->
     <link href="/static/articles/blog.css" rel="stylesheet">
     <link href="/static/articles/blog.rtl.css" rel="stylesheet">
+    <div class="col-8 text-right">
+        <nav class="site-navigation" role="navigation">
+            <ul class="site-menu js-clone-nav mr-auto d-home d-lg-blcok ab-0">
+                <li class="d-none d-lg-inline-block"><a href="#" class="js-search-toggle"></a></li>
+                <li><a href="{% url 'articles:article_add' %}">Add article</a></li>
+            </ul>
+        </nav>
+    </div>
 </head>
 <body>
 

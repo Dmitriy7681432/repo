@@ -22,4 +22,5 @@ app_name= 'articles'
 urlpatterns = [
     path('', views.main_page, name = 'index'),
     path('<int:id>/', views.article_description, name ='article'),
+    path('add/', views.article_add, name='article_add'),
 ]
