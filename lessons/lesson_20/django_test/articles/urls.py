@@ -23,4 +23,5 @@ urlpatterns = [
     path('', views.main_page, name = 'index'),
     path('<int:id>/', views.article_description, name ='article'),
     path('add/', views.article_add, name='article_add'),
+    path('tags/', views.TagListView.as_view(), name='tag_list'),
 ]

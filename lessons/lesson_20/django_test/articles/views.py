@@ -4,7 +4,9 @@ from django.http import HttpResponse
 from django.urls import reverse
 from .models import Article, Tag
 from .forms import ArticleForm
-import datetime
+from datetime import datetime
+from django.views.generic import ListView,DetailView,CreateView,UpdateView,DeleteView
+from django.core.files.images import ImageFile
 
 # Create your views here.
 def main_page(request):
@@ -44,3 +46,17 @@ def article_add(request):
             return HttpResponseRedirect(reverse('articles:index'))
         else:
             return render(request, 'articles/article_add.html', {'form': form})
+
+class TagListView(ListView):
+    model = Tag
+    template_name = 'articles/tag_list.html'
+    context_object_name = 'tags'
+
+    #def get queryset(self):
+    #можно наложить условия на объекты
+        # return Tag.objects.all()
+
+class TagListView(ListView):
+    model = Tag
+    template_name = 'articles/tag_list.html'
+    context_object_name = 'tags'
