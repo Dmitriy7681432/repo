@@ -2,6 +2,7 @@
 from docx import Document
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.shared import Pt
+# https://docs-python.ru/packages/modul-python-docx-python/obekt-table/
 doc  = Document()
 # добавляем пустую таблицу 2х2 ячейки
 items = (
