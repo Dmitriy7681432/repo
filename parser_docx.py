@@ -29,7 +29,7 @@ items = (
     ('15:00-15:15', 'Официальный перерыв', ''),
     ('15:15-16:05', '', ''),
     ('16:05-16:15', 'Зарядка для глаз, отвлечение от компьютера', 'В соответствии с правилами техники безопасности'),
-    ('15:15 - Окончание работы', 'Заполнение ежедневного отчета о проделанной работе', ''),
+    ('16:15 - Окончание работы', 'Заполнение ежедневного отчета о проделанной работе', ''),
 )
 # добавляем пустую таблицу 2х2 ячейки
 doc.add_paragraph('ФИО: Алексин Д.В.'+'\n'+'Отчетный месяц: март 2023 года')
@@ -43,15 +43,18 @@ p = head_cells[0].paragraphs[0]
 # название колонки
 p.add_run(item)
 p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-
-# table = doc.add_table(16, 3)
-# table.style = 'Table Grid'
+# for row in items:
+#     for i, item in enumerate(row):
+#         print(str(item))
+table = doc.add_table(0, 3)
+table.style = 'Table Grid'
 for row in items:
     # добавляем строку с ячейками к объекту таблицы
     cells = table.add_row().cells
     for i, item in enumerate(row):
         # вставляем данные в ячейки
         cells[i].text = str(item)
+        print(cells[i].text)
         # если последняя ячейка
         if i == 2:
             # изменим шрифт
@@ -59,7 +62,8 @@ for row in items:
 
 # cells = table.add_row().cells
 # cells[0].text = str(item)
-
+Cell = table.cell(1,1)
+Cell.width
 page_break()
 
 #--------------------------------------------------------------------------------------
