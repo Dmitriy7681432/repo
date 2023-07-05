@@ -1,35 +1,53 @@
-# -*- coding: utf-8 -*-
-import socket
+# import serial
+# ser = serial.Serial('COM2', 9600)
+# print(ser)
+# s =ser.readlines(100)
+# # s =ser.readinto()
+# print(s)
 
-listener =socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-listener.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR,1)
-IP = socket.gethostbyname(socket.gethostname())
-print(IP)
-PORT = 12333
-listener.bind((IP,PORT))
-listener.listen(0)
+# ss = s.decode('utf-8')
+# a =ss.count('\n', 0,len(ss))
+# ss = ss.split('\n',a)
+# print(ss)
 
-connection, address = listener.accept()
+# f = open('C:\\repo\date1','rb')
+# ff =f.read().decode('utf-8')
+# a =ff.count('\n', 0,len(ff))
+# ss = ff.split('\n',a)
+# print(ss)
+# print(int(ss[0][20:25]))
+# print(ss[0][20:25])
+# print(ss[1][20:25])
+# print(ss[2][20:25])
 
-print('lol')
-connection.send('Привет, подключайся!'.encode('utf-8'))
-connection.send('Привет!'.encode('utf-8'))
-while True:
-    data_output = ''
-    while True:
-        data = connection.recv(1024).decode('utf-8')
-        data_output+=data
-        if not data:
-            break
-    print(data_output)
+import random
+class Date():
+   def __init__(self):
+      pass
 
+   def date(self):
+      return random.randint(1,100)
 
+date = Date()
+while(1):
+   ask = date.date()
+   print(ask)
 
-connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-IP = '192.168.43.100'
-PORT =12333
-connection.connect((IP, PORT))
-rd = connection.recv(1024)
-print(rd.decode('utf-8'))
-connection.send('И тебе привет!'.encode('utf-8'))
-connection.close()
+# bin_s = bin(int(ss[0]))
+# print(bin_s)
+# print(bin_df)
+# print(ss)
+# lst.append(ss)
+# print(lst)
+# for i in ss:
+#     if i =='\n': count =count+1
+
+# ss = int.from_bytes(s, "big")
+# print(ss)
+# for i in s:
+#     print(i)
+# while(1):
+#     print(s)
+#     count=count+1
+#     if count >10: break
+# ser.close()
