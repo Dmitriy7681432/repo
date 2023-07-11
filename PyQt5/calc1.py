@@ -9,6 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QMessageBox
 
 
 class Ui_MainWindow(object):
@@ -169,6 +170,8 @@ class Ui_MainWindow(object):
 
         self.add_functions()
 
+        self.is_equal = False
+
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Калькулятор"))
@@ -191,24 +194,60 @@ class Ui_MainWindow(object):
 
 
     def add_functions(self):
-        self.btn_zero.clicked.connect(lambda: self.write_nubmer(self.btn_zero.text()))
-        self.btn_1.clicked.connect(lambda: self.write_nubmer(self.btn_1.text()))
-        self.btn_2.clicked.connect(lambda: self.write_nubmer(self.btn_2.text()))
-        self.btn_3.clicked.connect(lambda: self.write_nubmer(self.btn_3.text()))
-        self.btn_4.clicked.connect(lambda: self.write_nubmer(self.btn_4.text()))
-        self.btn_5.clicked.connect(lambda: self.write_nubmer(self.btn_5.text()))
-        self.btn_6.clicked.connect(lambda: self.write_nubmer(self.btn_6.text()))
-        self.btn_6.clicked.connect(lambda: self.write_nubmer(self.btn_7.text()))
-        self.btn_8.clicked.connect(lambda: self.write_nubmer(self.btn_8.text()))
-        self.btn_9.clicked.connect(lambda: self.write_nubmer(self.btn_9.text()))
-        self.btn_plus.clicked.connect(lambda: self.write_nubmer(self.btn_plus.text()))
-        self.btn_minus.clicked.connect(lambda: self.write_nubmer(self.btn_minus.text()))
-        self.btn_mult.clicked.connect(lambda: self.write_nubmer(self.btn_mult.text()))
-        self.btn_divide.clicked.connect(lambda: self.write_nubmer(self.btn_divide.text()))
+        self.btn_zero.clicked.connect(lambda: self.write_number(self.btn_zero.text()))
+        self.btn_1.clicked.connect(lambda: self.write_number(self.btn_1.text()))
+        self.btn_2.clicked.connect(lambda: self.write_number(self.btn_2.text()))
+        self.btn_3.clicked.connect(lambda: self.write_number(self.btn_3.text()))
+        self.btn_4.clicked.connect(lambda: self.write_number(self.btn_4.text()))
+        self.btn_5.clicked.connect(lambda: self.write_number(self.btn_5.text()))
+        self.btn_6.clicked.connect(lambda: self.write_number(self.btn_6.text()))
+        self.btn_7.clicked.connect(lambda: self.write_number(self.btn_7.text()))
+        self.btn_8.clicked.connect(lambda: self.write_number(self.btn_8.text()))
+        self.btn_9.clicked.connect(lambda: self.write_number(self.btn_9.text()))
+        self.btn_plus.clicked.connect(lambda: self.write_number(self.btn_plus.text()))
+        self.btn_minus.clicked.connect(lambda: self.write_number(self.btn_minus.text()))
+        self.btn_mult.clicked.connect(lambda: self.write_number(self.btn_mult.text()))
+        self.btn_divide.clicked.connect(lambda: self.write_number(self.btn_divide.text()))
 
+        self.btn_equal.clicked.connect(self.results)
 
     def write_number(self, number):
-        print(number)
+        if self.label_result.text() == "0" or self.is_equal:
+            self.label_result.setText(number)
+            self.is_equal = False
+            print("1")
+        else:
+            self.label_result.setText(self.label_result.text()+number)
+            print("2")
+
+    def results(self):
+        if not self.is_equal:
+            res = eval(self.label_result.text())
+            self.label_result.setText("Результат: " + str(res))
+            self.is_equal = True
+        else:
+            error = QMessageBox()
+            error.setWindowTitle("Ошибка")
+            error.setText("Сейчас это действие выполнить нельзя")
+            error.setIcon(QMessageBox.Warning)
+            error.setStandardButtons(QMessageBox.Reset|QMessageBox.Cancel|QMessageBox.Ok)
+
+            error.setDefaultButton(QMessageBox.Ok)
+            error.setInformativeText("Два раза действие не выполнить")
+            error.setDetailedText("Детали")
+
+            error.buttonClicked.connect(self.popup_action)
+            
+            error.exec_()
+
+    def popup_action(self, btn):
+        if btn.text() =="Ok":
+            print("Print Ok")
+        elif btn.text() =="Reset":
+            self.label_result.setText("")
+            self.is_equal=False
+
+
 
 
 if __name__ == "__main__":
