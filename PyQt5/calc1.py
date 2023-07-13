@@ -237,7 +237,7 @@ class Ui_MainWindow(object):
             error.setDetailedText("Детали")
 
             error.buttonClicked.connect(self.popup_action)
-            
+
             error.exec_()
 
     def popup_action(self, btn):
