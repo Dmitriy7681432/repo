@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+#Уроки -  https://www.youtube.com/watch?v=eipstdomHQE&t=894s
 # from PyQt5 import QtWidgets
 # from PyQt5.QtWidgets import QApplication, QMainWindow
 #
@@ -41,7 +42,7 @@
 #     application()
 
 from PyQt5 import QtWidgets, QtCore
-from PyQt5.QtWidgets import QApplication,QMainWindow,QMenuBar,QMenu
+from PyQt5.QtWidgets import QApplication,QMainWindow,QMenuBar,QMenu,QFileDialog
 
 import sys
 
@@ -70,7 +71,24 @@ class Window(QMainWindow):
     @QtCore.pyqtSlot()
     def action_clicked(self):
         action = self.sender()
-        print("Action: "+ action.text())
+        if action.text() =="Открыть":
+            fname = QFileDialog.getOpenFileName(self)[0]
+            try:
+                f = open(fname, "r", encoding="utf-8")
+                with f:
+                    data = f.read()
+                    self.text_edit.setText(data)
+            except FileNotFoundError:
+                print("No such file")
+        elif action.text() =="Сохранить":
+            fname = QFileDialog.getSaveFileName(self)[0]
+            try:
+                f = open(fname, "w", encoding="utf-8")
+                with f:
+                    text = self.text_edit.toPlainText()
+                    f.write(text)
+            except FileNotFoundError:
+                print("No such file")
 
 
 def application():
