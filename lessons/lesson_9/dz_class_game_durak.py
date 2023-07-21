@@ -1,4 +1,5 @@
 import random,traceback,sys
+#Функия для отображения имя функции
 def func():
     stack = traceback.extract_stack()
     print('Print from {}'.format(stack[-2][2]))

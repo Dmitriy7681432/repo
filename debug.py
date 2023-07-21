@@ -9,7 +9,8 @@
 # for i in d:
 #     print(i)
 # print([b])
-
-a = False
-if a:
-    print(a)
+import sys
+s = sys._getframe
+a ="Hello"
+print(a,s().f_lineno)
+print(a,s().f_lineno)
