@@ -49,7 +49,7 @@ def on_click_calendar():
     form.dateEdit.setDate(form.calendarWidget.selectedDate())
     calc_date = form.calendarWidget.selectedDate()
     delta_days = start_date.daysTo(calc_date)
-    print(delta_days)
+    print(delta_days,n().f_lineno)
 
 def on_dateedit_change():
     # print(form.dateEdit.dateTime().toString('dd-MM-yyyy'))
@@ -61,7 +61,7 @@ form.calendarWidget.clicked.connect(on_click_calendar)
 form.dateEdit.dateChanged.connect(on_dateedit_change)
 
 start_date = form.calendarWidget.selectedDate()
-calc_date = form.calendarWidget.selectedDate()
+# calc_date = form.calendarWidget.selectedDate()
 on_click_calendar()
 
 app.exec_()
