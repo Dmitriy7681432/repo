@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-import sys
+import sys,pickle
 
 n = sys._getframe
 
@@ -18,7 +18,7 @@ class Main(object):
 
         # Метка
         self.label = QtWidgets.QLabel(self.centralwidget)
-        self.label.setGeometry(QtCore.QRect(220, 0, 211, 91))
+        self.label.setGeometry(QtCore.QRect(120, 0, 511, 91))
         font = QtGui.QFont()
         font.setPointSize(20)
         self.label.setFont(font)
@@ -66,7 +66,7 @@ class Main(object):
 
         # Метка 3
         self.label_3 = QtWidgets.QLabel(self.centralwidget)
-        self.label_3.setGeometry(QtCore.QRect(70, 450, 541, 41))
+        self.label_3.setGeometry(QtCore.QRect(70, 450, 581,61))
         font = QtGui.QFont()
         font.setPointSize(20)
         self.label_3.setFont(font)
@@ -98,22 +98,61 @@ class Main(object):
         self.label_3.setText(
             _translate("MainWindow", "<html><head/><body><p>До наступления события осталось xx дней</p></body></html>"))
 
+    def save_to_file(self):
+        global start_date, calc_date, description
+        data_to_save = {"start": start_date, "end": calc_date, "desc": description}
+        file1 = open("config.txt", "wb")
+        pickle.dump(data_to_save, file1)
+        file1.close()
+
+    def read_from_file(self):
+        global start_date, calc_date, description, now_date
+        try:
+            file1 = open("config.txt","rb")
+            data_to_load = pickle.load(file1)
+            file1.close()
+            start_date = data_to_load["start"]
+            calc_date = data_to_load["end"]
+            description = data_to_load["desc"]
+            print(start_date.toString('dd-MM-yyyy'),calc_date.toString('dd-MM-yyyy'),
+                  description, n().f_lineno)
+            self.calendarWidget.setSelectedDate(calc_date)
+            self.dateEdit.setDate(calc_date)
+            self.plainTextEdit.setPlainText(description)
+            delta_days_left = start_date.daysTo(now_date)  # прошло дней
+            delta_days_right = now_date.daysTo(calc_date)  # осталось дней
+            days_total = start_date.daysTo(calc_date)  # всего дней
+            print(delta_days_left, delta_days_right, days_total, n().f_lineno)
+        except:
+            print("Не могу прочитать файл конфигурации")
+
     def on_click(self):
-        print(self.plainTextEdit.toPlainText(), n().f_lineno)
-        print(self.dateEdit.dateTime().toString('dd-MM-yyyy'), n().f_lineno)
+        global calc_date, description
+        calc_date = self.calendarWidget.selectedDate()
+        description = self.plainTextEdit.toPlainText()
+
+        # print(self.plainTextEdit.toPlainText(), n().f_lineno)
+        # print(self.dateEdit.dateTime().toString('dd-MM-yyyy'), n().f_lineno)
         print("Clicked!!!", n().f_lineno)
+        self.save_to_file()
 
     def on_click_calendar(self):
+        global start_date, calc_date
         ui.dateEdit.setDate(ui.calendarWidget.selectedDate())
         # print(self.calendarWidget.selectedDate().toString('dd-MM-yyyy'))
         calc_date = self.calendarWidget.selectedDate()
         delta_days = start_date.daysTo(calc_date)
         print(delta_days,n().f_lineno)
+        self.label_3.setText(f"До наступления события осталось: {delta_days} дней")
 
     def on_dateedit_change(self):
+        global start_date, calc_date
         # print(form.dateEdit.dateTime().toString('dd-MM-yyyy'))
         self.calendarWidget.setSelectedDate(self.dateEdit.date())
-        print(self.dateEdit.date(),n().f_lineno)
+        calc_date = self.dateEdit.date()
+        delta_days = start_date.daysTo(calc_date)
+        print(delta_days,n().f_lineno)
+        self.label_3.setText(f"До наступления события осталось: {delta_days} дней")
 
 if __name__ == "__main__":
     import sys
@@ -127,7 +166,13 @@ if __name__ == "__main__":
     ui.pushButton.clicked.connect(ui.on_click)
     ui.calendarWidget.clicked.connect(ui.on_click_calendar)
     ui.dateEdit.dateChanged.connect(ui.on_dateedit_change)
+
     start_date = ui.calendarWidget.selectedDate()
+    now_date = ui.calendarWidget.selectedDate()
+    calc_date = ui.calendarWidget.selectedDate()
+    description = ui.plainTextEdit.toPlainText()
+    ui.read_from_file()
+    ui.label.setText(f"Трекер события от {start_date.toString('dd-MM-yyyy')}")
     ui.on_click_calendar()
 
     sys.exit(app.exec_())
