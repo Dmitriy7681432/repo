@@ -34,6 +34,7 @@ n = sys._getframe
 
 def save_to_file():
     global start_date, calc_date, description
+    start_date = QDate(2023,7,25)
     data_to_save = {"start": start_date, "end": calc_date, "desc": description}
     file1=open("config.txt","wb")
     pickle.dump(data_to_save,file1)
@@ -58,13 +59,16 @@ def read_from_file():
         delta_days_right = now_date.daysTo(calc_date) # осталось дней
         days_total = start_date.daysTo(calc_date) # всего дней
         print(delta_days_left,delta_days_right,days_total,n().f_lineno)
-        procent = delta_days_left*100/days_total
+        procent = int(delta_days_left*100/days_total)
+        print(procent,n().f_lineno)
+        form.progressBar.setProperty("value",procent)
     except:
         print("Не могу прочитать файл конфигурации")
 
 
 def on_click():
-    global calc_date, description
+    global calc_date, description, start_date
+    start_date =now_date
     calc_date = form.calendarWidget.selectedDate()
     description = form.plainTextEdit.toPlainText()
 
@@ -103,6 +107,7 @@ form.calendarWidget.clicked.connect(on_click_calendar)
 form.dateEdit.dateChanged.connect(on_dateedit_change)
 
 start_date = form.calendarWidget.selectedDate()
+print(start_date.toString('dd-MM-yyyy'),n().f_lineno)
 now_date = form.calendarWidget.selectedDate()
 calc_date = form.calendarWidget.selectedDate()
 description = form.plainTextEdit.toPlainText()

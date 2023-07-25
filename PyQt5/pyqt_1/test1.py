@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtCore import QDate
 
 import sys,pickle
 
@@ -100,6 +101,7 @@ class Main(object):
 
     def save_to_file(self):
         global start_date, calc_date, description
+        # start_date = QDate(2023, 7, 15)
         data_to_save = {"start": start_date, "end": calc_date, "desc": description}
         file1 = open("config.txt", "wb")
         pickle.dump(data_to_save, file1)
@@ -123,11 +125,15 @@ class Main(object):
             delta_days_right = now_date.daysTo(calc_date)  # осталось дней
             days_total = start_date.daysTo(calc_date)  # всего дней
             print(delta_days_left, delta_days_right, days_total, n().f_lineno)
+            procent = int(delta_days_left * 100 / days_total)
+            print(procent, n().f_lineno)
+            self.progressBar.setProperty("value", procent)
         except:
             print("Не могу прочитать файл конфигурации")
 
     def on_click(self):
-        global calc_date, description
+        global calc_date, description, start_date
+        start_date = now_date
         calc_date = self.calendarWidget.selectedDate()
         description = self.plainTextEdit.toPlainText()
 
