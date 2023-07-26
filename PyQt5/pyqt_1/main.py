@@ -17,11 +17,15 @@ from PyQt5.QtCore import QDate
 
 from PyQt5 import uic
 from PyQt5.QtWidgets import QApplication
-import sys, pickle
+import sys, pickle,os
 
 # Конструкция для отображения номера строки
 # sys._getframe().f_lineno
-Form, Window = uic.loadUiType("test.ui")
+# Для того чтобы запускать файл из любого места
+print(os.path.realpath(__file__))
+dirname,filename = os.path.split(os.path.realpath(__file__))
+print(dirname)
+Form, Window = uic.loadUiType(dirname+"\\test.ui")
 
 app = QApplication([])
 window = Window()
@@ -34,7 +38,7 @@ n = sys._getframe
 
 def save_to_file():
     global start_date, calc_date, description
-    start_date = QDate(2023,7,25)
+    # start_date = QDate(2023,7,25)
     data_to_save = {"start": start_date, "end": calc_date, "desc": description}
     file1=open("config.txt","wb")
     pickle.dump(data_to_save,file1)

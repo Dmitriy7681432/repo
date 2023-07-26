@@ -101,7 +101,7 @@ class Main(object):
 
     def save_to_file(self):
         global start_date, calc_date, description
-        # start_date = QDate(2023, 7, 15)
+        # start_date = QDate(2023, 7, 25)
         data_to_save = {"start": start_date, "end": calc_date, "desc": description}
         file1 = open("config.txt", "wb")
         pickle.dump(data_to_save, file1)
