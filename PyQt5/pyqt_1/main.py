@@ -37,18 +37,23 @@ n = sys._getframe
 
 
 def save_to_file():
-    global start_date, calc_date, description
+    global start_date, calc_date, description,dirname
     # start_date = QDate(2023,7,25)
     data_to_save = {"start": start_date, "end": calc_date, "desc": description}
-    file1=open("config.txt","wb")
+    file1=open(dirname +"\\config.txt","wb")
     pickle.dump(data_to_save,file1)
     file1.close()
-
+    task = """schtasks /create /tr "python """ +os.path.realpath(__file__)+ """/tn "Трекер события" /sc MINUTE /mo 120 /ed 29/07/2023 /F"""
+    print(task)
+    task = """schtasks /create /tr "python """ +os.path.realpath(
+        __file__)+ """" /tn "Трекер события" /sc MINUTE /mo 90 /ed """+calc_date.toString("dd/MM/yyyy")+""" /F"""
+    os.system("chcp 65001")
+    os.system(task)
 
 def read_from_file():
-    global start_date, calc_date, description,now_date
+    global start_date, calc_date, description,now_date,dirname
     try:
-        file1 = open("config.txt","rb")
+        file1 = open(dirname+"\\config.txt","rb")
         data_to_load = pickle.load(file1)
         file1.close()
         start_date = data_to_load["start"]
