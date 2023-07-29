@@ -10,6 +10,7 @@
 #     print(i)
 # print([b])
 import sys
+import PyQt5.QtCore as __PyQt5_QtCore
 s = sys._getframe
 a ="Hello"
 print(a,s().f_lineno)
