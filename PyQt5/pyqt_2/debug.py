@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 class AAA(object):
     def __init__(self):
         self.num = "Hello"
