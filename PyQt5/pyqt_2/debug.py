@@ -8,9 +8,10 @@ class AAA(object):
         print("Это метода класса А")
 
 
-class BBB():
-    def __init__(self):
-        super().__init__()
+class BBB(AAA):
+    # def __init__(self):
+        # super().__init__()
+        # self.num = self.num + "Hello1"
 
     def func_b(self):
         print("Это метода класса B")
@@ -28,4 +29,6 @@ class BBB():
 
 if __name__ == "__main__":
     a = BBB()
-    print(a.func_a())
+    text= a.num
+    print(text,"---")
+    # print(a.func_a(),"---")

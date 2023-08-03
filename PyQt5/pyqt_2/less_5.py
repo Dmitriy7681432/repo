@@ -33,7 +33,7 @@ class Example(QWidget):
 
         text, ok = QInputDialog.getText(self, 'Input Dialog',
             'Enter your name:')
-
+        print(text,"--",ok)
         if ok:
             self.le.setText(str(text))
 
