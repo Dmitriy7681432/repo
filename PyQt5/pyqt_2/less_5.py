@@ -95,8 +95,9 @@ if __name__ == '__main__':
     sys.exit(app.exec_())
 """
 #5.3 - QFontDialog ___________________________________
+"""
 import sys
-from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QPushButton,
+from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QPushButton,\
     QSizePolicy, QLabel, QFontDialog, QApplication)
 
 
@@ -113,8 +114,8 @@ class Example(QWidget):
         vbox = QVBoxLayout()
 
         btn = QPushButton('Dialog', self)
-        btn.setSizePolicy(QSizePolicy.Fixed,
-            QSizePolicy.Fixed)
+        btn.setSizePolicy(QSizePolicy.Fixed,QSizePolicy.Fixed)
+
 
         btn.move(20, 20)
 
@@ -138,6 +139,58 @@ class Example(QWidget):
         font, ok = QFontDialog.getFont()
         if ok:
             self.lbl.setFont(font)
+
+
+if __name__ == '__main__':
+
+    app = QApplication(sys.argv)
+    ex = Example()
+    sys.exit(app.exec_())
+"""
+#5.4 - QFileDialog ___________________________________
+import sys
+from PyQt5.QtWidgets import (QMainWindow, QTextEdit,
+    QAction, QFileDialog, QApplication)
+from PyQt5.QtGui import QIcon
+
+
+class Example(QMainWindow):
+
+    def __init__(self):
+        super().__init__()
+
+        self.initUI()
+
+
+    def initUI(self):
+
+        self.textEdit = QTextEdit()
+        self.setCentralWidget(self.textEdit)
+        self.statusBar()
+
+        openFile = QAction(QIcon('open.png'), 'Open', self)
+        openFile.setShortcut('Ctrl+O')
+        openFile.setStatusTip('Open new File')
+        openFile.triggered.connect(self.showDialog)
+
+        menubar = self.menuBar()
+        fileMenu = menubar.addMenu('&File')
+        fileMenu.addAction(openFile)
+
+        self.setGeometry(300, 300, 350, 300)
+        self.setWindowTitle('File dialog')
+        self.show()
+
+
+    def showDialog(self):
+
+        fname = QFileDialog.getOpenFileName(self, 'Open file', '/home')[0]
+        print(fname)
+        if fname !=None:
+            f = open(fname, 'r')
+            with f:
+                data = f.read()
+                self.textEdit.setText(data)
 
 
 if __name__ == '__main__':
