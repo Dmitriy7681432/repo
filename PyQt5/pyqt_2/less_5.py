@@ -171,7 +171,8 @@ class Example(QMainWindow):
         openFile = QAction(QIcon('open.png'), 'Open', self)
         openFile.setShortcut('Ctrl+O')
         openFile.setStatusTip('Open new File')
-        openFile.triggered.connect(self.showDialog)
+        a = openFile.triggered.connect(self.showDialog)
+        print(a)
 
         menubar = self.menuBar()
         fileMenu = menubar.addMenu('&File')
@@ -185,12 +186,15 @@ class Example(QMainWindow):
     def showDialog(self):
 
         fname = QFileDialog.getOpenFileName(self, 'Open file', '/home')[0]
-        print(fname)
-        if fname !=None:
+        try:
+            print(fname)
+            # if fname !=None:
             f = open(fname, 'r')
             with f:
                 data = f.read()
                 self.textEdit.setText(data)
+        except:
+            print('No such file')
 
 
 if __name__ == '__main__':
