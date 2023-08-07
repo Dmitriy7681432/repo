@@ -32,3 +32,13 @@
 #     text= a.num
 #     print(text,"---")
 #     # print(a.func_a(),"---")
+class MyClass:
+    class_attribute = "Class"
+
+    def __init__(self):
+        self.instance_attribute = "Instance"
+    def func1(self):
+        self.num =5
+my_object = MyClass()
+print(my_object.__dict__)
+print(MyClass.__dict__)
