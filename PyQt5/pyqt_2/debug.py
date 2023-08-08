@@ -32,13 +32,26 @@
 #     text= a.num
 #     print(text,"---")
 #     # print(a.func_a(),"---")
-class MyClass:
-    class_attribute = "Class"
+from PyQt5.QtWidgets import QComboBox
 
-    def __init__(self):
-        self.instance_attribute = "Instance"
-    def func1(self):
-        self.num =5
-my_object = MyClass()
-print(my_object.__dict__)
-print(MyClass.__dict__)
+class Bar(QComboBox):
+
+    def connect_activated(self):
+        # The PyQt5 documentation will define what the default overload is.
+        # In this case it is the overload with the single integer argument.
+        self.activated.connect(self.handle_int)
+
+        # For non-default overloads we have to specify which we want to
+        # connect.  In this case the one with the single string argument.
+        # (Note that we could also explicitly specify the default if we
+        # wanted to.)
+        self.activated[str].connect(self.handle_string)
+
+    def handle_int(self, index):
+        print( "activated signal passed integer", index)
+
+    def handle_string(self, text):
+        print( "activated signal passed QString", text)
+
+bar =Bar()
+bar.connect_activated()
