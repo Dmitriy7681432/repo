@@ -32,26 +32,54 @@
 #     text= a.num
 #     print(text,"---")
 #     # print(a.func_a(),"---")
-from PyQt5.QtWidgets import QComboBox
 
-class Bar(QComboBox):
+# from PyQt5.QtWidgets import QComboBox
+#
+# class Bar(QComboBox):
+#
+#     def connect_activated(self):
+#         # The PyQt5 documentation will define what the default overload is.
+#         # In this case it is the overload with the single integer argument.
+#         self.activated.connect(self.handle_int)
+#
+#         # For non-default overloads we have to specify which we want to
+#         # connect.  In this case the one with the single string argument.
+#         # (Note that we could also explicitly specify the default if we
+#         # wanted to.)
+#         self.activated[str].connect(self.handle_string)
+#
+#     def handle_int(self, index):
+#         print( "activated signal passed integer", index)
+#
+#     def handle_string(self, text):
+#         print( "activated signal passed QString", text)
+#
+# bar =Bar()
+# bar.connect_activated()
 
-    def connect_activated(self):
-        # The PyQt5 documentation will define what the default overload is.
-        # In this case it is the overload with the single integer argument.
-        self.activated.connect(self.handle_int)
+import sys, random
+from PyQt5.QtWidgets import QMainWindow, QFrame, QDesktopWidget, QApplication
+from PyQt5.QtCore import Qt, QBasicTimer, pyqtSignal
+from PyQt5.QtGui import QPainter, QColor
+class Tetris(QMainWindow):
 
-        # For non-default overloads we have to specify which we want to
-        # connect.  In this case the one with the single string argument.
-        # (Note that we could also explicitly specify the default if we
-        # wanted to.)
-        self.activated[str].connect(self.handle_string)
+    def __init__(self):
+        super().__init__()
 
-    def handle_int(self, index):
-        print( "activated signal passed integer", index)
+        self.initUI()
 
-    def handle_string(self, text):
-        print( "activated signal passed QString", text)
 
-bar =Bar()
-bar.connect_activated()
+    def initUI(self):
+
+        self.tboard = Board(self)
+        self.setCentralWidget(self.tboard)
+
+        self.statusbar = self.statusBar()
+        self.tboard.msg2Statusbar[str].connect(self.statusbar.showMessage)
+
+        self.tboard.start()
+
+        self.resize(180, 380)
+        self.center()
+        self.setWindowTitle('Tetris')
+        self.show()

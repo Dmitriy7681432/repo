@@ -6,7 +6,7 @@ from PyQt5.QtWidgets import QMainWindow, QFrame, QDesktopWidget, QApplication
 from PyQt5.QtCore import Qt, QBasicTimer, pyqtSignal
 from PyQt5.QtGui import QPainter, QColor
 
-
+n = sys._getframe
 class Tetris(QMainWindow):
 
     def __init__(self):
@@ -123,7 +123,6 @@ class Board(QFrame):
 
         painter = QPainter(self)
         rect = self.contentsRect()
-
         boardTop = rect.bottom() - Board.BoardHeight * self.squareHeight()
 
         for i in range(Board.BoardHeight):
@@ -201,7 +200,6 @@ class Board(QFrame):
 
         for i in range(Board.BoardHeight * Board.BoardWidth):
             self.board.append(Tetrominoe.NoShape)
-
 
     def dropDown(self):
 
@@ -370,6 +368,7 @@ class Shape(object):
     def setShape(self, shape):
 
         table = Shape.coordsTable[shape]
+        print(table,n().f_lineno)
 
         for i in range(4):
             for j in range(2):

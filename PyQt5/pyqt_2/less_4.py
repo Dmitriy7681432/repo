@@ -75,7 +75,7 @@ if __name__ == '__main__':
     sys.exit(app.exec_())
 """
 # 4.3 Отправитель события _________________________________
-"""
+
 import sys
 from PyQt5.QtWidgets import QMainWindow, QPushButton, QApplication
 
@@ -117,7 +117,7 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     ex = Example()
     sys.exit(app.exec_())
-"""
+
 # 4.4 Отправка сигналов _________________________________
 """
 import sys
