@@ -1,31 +1,17 @@
-16:01:11: Main    : create and start thread 0.
-16:01:11: Thread 0: starting
-16:01:11: Main    : create and start thread 1.
-16:01:11: Thread 1: starting
-16:01:11: Main    : create and start thread 2.
-16:01:11: Thread 2: starting
-16:01:11: Main    : before joining thread 0.
-16:01:13: Thread 0: finishing
-16:01:13: Main    : thread 0 done
-16:01:13: Main    : before joining thread 1.
-16:01:13: Thread 2: finishing
-16:01:13: Thread 1: finishing
-16:01:13: Main    : thread 1 done
-16:01:13: Main    : before joining thread 2.
-16:01:13: Main    : thread 2 don
+ Process A waiting 5 seconds
+ Process A Finished.
+ Process B waiting 2 seconds
+ Process B Finished.
+ Process C waiting 1 seconds
+ Process C Finished.
+ Process D waiting 3 seconds
+ Process D Finished.
 
-16:41:53: Main    : create and start thread 0.
-16:41:53: Thread 0: starting
-16:41:53: Main    : create and start thread 1.
-16:41:53: Thread 1: starting
-16:41:53: Main    : create and start thread 2.
-16:41:53: Thread 2: starting
-16:41:53: Main    : before joining thread 0.
-16:41:53: Main    : thread 0 done
-16:41:53: Main    : before joining thread 1.
-16:41:53: Main    : thread 1 done
-16:41:53: Main    : before joining thread 2.
-16:41:53: Main    : thread 2 done
-16:41:55: Thread 1: finishing
-16:41:55: Thread 0: finishing
-16:41:55: Thread 2: finishing
+ Process A waiting 5 seconds
+ Process B waiting 2 seconds
+ Process B Finished.
+ Process C waiting 1 seconds
+ Process C Finished.
+ Process D waiting 3 seconds
+ Process A Finished.
+ Process D Finished.
