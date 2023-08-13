@@ -420,18 +420,40 @@ from time import sleep
 #    print("with")
 
 
+#Семафоры
+# from threading import Thread, BoundedSemaphore
+# from time import sleep, time
+# ticket_office = BoundedSemaphore(value=3)
+# def ticket_buyer(number):
+#    start_service = time()
+#    print("def")
+#    with ticket_office:
+#        print("with")
+#        sleep(1)
+#        print(f"client {number}, service time: {time() - start_service}")
+# buyer = [Thread(target=ticket_buyer, args=(i,)) for i in range(5)]
+# for b in buyer:
+#    print("for b")
+#    b.start()
 
-from threading import Thread, BoundedSemaphore
+#События
+# from threading import Thread, Event
+# from time import sleep, time
+# event = Event()
+# def worker(name: str):
+#    event.wait()
+#    print(f"Worker: {name}")
+# # Clear event
+# event.clear()
+# # Create and start workers
+# workers = [Thread(target=worker, args=(f"wrk {i}",)) for i in range(5)]
+# for w in workers:
+#    w.start()
+# print("Main thread")
+# event.set()
+
+#Таймеры
+from threading import Timer
 from time import sleep, time
-ticket_office = BoundedSemaphore(value=3)
-def ticket_buyer(number):
-   start_service = time()
-   print("def")
-   with ticket_office:
-       print("with")
-       sleep(1)
-       print(f"client {number}, service time: {time() - start_service}")
-buyer = [Thread(target=ticket_buyer, args=(i,)) for i in range(5)]
-for b in buyer:
-   print("for b")
-   b.start()
+timer = Timer(interval=3,function=lambda: print("Message from Timer!"))
+timer.start()
