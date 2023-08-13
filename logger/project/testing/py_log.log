@@ -1,17 +1,18 @@
- Process A waiting 5 seconds
- Process A Finished.
- Process B waiting 2 seconds
- Process B Finished.
- Process C waiting 1 seconds
- Process C Finished.
- Process D waiting 3 seconds
- Process D Finished.
-
- Process A waiting 5 seconds
- Process B waiting 2 seconds
- Process B Finished.
- Process C waiting 1 seconds
- Process C Finished.
- Process D waiting 3 seconds
- Process A Finished.
- Process D Finished.
+except
+thread 1: order 0
+thread 1: order 1
+thread 1: order 2
+thread 1: order 3
+thread 1: order 4
+with
+thread 2: order 5
+thread 2: order 6
+thread 2: order 7
+thread 2: order 8
+thread 2: order 9
+thread 2: stop
+stop
+thread 1: stop
+stop
+thread 3: stop
+stop

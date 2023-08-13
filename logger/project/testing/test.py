@@ -234,20 +234,204 @@ import concurrent.futures
 #     logging.info("Testing update. Ending value is %d.", database.value)
 #
 # # https://realpython.com/intro-to-python-threading/
-class FakeDatabase:
-    def __init__(self):
-        self.value = 0
-        self._lock = threading.Lock()
+# class FakeDatabase:
+#     def __init__(self):
+#         self.value = 0
+#         self._lock = threading.Lock()
+#
+#     def locked_update(self, name):
+#         logging.info("Thread %s: starting update", name)
+#         logging.debug("Thread %s about to lock", name)
+#         with self._lock:
+#             logging.debug("Thread %s has lock", name)
+#             local_copy = self.value
+#             local_copy += 1
+#             time.sleep(0.1)
+#             self.value = local_copy
+#             logging.debug("Thread %s about to release lock", name)
+#         logging.debug("Thread %s after release", name)
+#         logging.info("Thread %s: finishing update", name)
 
-    def locked_update(self, name):
-        logging.info("Thread %s: starting update", name)
-        logging.debug("Thread %s about to lock", name)
-        with self._lock:
-            logging.debug("Thread %s has lock", name)
-            local_copy = self.value
-            local_copy += 1
-            time.sleep(0.1)
-            self.value = local_copy
-            logging.debug("Thread %s about to release lock", name)
-        logging.debug("Thread %s after release", name)
-        logging.info("Thread %s: finishing update", name)
+# from time import perf_counter
+#
+#
+# def replace(filename, substr, new_substr):
+#     print(f'Обрабатываем файл {filename}')
+#     # получаем содержимое файла
+#     with open(filename, 'r') as f:
+#         content = f.read()
+#
+#     # заменяем substr на new_substr
+#     content = content.replace(substr, new_substr)
+#
+#     # записываем данные в файл
+#     with open(filename, 'w') as f:
+#         f.write(content)
+#
+#
+# def main():
+#     filenames = [
+#         'd:/temp/test1.txt',
+#         'd:/temp/test2.txt',
+#         'd:/temp/test3.txt',
+#         'd:/temp/test4.txt',
+#         'd:/temp/test5.txt',
+#         'd:/temp/test6.txt',
+#         'd:/temp/test7.txt',
+#         'd:/temp/test8.txt',
+#         'd:/temp/test9.txt',
+#         'd:/temp/test10.txt',
+#     ]
+#
+#     for filename in filenames:
+#         replace(filename, 'ids', 'id')
+#
+#
+# if __name__ == "__main__":
+#     start_time = perf_counter()
+#
+#     main()
+#
+#     end_time = perf_counter()
+#     print(f'Выполнение заняло {end_time- start_time :0.2f} секунд.')
+#
+# from threading import Thread
+# from time import perf_counter
+#
+#
+# def replace(filename, substr, new_substr):
+#     print(f'Обрабатываем файл {filename}')
+#     # получаем содержимое файла
+#     with open(filename, 'r') as f:
+#         content = f.read()
+#
+#     # заменяем substr на new_substr
+#     content = content.replace(substr, new_substr)
+#
+#     # записываем данные в файл
+#     with open(filename, 'w') as f:
+#         f.write(content)
+#
+#
+# def main():
+#     filenames = [
+#         'd:/temp/test1.txt',
+#         'd:/temp/test2.txt',
+#         'd:/temp/test3.txt',
+#         'd:/temp/test4.txt',
+#         'd:/temp/test5.txt',
+#         'd:/temp/test6.txt',
+#         'd:/temp/test7.txt',
+#         'd:/temp/test8.txt',
+#         'd:/temp/test9.txt',
+#         'd:/temp/test10.txt',
+#     ]
+#
+#     # создаем потоки
+#     threads = [Thread(target=replace, args=(filename, 'id', 'ids'))
+#             for filename in filenames]
+#
+#     # запускаем потоки
+#     for thread in threads:
+#         thread.start()
+#
+#     # ждем завершения потоков
+#     for thread in threads:
+#         thread.join()
+#
+#
+# if __name__ == "__main__":
+#     start_time = perf_counter()
+#
+#     main()
+#
+#     end_time = perf_counter()
+#     print(f'Выполнение заняло {end_time- start_time :0.2f} секунд.')
+
+from threading import Thread
+from time import sleep
+# def func():
+#     for i in range(5):
+#         print(f"from child thread: {i}")
+#         sleep(0.5)
+
+# th = Thread(target=func)
+# th.start()
+# for i in range(5):
+#     print(f"from main thread: {i}")
+#     sleep(1)
+
+# th1 = Thread(target=func)
+# th2 = Thread(target=func)
+# th1.start()
+# th2.start()
+# th1.join()
+# th2.join()
+# print("--> stop")
+
+# th = Thread(target=func)
+# print(f"thread status: {th.is_alive()}")
+# th.start()
+# print(f"thread status: {th.is_alive()}")
+# sleep(5)
+# print(f"thread status: {th.is_alive()}")
+
+# from threading import Condition, Thread
+# from queue import Queue
+# from time import sleep
+# cv = Condition()
+# q = Queue()
+# # Consumer function for order processing
+# def order_processor(name):
+#    while True:
+#        with cv:
+#            # print("with cv")
+#            # Wait while queue is empty
+#            while q.empty():
+#                print("while")
+#                cv.wait()
+#            try:
+#                # Get data (order) from queue
+#                order = q.get_nowait()
+#                print(f"{name}: {order}")
+#                # If get "stop" message then stop thread
+#                if order == "stop":
+#                    print("stop")
+#                    break
+#            except:
+#                print("except")
+#                pass
+#            sleep(0.1)
+# # Run order processors
+# Thread(target=order_processor, args=("thread 1",)).start()
+# Thread(target=order_processor, args=("thread 2",)).start()
+# Thread(target=order_processor, args=("thread 3",)).start()
+# # Put data into queue
+# for i in range(10):
+#    # print("for i")
+#    q.put(f"order {i}")
+# # Put stop-commands for consumers
+# for _ in range(3):
+#    # print("for _")
+#    q.put("stop")
+# # Notify all consumers
+# with cv:
+#    cv.notify_all()
+#    print("with")
+
+
+
+from threading import Thread, BoundedSemaphore
+from time import sleep, time
+ticket_office = BoundedSemaphore(value=3)
+def ticket_buyer(number):
+   start_service = time()
+   print("def")
+   with ticket_office:
+       print("with")
+       sleep(1)
+       print(f"client {number}, service time: {time() - start_service}")
+buyer = [Thread(target=ticket_buyer, args=(i,)) for i in range(5)]
+for b in buyer:
+   print("for b")
+   b.start()
