@@ -16,6 +16,7 @@ class WorkThread(Qt.QThread):
     def run(self, *args, **kwargs):
         c = 0
         while True:
+            print("Thread")
             Qt.QThread.msleep(1000)
             c += 1
             self.threadSignal.emit(c)

@@ -453,7 +453,206 @@ from time import sleep
 # event.set()
 
 #Таймеры
-from threading import Timer
-from time import sleep, time
-timer = Timer(interval=3,function=lambda: print("Message from Timer!"))
-timer.start()
+# from threading import Timer
+# from time import sleep, time
+# timer = Timer(interval=3,function=lambda: print("Message from Timer!"))
+# timer.start()
+
+
+# -*- coding: utf-8 -*-
+# from PyQt5 import QtCore, QtWidgets
+#
+#
+# class MyThread(QtCore.QThread):
+#     mysignal = QtCore.pyqtSignal(str)
+#
+#     def __init__(self, parent=None):
+#         QtCore.QThread.__init__(self, parent)
+#
+#     def run(self):
+#         for i in range(1, 21):
+#             self.sleep(3)  # "Засыпаем" на 3 секунды
+#             # Передача данных из потока через сигнал
+#             self.mysignal.emit("i = %s" % i)
+#
+#
+# class MyWindow(QtWidgets.QWidget):
+#     def __init__(self, parent=None):
+#         QtWidgets.QWidget.__init__(self, parent)
+#         self.label = QtWidgets.QLabel("Нажмите кнопку для запуска потока")
+#         self.label.setAlignment(QtCore.Qt.AlignHCenter)
+#         self.button = QtWidgets.QPushButton("Запустить процесс")
+#         self.vbox = QtWidgets.QVBoxLayout()
+#         self.vbox.addWidget(self.label)
+#         self.vbox.addWidget(self.button)
+#         self.setLayout(self.vbox)
+#         self.mythread = MyThread()  # Создаем экземпляр класса
+#         self.button.clicked.connect(self.on_clicked)
+#         self.mythread.started.connect(self.on_started)
+#         self.mythread.finished.connect(self.on_finished)
+#         self.mythread.mysignal.connect(self.on_change, QtCore.Qt.QueuedConnection)
+#
+#     def on_clicked(self):
+#         self.button.setDisabled(True)  # Делаем кнопку неактивной
+#         self.mythread.start()  # Запускаем поток
+#
+#     def on_started(self):  # Вызывается при запуске потока
+#         self.label.setText("Вызван метод on_started ()")
+#
+#     def on_finished(self):  # Вызывается при завершении потока
+#         self.label.setText("Вызван метод on_finished()")
+#         self.button.setDisabled(False)  # Делаем кнопку активной
+#
+#     def on_change(self, s):
+#         self.label.setText(s)
+#
+#
+# if __name__ == "__main__":
+#     import sys
+#
+#     app = QtWidgets.QApplication(sys.argv)
+#     window = MyWindow()
+#     window.setWindowTitle("Использование класса QThread")
+#     window.resize(300, 70)
+#     window.show()
+#     sys.exit(app.exec_())
+
+
+from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.Qt import *
+
+
+class Ui_Win1(object):
+    def setupUi(self, Win1):
+        Win1.setObjectName("Win1")
+        Win1.resize(450, 800)
+        self.widgetWin1 = QtWidgets.QWidget(Win1)
+        self.widgetWin1.setObjectName("widgetWin1")
+
+        self.text1 = QtWidgets.QLabel(self.widgetWin1)
+        self.text1.setGeometry(QtCore.QRect(197, 378, 56, 16))
+        self.text1.setObjectName("text1")
+
+        Win1.setCentralWidget(self.widgetWin1)
+        self.retranslateUi(Win1)
+        QtCore.QMetaObject.connectSlotsByName(Win1)
+
+    def retranslateUi(self, Win1):
+        _translate = QtCore.QCoreApplication.translate
+        Win1.setWindowTitle(_translate("Win1", "MainWindow"))
+        self.text1.setText(_translate("Win1", "Win1"))
+
+
+class Ui_Win2(object):
+    def setupUi(self, Win2):
+        Win2.setObjectName("Win2")
+        Win2.resize(450, 800)
+        self.widgetWin2 = QtWidgets.QWidget(Win2)
+        self.widgetWin2.setObjectName("widgetWin2")
+        self.text2 = QtWidgets.QLabel(self.widgetWin2)
+        self.text2.setGeometry(QtCore.QRect(197, 378, 56, 16))
+        self.text2.setObjectName("text2")
+
+        Win2.setCentralWidget(self.widgetWin2)
+        self.retranslateUi(Win2)
+        QtCore.QMetaObject.connectSlotsByName(Win2)
+
+    def retranslateUi(self, Win2):
+        _translate = QtCore.QCoreApplication.translate
+        Win2.setWindowTitle(_translate("Win2", "MainWindow"))
+        self.text2.setText(_translate("Win2", "Win2"))
+
+
+class Ui_Win3(object):
+    def setupUi(self, Win3):
+        Win3.setObjectName("Win3")
+        Win3.resize(450, 800)
+        self.widgetWin3 = QtWidgets.QWidget(Win3)
+        self.widgetWin3.setObjectName("widgetWin3")
+        self.text3 = QtWidgets.QLabel(self.widgetWin3)
+        self.text3.setGeometry(QtCore.QRect(197, 378, 56, 16))
+        self.text3.setObjectName("text3")
+
+        Win3.setCentralWidget(self.widgetWin3)
+
+        self.retranslateUi(Win3)
+        QtCore.QMetaObject.connectSlotsByName(Win3)
+
+    def retranslateUi(self, Win3):
+        _translate = QtCore.QCoreApplication.translate
+        Win3.setWindowTitle(_translate("Win3", "MainWindow"))
+        self.text3.setText(_translate("Win3", "Win3"))
+
+
+class Win1(QtWidgets.QMainWindow, Ui_Win1):
+    def __init__(self, parent=None):
+        super(Win1, self).__init__(parent)
+        self.setupUi(self)
+
+
+class Win2(QtWidgets.QMainWindow, Ui_Win2):
+    def __init__(self, parent=None):
+        super(Win2, self).__init__(parent)
+        self.setupUi(self)
+
+
+class Win3(QtWidgets.QMainWindow, Ui_Win3):
+    def __init__(self, parent=None):
+        super(Win3, self).__init__(parent)
+        self.setupUi(self)
+
+
+class VLine(QFrame):
+    def __init__(self):
+        super(VLine, self).__init__()
+        self.setFrameShape(self.VLine | self.Sunken)
+
+
+class MainWindow(QtWidgets.QMainWindow):
+    def __init__(self):
+        super().__init__()
+
+        self.stacked = QtWidgets.QStackedWidget(self)
+        self.setCentralWidget(self.stacked)
+
+        self.window_Win1 = Win1(self)
+        self.window_Win2 = Win2(self)
+        self.window_Win3 = Win3(self)
+
+        self.stacked.addWidget(self.window_Win1)
+        self.stacked.addWidget(self.window_Win2)
+        self.stacked.addWidget(self.window_Win3)
+
+        # +++ vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+        self.statusBar().showMessage("bla-bla bla")
+
+        self.bnt = QtWidgets.QPushButton('bnt')
+        self.bnt_2 = QtWidgets.QPushButton('bnt_2')
+        self.bnt_3 = QtWidgets.QPushButton('bnt_3')
+
+        self.bnt.clicked.connect(lambda: self.stacked.setCurrentIndex(0))
+        self.bnt_2.clicked.connect(lambda: self.stacked.setCurrentIndex(1))
+        self.bnt_3.clicked.connect(lambda: self.stacked.setCurrentIndex(2))
+
+        self.statusBar().reformat()
+        self.statusBar().setStyleSheet('border: 0; background-color: #FFF8DC;')
+        self.statusBar().setStyleSheet("QStatusBar::item {border: none;}")
+
+        self.statusBar().addPermanentWidget(VLine())
+        self.statusBar().addPermanentWidget(self.bnt)
+        self.statusBar().addPermanentWidget(VLine())
+        self.statusBar().addPermanentWidget(self.bnt_2)
+        self.statusBar().addPermanentWidget(VLine())
+        self.statusBar().addPermanentWidget(self.bnt_3)
+        self.statusBar().addPermanentWidget(VLine())
+    # +++ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+if __name__ == '__main__':
+    import sys
+
+    app = QtWidgets.QApplication(sys.argv)
+    window = MainWindow()
+    window.resize(450, 600)  # <---- (450, 800)
+    window.show()
+    sys.exit(app.exec_())
