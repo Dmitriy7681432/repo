@@ -53,45 +53,104 @@
 #     sys.exit(app.exec_())
 #  -*- coding:   utf-8  -*-
 
+# from PyQt5 import QtCore, QtWidgets
+# import queue
+#
+# class MyThread(QtCore.QThread):
+#     task_done = QtCore.pyqtSignal(int, int, name = 'taskDone')
+#     def __init__(self, id, queue, parent=None):
+#         QtCore.QThread.__init__(self, parent)
+#         self.id = id
+#         self.queue = queue
+#     def run(self):
+#         while True:
+#             print("runs1")
+#             task = self.queue.get()            # Получаем задание
+#             print("runs2")
+#             self.sleep(5)                      # Имитируем обработку
+#             print("runs3")
+#             self.task_done.emit(task, self.id) # Передаем данные обратно
+#             print("runs4")
+#             self.queue.task_done()
+#             print("runs5")
+#
+# class MyWindow(QtWidgets.QPushButton):
+#     def __init__(self):
+#         QtWidgets.QPushButton.__init__(self)
+#         self.setText("Раздать задания")
+#         self.queue = queue.Queue()       # Создаем очередь
+#         self.threads = []
+#         for i in range(1, 3):	# Создаем потоки и запускаем
+#             print("for i")
+#             thread = MyThread(i, self.queue)
+#             self.threads.append(thread)
+#             thread.task_done.connect(self.on_task_done, QtCore.Qt.QueuedConnection)
+#             thread.start()
+#         self.clicked.connect(self.on_add_task)
+#     def on_add_task(self):
+#         for i in range(0, 11):
+#             print("on_add")
+#             self.queue.put(i)	  # Добавляем задания в очередь
+#     def on_task_done(self, data, id):
+#         print(data, "- id =", id) # Выводим обработанные данные
+#
+# if __name__ == "__main__":
+#     import sys
+#     app = QtWidgets.QApplication(sys.argv)
+#     window = MyWindow()
+#     window.setWindowTitle("Использование модуля queue")
+#     window.resize(300, 30)
+#     window.show()
+#     sys.exit(app.exec_())
+
+
+#  -*- coding:   utf-8  -*-
 from PyQt5 import QtCore, QtWidgets
-import queue
+
 
 class MyThread(QtCore.QThread):
-    task_done = QtCore.pyqtSignal(int, int, name = 'taskDone')
-    def __init__(self, id, queue, parent=None):
+    x = 10  # Атрибут класса
+    mutex = QtCore.QMutex()  # Мьютекс
+
+    def __init__(self, id, parent=None):
         QtCore.QThread.__init__(self, parent)
         self.id = id
-        self.queue = queue
+
     def run(self):
-        while True:
-            task = self.queue.get()            # Получаем задание
-            self.sleep(5)                      # Имитируем обработку
-            self.task_done.emit(task, self.id) # Передаем данные обратно
-            self.queue.task_done()
+        self.change_x()
+
+    def change_x(self):
+        MyThread.mutex.lock()  # Блокируем
+        print("x =", MyThread.x, "id =", self.id)
+        MyThread.x += 5
+        self.sleep(2)
+        print("x =", MyThread.x, "id =", self.id)
+        MyThread.x += 34
+        print("x =", MyThread.x, "id =", self.id)
+        MyThread.mutex.unlock()  # Снимаем блокировку
+
 
 class MyWindow(QtWidgets.QPushButton):
     def __init__(self):
         QtWidgets.QPushButton.__init__(self)
-        self.setText("Раздать задания")
-        self.queue = queue.Queue()       # Создаем очередь
-        self.threads = []
-        for i in range(1, 3):	# Создаем потоки и запускаем
-            thread = MyThread(i, self.queue)
-            self.threads.append(thread)
-            thread.task_done.connect(self.on_task_done, QtCore.Qt.QueuedConnection)
-            thread.start()
-        self.clicked.connect(self.on_add_task)
-    def on_add_task(self):
-        for i in range(0, 11):
-            self.queue.put(i)	  # Добавляем задания в очередь
-    def on_task_done(self, data, id):
-        print(data, "- id =", id) # Выводим обработанные данные
+        self.setText("Запустить")
+        self.thread1 = MyThread(1)
+        self.thread2 = MyThread(2)
+        self.clicked.connect(self.on_start)
+
+    def on_start(self):
+        if not self.thread1.isRunning():
+            self.thread1.start()
+        if not self.thread2.isRunning():
+            self.thread2.start()
+
 
 if __name__ == "__main__":
     import sys
+
     app = QtWidgets.QApplication(sys.argv)
     window = MyWindow()
-    window.setWindowTitle("Использование модуля queue")
+    window.setWindowTitle("Использование класса QMutex")
     window.resize(300, 30)
     window.show()
     sys.exit(app.exec_())
