@@ -120,14 +120,13 @@ class MyThread(QtCore.QThread):
         self.change_x()
 
     def change_x(self):
-        MyThread.mutex.lock()  # Блокируем
-        print("x =", MyThread.x, "id =", self.id)
-        MyThread.x += 5
-        self.sleep(2)
-        print("x =", MyThread.x, "id =", self.id)
-        MyThread.x += 34
-        print("x =", MyThread.x, "id =", self.id)
-        MyThread.mutex.unlock()  # Снимаем блокировку
+        with QtCore.QMutexLocker(MyThread.mutex):
+            print("x =", MyThread.x, "id =", self.id)
+            MyThread.x += 5
+            self.sleep(2)
+            print("x =", MyThread.x, "id =", self.id)
+            MyThread.x += 34
+            print("x =", MyThread.x, "id =", self.id)
 
 
 class MyWindow(QtWidgets.QPushButton):
