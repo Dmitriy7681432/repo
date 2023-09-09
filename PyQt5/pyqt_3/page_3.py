@@ -68,24 +68,36 @@
 #     window = MyWindow()
 #     window.show()
 #     sys.exit(app.exec_())
-
-# -*- coding:   utf-8  -*-
-from PyQt5 import QtCore, QtGui, QtWidgets
+# -*- coding: utf-8 -*-
+from PyQt5 import QtCore, QtWidgets, QtGui, QtPrintSupport
 import sys
+
 app = QtWidgets.QApplication(sys.argv)
-window = QtWidgets.QWidget()
-# window.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.FramelessWindowHint)
-window.setWindowTitle("Создание окна произвольной формы")
-window.resize(600, 600)
-pixmap = QtGui.QPixmap("fon1.png")
-pal = window.palette()
-pal.setBrush(QtGui.QPalette.Normal, QtGui.QPalette.Window, QtGui.QBrush(pixmap))
-pal.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Window, QtGui.QBrush(pixmap))
-window.setPalette(pal)
-window.setMask(pixmap.mask())
-button = QtWidgets.QPushButton ("Закрыть окно", window)
-button.setFixedSize(150, 30)
-button.move(220, 279)
-button.clicked.connect(QtWidgets.qApp.quit)
-window.show()
-sys.exit(app.exec_())
+writer = QtGui.QPdfWriter("output.pdf")
+writer.setCreator("ФИО")
+writer.setTitle("Тест")
+# Заодно поэкспериментируем с указанием параметров бумаги с помощью
+# класса QPageLayout
+layout = QtGui.QPageLayout()
+layout.setPageSize(QtGui.QPageSize(QtGui.QPageSize.A5))
+layout.setOrientation(QtGui.QPageLayout.Portrait)
+writer.setPageLayout(layout)
+painter = QtGui.QPainter()
+painter.begin(writer)
+color = QtGui.QColor(QtCore.Qt.black)
+painter.setPen(QtGui.QPen(color))
+painter.setBrush(QtGui.QBrush(color))
+font = QtGui.QFont("Verdana", pointSize=42)
+painter.setFont(font)
+painter.drawText(10, writer.height() // 2 - 50, writer.width() - 20,
+                 50, QtCore.Qt.AlignCenter | QtCore.Qt.TextDontClip,
+                 "QPdfWriter")
+layout.setOrientation(QtGui.QPageLayout.Landscape)
+writer.setPageLayout(layout)
+writer.newPage()
+pixmap = QtGui.QPixmap("img3.jpg")
+pixmap = pixmap.scaled(writer.width(),
+                       writer.height(),
+                       aspectRatioMode=QtCore.Qt.KeepAspectRatio)
+painter.drawPixmap(0, 0, pixmap)
+painter.end()
