@@ -266,3 +266,11 @@ from PyQt5 import Qt
 #     window.show()
 #     sys.exit(app.exec_())
 
+rows = [
+    ('10.16.26.25', 2),
+    ('10.16.26.26', 3),
+    ('10.16.26.27', 1),
+    ('10.16.26.28', 4)
+]
+for row, items in enumerate(rows):
+    print(row,items[0])

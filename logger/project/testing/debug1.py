@@ -46,7 +46,6 @@ class MyTab(QtWidgets.QWidget):
         for row, items in enumerate(self.rows):
             self.tableWidget.setItem(row, 0, QtWidgets.QTableWidgetItem(items[0]))
             self.tableWidget.setItem(row, 1, QtWidgets.QTableWidgetItem(str(items[1])))
-
             button = QtWidgets.QPushButton(f'SSH {row}')
             button.clicked.connect(lambda ch, ip=items[0], n=items[1], btn=button: \
                                        self.button_pushed_SSH(ip, n, btn))
@@ -103,3 +102,37 @@ if __name__ == '__main__':
     win.resize(640, 480)
     win.show()
     sys.exit(app.exec_())
+
+#График в pyqt
+# from PyQt5 import Qt
+# import pyqtgraph as pg
+# import numpy as np
+#
+#
+# class Window(Qt.QWidget):
+#
+#     def __init__(self):
+#         super().__init__()
+#
+#         layout = Qt.QVBoxLayout(self)
+#
+#         self.view = view = pg.PlotWidget()
+#         self.curve = view.plot(name="Line")
+#
+#         self.btn = Qt.QPushButton("Random plot")
+#         self.btn.clicked.connect(self.random_plot)
+#
+#         layout.addWidget(Qt.QLabel("Some text"))
+#         layout.addWidget(self.view)
+#         layout.addWidget(self.btn)
+#
+#     def random_plot(self):
+#         random_array = np.random.random_sample(20)
+#         self.curve.setData(random_array)
+#
+#
+# if __name__ == "__main__":
+#     app = Qt.QApplication([])
+#     w = Window()
+#     w.show()
+#     app.exec()
