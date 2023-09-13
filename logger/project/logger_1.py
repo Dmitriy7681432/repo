@@ -9,19 +9,26 @@ class MyWindow(QtWidgets.QMainWindow):
 
     def __init__(self):
         super().__init__()
-        self.centralwidget = QtWidgets.QWidget()
-        self.setCentralWidget(self.centralwidget)
+        self.main = QtWidgets.QMainWindow()
+        self.widget = QtWidgets.QWidget()
+        self.centralwidget = QtWidgets.QWidget(self.widget)
+        self.setCentralWidget(self.widget)
+        self.centralwidget.setGeometry(QtCore.QRect(150, 70, 191, 211))
         self.tabWidget = QtWidgets.QTabWidget()
         self.count = self.tabWidget.count()  # Количество вкладок
         self.com_port = QtWidgets.QComboBox(self.centralwidget) # Раскрывающийся список
+        self.com_port.setEditable(True)
         self.cb = QtWidgets.QComboBox(self.centralwidget) # Раскрывающийся список
+
+        # self.cb.setGeometry(QtCore.QRect(550, 70, 191, 211))
+        self.cb.setEditable(True)
 
         font = QtGui.QFont()
         font.setPointSize(14)
         font.setWeight(25)
 
         self.label_com = QtWidgets.QLabel(self.centralwidget) # Надпись
-        self.label_com.setText("Выбор com_port")
+        self.label_com.setText("Выбор порта")
         self.label_com.setGeometry(QtCore.QRect(200, 100, 200, 131))
         self.label_com.setFont(font)
         # self.label_com.move(220,320)
@@ -39,20 +46,20 @@ class MyWindow(QtWidgets.QMainWindow):
         self.label_cb.setObjectName("label_cb")
 
         self.vbox1 = QtWidgets.QVBoxLayout(self.centralwidget)
-        self.vbox1.addWidget(self.label_com,alignment=QtCore.Qt.AlignLeft)
+        self.vbox1.setSizeConstraint(QtWidgets.QLayout.SetDefaultConstraint)
+        self.vbox1.addWidget(self.label_com)
         # self.vbox1.addWidget(self.label_com)
-        self.vbox1.addWidget(self.com_port,alignment=QtCore.Qt.AlignLeft)
+        self.vbox1.addWidget(self.com_port)
         # self.vbox1.setContentsMargins(0,0,0,0)
-        self.vbox2 = QtWidgets.QVBoxLayout(self.centralwidget)
-        self.vbox2.addWidget(self.label_cb,alignment=QtCore.Qt.AlignLeft)
-        self.vbox2.addWidget(self.cb,alignment=QtCore.Qt.AlignLeft)
+        self.vbox1.addWidget(self.label_cb)
+        self.vbox1.addWidget(self.cb)
+        # self.vbox1.addWidget(self.cb,alignment=QtCore.Qt.AlignLeft)
         # self.vbox1.setSpacing(0)
         # self.vbox2.setContentsMargins(0,0,0,0)
-        self.vbox1.addLayout(self.vbox2)
         # self.vbox2.addSpacing(200)
         # self.vbox1.insertSpacing(1,-200)
         self.vbox1.addStretch(0)
-        self.vbox2.insertSpacing(0,250)
+        self.vbox1.insertSpacing(0,250)
 
         # self.com_port.move(200,400)
         # self.cb.move(200,600)
