@@ -154,14 +154,14 @@ class Example(QWidget):
 
         okButton = QtWidgets.QComboBox()
         cancelButton = QtWidgets.QComboBox()
-        label_com = QtWidgets.QLabel("Выбор порта")
+        label_com = QtWidgets.QLabel("Выбор порта    ")
         label_cb = QtWidgets.QLabel("Выбор изделия")
 
         hbox = QHBoxLayout()
         hbox.addWidget(label_com)
         hbox.addWidget(okButton)
         hbox.addStretch(1)
-        hbox.setSpacing(18)
+        # hbox.setSpacing(18)
 
         hbox1 = QHBoxLayout()
         hbox1.addWidget(label_cb)
@@ -169,9 +169,9 @@ class Example(QWidget):
         hbox1.addStretch(1)
 
         vbox = QVBoxLayout()
-        vbox.addStretch(1)
         vbox.addLayout(hbox)
         vbox.addLayout(hbox1)
+        vbox.addStretch(1)
 
         self.setLayout(vbox)
 
