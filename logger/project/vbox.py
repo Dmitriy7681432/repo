@@ -9,7 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-import sys
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -18,15 +18,16 @@ class Ui_MainWindow(object):
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
-        self.verticalLayoutWidget.setGeometry(QtCore.QRect(150, 70, 191, 211))
+        self.verticalLayoutWidget.setGeometry(QtCore.QRect(150, 70, 141, 211))
         self.verticalLayoutWidget.setObjectName("verticalLayoutWidget")
-        self.verticalLayout = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
-        self.verticalLayout.setSizeConstraint(QtWidgets.QLayout.SetDefaultConstraint)
-        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
-        self.verticalLayout.setObjectName("verticalLayout")
+        self.vboxlayout = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
+        self.vboxlayout.setSizeConstraint(QtWidgets.QLayout.SetDefaultConstraint)
+        self.vboxlayout.setContentsMargins(9, 25, 61, 27)
+        self.vboxlayout.setSpacing(0)
+        self.vboxlayout.setObjectName("vboxlayout")
         self.label = QtWidgets.QLabel(self.verticalLayoutWidget)
         self.label.setObjectName("label")
-        self.verticalLayout.addWidget(self.label)
+        self.vboxlayout.addWidget(self.label)
         self.comboBox = QtWidgets.QComboBox(self.verticalLayoutWidget)
         self.comboBox.setEnabled(True)
         self.comboBox.setBaseSize(QtCore.QSize(0, 0))
@@ -39,7 +40,7 @@ class Ui_MainWindow(object):
         self.comboBox.setIconSize(QtCore.QSize(16, 16))
         self.comboBox.setFrame(True)
         self.comboBox.setObjectName("comboBox")
-        self.verticalLayout.addWidget(self.comboBox)
+        self.vboxlayout.addWidget(self.comboBox)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 21))
@@ -56,11 +57,3 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.label.setText(_translate("MainWindow", "Слово"))
-
-if __name__ == '__main__':
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec_())
