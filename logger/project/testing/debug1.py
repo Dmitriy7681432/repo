@@ -142,7 +142,7 @@ from PyQt5.QtWidgets import (QWidget, QPushButton,
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-class Example(QWidget):
+class Example(QtWidgets.QMainWindow):
 
     def __init__(self):
         super().__init__()
@@ -152,31 +152,55 @@ class Example(QWidget):
 
     def initUI(self):
 
-        okButton = QtWidgets.QComboBox()
-        cancelButton = QtWidgets.QComboBox()
+        self.widget = QtWidgets.QWidget()
+        self.centralwidget = QtWidgets.QWidget(self.widget)
+        self.setCentralWidget(self.widget)
+        # self.centralwidget.setGeometry(QtCore.QRect(200, 200, 300, 300))
+
+        com_port = QtWidgets.QComboBox()
+        cb = QtWidgets.QComboBox()
         label_com = QtWidgets.QLabel("Выбор порта    ")
         label_cb = QtWidgets.QLabel("Выбор изделия")
 
         hbox = QHBoxLayout()
         hbox.addWidget(label_com)
-        hbox.addWidget(okButton)
+        hbox.addWidget(com_port)
         hbox.addStretch(1)
+        hbox.setContentsMargins(0, 200, 61, 27)
         # hbox.setSpacing(18)
 
         hbox1 = QHBoxLayout()
         hbox1.addWidget(label_cb)
-        hbox1.addWidget(cancelButton)
+        hbox1.addWidget(cb)
         hbox1.addStretch(1)
 
-        vbox = QVBoxLayout()
+        vbox = QVBoxLayout(self.centralwidget)
         vbox.addLayout(hbox)
         vbox.addLayout(hbox1)
         vbox.addStretch(1)
 
         self.setLayout(vbox)
 
-        self.setGeometry(300, 300, 300, 150)
-        self.setWindowTitle('Buttons')
+        hbox2 = QHBoxLayout()
+        hbox2.addWidget(label_com)
+        hbox2.addWidget(com_port)
+        hbox2.addStretch(1)
+        # hbox.setSpacing(18)
+
+        hbox3 = QHBoxLayout()
+        hbox3.addWidget(label_cb)
+        hbox3.addWidget(cb)
+        hbox3.addStretch(1)
+
+        vbox2 = QVBoxLayout()
+        vbox2.addLayout(hbox2)
+        vbox2.addLayout(hbox3)
+        vbox2.addStretch(1)
+
+        self.setLayout(vbox2)
+
+        self.setGeometry(650, 350, 700, 550)
+        self.setWindowTitle('logger')
         self.show()
 
 
