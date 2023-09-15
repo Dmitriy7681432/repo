@@ -152,15 +152,19 @@ class Example(QtWidgets.QMainWindow):
 
     def initUI(self):
 
-        self.widget = QtWidgets.QWidget()
-        self.centralwidget = QtWidgets.QWidget(self.widget)
-        self.setCentralWidget(self.widget)
+        self.centralwidget = QtWidgets.QWidget()
+        self.setCentralWidget(self.centralwidget)
         # self.centralwidget.setGeometry(QtCore.QRect(200, 200, 300, 300))
 
         com_port = QtWidgets.QComboBox()
         cb = QtWidgets.QComboBox()
         label_com = QtWidgets.QLabel("Выбор порта    ")
         label_cb = QtWidgets.QLabel("Выбор изделия")
+
+        com_port1 = QtWidgets.QComboBox()
+        cb1 = QtWidgets.QComboBox()
+        label_com1 = QtWidgets.QLabel("Выбор порта1    ")
+        label_cb1 = QtWidgets.QLabel("Выбор изделия1")
 
         hbox = QHBoxLayout()
         hbox.addWidget(label_com)
@@ -174,22 +178,36 @@ class Example(QtWidgets.QMainWindow):
         hbox1.addWidget(cb)
         hbox1.addStretch(1)
 
+        # hbox2 = QHBoxLayout()
+        # hbox2.addWidget(label_com1)
+        # hbox2.addWidget(com_port1)
+        # hbox2.addStretch(1)
+        # # hbox2.setContentsMargins(0, 200, 61, 27)
+        # # hbox.setSpacing(18)
+        #
+        # hbox3 = QHBoxLayout()
+        # hbox3.addWidget(label_cb1)
+        # hbox3.addWidget(cb1)
+        # hbox3.addStretch(1)
+
         vbox = QVBoxLayout(self.centralwidget)
         vbox.addLayout(hbox)
         vbox.addLayout(hbox1)
+        # vbox.addLayout(hbox2)
+        # vbox.addLayout(hbox3)
         vbox.addStretch(1)
 
         self.setLayout(vbox)
 
         hbox2 = QHBoxLayout()
-        hbox2.addWidget(label_com)
-        hbox2.addWidget(com_port)
+        hbox2.addWidget(label_com1)
+        hbox2.addWidget(com_port1)
         hbox2.addStretch(1)
         # hbox.setSpacing(18)
 
         hbox3 = QHBoxLayout()
-        hbox3.addWidget(label_cb)
-        hbox3.addWidget(cb)
+        hbox3.addWidget(label_cb1)
+        hbox3.addWidget(cb1)
         hbox3.addStretch(1)
 
         vbox2 = QVBoxLayout()
