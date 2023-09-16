@@ -152,9 +152,10 @@ class Example(QtWidgets.QMainWindow):
 
     def initUI(self):
 
-        self.centralwidget = QtWidgets.QWidget()
+        self.main = QtWidgets.QMainWindow()
+        self.centralwidget = QtWidgets.QWidget(self.main)
         self.setCentralWidget(self.centralwidget)
-        # self.centralwidget.setGeometry(QtCore.QRect(200, 200, 300, 300))
+        self.centralwidget.setGeometry(QtCore.QRect(0, 0, 0, 0))
 
         com_port = QtWidgets.QComboBox()
         cb = QtWidgets.QComboBox()
@@ -163,12 +164,14 @@ class Example(QtWidgets.QMainWindow):
 
         com_port1 = QtWidgets.QComboBox()
         cb1 = QtWidgets.QComboBox()
-        label_com1 = QtWidgets.QLabel("Выбор порта1    ")
-        label_cb1 = QtWidgets.QLabel("Выбор изделия1")
+        label_file = QtWidgets.QLabel("Файл настройки")
+        edit_file = QtWidgets.QLineEdit()
+        save_file =QtWidgets.QPushButton("Сохранить")
 
         hbox = QHBoxLayout()
         hbox.addWidget(label_com)
         hbox.addWidget(com_port)
+        # hbox.setDirection(2)
         hbox.addStretch(1)
         hbox.setContentsMargins(0, 200, 61, 27)
         # hbox.setSpacing(18)
@@ -178,13 +181,14 @@ class Example(QtWidgets.QMainWindow):
         hbox1.addWidget(cb)
         hbox1.addStretch(1)
 
-        # hbox2 = QHBoxLayout()
-        # hbox2.addWidget(label_com1)
-        # hbox2.addWidget(com_port1)
-        # hbox2.addStretch(1)
-        # # hbox2.setContentsMargins(0, 200, 61, 27)
-        # # hbox.setSpacing(18)
-        #
+        hbox2 = QHBoxLayout()
+        hbox2.addWidget(label_file)
+        hbox2.addWidget(edit_file)
+        hbox2.addWidget(save_file)
+        hbox2.addStretch(1)
+        # hbox2.setContentsMargins(0, 200, 61, 27)
+        # hbox.setSpacing(18)
+
         # hbox3 = QHBoxLayout()
         # hbox3.addWidget(label_cb1)
         # hbox3.addWidget(cb1)
@@ -193,29 +197,29 @@ class Example(QtWidgets.QMainWindow):
         vbox = QVBoxLayout(self.centralwidget)
         vbox.addLayout(hbox)
         vbox.addLayout(hbox1)
-        # vbox.addLayout(hbox2)
+        vbox.addLayout(hbox2)
         # vbox.addLayout(hbox3)
         vbox.addStretch(1)
 
         self.setLayout(vbox)
 
-        hbox2 = QHBoxLayout()
-        hbox2.addWidget(label_com1)
-        hbox2.addWidget(com_port1)
-        hbox2.addStretch(1)
-        # hbox.setSpacing(18)
-
-        hbox3 = QHBoxLayout()
-        hbox3.addWidget(label_cb1)
-        hbox3.addWidget(cb1)
-        hbox3.addStretch(1)
-
-        vbox2 = QVBoxLayout()
-        vbox2.addLayout(hbox2)
-        vbox2.addLayout(hbox3)
-        vbox2.addStretch(1)
-
-        self.setLayout(vbox2)
+        # hbox2 = QHBoxLayout()
+        # hbox2.addWidget(label_com1)
+        # hbox2.addWidget(com_port1)
+        # hbox2.addStretch(1)
+        # # hbox.setSpacing(18)
+        #
+        # hbox3 = QHBoxLayout()
+        # hbox3.addWidget(label_cb1)
+        # hbox3.addWidget(cb1)
+        # hbox3.addStretch(1)
+        #
+        # vbox2 = QVBoxLayout()
+        # vbox2.addLayout(hbox2)
+        # vbox2.addLayout(hbox3)
+        # vbox2.addStretch(1)
+        #
+        # self.setLayout(vbox2)
 
         self.setGeometry(650, 350, 700, 550)
         self.setWindowTitle('logger')
