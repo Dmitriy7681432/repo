@@ -154,40 +154,39 @@ class Example(QtWidgets.QMainWindow):
         # self.main = QtWidgets.QMainWindow()
         # self.main.setObjectName("MainWindow")
         # self.main.resize(700,500)
+
         self.setObjectName("MainWindow")
-        self.resize(900, 700)
+        #Вычисляемы размер экрана
+        desktop = QtWidgets.QApplication.desktop()
+        x = desktop.width(); y = desktop.height()
+        self.resize(int(x/1.7), int(y/1.3))
+        #Вывод окна по центру
+        x_ = (desktop.width() - self.frameSize().width()) // 2
+        y_ = (desktop.height() - self.frameSize().height()) // 2
+        self.move(x_, y_)
+
 
         #Фон картинки
         # self.setAutoFillBackground(False)
         # self.setStyleSheet("background-image: url(space.jpeg);")
         # self.setStyleSheet("background-image: url(fon.jpg);")
-        #Цветовой фон
-        pal = self.palette()
-        pal.setColor(QtGui.QPalette.Normal, QtGui.QPalette.Window,QtGui.QColor(191,245,234))
-        # self.setPalette(pal)
-        pal.setColor(QtGui.QPalette.WindowText, QtCore.Qt.white)
-        pal.setColor(QtGui.QPalette.Base, QtGui.QColor(15, 15, 15))
-        pal.setColor(QtGui.QPalette.AlternateBase, QtGui.QColor(41, 44, 51))
-        pal.setColor(QtGui.QPalette.ToolTipBase, QtCore.Qt.white)
-        pal.setColor(QtGui.QPalette.ToolTipText, QtCore.Qt.white)
-        pal.setColor(QtGui.QPalette.Text, QtCore.Qt.white)
-        pal.setColor(QtGui.QPalette.Button, QtGui.QColor(41, 44, 51))
-        pal.setColor(QtGui.QPalette.ButtonText, QtCore.Qt.white)
-        pal.setColor(QtGui.QPalette.BrightText, QtCore.Qt.red)
-        pal.setColor(QtGui.QPalette.Highlight, QtGui.QColor(100, 100, 225))
-        pal.setColor(QtGui.QPalette.HighlightedText, QtCore.Qt.black)
-        QtGui.QGuiApplication.setPalette(pal)
-        self.default_palette = QtGui.QGuiApplication.palette()
-        QtGui.QGuiApplication.setPalette(self.default_palette)
 
-        self.centralwidget = QtWidgets.QWidget(self)
-        self.centralwidget.setObjectName("centralWidget")
-
+        #Фон картинки
         # palette = QtGui.QPalette()
         # img = QtGui.QImage('fon.jpg')
         # scaled = img.scaled(self.size(), QtCore.Qt.KeepAspectRatioByExpanding, transformMode=QtCore.Qt.SmoothTransformation)
         # palette.setBrush(QtGui.QPalette.Window, QtGui.QBrush(scaled))
         # self.setPalette(palette)
+
+        #Цветовой фон
+        pal = self.palette()
+        # Если use 1-й аргумент, то цвет будет пропадать при переходе на др окно
+        pal.setColor(QtGui.QPalette.Window,QtGui.QColor(191,245,234))
+        self.setPalette(pal)
+
+
+        self.centralwidget = QtWidgets.QWidget(self)
+        self.centralwidget.setObjectName("centralWidget")
 
         #Узнать доступные стили окна
         # print(QtWidgets.QStyleFactory.keys())
