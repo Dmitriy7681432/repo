@@ -266,11 +266,75 @@ from PyQt5 import Qt
 #     window.show()
 #     sys.exit(app.exec_())
 
-rows = [
-    ('10.16.26.25', 2),
-    ('10.16.26.26', 3),
-    ('10.16.26.27', 1),
-    ('10.16.26.28', 4)
-]
-for row, items in enumerate(rows):
-    print(row,items[0])
+# rows = [
+#     ('10.16.26.25', 2),
+#     ('10.16.26.26', 3),
+#     ('10.16.26.27', 1),
+#     ('10.16.26.28', 4)
+# ]
+# for row, items in enumerate(rows):
+#     print(row,items[0])
+
+from PyQt5 import QtCore, QtGui, QtWidgets
+
+
+class Ui_Form(object):
+    def setupUi(self, Form):
+        Form.setObjectName("Form")
+        Form.resize(400, 300)
+        self.gridLayout = QtWidgets.QGridLayout(Form)
+        self.gridLayout.setObjectName("gridLayout")
+        self.pushButton = QtWidgets.QPushButton(Form)
+        self.pushButton.setObjectName("pushButton")
+        self.gridLayout.addWidget(self.pushButton, 0, 0, 1, 1)
+        self.pushButton_2 = QtWidgets.QPushButton(Form)
+        self.pushButton_2.setObjectName("pushButton_2")
+        self.gridLayout.addWidget(self.pushButton_2, 0, 1, 1, 1)
+
+        self.retranslateUi(Form)
+        QtCore.QMetaObject.connectSlotsByName(Form)
+
+    def retranslateUi(self, Form):
+        _translate = QtCore.QCoreApplication.translate
+        Form.setWindowTitle(_translate("Form", "Form"))
+        self.pushButton.setText(_translate("Form", "Dark"))
+        self.pushButton_2.setText(_translate("Form", "Light"))
+
+
+class Form(QtWidgets.QWidget, Ui_Form):
+    def __init__(self, parent=None):
+        super(Form, self).__init__(parent)
+        self.setupUi(self)
+        self.pushButton.clicked.connect(self.changeSkinDark)
+        self.pushButton_2.clicked.connect(self.changeSkinLight)
+        self.default_palette = QtGui.QGuiApplication.palette()
+
+    @QtCore.pyqtSlot()
+    def changeSkinDark(self):
+        darkpalette = QtGui.QPalette()
+        darkpalette.setColor(QtGui.QPalette.Window, QtGui.QColor(41, 44, 51))
+        darkpalette.setColor(QtGui.QPalette.WindowText, QtCore.Qt.white)
+        darkpalette.setColor(QtGui.QPalette.Base, QtGui.QColor(15, 15, 15))
+        darkpalette.setColor(QtGui.QPalette.AlternateBase, QtGui.QColor(41, 44, 51))
+        darkpalette.setColor(QtGui.QPalette.ToolTipBase, QtCore.Qt.white)
+        darkpalette.setColor(QtGui.QPalette.ToolTipText, QtCore.Qt.white)
+        darkpalette.setColor(QtGui.QPalette.Text, QtCore.Qt.white)
+        darkpalette.setColor(QtGui.QPalette.Button, QtGui.QColor(41, 44, 51))
+        darkpalette.setColor(QtGui.QPalette.ButtonText, QtCore.Qt.white)
+        darkpalette.setColor(QtGui.QPalette.BrightText, QtCore.Qt.red)
+        darkpalette.setColor(QtGui.QPalette.Highlight, QtGui.QColor(100, 100, 225))
+        darkpalette.setColor(QtGui.QPalette.HighlightedText, QtCore.Qt.black)
+        QtGui.QGuiApplication.setPalette(darkpalette)
+
+    @QtCore.pyqtSlot()
+    def changeSkinLight(self):
+        QtGui.QGuiApplication.setPalette(self.default_palette)
+
+
+if __name__ == "__main__":
+    import sys
+
+    app = QtWidgets.QApplication(sys.argv)
+    w = Form()
+    w.show()
+    sys.exit(app.exec_())

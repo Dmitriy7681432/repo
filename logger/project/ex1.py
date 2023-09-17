@@ -10,13 +10,19 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+from PyQt5.QtWidgets import (QMainWindow, QPushButton, QApplication,
+                             QAction, QWidget)
+import sys
+from PyQt5 import QtCore, QtGui, QtWidgets
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(665, 497)
+
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
+
         self.verticalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
         self.verticalLayoutWidget.setGeometry(QtCore.QRect(30, 60, 160, 80))
         self.verticalLayoutWidget.setObjectName("verticalLayoutWidget")
@@ -29,6 +35,7 @@ class Ui_MainWindow(object):
         self.pushButton = QtWidgets.QPushButton(self.verticalLayoutWidget)
         self.pushButton.setObjectName("pushButton")
         self.verticalLayout.addWidget(self.pushButton)
+
         self.horizontalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
         self.horizontalLayoutWidget.setGeometry(QtCore.QRect(30, 180, 160, 80))
         self.horizontalLayoutWidget.setObjectName("horizontalLayoutWidget")
@@ -41,6 +48,7 @@ class Ui_MainWindow(object):
         self.comboBox = QtWidgets.QComboBox(self.horizontalLayoutWidget)
         self.comboBox.setObjectName("comboBox")
         self.horizontalLayout.addWidget(self.comboBox)
+
         self.horizontalLayoutWidget_2 = QtWidgets.QWidget(self.centralwidget)
         self.horizontalLayoutWidget_2.setGeometry(QtCore.QRect(360, 60, 281, 271))
         self.horizontalLayoutWidget_2.setObjectName("horizontalLayoutWidget_2")
@@ -52,14 +60,18 @@ class Ui_MainWindow(object):
         self.tableWidget.setColumnCount(0)
         self.tableWidget.setRowCount(0)
         self.horizontalLayout_2.addWidget(self.tableWidget)
+
         self.verticalLayoutWidget.raise_()
         self.horizontalLayoutWidget.raise_()
         self.horizontalLayoutWidget_2.raise_()
         self.tableWidget.raise_()
+
         MainWindow.setCentralWidget(self.centralwidget)
+
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 665, 23))
         self.menubar.setObjectName("menubar")
+
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
@@ -74,3 +86,12 @@ class Ui_MainWindow(object):
         self.label.setText(_translate("MainWindow", "TextLabel"))
         self.pushButton.setText(_translate("MainWindow", "PushButton"))
         self.label_2.setText(_translate("MainWindow", "TextLabel"))
+
+if __name__ == '__main__':
+
+    app = QApplication(sys.argv)
+    main = QtWidgets.QMainWindow()
+    ex = Ui_MainWindow()
+    ex.setupUi(main)
+    main.show()
+    sys.exit(app.exec_())

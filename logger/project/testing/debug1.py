@@ -103,7 +103,7 @@ from PyQt5.QtWidgets import (QMainWindow, QPushButton, QApplication,
 #     win.show()
 #     sys.exit(app.exec_())
 
-#График в pyqt
+# График в pyqt
 # from PyQt5 import Qt
 # import pyqtgraph as pg
 # import numpy as np
@@ -138,9 +138,10 @@ from PyQt5.QtWidgets import (QMainWindow, QPushButton, QApplication,
 #     app.exec()
 import sys
 from PyQt5.QtWidgets import (QWidget, QPushButton,
-    QHBoxLayout, QVBoxLayout, QApplication)
+                             QHBoxLayout, QVBoxLayout, QApplication)
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+
 
 class Example(QtWidgets.QMainWindow):
 
@@ -149,62 +150,130 @@ class Example(QtWidgets.QMainWindow):
 
         self.initUI()
 
-
     def initUI(self):
+        # self.main = QtWidgets.QMainWindow()
+        # self.main.setObjectName("MainWindow")
+        # self.main.resize(700,500)
+        self.setObjectName("MainWindow")
+        self.resize(900, 700)
 
-        self.main = QtWidgets.QMainWindow()
-        self.centralwidget_1 = QtWidgets.QWidget(self.main)
-        self.centralwidget = QtWidgets.QWidget(self.centralwidget_1)
-        self.setCentralWidget(self.centralwidget)
-        self.centralwidget.setGeometry(QtCore.QRect(0, 0, 0, 0))
+        #Фон картинки
+        # self.setAutoFillBackground(False)
+        # self.setStyleSheet("background-image: url(space.jpeg);")
+        # self.setStyleSheet("background-image: url(fon.jpg);")
+        #Цветовой фон
+        pal = self.palette()
+        pal.setColor(QtGui.QPalette.Normal, QtGui.QPalette.Window,QtGui.QColor(191,245,234))
+        # self.setPalette(pal)
+        pal.setColor(QtGui.QPalette.WindowText, QtCore.Qt.white)
+        pal.setColor(QtGui.QPalette.Base, QtGui.QColor(15, 15, 15))
+        pal.setColor(QtGui.QPalette.AlternateBase, QtGui.QColor(41, 44, 51))
+        pal.setColor(QtGui.QPalette.ToolTipBase, QtCore.Qt.white)
+        pal.setColor(QtGui.QPalette.ToolTipText, QtCore.Qt.white)
+        pal.setColor(QtGui.QPalette.Text, QtCore.Qt.white)
+        pal.setColor(QtGui.QPalette.Button, QtGui.QColor(41, 44, 51))
+        pal.setColor(QtGui.QPalette.ButtonText, QtCore.Qt.white)
+        pal.setColor(QtGui.QPalette.BrightText, QtCore.Qt.red)
+        pal.setColor(QtGui.QPalette.Highlight, QtGui.QColor(100, 100, 225))
+        pal.setColor(QtGui.QPalette.HighlightedText, QtCore.Qt.black)
+        QtGui.QGuiApplication.setPalette(pal)
+        self.default_palette = QtGui.QGuiApplication.palette()
+        QtGui.QGuiApplication.setPalette(self.default_palette)
 
-        hbox_port = QHBoxLayout(self.centralwidget)
-        label_com = QtWidgets.QLabel()
-        label_com.setText("Выбор порта")
-        com_port = QtWidgets.QComboBox()
-        hbox_port.addWidget(label_com)
-        hbox_port.addWidget(com_port)
+        self.centralwidget = QtWidgets.QWidget(self)
+        self.centralwidget.setObjectName("centralWidget")
 
-        # self.centralwidget_2 = QtWidgets.QWidget(self.main)
-        # self.centralwidget1 = QtWidgets.QWidget(self.centralwidget_2)
-        # self.centralwidget1.setGeometry(QtCore.QRect(20, 20, 20, 20))
-        # hbox_cb = QHBoxLayout(self.centralwidget1)
-        # label_cb = QtWidgets.QLabel("Выбор изделия")
-        # cb = QtWidgets.QComboBox()
-        # hbox_cb.addWidget(label_cb)
-        # hbox_cb.addWidget(cb)
-        #
-        # self.centralwidget_3 = QtWidgets.QWidget(self.main)
-        # self.centralwidget2 = QtWidgets.QWidget(self.centralwidget_3)
-        # self.centralwidget2.setGeometry(QtCore.QRect(30, 30, 30, 30))
-        # hbox_lb_file = QHBoxLayout(self.centralwidget)
-        # label_file = QtWidgets.QLabel()
-        # label_file.setText("Файл настройки")
-        # hbox_lb_file.addWidget(label_file)
-        #
-        # self.centralwidget_4 = QtWidgets.QWidget(self.main)
-        # self.centralwidget3 = QtWidgets.QWidget(self.centralwidget_3)
-        # self.centralwidget3.setGeometry(QtCore.QRect(30, 30, 30, 30))
-        # hbox_file = QHBoxLayout(self.centralwidget3)
-        # edit_file = QtWidgets.QLineEdit()
-        # save_file =QtWidgets.QPushButton()
-        # save_file.setText("Сохранить")
-        # hbox_file.addWidget(edit_file)
-        # hbox_file.addWidget(save_file)
-        #
+        # palette = QtGui.QPalette()
+        # img = QtGui.QImage('fon.jpg')
+        # scaled = img.scaled(self.size(), QtCore.Qt.KeepAspectRatioByExpanding, transformMode=QtCore.Qt.SmoothTransformation)
+        # palette.setBrush(QtGui.QPalette.Window, QtGui.QBrush(scaled))
+        # self.setPalette(palette)
+
+        #Узнать доступные стили окна
+        # print(QtWidgets.QStyleFactory.keys())
+
+        #Шрифт
+        font = QtGui.QFont()
+        font.setFamily("Times New Roman")
+        font.setPointSize(14)
+        font.setBold(True)
+        font.setWeight(75)
+
+        # Порт
+        self.horizontWidget = QtWidgets.QWidget(self.centralwidget)
+        self.horizontWidget.setGeometry(QtCore.QRect(20, 20, 210, 40))
+        self.horizontWidget.setObjectName("horizontWidget")
+        self.horizontLayout = QtWidgets.QHBoxLayout(self.horizontWidget)
+        self.horizontLayout.setContentsMargins(0, 0, 0, 0)
+        self.horizontLayout.setObjectName("horizontLayout")
+        self.label_com = QtWidgets.QLabel()
+        self.label_com.setFont(font)
+        self.label_com.setObjectName("label_com")
+        self.label_com.setText("Выбор порта:")
+        self.horizontLayout.addWidget(self.label_com)
+        self.com_port = QtWidgets.QComboBox()
+        self.com_port.setObjectName("com_port")
+        self.horizontLayout.addWidget(self.com_port)
+
+        # Изделие
+        self.horizontWidget_1 = QtWidgets.QWidget(self.centralwidget)
+        self.horizontWidget_1.setGeometry(QtCore.QRect(20, 80, 230, 40))
+        self.horizontWidget_1.setObjectName("horizontWidget_1")
+        self.horizontLayout_1 = QtWidgets.QHBoxLayout(self.horizontWidget_1)
+        self.horizontLayout_1.setContentsMargins(0, 0, 0, 0)
+        self.horizontLayout_1.setObjectName("horizontLayout_1")
+        self.label_cb = QtWidgets.QLabel()
+        self.label_cb.setFont(font)
+        self.label_cb.setObjectName("label_cb")
+        self.label_cb.setText("Выбор изделия:")
+        self.horizontLayout_1.addWidget(self.label_cb)
+        self.cb = QtWidgets.QComboBox()
+        self.cb.setObjectName("cb")
+        self.horizontLayout_1.addWidget(self.cb)
+
+        # Файл настроек
+        self.horizontWidget_2 = QtWidgets.QWidget(self.centralwidget)
+        self.horizontWidget_2.setGeometry(QtCore.QRect(20, 140, 160, 40))
+        self.horizontWidget_2.setObjectName("horizontWidget_2")
+        self.horizontLayout_2 = QtWidgets.QHBoxLayout(self.horizontWidget_2)
+        self.horizontLayout_2.setContentsMargins(0, 0, 0, 0)
+        self.horizontLayout_2.setObjectName("horizontLayout_2")
+        self.label_file = QtWidgets.QLabel()
+        self.label_file.setFont(font)
+        self.label_file.setObjectName("label_file")
+        self.label_file.setText("Файл настройки:")
+        self.horizontLayout_2.addWidget(self.label_file)
+
+        # Файл настроек
+        self.horizontWidget_3 = QtWidgets.QWidget(self.centralwidget)
+        self.horizontWidget_3.setGeometry(QtCore.QRect(20, 170, 190, 40))
+        self.horizontWidget_3.setObjectName("horizontWidget_3")
+        self.horizontLayout_3 = QtWidgets.QHBoxLayout(self.horizontWidget_3)
+        self.horizontLayout_3.setContentsMargins(0, 0, 0, 0)
+        self.horizontLayout_3.setObjectName("horizontLayout_3")
+        self.edit_file = QtWidgets.QLineEdit()
+        self.edit_file.setObjectName("edit_file")
+        self.horizontLayout_3.addWidget(self.edit_file)
+        self.save_file = QtWidgets.QPushButton()
+        self.save_file.setText("Сохранить")
+        self.save_file.setObjectName("save_file")
+        self.horizontLayout_3.addWidget(self.save_file)
+
         # self.centralwidget.raise_()
         # self.centralwidget1.raise_()
         # self.centralwidget2.raise_()
         # self.centralwidget3.raise_()
-        self.setLayout(hbox_port)
-        #
-        self.setGeometry(650, 350, 700, 550)
+
+        # self.setLayout(hbox_port)
+
+        self.setCentralWidget(self.centralwidget)
+        # self.setGeometry(650, 350, 700, 550)
         self.setWindowTitle('logger')
         self.show()
 
 
 if __name__ == '__main__':
-
     app = QApplication(sys.argv)
+    app.setStyle('Fusion')
     ex = Example()
     sys.exit(app.exec_())
