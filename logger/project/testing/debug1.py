@@ -184,6 +184,13 @@ class Example(QtWidgets.QMainWindow):
         pal.setColor(QtGui.QPalette.Window,QtGui.QColor(191,245,234))
         self.setPalette(pal)
 
+        # Меню и толбары
+
+        exitAction = QAction(QtGui.QIcon('exit24.png'), 'Exit', self)
+        self.statusBar()
+        menubar = self.menuBar()
+        fileMenu = menubar.addMenu('&File')
+        # fileMenu.addAction(exitAction)
 
         self.centralwidget = QtWidgets.QWidget(self)
         self.centralwidget.setObjectName("centralWidget")
