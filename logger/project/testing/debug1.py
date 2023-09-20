@@ -186,11 +186,22 @@ class Example(QtWidgets.QMainWindow):
 
         # Меню и толбары
 
-        exitAction = QAction(QtGui.QIcon('exit24.png'), 'Exit', self)
-        self.statusBar()
-        menubar = self.menuBar()
-        fileMenu = menubar.addMenu('&File')
+        self.start = QAction(QtGui.QIcon('./icons/start.png'), 'Запуск логгера', self)
+        self.toolbar = self.addToolBar("")
+        self.toolbar.addAction(self.start)
+        self.stop = QAction(QtGui.QIcon('./icons/stop2.png'), 'Остановить логгер', self)
+        self.toolbar = self.addToolBar("")
+        self.toolbar.addAction(self.stop)
+        self.record = QAction(QtGui.QIcon('./icons/record3.png'), 'Запись данных', self)
+        self.toolbar = self.addToolBar("")
+        self.toolbar.addAction(self.record)
+
+        # self.statusBar()
+        # menubar = self.menuBar()
+        # fileMenu = menubar.addMenu('&File')
         # fileMenu.addAction(exitAction)
+        # self.newAcntion = QAction(self)
+        # self.newAcntion.setIcon(QtGui.QIcon(":start.png"))
 
         self.centralwidget = QtWidgets.QWidget(self)
         self.centralwidget.setObjectName("centralWidget")
@@ -264,6 +275,23 @@ class Example(QtWidgets.QMainWindow):
         self.save_file.setText("Сохранить")
         self.save_file.setObjectName("save_file")
         self.horizontLayout_3.addWidget(self.save_file)
+
+        # Таблица с параметрами
+
+        self.horizontWidget_4 = QtWidgets.QWidget(self.centralwidget)
+        self.horizontWidget_4.setGeometry(QtCore.QRect(20, 270, 550, 260))
+        self.horizontWidget_4.setObjectName("horizontWidget_4")
+        self.horizontLayout_4 = QtWidgets.QHBoxLayout(self.horizontWidget_4)
+        self.horizontLayout_4.setContentsMargins(0, 0, 0, 0)
+        self.horizontLayout_4.setObjectName("horizontLayout_4")
+        self.sti = QtGui.QStandardItemModel(parent=self)
+        self.table_params = QtWidgets.QTableView()
+        self.sti.setHorizontalHeaderLabels(["name","type","designation","ctype","common_id"])
+        self.table_params.setModel(self.sti)
+        self.table_params.setColumnWidth(0,120)
+        self.table_params.setColumnWidth(1,120)
+        # self.table_params.setColumnWidth(2,180)
+        self.horizontLayout_4.addWidget(self.table_params)
 
         # self.centralwidget.raise_()
         # self.centralwidget1.raise_()
