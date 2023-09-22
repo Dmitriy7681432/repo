@@ -159,7 +159,8 @@ class Example(QtWidgets.QMainWindow):
         #Вычисляемы размер экрана
         desktop = QtWidgets.QApplication.desktop()
         x = desktop.width(); y = desktop.height()
-        self.resize(int(x/1.7), int(y/1.3))
+        x = int(x/1.7); y = int(y/1.3)
+        self.resize(x, y)
         #Вывод окна по центру
         x_ = (desktop.width() - self.frameSize().width()) // 2
         y_ = (desktop.height() - self.frameSize().height()) // 2
@@ -174,9 +175,7 @@ class Example(QtWidgets.QMainWindow):
         #Фон картинки
         # palette = QtGui.QPalette()
         # img = QtGui.QImage('fon.jpg')
-        # scaled = img.scaled(self.size(), QtCore.Qt.KeepAspectRatioByExpanding, transformMode=QtCore.Qt.SmoothTransformation)
-        # palette.setBrush(QtGui.QPalette.Window, QtGui.QBrush(scaled))
-        # self.setPalette(palette)
+        # scaled = img.scaled(self.size(), QtCore.Qt.KeepAspectRatioByExpanding, transformMode=QtCore.Qt.SmoothTransformation) # palette.setBrush(QtGui.QPalette.Window, QtGui.QBrush(scaled)) # self.setPalette(palette)
 
         #Цветовой фон
         pal = self.palette()
@@ -279,18 +278,39 @@ class Example(QtWidgets.QMainWindow):
         # Таблица с параметрами
 
         self.horizontWidget_4 = QtWidgets.QWidget(self.centralwidget)
-        self.horizontWidget_4.setGeometry(QtCore.QRect(20, 270, 550, 260))
+        x = int(x/1.2);y=int(y/2.4)
+        self.horizontWidget_4.setGeometry(QtCore.QRect(20, 280, x, y))
         self.horizontWidget_4.setObjectName("horizontWidget_4")
         self.horizontLayout_4 = QtWidgets.QHBoxLayout(self.horizontWidget_4)
         self.horizontLayout_4.setContentsMargins(0, 0, 0, 0)
         self.horizontLayout_4.setObjectName("horizontLayout_4")
         self.sti = QtGui.QStandardItemModel(parent=self)
+        self.lst_name = ["Напряжение сети 1","Тока ЭА","Напряжения ЭА","Частота сети 2","Угол фаза АБ сети 1"]
+        self.lst_type = ["Вычисляемый","Логический","Донесение","Внешний","Команда"]
+        self.lst_designation = ["N_U_AB","EA_I_AC","EA_U_AB","N2_F_U_A","N2PHI_U_AB"]
+        self.lst_ctype = ["int","int","float","float","floaat"]
+        self.lst_common_id = ["2051","2052","2053","2054","2055"]
         self.table_params = QtWidgets.QTableView()
+        for row in range(5):
+            item1 = QtGui.QStandardItem(self.lst_name[row])
+            item2 = QtGui.QStandardItem(self.lst_type[row])
+            item3 = QtGui.QStandardItem(self.lst_designation[row])
+            item4 = QtGui.QStandardItem(self.lst_ctype[row])
+            item5 = QtGui.QStandardItem(self.lst_common_id[row])
+            self.sti.appendRow([item1,item2,item3,item4,item5])
         self.sti.setHorizontalHeaderLabels(["name","type","designation","ctype","common_id"])
         self.table_params.setModel(self.sti)
-        self.table_params.setColumnWidth(0,120)
-        self.table_params.setColumnWidth(1,120)
-        # self.table_params.setColumnWidth(2,180)
+        self.table_params.setColumnWidth(0,int(x//5.1))
+        self.table_params.setColumnWidth(1,x//6)
+        self.table_params.setColumnWidth(2,x//4)
+        self.table_params.setColumnWidth(3,x//6)
+        self.table_params.setColumnWidth(4,x//5)
+        # Меняет размер строки, чтобы поместилось все содержимое
+        self.table_params.resizeRowsToContents()
+        # Сортировка по заголовкам столбцов
+        self.table_params.setSortingEnabled(True)
+        # Сортировка по столбцу в алфавитном порядке
+        self.table_params.sortByColumn(0,QtCore.Qt.AscendingOrder)
         self.horizontLayout_4.addWidget(self.table_params)
 
         # self.centralwidget.raise_()
