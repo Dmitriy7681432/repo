@@ -95,7 +95,7 @@ if __name__ == '__main__':
     sys.exit(app.exec_())
 """
 #5.3 - QFontDialog ___________________________________
-"""
+
 import sys
 from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QPushButton,\
     QSizePolicy, QLabel, QFontDialog, QApplication)
@@ -202,4 +202,4 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     ex = Example()
     sys.exit(app.exec_())
-
+"""

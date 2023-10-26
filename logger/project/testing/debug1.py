@@ -288,7 +288,9 @@ class Example(QtWidgets.QMainWindow):
         self.lst_name = ["Напряжение сети 1","Тока ЭА","Напряжения ЭА","Частота сети 2","Угол фаза АБ сети 1"]
         self.lst_type = ["Вычисляемый","Логический","Донесение","Внешний","Команда"]
         self.lst_designation = ["N_U_AB","EA_I_AC","EA_U_AB","N2_F_U_A","N2PHI_U_AB"]
+        self.line_edit = QtWidgets.QLineEdit()
         self.lst_ctype = ["int","int","float","float","floaat"]
+        # self.lst_type = [self.line_edit,self.line_edit,self.line_edit,self.line_edit,self.line_edit]
         self.lst_common_id = ["2051","2052","2053","2054","2055"]
         self.table_params = QtWidgets.QTableView()
         for row in range(5):
@@ -300,6 +302,7 @@ class Example(QtWidgets.QMainWindow):
             self.sti.appendRow([item1,item2,item3,item4,item5])
         self.sti.setHorizontalHeaderLabels(["name","type","designation","ctype","common_id"])
         self.table_params.setModel(self.sti)
+
         self.table_params.setColumnWidth(0,int(x//5.1))
         self.table_params.setColumnWidth(1,x//6)
         self.table_params.setColumnWidth(2,x//4)
