@@ -1,0 +1,17 @@
+#path: D:\\repo\keras\yolo8_prj
+##path: ./keras/yolo8_prj
+#train: D:\\train\images
+#val: D:\\train\images
+
+path: D:\repo\keras\yolo8_prj\
+train: D:\repo\keras\yolo8_prj\train\images
+val: D:\repo\keras\yolo8_prj\train\images
+
+#path: ../keras/yolo8_prj  # dataset roont dir
+#train: train/images  # train images (relative to 'path') 128 images
+#val: train/images  # val images (relative to 'path') 128 images
+test:  # test images (optional)
+nc: 1
+# class names
+names:
+  0: memory
