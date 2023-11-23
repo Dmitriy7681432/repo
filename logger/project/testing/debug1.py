@@ -260,7 +260,6 @@ class Example(QtWidgets.QMainWindow):
         self.label_file.setText("Файл настройки:")
         self.horizontLayout_2.addWidget(self.label_file)
 
-        # Файл настроек
         self.horizontWidget_3 = QtWidgets.QWidget(self.centralwidget)
         self.horizontWidget_3.setGeometry(QtCore.QRect(20, 170, 190, 40))
         self.horizontWidget_3.setObjectName("horizontWidget_3")
@@ -287,9 +286,9 @@ class Example(QtWidgets.QMainWindow):
         self.sti = QtGui.QStandardItemModel(parent=self)
         self.lst_name = ["Напряжение сети 1","Тока ЭА","Напряжения ЭА","Частота сети 2","Угол фаза АБ сети 1"]
         self.lst_type = ["Вычисляемый","Логический","Донесение","Внешний","Команда"]
-        self.lst_designation = ["N_U_AB","EA_I_AC","EA_U_AB","N2_F_U_A","N2PHI_U_AB"]
-        self.line_edit = QtWidgets.QLineEdit()
+        self.lst_designation = ["N_U_AB","EA_I_AC","EA_U_AB","N2_F_U_A","N2_PHI_U_AB"]
         self.lst_ctype = ["int","int","float","float","floaat"]
+        # self.line_edit = QtWidgets.QLineEdit()
         # self.lst_type = [self.line_edit,self.line_edit,self.line_edit,self.line_edit,self.line_edit]
         self.lst_common_id = ["2051","2052","2053","2054","2055"]
         self.table_params = QtWidgets.QTableView()
