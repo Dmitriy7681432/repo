@@ -1,2 +1,0 @@
-Преобразовать файл ui в py
-pyuic5 -x untitled.ui -o calc1.py
