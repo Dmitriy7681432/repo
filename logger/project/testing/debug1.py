@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from PyQt5.QtWidgets import (QMainWindow, QPushButton, QApplication,
-                             QAction, QWidget)
+                             QAction, QWidget,QTableWidget)
 # import sys
 # from PyQt5 import QtCore, QtGui, QtWidgets
 #
@@ -274,7 +274,55 @@ class Example(QtWidgets.QMainWindow):
         self.save_file.setObjectName("save_file")
         self.horizontLayout_3.addWidget(self.save_file)
 
-        # Таблица с параметрами
+        # Таблица с параметрами QTableView
+#
+#        self.horizontWidget_4 = QtWidgets.QWidget(self.centralwidget)
+#        x = int(x/1.2);y=int(y/2.4)
+#        self.horizontWidget_4.setGeometry(QtCore.QRect(20, 280, x, y))
+#        self.horizontWidget_4.setObjectName("horizontWidget_4")
+#        self.horizontLayout_4 = QtWidgets.QHBoxLayout(self.horizontWidget_4)
+#        self.horizontLayout_4.setContentsMargins(0, 0, 0, 0)
+#        self.horizontLayout_4.setObjectName("horizontLayout_4")
+#        self.sti = QtGui.QStandardItemModel(parent=self)
+#        self.lst_name = ["Напряжение сети 1","Тока ЭА","Напряжения ЭА","Частота сети 2","Угол фаза АБ сети 1"]
+#        self.lst_type = ["Вычисляемый","Логический","Донесение","Внешний","Команда"]
+#        self.lst_designation = ["N_U_AB","EA_I_AC","EA_U_AB","N2_F_U_A","N2_PHI_U_AB"]
+#        self.lst_ctype = ["int","int","float","float","floaat"]
+#        # self.line_edit = QtWidgets.QLineEdit()
+#        # self.lst_type = [self.line_edit,self.line_edit,self.line_edit,self.line_edit,self.line_edit]
+#        self.lst_common_id = ["2051","2052","2053","2054","2055"]
+#        self.table_params = QtWidgets.QTableView()
+#        for row in range(5):
+#            item1 = QtGui.QStandardItem(self.lst_name[row])
+#            item2 = QtGui.QStandardItem(self.lst_type[row])
+#            item3 = QtGui.QStandardItem(self.lst_designation[row])
+#            item4 = QtGui.QStandardItem(self.lst_ctype[row])
+#            item5 = QtGui.QStandardItem(self.lst_common_id[row])
+#            self.sti.appendRow([item1,item2,item3,item4,item5])
+#        self.sti.setHorizontalHeaderLabels(["name","type","designation","ctype","common_id"])
+#        self.table_params.setModel(self.sti)
+#
+#        self.table_params.setColumnWidth(0,int(x//5.1))
+#        self.table_params.setColumnWidth(1,x//6)
+#        self.table_params.setColumnWidth(2,x//4)
+#        self.table_params.setColumnWidth(3,x//6)
+#        self.table_params.setColumnWidth(4,x//5)
+#        # Меняет размер строки, чтобы поместилось все содержимое
+#        self.table_params.resizeRowsToContents()
+#        # Сортировка по заголовкам столбцов
+#        self.table_params.setSortingEnabled(True)
+#        # Сортировка по столбцу в алфавитном порядке
+#        self.table_params.sortByColumn(0,QtCore.Qt.AscendingOrder)
+#        self.horizontLayout_4.addWidget(self.table_params)
+#
+        # self.centralwidget.raise_()
+        # self.centralwidget1.raise_()
+        # self.centralwidget2.raise_()
+        # self.centralwidget3.raise_()
+
+        # self.setLayout(hbox_port)
+
+        # Таблица с параметрами QTableWidget
 
         self.horizontWidget_4 = QtWidgets.QWidget(self.centralwidget)
         x = int(x/1.2);y=int(y/2.4)
@@ -283,44 +331,46 @@ class Example(QtWidgets.QMainWindow):
         self.horizontLayout_4 = QtWidgets.QHBoxLayout(self.horizontWidget_4)
         self.horizontLayout_4.setContentsMargins(0, 0, 0, 0)
         self.horizontLayout_4.setObjectName("horizontLayout_4")
-        self.sti = QtGui.QStandardItemModel(parent=self)
+        self.TableWidget = QtWidgets.QTableWidget()
+        self.horizontLayout_4.addWidget(self.TableWidget)
+        self.TableWidget.setColumnCount(5)
+        self.TableWidget.setRowCount(5)
+        # Добавление элементов
         self.lst_name = ["Напряжение сети 1","Тока ЭА","Напряжения ЭА","Частота сети 2","Угол фаза АБ сети 1"]
         self.lst_type = ["Вычисляемый","Логический","Донесение","Внешний","Команда"]
         self.lst_designation = ["N_U_AB","EA_I_AC","EA_U_AB","N2_F_U_A","N2_PHI_U_AB"]
         self.lst_ctype = ["int","int","float","float","floaat"]
-        # self.line_edit = QtWidgets.QLineEdit()
-        # self.lst_type = [self.line_edit,self.line_edit,self.line_edit,self.line_edit,self.line_edit]
         self.lst_common_id = ["2051","2052","2053","2054","2055"]
-        self.table_params = QtWidgets.QTableView()
-        for row in range(5):
-            item1 = QtGui.QStandardItem(self.lst_name[row])
-            item2 = QtGui.QStandardItem(self.lst_type[row])
-            item3 = QtGui.QStandardItem(self.lst_designation[row])
-            item4 = QtGui.QStandardItem(self.lst_ctype[row])
-            item5 = QtGui.QStandardItem(self.lst_common_id[row])
-            self.sti.appendRow([item1,item2,item3,item4,item5])
-        self.sti.setHorizontalHeaderLabels(["name","type","designation","ctype","common_id"])
-        self.table_params.setModel(self.sti)
 
-        self.table_params.setColumnWidth(0,int(x//5.1))
-        self.table_params.setColumnWidth(1,x//6)
-        self.table_params.setColumnWidth(2,x//4)
-        self.table_params.setColumnWidth(3,x//6)
-        self.table_params.setColumnWidth(4,x//5)
-        # Меняет размер строки, чтобы поместилось все содержимое
-        self.table_params.resizeRowsToContents()
-        # Сортировка по заголовкам столбцов
-        self.table_params.setSortingEnabled(True)
-        # Сортировка по столбцу в алфавитном порядке
-        self.table_params.sortByColumn(0,QtCore.Qt.AscendingOrder)
-        self.horizontLayout_4.addWidget(self.table_params)
+        a = QtWidgets.QTableWidgetItem(self.lst_name[0])
+        b = QtWidgets.QTableWidgetItem('rrr')
+        self.TableWidget.setItem(0,0,a)
+        self.TableWidget.setItem(0,1,b)
 
-        # self.centralwidget.raise_()
-        # self.centralwidget1.raise_()
-        # self.centralwidget2.raise_()
-        # self.centralwidget3.raise_()
+        button = QtWidgets.QPushButton()
+        button.resize(200,200)
+        button.setText("Кнопка")
+        self.TableWidget.setCellWidget(1,2,button)
 
-        # self.setLayout(hbox_port)
+        # Оформление табилицы
+        self.column_label = ['name','type','designation','ctype','commin_id']
+        self.row_label = ['name1','name2','name3','name4','name5']
+        self.TableWidget.setHorizontalHeaderLabels(self.column_label)
+        self.TableWidget.setVerticalHeaderLabels(self.row_label)
+        self.TableWidget.setSortingEnabled(True)
+
+        style ='''
+        QTableWidget::item {background-color: white;
+        border-style: outset;
+        border-width: 3px; border-radius: 7px; border-color:green}
+        QTableWidget::item:selected {background-color: red;
+        border-width: 5px; border-radius: 7px; color: green; border-color: blue}
+        '''
+        self.setStyleSheet(style)
+        # Очистить всю таблицы
+        self.TableWidget.clear()
+        # Очистить данные таблицы
+        # self.TableWidget.clearContents()
 
         self.setCentralWidget(self.centralwidget)
         # self.setGeometry(650, 350, 700, 550)
