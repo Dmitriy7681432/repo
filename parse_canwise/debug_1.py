@@ -1,14 +1,34 @@
 # -*- coding: utf-8 -*-
 import struct,re
 # from debug import printf
-from bokeh.plotting import figure, output_file, show
+from bokeh.plotting import figure, output_file, show, save
 from bokeh.models import ColumnDataSource
 import datetime
 import argparse,sys
+import webbrowser,os
+
+object_p = []
+object_p1 = []
+
+def del_object_p(arg):
+    object_p.pop(arg)
+
+def open_object_p():
+    # file_path = os.path.realpath(__file__)
+    # script_dir = os.path.dirname(file_path)
+    script_dir =os.getcwd()
+    # print(script_dir, 'script_dir')
+    # print(object_p)
+    # print(object_p1)
+    for i,j in zip(object_p,object_p2):
+        webbrowser.open(f'{script_dir}/log/{i}_{j}_graphic.html')
+    # webbrowser.open(f'{script_dir}/log/EA_t_COOL_ALL_graphic.html')
+
 
 def func_id_to_hex(arg):
     c = ''
-    f = open('D://repo/parse_canwise/data_keys.h',encoding='utf-8')
+    # f = open('D://repo/parse_canwise/data_keys.h',encoding='utf-8')
+    f = open('data_keys.h',encoding='utf-8')
     for i in f:
         if "KEY_"+arg+" " in i:
             for j in i[::-1]:
@@ -30,42 +50,62 @@ def func_id_to_hex(arg):
 
 
 
-def main ():
+def main (arg):
+    #Для командной строки
     parser = argparse.ArgumentParser(description='Приветствую тебя')
     parser.add_argument('name', nargs="*", help='designation')
     args = parser.parse_args()
-    print(args.name)
 
-    for ii in args.name:
-        f = open('D://repo/parse_canwise/canmon.log')
+
+    # for ii in args.name:
+    for ii in arg.values():
+        if not ('_' in ii or ii.isalnum()):id = 'ALL';id_dec = 'ALL';continue
+        if ii.isdigit(): id_dec = ii; id =str('000000' + hex(int(ii))[2:]); continue
+
+        f = open('canmon.log')
+        filename_log =f'log/{ii}_{id_dec}_log.txt'
+        dir_name = os.path.dirname(filename_log)
+        os.makedirs(dir_name,exist_ok=True)
+        f1 = open(filename_log,'w+')
 
         bbb = '0'
         y= []
         x= []
         date = []
 
-        #Перевод из designation в hex_can
         hex_can = func_id_to_hex(ii)
 
         for i in f:
             # if 'A5  13' in i:
             # if '4F  2F' in i:
-            if hex_can in i:
-                # printf(i)
+            if hex_can in i and id in i:
                 bb = i[60:62] +i[56:58] +i[52:54] +i[48:50] + i[44:46] +i[40:42]
-                # printf(bb)
                 for j in bb:
                     if len(bbb)<9:
                         bbb =bbb+j
-                # printf(bbb[1:])
                 a =struct.unpack('!f', bytes.fromhex(bbb[1:]))[0]
-                # printf(a)
                 y.append(a)
                 x.append(datetime.time(int(i[85:87]),int(i[88:90]),int(i[91:93]),int(i[94:98])))
                 date.append(i[85:98])
                 bbb = '0'
+                log_param_file = i[:98] + "  " + str(a) + '\n'
+                f1.write(log_param_file)
+            elif hex_can in i and id =="ALL":
+                bb = i[60:62] + i[56:58] + i[52:54] + i[48:50] + i[44:46] + i[40:42]
+                for j in bb:
+                    if len(bbb) < 9:
+                        bbb = bbb + j
+                a = struct.unpack('!f', bytes.fromhex(bbb[1:]))[0]
+                y.append(a)
+                x.append(datetime.time(int(i[85:87]), int(i[88:90]), int(i[91:93]), int(i[94:98])))
+                date.append(i[85:98])
+                bbb = '0'
+                log_param_file = i[:98] + "  " + str(a) + '\n'
+                f1.write(log_param_file)
         f.close()
+        f1.close()
 
+        #Перевод из designation в hex_can
         TOOLS = "pan,wheel_zoom,box_zoom,hover,tap,reset,save"
 
         source = ColumnDataSource(data=dict(
@@ -84,15 +124,21 @@ def main ():
             tooltips =TOOLTIPS,
             # x_range=(datetime.time(11,6,41,127),datetime.time(11,6,48,741)),
             title='Weather      Evolution',
-            x_axis_label=ii,
+            x_axis_label=ii+'  ' + 'ID = '+ id_dec,
             y_axis_label='Precip',
             x_axis_type='datetime',
             tools=TOOLS,
         )
         p.line(x,y, legend_label="Evolution", line_width=2)
         p.circle('x','y',width =3,source=source)
-        output_file('линейный_график.html')
-        show(p)
+        output_file(f'log/{ii}_{id_dec}_graphic.html')
+        # webbrowser.open(f'{ii}_graphic.html')
+        object_p.append(ii)
+        object_p1.append(id_dec)
+        save(p)
+        # show(p1)
+
+
 
 if __name__ == "__main__":
     main()
