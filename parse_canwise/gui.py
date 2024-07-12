@@ -5,7 +5,7 @@
 #----------------------------------------------------------##
 import PySimpleGUI as sg
 from debug_1 import main,open_object_p,del_object_p
-# from debug import printf
+from debug import printf
 from tkinter import *
 import os
 """
@@ -32,7 +32,10 @@ def item_row(item_num):
     row =  [sg.pin(sg.Col([[sg.B("X", border_width=1, button_color=(sg.theme_text_color(), sg.theme_background_color()), k=('-DEL-', item_num), tooltip='Delete this item'),
                             sg.In(size=(10,1),k=(str(item_num))),
                             sg.In(size=(20,1)),
-                            sg.T( k=('-STATUS-', item_num))]],k=('-ROW-', item_num)))]
+                            # sg.T( k=('-STATUS-', item_num)),
+                            # sg.Checkbox('float', default=True, k=('-FLOAT-',item_num)),
+                            # sg.Checkbox('int', default=True, k=('-INT-',item_num)),
+                            ]],k=('-ROW-', item_num)))]
     return row
 
 
@@ -65,12 +68,13 @@ def main1():
     key_del =[]
     while True:
         event, values = window.read()     # wake every hour
-        # printf(event)
-        # printf(values)
+        # print(event,'event = ')
+        # print(values, 'values = ')
         if event == 'Input':
             for i in key_del:
                 values.pop(i)
                 values.pop(str(i))
+            printf(values)
             main(values)
             # printf(values)
         if event == sg.WIN_CLOSED or event == 'Exit':
@@ -102,8 +106,28 @@ def main1():
             open_object_p()
 if __name__ == '__main__':
     main1()
-
-    # a = {'0': '51', 0: 'EA', '1': '52', 1: 'AIR', '2': '53', 2: 'COOL', '3': '54', 3: 'TEMP'}
+    a = {'0': '51', 0: 'EA_t_COOL','2': '51', 2: 'EA_t_COOL'}
+    a = {'0': '51', 0: 'EA_t_COOL','2': '51', 2: 'EA_t_COOL','5': '51', 5: 'EA_t_COOL','6': '51', 6: 'EA_t_COOL'}
+    print(str([*a.keys()][len([*a.keys()])-1]))
+    print(len([*a.keys()]))
+    b = []
+    b.insert(0,'ea')
+    b.insert(0,'e1')
+    print(b)
+    # import struct
+    # a = '0000013B0'
+    # a = struct.unpack('!i', bytes.fromhex(a[1:]))[0]
+    # print(a)
+    # ii =None
+    # if ii == True or ii ==False:
+    #     print('HELL')
+    # a = "('-FLOAT-', 1)"
+    # b = "('-INT-', 1)"
+    # print(a[:6])
+    # print(b[:6])
+    # if a in "('-FLOAT-', 0)":
+    #     print('HELL!!!!')
+# a = {'0': '51', 0: 'EA', '1': '52', 1: 'AIR', '2': '53', 2: 'COOL', '3': '54', 3: 'TEMP'}
     # b = [3,0,2]
     # for i in b:
     #     a.pop(i)

@@ -1,18 +1,32 @@
 # -*- coding: utf-8 -*-
 import struct,re
-# from debug import printf
+from debug import printf
 from bokeh.plotting import figure, output_file, show, save
 from bokeh.models import ColumnDataSource
 import datetime
 import argparse,sys
 import webbrowser,os
+import xml.etree.ElementTree as ET
+
 
 object_p = []
 object_p1 = []
 
+#Парсит params.xml для того чтобы по designation определить тип параметра
+def datatype_param(param):
+    tree = ET.parse('params.xml')
+    root = tree.getroot()
+    for parameter in root.findall('.//parameter'):
+        parameter_designation = parameter.attrib.get('designation')
+        parameter_datatype = parameter.attrib.get('datatype')
+        if parameter_designation == param: break
+    return parameter_datatype
+
+# Удаляет строки параметров из списка по команде удалить
 def del_object_p(arg):
     object_p.pop(arg)
 
+# Показывает графики
 def open_object_p():
     # file_path = os.path.realpath(__file__)
     # script_dir = os.path.dirname(file_path)
@@ -20,11 +34,12 @@ def open_object_p():
     # print(script_dir, 'script_dir')
     # print(object_p)
     # print(object_p1)
-    for i,j in zip(object_p,object_p2):
+    for i,j in zip(object_p,object_p1):
         webbrowser.open(f'{script_dir}/log/{i}_{j}_graphic.html')
     # webbrowser.open(f'{script_dir}/log/EA_t_COOL_ALL_graphic.html')
 
-
+# Парсит data_keys.h для того чтобы по designation найти номер global_id
+# и перевести его в hex формата canwise
 def func_id_to_hex(arg):
     c = ''
     # f = open('D://repo/parse_canwise/data_keys.h',encoding='utf-8')
@@ -37,7 +52,8 @@ def func_id_to_hex(arg):
                 c = c+j
     c = hex(int(c[::-1])).upper()[2:]
 
-    if len(c) == 2: c = c + "  00  00  00"
+    if len(c) == 1: c = '0'+ c + "  00  00  00"
+    elif len(c) == 2: c = c + "  00  00  00"
     elif len(c) == 4: c = c[len(c) - 2:] + "  " + \
          c[len(c) - 4:len(c) - 2] + "  00  00"
     elif len(c) == 6: c = c[len(c) - 2:] + "  " + \
@@ -56,11 +72,27 @@ def main (arg):
     parser.add_argument('name', nargs="*", help='designation')
     args = parser.parse_args()
 
-
     # for ii in args.name:
     for ii in arg.values():
-        if not ('_' in ii or ii.isalnum()):id = 'ALL';id_dec = 'ALL';continue
-        if ii.isdigit(): id_dec = ii; id =str('000000' + hex(int(ii))[2:]); continue
+        printf(str([*arg.keys()])[:-1])
+        # print(str(ii), 'str iiii')
+        # print(ii,'ii====!!!!!!!')
+        # count+=1
+        # print(count,'count')
+        # if str([*arg.keys()][count])[:6] == "('-FLO":
+        #     # print(arg.values(),'arg')
+        #     # print(ii,'ii==')
+        #     if ii ==True:type_param ='float'
+        #     continue
+        # elif str([*arg.keys()][count])[:6] == "('-INT":
+        #     if ii == True:type_param = 'int'
+        #     continue
+        if (not ('_' in ii or ii.isalnum())):
+            id = 'ALL';id_dec = 'ALL';continue
+        elif ii.isdigit():
+            id_dec = ii; id =str('000000' + hex(int(ii))[2:]); continue
+
+        type_param = datatype_param(ii)
 
         f = open('canmon.log')
         filename_log =f'log/{ii}_{id_dec}_log.txt'
@@ -72,7 +104,6 @@ def main (arg):
         y= []
         x= []
         date = []
-
         hex_can = func_id_to_hex(ii)
 
         for i in f:
@@ -83,19 +114,33 @@ def main (arg):
                 for j in bb:
                     if len(bbb)<9:
                         bbb =bbb+j
-                a =struct.unpack('!f', bytes.fromhex(bbb[1:]))[0]
+                # a =struct.unpack('!f', bytes.fromhex(bbb[1:]))[0]
+                # a = hex(int(bbb[1:]))
+                # print(a, 'aaa')
+                if type_param == 'Вещественный':
+                    a = struct.unpack('!f', bytes.fromhex(bbb[1:]))[0]
+                elif type_param =='Целочисленный' or type_param == 'Логический':
+                    a = struct.unpack('!i', bytes.fromhex(bbb[1:]))[0]
                 y.append(a)
                 x.append(datetime.time(int(i[85:87]),int(i[88:90]),int(i[91:93]),int(i[94:98])))
                 date.append(i[85:98])
                 bbb = '0'
                 log_param_file = i[:98] + "  " + str(a) + '\n'
                 f1.write(log_param_file)
-            elif hex_can in i and id =="ALL":
+            elif hex_can == i[32:46] and id =="ALL":
+                # print(hex_can,'hex_can')
+                # print(i,'i')
                 bb = i[60:62] + i[56:58] + i[52:54] + i[48:50] + i[44:46] + i[40:42]
                 for j in bb:
                     if len(bbb) < 9:
                         bbb = bbb + j
-                a = struct.unpack('!f', bytes.fromhex(bbb[1:]))[0]
+                if type_param == 'Вещественный':
+                    a = struct.unpack('!f', bytes.fromhex(bbb[1:]))[0]
+                elif type_param =='Целочисленный' or type_param == 'Логический':
+                    a = struct.unpack('!i', bytes.fromhex(bbb[1:]))[0]
+                # print(bbb, 'bbb')
+                # print(int(bbb), 'int=bbb')
+                # print(a, 'aaa_else')
                 y.append(a)
                 x.append(datetime.time(int(i[85:87]), int(i[88:90]), int(i[91:93]), int(i[94:98])))
                 date.append(i[85:98])
@@ -133,8 +178,12 @@ def main (arg):
         p.circle('x','y',width =3,source=source)
         output_file(f'log/{ii}_{id_dec}_graphic.html')
         # webbrowser.open(f'{ii}_graphic.html')
-        object_p.append(ii)
-        object_p1.append(id_dec)
+        printf(arg.keys())
+        printf(int(str([*arg.keys()][len([*arg.keys()])-1])))
+        object_p.insert(int(str([*arg.keys()][len([*arg.keys()])-1])),ii)
+        object_p1.insert(int(str([*arg.keys()][len([*arg.keys()])-1])),id_dec)
+        printf(object_p)
+        printf(object_p1)
         save(p)
         # show(p1)
 
