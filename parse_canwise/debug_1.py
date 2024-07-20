@@ -2,7 +2,7 @@
 import struct,re
 from debug import printf
 from bokeh.plotting import figure, output_file, show, save
-from bokeh.models import ColumnDataSource
+from bokeh.models import ColumnDataSource,HoverTool
 import datetime
 import argparse,sys
 import webbrowser,os
@@ -24,7 +24,30 @@ def datatype_param(param):
 
 # Удаляет строки параметров из списка по команде удалить
 def del_object_p(arg):
+    printf(object_p)
+    printf(object_p1)
     object_p.pop(arg)
+    object_p1.pop(arg)
+
+# Добавляет параметры в список
+def add_object_p(arg,arg1):
+    flag =0
+    if object_p ==[] and object_p1 == []:
+        object_p.append(arg)
+        object_p1.append(arg1)
+    else:
+        for i,j in zip(object_p,object_p1):
+            printf(i,j)
+            printf(arg,arg1)
+            if i ==arg and j ==arg1:
+                flag =1
+        if flag ==0:
+            object_p.append(arg)
+            object_p1.append(arg1)
+            flag =0
+
+    printf(object_p)
+    printf(object_p1)
 
 # Показывает графики
 def open_object_p():
@@ -37,6 +60,21 @@ def open_object_p():
     for i,j in zip(object_p,object_p1):
         webbrowser.open(f'{script_dir}/log/{i}_{j}_graphic.html')
     # webbrowser.open(f'{script_dir}/log/EA_t_COOL_ALL_graphic.html')
+
+# Показывает графики
+def open_dict_obj(arg):
+    script_dir =os.getcwd()
+    count =0
+    for i in arg.values():
+        count +=1
+        if i =='':
+            id = 'ALL'
+        elif count ==1:
+            id =i
+        if count >1:
+            printf(i,'+', id)
+            webbrowser.open(f'{script_dir}/log/{i}_{id}_graphic.html')
+            count =0
 
 # Парсит data_keys.h для того чтобы по designation найти номер global_id
 # и перевести его в hex формата canwise
@@ -74,7 +112,6 @@ def main (arg):
 
     # for ii in args.name:
     for ii in arg.values():
-        printf(str([*arg.keys()])[:-1])
         # print(str(ii), 'str iiii')
         # print(ii,'ii====!!!!!!!')
         # count+=1
@@ -92,6 +129,7 @@ def main (arg):
         elif ii.isdigit():
             id_dec = ii; id =str('000000' + hex(int(ii))[2:]); continue
 
+
         type_param = datatype_param(ii)
 
         f = open('canmon.log')
@@ -102,34 +140,34 @@ def main (arg):
 
         bbb = '0'
         y= []
+        y1= []
         x= []
         date = []
+
+        yy= []
+        xx= []
+        ddate = []
+        #Перевод из designation в hex_can
         hex_can = func_id_to_hex(ii)
 
         for i in f:
-            # if 'A5  13' in i:
-            # if '4F  2F' in i:
             if hex_can in i and id in i:
                 bb = i[60:62] +i[56:58] +i[52:54] +i[48:50] + i[44:46] +i[40:42]
                 for j in bb:
                     if len(bbb)<9:
                         bbb =bbb+j
-                # a =struct.unpack('!f', bytes.fromhex(bbb[1:]))[0]
-                # a = hex(int(bbb[1:]))
-                # print(a, 'aaa')
                 if type_param == 'Вещественный':
                     a = struct.unpack('!f', bytes.fromhex(bbb[1:]))[0]
                 elif type_param =='Целочисленный' or type_param == 'Логический':
                     a = struct.unpack('!i', bytes.fromhex(bbb[1:]))[0]
                 y.append(a)
+                y1.append(a+5)
                 x.append(datetime.time(int(i[85:87]),int(i[88:90]),int(i[91:93]),int(i[94:98])))
                 date.append(i[85:98])
                 bbb = '0'
                 log_param_file = i[:98] + "  " + str(a) + '\n'
                 f1.write(log_param_file)
             elif hex_can == i[32:46] and id =="ALL":
-                # print(hex_can,'hex_can')
-                # print(i,'i')
                 bb = i[60:62] + i[56:58] + i[52:54] + i[48:50] + i[44:46] + i[40:42]
                 for j in bb:
                     if len(bbb) < 9:
@@ -138,10 +176,8 @@ def main (arg):
                     a = struct.unpack('!f', bytes.fromhex(bbb[1:]))[0]
                 elif type_param =='Целочисленный' or type_param == 'Логический':
                     a = struct.unpack('!i', bytes.fromhex(bbb[1:]))[0]
-                # print(bbb, 'bbb')
-                # print(int(bbb), 'int=bbb')
-                # print(a, 'aaa_else')
                 y.append(a)
+                # y1.append(a+5)
                 x.append(datetime.time(int(i[85:87]), int(i[88:90]), int(i[91:93]), int(i[94:98])))
                 date.append(i[85:98])
                 bbb = '0'
@@ -150,14 +186,28 @@ def main (arg):
         f.close()
         f1.close()
 
-        #Перевод из designation в hex_can
         TOOLS = "pan,wheel_zoom,box_zoom,hover,tap,reset,save"
+
+        # x1 = [datetime.time(14, 15, 42, 315), datetime.time(14, 15, 44, 912), datetime.time(14, 15, 47, 629),
+        #       datetime.time(14, 15, 50, 326), datetime.time(14, 15, 53, 200), datetime.time(14, 15, 55, 833),
+        #       datetime.time(14, 15, 58, 719), datetime.time(14, 16, 1, 328), datetime.time(14, 16, 4, 295),
+        #       datetime.time(14, 16, 6, 824), datetime.time(14, 16, 9, 526), datetime.time(14, 16, 12, 142),
+        #       datetime.time(14, 16, 14, 792), datetime.time(14, 16, 17, 326), datetime.time(14, 16, 19, 830)]
+        # date1 = ['14:15:42.315 ', '14:15:44.912 ', '14:15:47.629 ', '14:15:50.326 ', '14:15:53.200 ',
+        #          '14:15:55.833 ', '14:15:58.719 ', '14:16:01.328 ', '14:16:04.295 ', '14:16:06.824 ',
+        #          '14:16:09.526 ', '14:16:12.142 ', '14:16:14.792 ', '14:16:17.326 ', '14:16:19.830 ']
 
         source = ColumnDataSource(data=dict(
             x=x,
             y=y,
-            date =date
+            date =date,
         ))
+
+        # source1 = ColumnDataSource(data=dict(
+        #     x1=x1,
+        #     y1=y1,
+        #     date =date1,
+        # ))
         TOOLTIPS = [
             ("index", "$index"),
             ("(x,y)", "($x, $y)"),
@@ -174,16 +224,34 @@ def main (arg):
             x_axis_type='datetime',
             tools=TOOLS,
         )
+
         p.line(x,y, legend_label="Evolution", line_width=2)
         p.circle('x','y',width =3,source=source)
+        # y =  [35.718017578125, 35.972015380859375, 34.956024169921875, 37.22601318359375, 38.75, 38.496002197265625,
+        #  37.988006591796875, 38.75, 37.7340087890625, 37.7340087890625, 38.75, 38.496002197265625, 38.75,
+        #  37.7340087890625, 39.003997802734375]
+        # p.line(x1,y1, legend_label="Evolution", line_width=2)
+        # p.circle('x1','y1',width =3,source=source1)
         output_file(f'log/{ii}_{id_dec}_graphic.html')
+
+        # Объект подсказок при наведении мыши
+        # hover = p.select(dict(type=HoverTool))
+        # hover.tooltips = [("index", "$index"),
+        #                   ("(x,y)", "($x, $y)"),
+        #                   ("date", "@date")
+        #                   ]
+        # hover.mode = 'mouse'
+
         # webbrowser.open(f'{ii}_graphic.html')
-        printf(arg.keys())
-        printf(int(str([*arg.keys()][len([*arg.keys()])-1])))
-        object_p.insert(int(str([*arg.keys()][len([*arg.keys()])-1])),ii)
-        object_p1.insert(int(str([*arg.keys()][len([*arg.keys()])-1])),id_dec)
-        printf(object_p)
-        printf(object_p1)
+        # printf(arg.keys())
+        # printf(int(str([*arg.keys()][len([*arg.keys()])-1])))
+        # add_object_p(ii,id_dec)
+        # open_dict_obj(arg)
+        # object_p.insert(int(str([*arg.keys()][len([*arg.keys()])-1])),ii)
+        # object_p1.insert(int(str([*arg.keys()][len([*arg.keys()])-1])),id_dec)
+        # printf(object_p)
+        # printf(object_p1)
+        # printf(int(str([*arg.keys()][len([*arg.keys()])-1])),ii)
         save(p)
         # show(p1)
 

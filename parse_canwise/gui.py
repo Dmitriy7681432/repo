@@ -4,7 +4,7 @@
 
 #----------------------------------------------------------##
 import PySimpleGUI as sg
-from debug_1 import main,open_object_p,del_object_p
+from debug_1 import main,open_object_p,del_object_p,open_dict_obj
 from debug import printf
 from tkinter import *
 import os
@@ -22,16 +22,18 @@ import os
 """
 
 
-def item_row(item_num):
+def item_row(item_num, grafic_list=[]):
     """
     A "Row" in this case is a Button with an "X", an Input element and a Text element showing the current counter
     :param item_num: The number to use in the tuple for each element
     :type:           int
     :return:         List
     """
+    grafic_list.append('График '+ str(item_num+1))
     row =  [sg.pin(sg.Col([[sg.B("X", border_width=1, button_color=(sg.theme_text_color(), sg.theme_background_color()), k=('-DEL-', item_num), tooltip='Delete this item'),
                             sg.In(size=(10,1),k=(str(item_num))),
                             sg.In(size=(20,1)),
+                            sg.Combo(grafic_list, default_value=grafic_list[item_num],k=str(item_num)+'graphic')
                             # sg.T( k=('-STATUS-', item_num)),
                             # sg.Checkbox('float', default=True, k=('-FLOAT-',item_num)),
                             # sg.Checkbox('int', default=True, k=('-INT-',item_num)),
@@ -41,7 +43,6 @@ def item_row(item_num):
 
 
 def make_window():
-
     layout = [  [sg.Text('Необходимы файлы в текущей директории: canmon.log, data_keys.h \n', font='_ 10')],
                 [sg.Text('        ID:                 Designation:', font='_ 15', tooltip='Обязательное поле Designation')],
                 [sg.pin(sg.Col([item_row(0)], k='-TRACKING SECTION-'))],
@@ -68,8 +69,8 @@ def main1():
     key_del =[]
     while True:
         event, values = window.read()     # wake every hour
-        # print(event,'event = ')
-        # print(values, 'values = ')
+        print(event,'event = ')
+        print(values, 'values = ')
         if event == 'Input':
             for i in key_del:
                 values.pop(i)
@@ -94,8 +95,7 @@ def main1():
             # window[('-ROW-', event[1])].Widget.destroy()
             window[('-ROW-', event[1])].update(visible=False)
             key_del.append(event[1])
-            # printf(type(event[1]))
-            del_object_p(event[1])
+            # del_object_p(event[1])
         if event == 'Show':
             # file_path = os.path.realpath(__file__)
             # script_dir = os.path.dirname(file_path)
@@ -103,41 +103,30 @@ def main1():
             # print(script_dir, 'script_dir1')
             # print(os.path.dirname(os.path.abspath(__file__)),'dirrr')
             # print(os.getcwd(),'getcwd')
-            open_object_p()
+            # open_object_p()
+            for i in key_del:
+                values.pop(i)
+                values.pop(str(i))
+            open_dict_obj(values)
 if __name__ == '__main__':
     main1()
     a = {'0': '51', 0: 'EA_t_COOL','2': '51', 2: 'EA_t_COOL'}
-    a = {'0': '51', 0: 'EA_t_COOL','2': '51', 2: 'EA_t_COOL','5': '51', 5: 'EA_t_COOL','6': '51', 6: 'EA_t_COOL'}
+    a = {'0': '51', 0: 'EA_t_COOL','2': '52', 2: 'AIR_TEMP','5': '51', 5: 'EA_P_OIL','6': '51', 6: 'EA_U_A'}
     print(str([*a.keys()][len([*a.keys()])-1]))
     print(len([*a.keys()]))
-    b = []
-    b.insert(0,'ea')
-    b.insert(0,'e1')
-    print(b)
-    # import struct
-    # a = '0000013B0'
-    # a = struct.unpack('!i', bytes.fromhex(a[1:]))[0]
-    # print(a)
-    # ii =None
-    # if ii == True or ii ==False:
-    #     print('HELL')
-    # a = "('-FLOAT-', 1)"
-    # b = "('-INT-', 1)"
-    # print(a[:6])
-    # print(b[:6])
-    # if a in "('-FLOAT-', 0)":
-    #     print('HELL!!!!')
-# a = {'0': '51', 0: 'EA', '1': '52', 1: 'AIR', '2': '53', 2: 'COOL', '3': '54', 3: 'TEMP'}
-    # b = [3,0,2]
-    # for i in b:
-    #     a.pop(i)
-    #     a.pop(str(i))
-    # print(a)
+    # for i in a.values():
+    #     print(i)
+    print(a)
+    b = '111graphic'
+    if b.isdigit():
+        print(b[:-7])
 
-    # a =['air','temp']
-    # b =['air1','temp1']
-    # for i,j in zip(a,b):
-    #     printf(i)
-    #     printf(j)
+    graph_list = ['График 1',[31,35,36,32],[41,42,46,48], 'График 2',[51,52,50]]
+    # graph_dict = {'График 1':[31,35,36,32],[41,42,46,48]} 'График 2': [51,52,50]}
 
+    for i in graph_list:
+        print(i,type(i))
 
+    graph_list.append('График 3',[61,62,63]))
+    # graph_list.append([61, 62, 63])
+    print(graph_list)
