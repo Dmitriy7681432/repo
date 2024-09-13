@@ -65,16 +65,19 @@ def open_object_p():
 def open_dict_obj(arg):
     script_dir =os.getcwd()
     count =0
+    printf(arg.values())
     for i in arg.values():
         count +=1
         if i =='':
             id = 'ALL'
         elif count ==1:
             id =i
-        if count >1:
-            printf(i,'+', id)
-            webbrowser.open(f'{script_dir}/log/{i}_{id}_graphic.html')
+        elif count ==2:
+            designation =i
+        elif count ==3:
             count =0
+            printf(designation,'+', id)
+            webbrowser.open(f'{script_dir}/log/{designation}_{id}_graphic.html')
 
 # Парсит data_keys.h для того чтобы по designation найти номер global_id
 # и перевести его в hex формата canwise

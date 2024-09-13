@@ -127,6 +127,6 @@ if __name__ == '__main__':
     for i in graph_list:
         print(i,type(i))
 
-    graph_list.append('График 3',[61,62,63]))
+    #graph_list.append('График 3',[61,62,63]))
     # graph_list.append([61, 62, 63])
     print(graph_list)
