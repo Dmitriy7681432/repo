@@ -1,0 +1,214 @@
+﻿QT_PLUGIN_PATH
+C:\Users\Администратор\AppData\Local\Programs\Python\Python38\Lib\site-packages\PyQt5\Qt5\bin;C:\Users\Администратор\AppData\Local\Programs\Python\Python38\Lib\site-packages\PyQt5\Qt5\plugins;C:\Users\Администратор\AppData\Local\Programs\Python\Python38\Lib\site-packages\PyQt5\Qt5\plugins\platforms
+
+C:\Users\Администратор\AppData\Local\Programs\Python\Python38\Lib\site-packages\PyQt5\Qt5\bin; (Qt5Core.dll)
+C:\Users\Администратор\AppData\Local\Programs\Python\Python38\Lib\site-packages\PyQt5\Qt5\plugins; (-)
+C:\Users\Администратор\AppData\Local\Programs\Python\Python38\Lib\site-packages\PyQt5\Qt5\plugins\platforms (qwindows.dll)
+
+C:\Users\Администратор\AppData\Local\Programs\Python\Python38\Lib\site-packages\PyQt5\Qt5\bin;C:\Users\Администратор\AppData\Local\Programs\Python\Python38\Lib\site-packages\PyQt5\Qt5\plugins;C:\Users\Администратор\AppData\Local\Programs\Python\Python38\Lib\site-packages\PyQt5\Qt5\plugins\platforms;C:\Program Files\Oracle\VirtualBox;C:\Program Files\Oracle\VirtualBox\platforms 
+
+
+C:\Program Files\Oracle\VirtualBox; (Qt5Core.dll)
+C:\Program Files\Oracle\VirtualBox\platforms; (qwindows.dll)
+
+
+[0] Arguments: D:\Qt_prj\qt-opensource-windows-x86-5.13.1.exe
+[9] Operations sanity check succeeded.
+[10] Reading Qt Account settings from disk: "C:/Users/Администратор/AppData/Roaming/Qt/qtaccount.ini"
+отключить сетевое подключение
+
+Выбор компонентов
++ MinGW 32-bit
++ MinGW 64-bit
++ Sources
++ Qt Creator
+
+папка с креатором D:\Qt\Qt5.13.1_1\Tools\QtCreator\bin\qtcreator.exe
+автоматом подтягивает необходимый toolchain, можно сразу собирать и запускать проект
+
+папка с исходниками D:\Qt\Qt5.13.1_1\5.13.1\Src 
+
+сделать резервную копию исходников
+
+делать из msys
+./configure.bat -static -platform win32-g++ -prefix D:\Qt\Qt5.13.1_static -release -opensource -confirm-license -nomake examples -nomake tests -nomake tools -opengl desktop -no-angle -sql-sqlite -make libs -qt-zlib -qt-pcre -qt-libpng -qt-libjpeg -qt-freetype
+
+g++ -c -o msvc_nmake.o -DUNICODE -DMINGW_HAS_SECURE_API=1 -std=c++11 -ffunction-sections -g  -ID:/Qt/Qt5.13.1_1/5.13.1/Src/qtbase/qmake -ID:/Qt/Qt5.13.1_1/5.13.1/Src/qtbase/qmake/library -ID:/Qt/Qt5.13.1_1/5.13.1/Src/qtbase/qmake/generators -ID:/Qt/Qt5.13.1_1/5.13.1/Src/qtbase/qmake/generators/unix -ID:/Qt/Qt5.13.1_1/5.13.1/Src/qtbase/qmake/generators/win32 -ID:/Qt/Qt5.13.1_1/5.13.1/Src/qtbase/qmake/generators/mac -ID:/Qt/Qt5.13.1_1/5.13.1/Src/qtbase/include -ID:/Qt/Qt5.13.1_1/5.13.1/Src/qtbase/include/QtCore -ID:/Qt/Qt5.13.1_1/5.13.1/Src/qtbase/include/QtCore/5.13.1 -ID:/Qt/Qt5.13.1_1/5.13.1/Src/qtbase/include/QtCore/5.13.1/QtCore -I../src/corelib/global -ID:/Qt/Qt5.13.1_1/5.13.1/Src/qtbase/mkspecs/win32-g++ -DQT_VERSION_STR=\"5.13.1\" -DQT_VERSION_MAJOR=5  -DQT_VERSION_MINOR=13  -DQT_VERSION_PATCH=1  -DQT_BUILD_QMAKE -DQT_BOOTSTRAPPED -DPROEVALUATOR_FULL -DQT_NO_FOREACH D:/Qt/Qt5.13.1_1/5.13.1/Src/qtbase/qmake/generators/win32/msvc_nmake.cpp
+g++ -c -fno-keep-inline-dllexport -O2 -std=c++1z -ffunction-sections -fdata-sections -fno-exceptions -Wall -W -Wextra -Wvla -Wdate-time -Wshift-overflow=2 -Wduplicated-cond -Wno-stringop-overflow -Wno-format-overflow -DUNICODE -D_UNICODE -DWIN32 -DMINGW_HAS_SECURE_API=1 -DWINVER=0x0601 -D_WIN32_WINNT=0x0601 -DQT_VERSION_STR='"5.13.1"' -DQT_VERSION_MAJOR=5 -DQT_VERSION_MINOR=13 -DQT_VERSION_PATCH=1 -DQT_BOOTSTRAPPED -DQT_NO_CAST_TO_ASCII -DQT_NO_FOREACH -DQT_NO_CAST_FROM_ASCII -DQT_NO_NARROWING_CONVERSIONS_IN_CONNECT -DQT_BUILD_BOOTSTRAP_LIB -DQT_BUILDING_QT -D_CRT_SECURE_NO_WARNINGS -D_USE_MATH_DEFINES -DQT_ASCII_CAST_WARNINGS -DQT_MOC_COMPAT -DQT_USE_QSTRINGBUILDER -DQT_DEPRECATED_WARNINGS -DQT_DISABLE_DEPRECATED_BEFORE=0x040800 -DQT_NO_EXCEPTIONS -DQT_NO_DEBUG -I. -I../../3rdparty/zlib/src -I../../../include -I../../../include/QtCore -I../../../include/QtCore/5.13.1 -I../../../include/QtCore/5.13.1/QtCore -I../../../include/QtXml -I../../../include/QtXml/5.13.1 -I../../../include/QtXml/5.13.1/QtXml -Itmp -I../../../mkspecs/win32-g++  -o .obj/release/qlogging.o ../../corelib/global/qlogging.cpp
+
+make
+make install
+
+в креаторе: иструменты-параметры-комлектыё
+
+astra
+Astra1234
+
+сборка проекта под линух
+/media/sf_D_DRIVE/Qt/Qt5.13.1_astra/bin/qmake el-schematic.pro -spec linux-g++ 
+не хватает параметров - мусорит в директории проекта. посмотреть, что запускается под виндоз
+make
+
+cp: '/media/sf_D_DRIVE/sep30m/TAKI00011-01/params.xml' и '/media/sf_D_DRIVE/sep30m/TAKI00011-01/params.xml' - один и тот же файл
+Makefile:654: ошибка выполнения рецепта для цели «el-schematic-sep30-m-v1.2.4»
+make: *** [el-schematic-sep30-m-v1.2.4] Ошибка 1
+
+
+используется chai2.14.0 надо его воткнуть в проект
+
+текущий проект не совместим с Qt5.13
+используется QtQuick 2.13 в view/PanelConfigMode.qml: Qt5.xx.y использует QtQuick2.xx
+используется QtQuick.Controls 1.3 в view/PanelParameter.qml 
+проблема в view/components/ElRectDiagonal.qml -> вместо алиаса сделал реальный параметр
+
+компиляция статического Qt 
+===============================
+Валится тут:
+g++ -Wl,-s -Wl,-subsystem,console -Wl,--gc-sections -o ../../bin/qdoc.exe @object_script.qdoc.Release  D:/env/msys64/mingw64/lib/libclang.a D:/Qt/Qt5.13.1/5.13.1/Src/qtdeclarative/lib/libQt5QmlDevTools.a D:/Qt/Qt5.13.1/5.13.1/Src/qtbase/lib/libQt5Core.a -lmpr -lnetapi32 -luserenv -lversion -lws2_32 -lkernel32 -luser32 -lshell32 -luuid -lole32 -ladvapi32 -lwinmm D:/Qt/Qt5.13.1/5.13.1/Src/qtbase/lib/libqtpcre2.a .obj/release/qdoc_resource_res.o
+
+куча ошибок линковщика
+...
+D:/env/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/9.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: D:/env/msys64/mingw64/lib/libclang.a(CIndex.cpp.obj):(.text+0x6b0): undefined reference to `clang::SourceManager::isBeforeInTranslationUnit(clang::SourceLocation, clang::SourceLocation) const'
+...
+libclang.a содержит кучу U символов, Т находятся в других библиотеках
+
+временное решение: внести в /d/Qt/Qt5.13.1/5.13.1/Src/qttools/src/qdoc/Makefile.Release все библиотеки из D:/env/msys64/mingw64/lib
+LIBS        = -L D:/env/msys64/mingw64/lib\
+-lasprintf\
+-lboost_atomic-mt\
+-lboost_chrono-mt\
+...
+
+make install
+ D:/Qt/Qt5.13.1/5.13.1/Src/qtbase/bin/qmake.exe -o Makefile D:/Qt/Qt5.13.1/5.13.1/Src/qtspeech/src/plugins/tts/sapi/sapi.pro 
+ make -f Makefile install
+D:/Qt/Qt5.13.1/5.13.1/Src/qtbase/bin/qmake.exe -install qinstall D:/Qt/Qt5.13.1/5.13.1/Src/qtspeech/mkspecs/modules-inst/qt_plugin_qtexttospeech_sapi.pri D:/Qt/Qt5.13.1/5.13.1/Src/D:QtQt5.13.1_static/mkspecs/modules/qt_plugin_qtexttospeech_sapi.pri
+
+почему-то получается битая директория на выходе
+
+
+
+еще заход из cmd
+set path=D:\Qt\Qt5.13.1\Tools\mingw730_32\bin;%path%
+
+configure.bat  -static -platform win32-g++ -prefix "D:\Qt\Qt5.13.1_static_" -debug-and-release -opensource -confirm-license -nomake examples -nomake tests -nomake tools -opengl desktop -no-angle -sql-sqlite -make libs -qt-zlib -qt-pcre -qt-libpng -qt-libjpeg -qt-freetype
+(*) можно еще -debug-and-release вместо -release
+mingw32-make -j8
+изменить /d/Qt/Qt5.13.1/5.13.1/Src/qttools/src/qdoc/Makefile.Release (*только для 64 битного компилятора)
+mingw32-make -j8
+mingw32-make install
+
+в креаторе: 
+иструменты-параметры-профили qt-добавить
+D:\Qt\Qt5.13.1_static\bin\qmake.exe
+warning: qmlscene не установлен - это нормально
+
+иструменты-параметры-комлекты-добавить
+Название
+Компилятор - MinGW 32-bit
+Профиль Qt 
+Отладчик
+
+проекты-сборка и запуск-статический комплект
+изменить конфигурацию сборки - выпуск
+
+!в опции сбоки не попадает -I"C:\Program Files (x86)\CHAI-2.14.0\include" 
+!ошибка D:\Qt\Qt5.13.1_static\lib\libqtharfbuzz.a(hb-blob.o):hb-blob.cc:(.text+0xcb): undefined reference to `__imp__wassert'
+= это из-за компилятора 64 бит
+
+======= установка виртуальной машины
+сделать iso образы дисков astra linux (ultraiso)
+
+
+
+Запустить VirtualBox-7.0.18-162988-Win.exe
+Создать ВМ
+Указать имя, образ диска, число ядер, памяти, диска - запустить.
+метод разметки - использовать весь диск
+все файлы в одном разделе
+закончить разметку
+записать изменения на диск
+добавить галочку на средства удаленного доступа SSH
+в дополнительных настройках ничего не трогать
+Установить системный загрузчик GRUB в главную загрузочную запись? - да
+
+доустановить ОС
+устройства - оптические диски - выбрать файл диска - astra_linux_os.iso
+sudo apt-cdrom add /media/cdrom
+sudo apt update
+sudo apt upgrade
+устройства - оптические диски - выбрать файл диска - astra_linux_devtools.iso
+sudo apt-cdrom add /media/cdrom
+sudo apt update
+sudo apt upgrade
+
+Смена носителя: вставьте диск с меткой
+ «OS Astra Linux 1.6 smolensk - amd64 DVD»
+в устройство «/media/cdrom/» и нажмите [Enter]
+-> устройства - оптические диски - выбрать файл диска 
+менеджер файлов - накопители -диск - примонтировать
+
+sudo apt-get install build-essential
+sudo apt-get install linux-headers-$(uname -r)
+sudo apt-get install libfontconfig1-dev libfreetype6-dev libx11-dev libxext-dev libxfixes-dev libxi-dev libxrender-dev libxcb1-dev libx11-xcb-dev libxcb-glx0-dev libxkbcommon-dev
+sudo apt-get install dos2unix
+
+=== sudo apt-get install libgl1-mesa-dev
+
+подключить возможность доступа из ВМ к диску
+Запустить Oracle_VM_VirtualBox_Extension_Pack-7.0.18.vbox-extpack
+Запустить ВМ
+Устройства - Подключить образ диска гостевой ОС
+На панели значок USB - VXBOX CD-ROM - подключить
+В терминале (Alt+T):
+cd /media/cdrom0 
+sudo sh VBoxLinuxAdditions.run
+sudo rcvboxadd reload
+
+Машина - Настроить - общие папки - папки машины - кнопка папка с плюсиком
+путь к папке D:
+имя папки d
+точка подключения 
+Авто-подключение - да
+Создать постоянную папку - да
+
+Устройства - общий буфер обмена - двунаправленный
+
+
+sudo adduser administrator vboxsf
+sudo reboot
+
+cd /media/sf_d/Qt/Qt5.13.1/5.13.1/Src__
+dos2unix configure
+dos2unix qtbase/configure
+find . -name "*Makefile*" |xargs dos2unix
+dos2unix qtbase/mkspecs/common/gcc-base.conf 
+
+(*) rm config.cache 
+
+./configure  -static -platform linux-g++-32 -prefix /media/sf_d/Qt/Qt5.13.1_linux_ -release -opensource -confirm-license -nomake examples -nomake tests -nomake tools -opengl desktop -no-angle -sql-sqlite -make libs -qt-zlib -qt-pcre -qt-libpng -qt-libjpeg -qt-freetype -qt-xcb -I /usr/include/xcb -L /usr/lib/x86_64-linux-gnu -fontconfig 
+
+./configure  -static -platform linux-g++ -prefix /media/sf_d/Qt/Qt5.13.1_linux_ -release -opensource -confirm-license -nomake examples -nomake tests -nomake tools -no-angle -sql-sqlite -make libs -qt-zlib -qt-pcre -qt-libpng -qt-libjpeg -qt-freetype -qt-xcb -I /usr/include/xcb -L /usr/lib/x86_64-linux-gnu -no-opengl
+
+./configure  -static -platform linux-g++ -prefix /media/sf_d/Qt/Qt5.13.1_linux_ -release -opensource -confirm-license -nomake examples -nomake tests -nomake tools -no-opengl -no-angle -sql-sqlite -make libs -qt-zlib -qt-pcre -qt-libpng -qt-libjpeg -system-freetype -qt-xcb -I /usr/include/xcb -L /usr/lib/x86_64-linux-gnu -fontconfig 
+
+./configure  -static -platform linux-g++ -prefix /media/sf_d/Qt/Qt5.13.1_linux_ -release -opensource -confirm-license -nomake examples -nomake tests -nomake tools -opengl desktop -no-angle -sql-sqlite -make libs -qt-zlib -qt-pcre -qt-libpng -qt-libjpeg -system-freetype -qt-xcb -I /usr/include/xcb -L /usr/lib/x86_64-linux-gnu -fontconfig 
+
+make -j4
+
+
+
+cd /media/sf_d/files_sep30m/TAKI00011-01_Release
+/media/sf_d/Qt/Qt5.13.1_linux_/bin/qmake -o Makefile ../TAKI00011-01/el-schematic.pro -spec linux-g++ "CONFIG+=release" "CONFIG+=qtquickcompiler"
+make -j4
+
+========================== 30M ======================
+проект валится:
+QQmlComponent: Component is not ready
+Ошибка сегментирования
+./app/elschema/elschema.cpp
+
+
+
+
+
