@@ -128,9 +128,9 @@ def main (arg):
         #     if ii == True:type_param = 'int'
         #     continue
         if (not ('_' in ii or ii.isalnum())):
-            id = 'ALL';id_dec = 'ALL';continue
+            id = 'ALL';id_dec = 'ALL'; printf(ii); continue
         elif ii.isdigit():
-            id_dec = ii; id =str('000000' + hex(int(ii))[2:]); continue
+            id_dec = ii; id =str('000000' + hex(int(ii))[2:]); printf(ii); continue
 
 
         type_param = datatype_param(ii)
@@ -217,8 +217,10 @@ def main (arg):
             ("date", "@date"),
         ]
         p = figure(
-            plot_width=1700,
-            plot_height=700,
+            #plot_width=1700,
+            #plot_height=700,
+            width=1700,
+            height=700,
             tooltips =TOOLTIPS,
             # x_range=(datetime.time(11,6,41,127),datetime.time(11,6,48,741)),
             title='Weather      Evolution',
@@ -255,6 +257,7 @@ def main (arg):
         # printf(object_p)
         # printf(object_p1)
         # printf(int(str([*arg.keys()][len([*arg.keys()])-1])),ii)
+        printf()
         save(p)
         # show(p1)
 
