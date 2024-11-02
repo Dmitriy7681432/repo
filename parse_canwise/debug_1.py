@@ -162,6 +162,7 @@ def main (arg):
                 if type_param == 'Вещественный':
                     a = struct.unpack('!f', bytes.fromhex(bbb[1:]))[0]
                 elif type_param =='Целочисленный' or type_param == 'Логический':
+                    print('bbb',bbb[1:])
                     a = struct.unpack('!i', bytes.fromhex(bbb[1:]))[0]
                 y.append(a)
                 y1.append(a+5)
