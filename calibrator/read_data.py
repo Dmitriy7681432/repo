@@ -10,25 +10,13 @@ def can_open_O(arg):
     arg.write(msg)
     # printf("T>", msg)
     # print("R>", arg.read(1000))
-    msg = b"S8\rZ1\r"
+    msg = b"S5\rZ1\r"
     arg.write(msg)
     # printf("T>", msg)
     # print("R>", arg.read(1000))
-    msg = b"Y\r"
+    msg = b"O\r"
     arg.write(msg)
 
-def can_open_L(arg):
-    arg.timeot = 0.1
-    msg = b"C\r"
-    arg.write(msg)
-    # printf("T>", msg)
-    # print("R>", arg.read(1000))
-    msg = b"S8\rZ1\r"
-    arg.write(msg)
-    # printf("T>", msg)
-    # print("R>", arg.read(1000))
-    msg = b"L\r"
-    arg.write(msg)
 
 def can_close(arg):
     msg = b"C\r"
@@ -55,7 +43,7 @@ def transformed_in_bytes(arg):
     arg = hex(arg)[2:].upper()
     arg = arg[6:8] + arg[4:6] + arg[2:4] + arg[0:2]
     arg = arg.encode('utf-8')
-    arg = b't618800000000' + arg
+    arg = b't618800000000' + arg + b'\r'
     return arg
 
 # ports = serial.tools.list_ports.comports()
@@ -72,11 +60,13 @@ def main():
     value = 0
     flag =0
     # with serial.Serial(port, baudrate=baudrate, stopbits=serial.STOPBITS_ONE, bytesize=serial.EIGHTBITS) as ser:
-    with serial.Serial(port, baudrate=baudrate) as ser:
-        ser.timeout =0.1
+    with serial.Serial(port) as ser:
+        ser.baudrate = baudrate
+        ser.timeout =0.01
         can_open_O(ser)
         while True:
-            read_data = ser.read(27)
+            # read_data = ser.readline()
+            read_data = ser.read(1024)
             # read_data = read_data.replace(b'\r', b'\n')
             if b't033' in read_data and b'002F0000' in read_data:
                 list_read_data = read_data.split(b'\r')
@@ -97,17 +87,11 @@ def main():
                 value+=4
                 count +=1
                 printf(msg_bytes)
-                # f.write(msg_bytes+b'\t')
-                # ser.timeout = 0.01
-                msg = b"Y\r"
-                ser.write(msg)
                 ser.write(msg_bytes)
                 # time.sleep(1)
                 while True:
-                    read_data = ser.read(27)
-                    printf(read_data)
-                    # printf()
-                    # read_data = read_data.replace(b'\r', b'\n')
+                    # read_data = ser.readline()
+                    read_data = ser.read(1024)
                     if b't64A' in read_data:
                         list_read_data = read_data.split(b'\r')
                         for i in list_read_data:
@@ -138,17 +122,12 @@ def main():
                             msg_bytes = transformed_in_bytes(value)
                             value += 4
                             printf(msg_bytes)
-                            # f.write(msg_bytes+b'\t')
-                            # ser.timeout = 0.1
-                            msg = b"Y\r"
-                            ser.write(msg)
                             ser.write(msg_bytes)
                             # time.sleep(1)
                             while True:
-                                read_data = ser.read(27)
-                                printf(read_data)
-                                # printf()
-                                # read_data = read_data.replace(b'\r', b'\n')
+                                # read_data = ser.readline()
+                                read_data = ser.read(1024)
+                                # printf(read_data)
                                 if b't64A' in read_data:
                                     list_read_data = read_data.split(b'\r')
                                     for i in list_read_data:

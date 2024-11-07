@@ -12,6 +12,7 @@ b = transformed_in_address(b)
 c = transformed_in_value(c)
 print(hex(b))
 print(hex(c))
+serial.Serial.flushInput()
 # port = "COM88"  # Replace with the appropriate COM port name
 # baudrate = 3000000  # Replace with the desired baud rate
 # count = 0
