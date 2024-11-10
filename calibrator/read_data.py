@@ -8,12 +8,8 @@ def can_open_O(arg):
     arg.timeot = 0.1
     msg = b"C\r"
     arg.write(msg)
-    # printf("T>", msg)
-    # print("R>", arg.read(1000))
     msg = b"S5\rZ1\r"
     arg.write(msg)
-    # printf("T>", msg)
-    # print("R>", arg.read(1000))
     msg = b"O\r"
     arg.write(msg)
 
@@ -56,19 +52,14 @@ def main():
     port = "COM88"  # Replace with the appropriate COM port name
     baudrate = 3000000  # Replace with the desired baud rate
     count = 0
-    list_read_data = []
     value = 0
     flag =0
-    # with serial.Serial(port, baudrate=baudrate, stopbits=serial.STOPBITS_ONE, bytesize=serial.EIGHTBITS) as ser:
     with serial.Serial(port) as ser:
         ser.baudrate = baudrate
         ser.timeout =0.1
         can_open_O(ser)
         while True:
-            # read_data = ser.readline()
             read_data = ser.read(1024)
-            # printf(read_data)
-            # read_data = read_data.replace(b'\r', b'\n')
             if b't032' in read_data and b'FF2E0000' in read_data:
                 list_read_data = read_data.split(b'\r')
                 for i in list_read_data:
@@ -89,18 +80,14 @@ def main():
                 count +=1
                 printf(msg_bytes)
                 ser.write(msg_bytes)
-                # time.sleep(1)
                 while True:
-                    # read_data = ser.readline()
                     read_data = ser.read(1024)
-                    # printf(read_data)
                     if b't640' in read_data:
                         list_read_data = read_data.split(b'\r')
                         for i in list_read_data:
                             if i[1:4] == b'640' in i and len(i) > 21:
                                 read_data = i
                                 printf(read_data)
-                                # f.write(read_data+b'\n')
                                 can_value = transformed_in_value(read_data)
                                 can_address = transformed_in_address(read_data)
                                 print(can_value)
@@ -129,18 +116,14 @@ def main():
                                 value += 4
                                 printf(msg_bytes)
                                 ser.write(msg_bytes)
-                                # time.sleep(1)
                                 while True:
-                                    # read_data = ser.readline()
                                     read_data = ser.read(1024)
-                                    # printf(read_data)
                                     if b't640' in read_data:
                                         list_read_data = read_data.split(b'\r')
                                         for i in list_read_data:
                                             if i[1:4] == b'640' and len(i) > 21:
                                                 read_data = i
                                                 printf(read_data)
-                                                # f.write(read_data+b'\n')
                                                 can_value= transformed_in_value(read_data)
                                                 can_address = transformed_in_address(read_data)
                                                 printf(can_value)
