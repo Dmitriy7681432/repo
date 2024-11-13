@@ -6,6 +6,8 @@ from read_data import transformed_in_value,transformed_in_address,transformed_in
 from class_read_data import Calibrator
 a = 3218341888
 a = 0xBFD40000
+a = '00010509\n)'
+a.replace('\n','')
 print(a)
 # b = b't64A8E400000000E50000'
 # b = b't64A8E400000000E500009'

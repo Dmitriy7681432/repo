@@ -1,33 +1,23 @@
+# -*- coding: utf-8 -*-
 import serial, time, binascii, struct
 import serial.tools.list_ports
 from lxml import etree
 from debug import printf
 
-class Calibrator(object):
 
-    # Èíèöèàëèçàöèÿ âõîäíûõ äàííûõ
-    def __init__(self,product, control_block):
-        self.product = product
-        self.control_block = control_block
-        self.preset_addr = 0xBFD40000
-        self.calibr_addr = 0xBFD42000
-        self.filter_addr = 0xBFD44000
-        if self.product =="SES200M":
-            if self.control_block == 'BU_SES':
-                self.read_id = b't60E8'
-                self.data_id = b't640'
-            elif self.control_block == 'BU_50':
-                self.read_id = b't6188'
-                self.data_id = b't64A'
-        # Ïîèñê óñòðîéñòâà
-        ports = serial.tools.list_ports.comports()
-        for port in ports:
-            print(port.device)
-            port = port.device
-        self.ser = serial.Serial(port =port,baudrate=3000000,timeout=0.1)
+class Connect(object):
+    def __init__(self):
+        # ÐŸÐ¾Ð¸ÑÐº ÑƒÑÑ‚Ñ€Ð¾Ð¹ÑÑ‚Ð²Ð°
+        # ports = serial.tools.list_ports.comports()
+        # for port in ports:
+        #     print(port.device)
+        #     port = port.device
+        # self.ser = serial.Serial(port =port,baudrate=3000000,timeout=0.1)
+        self.ser = serial.Serial(port ='COM88',baudrate=3000000,timeout=0.1)
+        self.can_open_O(self.ser)
 
-    # Âûáîð ðåæèìà com_port
-    def can_open_O(self,arg):
+    # Ð’Ñ‹Ð±Ð¾Ñ€ Ñ€ÐµÐ¶Ð¸Ð¼Ð° com_port
+    def can_open_O(self, arg):
         printf('can_open')
         arg.timeot = 0.1
         msg = b"C\r"
@@ -37,13 +27,59 @@ class Calibrator(object):
         msg = b"O\r"
         arg.write(msg)
 
-    # Çàêðûòèå com_port
-    def can_close(self,arg):
+
+    # Ð—Ð°ÐºÑ€Ñ‹Ñ‚Ð¸Ðµ com_port
+    def can_close(self, arg):
         printf('can_close')
         msg = b"C\r"
         arg.write(msg)
+        arg.close()
 
-    # Ïðåîáðàçîâàíèå áàéòîâîãî òèïà â òèï öåëî÷èñëåííîãî çíà÷åíèÿ è àäðåñà
+
+
+class Calibrator(Connect):
+
+    # Ð˜Ð½Ð¸Ñ†Ð¸Ð°Ð»Ð¸Ð·Ð°Ñ†Ð¸Ñ Ð²Ñ…Ð¾Ð´Ð½Ñ‹Ñ… Ð´Ð°Ð½Ð½Ñ‹Ñ…
+    def __init__(self,product, control_block):
+        self.product = product
+        self.control_block = control_block
+        if self.product =="SES200M":
+            if self.control_block == 'BU_SES':
+                self.partel_id = b't328'
+                self.read_id = b't60E8'
+                self.data_id = b't640'
+                self.preset_designation = 'ADDR_PRESET_ROM'
+                self.calibr_designation = 'ADDR_CALIBR_ROM'
+                self.filter_designation = 'ADDR_FILTR_ROM'
+            elif self.control_block == 'BU_50':
+                self.partel_id = b't338'
+                self.read_id = b't6188'
+                self.data_id = b't64A'
+                self.preset_designation = 'ADDR_PRESET_ROM2'
+                self.calibr_designation = 'ADDR_CALIBR_ROM2'
+                self.filter_designation = 'ADDR_FILTR_ROM2'
+            elif self.control_block == "BU_400":
+                self.partel_id = b't348'
+                self.read_id = b't6228'
+                self.data_id = b't654'
+                self.preset_designation = 'ADDR_PRESET_ROM3'
+                self.calibr_designation = 'ADDR_CALIBR_ROM3'
+                self.filter_designation = 'ADDR_FILTR_ROM3'
+        self.preset_data_can = self.parse_xml_designation(self.preset_designation)
+        self.calibr_data_can = self.parse_xml_designation(self.calibr_designation)
+        self.filter_data_can = self.parse_xml_designation(self.filter_designation)
+        self.file_open = open('read_data.txt','wb')
+
+    def parse_xml_designation(self,designation):
+        doc = etree.parse('params.xml')
+        for setting in doc.findall('.//parameter'):
+            designation_get = setting.attrib.get('designation')
+            if designation_get == designation:
+                global_id = int(setting.attrib.get('common_id'))
+                global_id = self.transformed_in_bytes(global_id,self.partel_id)
+        return global_id
+
+    # ÐŸÑ€ÐµÐ¾Ð±Ñ€Ð°Ð·Ð¾Ð²Ð°Ð½Ð¸Ðµ Ð±Ð°Ð¹Ñ‚Ð¾Ð²Ð¾Ð³Ð¾ Ñ‚Ð¸Ð¿Ð° Ð² Ñ‚Ð¸Ð¿ Ñ†ÐµÐ»Ð¾Ñ‡Ð¸ÑÐ»ÐµÐ½Ð½Ð¾Ð³Ð¾ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ñ Ð¸ Ð°Ð´Ñ€ÐµÑÐ°
     def transformed_in_value_and_address(self,arg):
         value = arg[13:21]
         value = value[6:8] + value[4:6] + value[2:4] + value[0:2]
@@ -55,19 +91,32 @@ class Calibrator(object):
         address = struct.unpack('!I', bytes.fromhex(address))
         return value,address
 
-    # Ïðåîáðàçîâàíèå öåëî÷èñëåííîãî çíà÷åíèÿ â áàéòîâûé òèï ôîðìàòà can
-    def transformed_in_bytes(self,arg):
+    # ÐŸÑ€ÐµÐ¾Ð±Ñ€Ð°Ð·Ð¾Ð²Ð°Ð½Ð¸Ðµ Ñ†ÐµÐ»Ð¾Ñ‡Ð¸ÑÐ»ÐµÐ½Ð½Ð¾Ð³Ð¾ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ñ Ð² Ð±Ð°Ð¹Ñ‚Ð¾Ð²Ñ‹Ð¹ Ñ‚Ð¸Ð¿ Ñ„Ð¾Ñ€Ð¼Ð°Ñ‚Ð° can
+    def transformed_in_bytes(self,arg,id):
         # read_id = b't' + hex(self.read_id).upper().encode('utf-8')[2:] + b'8'
         arg = hex(arg)[2:].upper()
         arg = arg[6:8] + arg[4:6] + arg[2:4] + arg[0:2]
         arg = arg.encode('utf-8')
-        arg = self.read_id +arg+b'00000000'+ b'\r'
+        arg = id +arg+b'000000000000'+ b'\r'
         return arg
 
-    def _header_data_write(self,addr):
+    # Ð¡Ñ‡Ð¸Ñ‚Ñ‹Ð²Ð°Ð½Ð¸Ðµ Ð°Ð´Ñ€ÐµÑÐ° Ð¿Ð¾ global_id Ð¿Ð°Ñ€Ð°Ð¼ÐµÑ‚Ñ€Ð°
+    def _begin_data_read(self,data_can):
+        while True:
+            read_data =self.ser.read(1024)
+            if data_can[:12] in read_data:
+                list_read_data = read_data.split(b'\r')
+                for i in list_read_data:
+                    if data_can[:12] in read_data and len(i) > 21:
+                        read_data = i
+                        value,address = self.transformed_in_value_and_address(read_data)
+                        return address
+
+
+    def _header_data_write(self,data_can):
         count = 0
         flag = 0
-        self.file_open = open('read_data.txt','wb')
+        addr = self._begin_data_read(data_can)
         while True:
             msg_bytes = self.transformed_in_bytes(addr)
             addr += 4
@@ -79,7 +128,7 @@ class Calibrator(object):
                 if self.data_id in read_data:
                     list_read_data = read_data.split(b'\r')
                     for i in list_read_data:
-                        if i[0:4] == self.data_id in i and len(i) > 21:
+                        if i[:4] == self.data_id in i and len(i) > 21:
                             read_data = i
                             printf(read_data)
                             can_value,can_address = self.transformed_in_value_and_address(read_data)
@@ -87,9 +136,14 @@ class Calibrator(object):
                             print(can_address)
                             self.file_open.write(hex(can_address).encode('utf-8') + b'\t')
                             self.file_open.write(hex(can_value).encode('utf-8') + b'\n')
-                            flag = 1
-                            break
-                    if flag == 1:
-                        flag = 0;break
+                            flag = 1; break
+                    if flag == 1: flag = 0;break
             if count == 7: count = 0;break
         return addr
+
+cal = Calibrator('SES200M','BU_SES')
+cal1 = Calibrator('SES200M','BU_50')
+cal2 = Calibrator('SES200M','BU_400')
+print(cal.preset_data_can)
+print(cal.calibr_data_can)
+print(cal.filter_data_can)
