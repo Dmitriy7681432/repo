@@ -155,6 +155,33 @@ class Calibrator(Connect):
                     if flag == 1: flag = 0;break
             if count == 7: count = 0;break
         return addr
+    #Считывание уставок, калибровок, фильтров и сохранение их в списки
+    def parse_data_xml(self):
+        preset_list_data = []
+        calibr_list_data = []
+        filter_list_data = []
+        preset_list_data.append('preset')
+        doc = etree.parse('params.xml')
+        for setting in doc.findall('.//setting'):
+            number = setting.attrib.get('number')
+            c_type = setting.attrib.get('c_type')
+            for products in setting.findall('products/'):
+                product = products.tag
+                if product == self.product:
+                    cb = products.attrib.get('cb')
+                    if cb == self.control_block:
+                        preset_list_data.append(number)
+                        preset_list_data.append(c_type)
+        for setting in doc.findall('.//parameter'):
+            for products in setting.findall('products/'):
+                product = products.tag
+                if product == self.product:
+                    cb = products.attrib.get('cb')
+                    calibration_type = products.attrib.get('calibration_type')
+                    filter_type = products.attrib.get('filter_type')
+                    if cb == self.control_block:
+
+
 
     def main_data_read(self):
         for data_can in self.data_can_list:
