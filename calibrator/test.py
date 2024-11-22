@@ -15,15 +15,20 @@ filter_list_data = []
 
 doc = etree.parse('params.xml')
 for setting in doc.findall('.//parameter'):
-    for products3 in setting.findall('.products/'):
-        pass
-    for products1 in setting.findall('.//SES200M/'):
-        print(products1)
-        calibr = products1.tag
-        if calibr == 'calibration':
-            for products2 in products1.findall('.//k'):
-                pass
-                # print(products2.attrib.get('value'))
+    for products1 in setting.findall('.//SES200M'):
+        cb = products1.attrib.get('cb')
+        # for i in products1.getchildren():
+        #     print(i.tag)
+        #     if i.tag =='calibration' and cb =='BU_50':
+        # print(products1.find('.//k').tag)
+        if cb == 'BU_50':
+            for products2 in products1.findall('.//calibration'):
+                if products2.attrib:
+                    for i in products2.findall('.//k'):
+                        print(i.attrib)
+
+
+                # print(products2)
 
 # b = b't64A8E400000000E50000'
 # b = b't64A8E400000000E500009'
