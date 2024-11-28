@@ -96,7 +96,7 @@ class Calibrator(Connect):
         return arg
 
     # Перевод числа из hex в decimal
-    def transformed_hex_to_dec(self,value,type):
+    def transformed_hex_to_dec(self, value, type):
         if type == "float":
             value = struct.unpack('!f', bytes.fromhex(value))
             return value[0]
@@ -150,38 +150,51 @@ class Calibrator(Connect):
                             print(address)
                             self.file_open.write(hex(address).encode('utf-8') + b'\t')
                             self.file_open.write(hex(value).encode('utf-8') + b'\n')
-                            flag = 1;
+                            flag = 1
                             break
                     if flag == 1: flag = 0;break
             if count == 7: count = 0;break
         return addr
-    #Считывание уставок, калибровок, фильтров и сохранение их в списки
+
+    # Считывание уставок, калибровок, и сохранение их в списки
     def parse_data_xml(self):
         preset_list_data = []
         calibr_list_data = []
-        filter_list_data = []
-        preset_list_data.append('preset')
         doc = etree.parse('params.xml')
+        # Уставки
         for setting in doc.findall('.//setting'):
             number = setting.attrib.get('number')
-            c_type = setting.attrib.get('c_type')
+            c_type = setting.attrib.get('ctype')
+            designation = setting.attrib.get('designation')
             for products in setting.findall('products/'):
                 product = products.tag
                 if product == self.product:
                     cb = products.attrib.get('cb')
                     if cb == self.control_block:
                         preset_list_data.append(number)
-                        preset_list_data.append(c_type)
+                        preset_list_data.append(designation)
+                        # preset_list_data.append(c_type)
+        # Калибровки
         for setting in doc.findall('.//parameter'):
-            for products in setting.findall('products/'):
-                product = products.tag
-                if product == self.product:
-                    cb = products.attrib.get('cb')
-                    calibration_type = products.attrib.get('calibration_type')
-                    filter_type = products.attrib.get('filter_type')
-                    if cb == self.control_block:
-
-
+            designation = setting.attrib.get('designation')
+            name = setting.attrib.get('name')
+            for products1 in setting.findall(f'.//{self.product}'):
+                cb = products1.attrib.get('cb')
+                if cb == self.control_block:
+                    for products2 in products1.findall('.//calibration'):
+                        if len(products2.getchildren()) != 0:
+                            for i in products2.findall('.//k'):
+                                calibr_list_data.append(designation + '_' + i.attrib.get('IND'))
+                                calibr_list_data.append(name)
+                                # calibr_list_data.append(i.attrib.get('value'))
+                        else:
+                            calibr_list_data.append(designation + '_k')
+                            calibr_list_data.append(name)
+                            # calibr_list_data.append('1.0')
+                            calibr_list_data.append(designation + '_b')
+                            calibr_list_data.append(name)
+                            # calibr_list_data.append('1.0')
+        return preset_list_data,calibr_list_data
 
     def main_data_read(self):
         for data_can in self.data_can_list:
@@ -190,7 +203,7 @@ class Calibrator(Connect):
             doc = etree.parse('params.xml')
             for setting in doc.findall('.//setting'):
                 number = setting.attrib.get('number')
-                c_type = setting.attrib.get('c_type')
+                ctype = setting.attrib.get('ctype')
                 for products in setting.findall('products/'):
                     product = products.tag
                     if product == self.product:
@@ -213,12 +226,12 @@ class Calibrator(Connect):
                                                 read_data = i
                                                 printf(read_data)
                                                 value, address = self.transformed_in_value_and_address(read_data)
-                                                value_dec = self.transformed_hex_to_dec(value,c_type)
+                                                value_dec = self.transformed_hex_to_dec(value, ctype)
                                                 printf(value)
                                                 self.file_open.write(hex(address).encode('utf-8') + b'\t')
                                                 self.file_open.write(hex(value).encode('utf-8') + b'\t')
                                                 self.file_open.write(hex(value_dec).encode('utf-8') + b'\n')
-                                                flag = 1;
+                                                flag = 1
                                                 break
                                         if flag == 1: flag = 0; break
         self.file_open.close()
@@ -228,7 +241,10 @@ class Calibrator(Connect):
 cal = Calibrator('SES200M', 'BU_SES')
 cal1 = Calibrator('SES200M', 'BU_50')
 cal2 = Calibrator('SES200M', 'BU_400')
-a = b't0328FF2E00000000D4BF\r'
-b,c = cal.transformed_in_value_and_address(a)
+# a = b't0328FF2E00000000D4BF\r'
+# b, c = cal.transformed_in_value_and_address(a)
+# print(b)
+# print(c)
+a,b = cal1.parse_data_xml()
+print(a)
 print(b)
-print(c)
