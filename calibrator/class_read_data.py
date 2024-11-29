@@ -113,7 +113,56 @@ class Calibrator(Connect):
             if designation_get == designation:
                 global_id = int(setting.attrib.get('common_id'))
                 global_id_can_format = self.transformed_in_bytes(global_id, self.partel_id)
+        # Пример возвращаемого значения: b't0338002F000000000000\r'
         return global_id_can_format
+
+    # Считывание уставок, калибровок, фильтров и сохранение их в списки
+    def parse_data_xml(self):
+        preset_list_data = []
+        calibr_list_data = []
+        filter_list_data = []
+        doc = etree.parse('params.xml')
+        # Уставки
+        for setting in doc.findall('.//setting'):
+            number = setting.attrib.get('number')
+            c_type = setting.attrib.get('ctype')
+            designation = setting.attrib.get('designation')
+            for products in setting.findall('products/'):
+                product = products.tag
+                if product == self.product:
+                    cb = products.attrib.get('cb')
+                    if cb == self.control_block:
+                        preset_list_data.append(number)
+                        preset_list_data.append(designation)
+                        preset_list_data.append(c_type)
+        # Калибровки
+        for setting in doc.findall('.//parameter'):
+            designation = setting.attrib.get('designation')
+            name = setting.attrib.get('name')
+            for products1 in setting.findall(f'.//{self.product}'):
+                cb = products1.attrib.get('cb')
+                if cb == self.control_block:
+                    for products2 in products1.findall('.//calibration'):
+                        if len(products2.getchildren()) != 0:
+                            for i in products2.findall('.//k'):
+                                calibr_list_data.append(designation + '_' + i.attrib.get('IND'))
+                                calibr_list_data.append(name)
+                                # calibr_list_data.append(i.attrib.get('value'))
+                        else:
+                            calibr_list_data.append(designation + '_k')
+                            calibr_list_data.append(name)
+                            # calibr_list_data.append('1.0')
+                            calibr_list_data.append(designation + '_b')
+                            calibr_list_data.append(name)
+                            # calibr_list_data.append('1.0')
+                    # Фильтры
+                    for products2 in products1.findall('.//filter'):
+                        filter_list_data.append(designation + '_FILTER')
+                        filter_list_data.append(products2.attrib.get('length'))
+                        filter_list_data.append(designation + '_FILTER')
+                        filter_list_data.append(products2.attrib.get('length'))
+
+        return preset_list_data,calibr_list_data,filter_list_data
 
     # Считывание адреса по global_id параметра
     def _begin_data_read(self, data_can):
@@ -155,46 +204,6 @@ class Calibrator(Connect):
                     if flag == 1: flag = 0;break
             if count == 7: count = 0;break
         return addr
-
-    # Считывание уставок, калибровок, и сохранение их в списки
-    def parse_data_xml(self):
-        preset_list_data = []
-        calibr_list_data = []
-        doc = etree.parse('params.xml')
-        # Уставки
-        for setting in doc.findall('.//setting'):
-            number = setting.attrib.get('number')
-            c_type = setting.attrib.get('ctype')
-            designation = setting.attrib.get('designation')
-            for products in setting.findall('products/'):
-                product = products.tag
-                if product == self.product:
-                    cb = products.attrib.get('cb')
-                    if cb == self.control_block:
-                        preset_list_data.append(number)
-                        preset_list_data.append(designation)
-                        # preset_list_data.append(c_type)
-        # Калибровки
-        for setting in doc.findall('.//parameter'):
-            designation = setting.attrib.get('designation')
-            name = setting.attrib.get('name')
-            for products1 in setting.findall(f'.//{self.product}'):
-                cb = products1.attrib.get('cb')
-                if cb == self.control_block:
-                    for products2 in products1.findall('.//calibration'):
-                        if len(products2.getchildren()) != 0:
-                            for i in products2.findall('.//k'):
-                                calibr_list_data.append(designation + '_' + i.attrib.get('IND'))
-                                calibr_list_data.append(name)
-                                # calibr_list_data.append(i.attrib.get('value'))
-                        else:
-                            calibr_list_data.append(designation + '_k')
-                            calibr_list_data.append(name)
-                            # calibr_list_data.append('1.0')
-                            calibr_list_data.append(designation + '_b')
-                            calibr_list_data.append(name)
-                            # calibr_list_data.append('1.0')
-        return preset_list_data,calibr_list_data
 
     def main_data_read(self):
         for data_can in self.data_can_list:
@@ -245,6 +254,7 @@ cal2 = Calibrator('SES200M', 'BU_400')
 # b, c = cal.transformed_in_value_and_address(a)
 # print(b)
 # print(c)
-a,b = cal1.parse_data_xml()
+a,b,c = cal1.parse_data_xml()
 print(a)
 print(b)
+print(c)

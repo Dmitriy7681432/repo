@@ -13,6 +13,7 @@ print(a)
 def func ():
     calibr_list_data = []
     preset_list_data = []
+    filter_list_data = []
 
     doc = etree.parse('params.xml')
     for setting in doc.findall('.//setting'):
@@ -41,11 +42,25 @@ def func ():
                         calibr_list_data.append('1.0')
                         calibr_list_data.append(designation + '_b')
                         calibr_list_data.append('1.0')
-    return calibr_list_data,preset_list_data
 
-a,b = func()
+                for products2 in products1.findall('.//filter'):
+                    # if len(products2.getchildren()) != 0:
+                    filter_list_data.append(designation+'_FILTER')
+                    filter_list_data.append(products2.attrib.get('length'))
+                    filter_list_data.append(designation+'_FILTER')
+                    filter_list_data.append(products2.attrib.get('length'))
+                    # print(products2.attrib)
+    return calibr_list_data,preset_list_data,filter_list_data
+
+a,b,c = func()
 print(a)
 print(b)
+print(c)
+
+# dict_data = {'s_1':'int','s2':"float"}
+# for i in dict_data:
+#     print()
+
 # b = b't64A8E400000000E50000'
 # b = b't64A8E400000000E500009'
 # b = b'AAB8E400000000E5000064A8\nA64A8E400000000E50000930D'
