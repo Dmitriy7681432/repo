@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import serial, time, binascii, struct
 import serial.tools.list_ports
 from lxml import etree
@@ -11,9 +12,13 @@ a.replace('\n','')
 print(a)
 
 def func ():
-    calibr_list_data = []
-    preset_list_data = []
-    filter_list_data = []
+    # calibr_list_data = []
+    # preset_list_data = []
+    # filter_list_data = []
+    calibr_dict = {}
+    preset_dict = {}
+    filter_dict = {}
+    data_dict = {'calibr':{},'preset':{},'filter':{}}
 
     doc = etree.parse('params.xml')
     for setting in doc.findall('.//setting'):
@@ -24,8 +29,9 @@ def func ():
             if product == "SES200M":
                 cb = products.attrib.get('cb')
                 if cb == 'BU_50':
-                    preset_list_data.append(number)
-                    preset_list_data.append(c_type)
+                    preset_dict[number] = [c_type]
+                    # preset_list_data.append(number)
+                    # preset_list_data.append(c_type)
 
     for setting in doc.findall('.//parameter'):
         designation = setting.attrib.get('designation')
@@ -35,27 +41,42 @@ def func ():
                 for products2 in products1.findall('.//calibration'):
                     if len(products2.getchildren()) !=0:
                         for i in products2.findall('.//k'):
-                            calibr_list_data.append(designation+'_'+i.attrib.get('IND'))
-                            calibr_list_data.append(i.attrib.get('value'))
+                            calibr_dict[designation+'_'+i.attrib.get('IND')] = [i.attrib.get('value')]
+                            # calibr_list_data.append(designation+'_'+i.attrib.get('IND'))
+                            # calibr_list_data.append(i.attrib.get('value'))
                     else:
-                        calibr_list_data.append(designation + '_k')
-                        calibr_list_data.append('1.0')
-                        calibr_list_data.append(designation + '_b')
-                        calibr_list_data.append('1.0')
+                        calibr_dict[designation + '_k'] = ['1.0']
+                        calibr_dict[designation + '_b'] = ['1.0']
+                        # calibr_list_data.append(designation + '_k')
+                        # calibr_list_data.append('1.0')
+                        # calibr_list_data.append(designation + '_b')
+                        # calibr_list_data.append('1.0')
 
                 for products2 in products1.findall('.//filter'):
-                    # if len(products2.getchildren()) != 0:
-                    filter_list_data.append(designation+'_FILTER')
-                    filter_list_data.append(products2.attrib.get('length'))
-                    filter_list_data.append(designation+'_FILTER')
-                    filter_list_data.append(products2.attrib.get('length'))
+                    filter_dict[designation+'_FILTER'] =[products2.attrib.get('length')]
+                    filter_dict[designation+'_FILTER'] =[products2.attrib.get('length')]
+                    # filter_list_data.append(designation+'_FILTER')
+                    # filter_list_data.append(products2.attrib.get('length'))
+                    # filter_list_data.append(designation+'_FILTER')
+                    # filter_list_data.append(products2.attrib.get('length'))
                     # print(products2.attrib)
-    return calibr_list_data,preset_list_data,filter_list_data
+    data_dict['preset'] = preset_dict
+    data_dict['calibr'] = calibr_dict
+    data_dict['filter'] = filter_dict
+    return data_dict
 
-a,b,c = func()
+a = func()
 print(a)
-print(b)
-print(c)
+
+d = {'s_zero':['Единица','int'],'s_one':['Двойка','float']}
+data_dict1 = {'calibr': {}, 'preset': {}, 'filter': {}}
+data_dict1['preset'] = {'s_zero'}
+data_dict1['preset'] = d
+for i in data_dict1['preset'].items():
+    # if i[0] in 'preset':
+    print(i[1].append(100))
+# print(data_dict1['preset']['s_zero'].append('100'))
+print(data_dict1)
 
 # dict_data = {'s_1':'int','s2':"float"}
 # for i in dict_data:

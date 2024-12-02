@@ -63,6 +63,8 @@ class Calibrator(Connect):
                 self.preset_designation = 'ADDR_PRESET_ROM3'
                 self.calibr_designation = 'ADDR_CALIBR_ROM3'
                 self.filter_designation = 'ADDR_FILTR_ROM3'
+        # Словарь с уставками, калибровками и фильтрами для интерфейса
+        self.data_dict = {'calibr': {}, 'preset': {}, 'filter': {}}
         # Считывание,преобразование global_id параметров в формaт can и сохранение их в списке
         self.data_can_list = []
         preset_data_can = self.parse_xml_designation(self.preset_designation)
@@ -118,9 +120,9 @@ class Calibrator(Connect):
 
     # Считывание уставок, калибровок, фильтров и сохранение их в списки
     def parse_data_xml(self):
-        preset_list_data = []
-        calibr_list_data = []
-        filter_list_data = []
+        preset_dict = {}
+        calibr_dict = {}
+        filter_dict = {}
         doc = etree.parse('params.xml')
         # Уставки
         for setting in doc.findall('.//setting'):
@@ -132,9 +134,7 @@ class Calibrator(Connect):
                 if product == self.product:
                     cb = products.attrib.get('cb')
                     if cb == self.control_block:
-                        preset_list_data.append(number)
-                        preset_list_data.append(designation)
-                        preset_list_data.append(c_type)
+                        preset_dict[number]= [designation,c_type]
         # Калибровки
         for setting in doc.findall('.//parameter'):
             designation = setting.attrib.get('designation')
@@ -145,24 +145,23 @@ class Calibrator(Connect):
                     for products2 in products1.findall('.//calibration'):
                         if len(products2.getchildren()) != 0:
                             for i in products2.findall('.//k'):
-                                calibr_list_data.append(designation + '_' + i.attrib.get('IND'))
-                                calibr_list_data.append(name)
+                                calibr_dict[designation + '_' + i.attrib.get('IND')] = [name]
                                 # calibr_list_data.append(i.attrib.get('value'))
                         else:
-                            calibr_list_data.append(designation + '_k')
-                            calibr_list_data.append(name)
+                            calibr_dict[designation + '_k'] =[name]
+                            calibr_dict[designation + '_b'] =[name]
                             # calibr_list_data.append('1.0')
-                            calibr_list_data.append(designation + '_b')
-                            calibr_list_data.append(name)
                             # calibr_list_data.append('1.0')
                     # Фильтры
                     for products2 in products1.findall('.//filter'):
-                        filter_list_data.append(designation + '_FILTER')
-                        filter_list_data.append(products2.attrib.get('length'))
-                        filter_list_data.append(designation + '_FILTER')
-                        filter_list_data.append(products2.attrib.get('length'))
-
-        return preset_list_data,calibr_list_data,filter_list_data
+                        # filter_dict[designation + '_FILTER'] = [products2.attrib.get('length')]
+                        # filter_dict[designation + '_FILTER'] = [products2.attrib.get('length')]
+                        filter_dict[designation + '_FILTER'] = []
+                        filter_dict[designation + '_FILTER'] = []
+        self.data_dict['preset'] = preset_dict
+        self.data_dict['calibr'] = calibr_dict
+        self.data_dict['filter'] = filter_dict
+        return self.data_dict
 
     # Считывание адреса по global_id параметра
     def _begin_data_read(self, data_can):
@@ -209,6 +208,7 @@ class Calibrator(Connect):
         for data_can in self.data_can_list:
             count = 0
             addr = self._header_data_read(data_can)
+
             doc = etree.parse('params.xml')
             for setting in doc.findall('.//setting'):
                 number = setting.attrib.get('number')
@@ -218,6 +218,7 @@ class Calibrator(Connect):
                     if product == self.product:
                         cb = products.attrib.get('cb')
                         if cb == self.control_block:
+
                             while True:
                                 count += 1
                                 if count > 4: count = 0;break
@@ -254,7 +255,5 @@ cal2 = Calibrator('SES200M', 'BU_400')
 # b, c = cal.transformed_in_value_and_address(a)
 # print(b)
 # print(c)
-a,b,c = cal1.parse_data_xml()
+a = cal1.parse_data_xml()
 print(a)
-print(b)
-print(c)
