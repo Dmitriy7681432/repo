@@ -77,6 +77,13 @@ for i in data_dict1['preset'].items():
     print(i[1].append(100))
 # print(data_dict1['preset']['s_zero'].append('100'))
 print(data_dict1)
+d = {'preset':b't0338456500','calibr':b't0338456500','filter':b't0338456500'}
+d = {'preset':'','calibr':'','filter':''}
+for i in d.items():
+    print(i[0])
+d['preset'] = b't033876478'
+print(d)
+
 
 # dict_data = {'s_1':'int','s2':"float"}
 # for i in dict_data:

@@ -63,16 +63,16 @@ class Calibrator(Connect):
                 self.preset_designation = 'ADDR_PRESET_ROM3'
                 self.calibr_designation = 'ADDR_CALIBR_ROM3'
                 self.filter_designation = 'ADDR_FILTR_ROM3'
-        # Словарь с уставками, калибровками и фильтрами для интерфейса
-        self.data_dict = {'calibr': {}, 'preset': {}, 'filter': {}}
-        # Считывание,преобразование global_id параметров в формaт can и сохранение их в списке
-        self.data_can_list = []
-        preset_data_can = self.parse_xml_designation(self.preset_designation)
-        calibr_data_can = self.parse_xml_designation(self.calibr_designation)
-        filter_data_can = self.parse_xml_designation(self.filter_designation)
-        self.data_can_list.append(preset_data_can)
-        self.data_can_list.append(calibr_data_can)
-        self.data_can_list.append(filter_data_can)
+        # Главный словарь с уставками, калибровками и фильтрами для интерфейса
+        self.data_dict = {'preset': {}, 'calibr': {}, 'filter': {}}
+        # Считывание,преобразование global_id параметров в формaт can и сохранение их в словарь
+        self.data_can_dict = {'preset': '', 'calibr':'', 'filter': ''}
+        self.data_can_dict['preset'] = self.parse_xml_designation(self.preset_designation)
+        self.data_can_dict['calibr'] = self.parse_xml_designation(self.calibr_designation)
+        self.data_can_dict['filter'] = self.parse_xml_designation(self.filter_designation)
+
+        # Заполение главного словаря данными
+        self.parse_data_xml()
 
         self.file_open = open('read_data.txt', 'wb')
 
@@ -205,45 +205,50 @@ class Calibrator(Connect):
         return addr
 
     def main_data_read(self):
-        for data_can in self.data_can_list:
+        for data_can in self.data_can_dict:
             count = 0
-            addr = self._header_data_read(data_can)
+            addr = self._header_data_read(data_can[1])
 
-            doc = etree.parse('params.xml')
-            for setting in doc.findall('.//setting'):
-                number = setting.attrib.get('number')
-                ctype = setting.attrib.get('ctype')
-                for products in setting.findall('products/'):
-                    product = products.tag
-                    if product == self.product:
-                        cb = products.attrib.get('cb')
-                        if cb == self.control_block:
+            # Парсер главного словаря с данными
+            # doc = etree.parse('params.xml')
+            # for setting in doc.findall('.//setting'):
+            #     number = setting.attrib.get('number')
+            #     ctype = setting.attrib.get('ctype')
+            #     for products in setting.findall('products/'):
+            #         product = products.tag
+            #         if product == self.product:
+            #             cb = products.attrib.get('cb')
+            #             if cb == self.control_block:
+            for data_main in self.data_dict[data_can[0]].items():
+                print(data_main)
 
-                            while True:
-                                count += 1
-                                if count > 4: count = 0;break
-                                printf(number)
-                                msg_bytes = self.transformed_in_bytes(addr, self.read_id)
-                                addr += 4
-                                printf(msg_bytes)
-                                self.ser.write(msg_bytes)
-                                while True:
-                                    read_data = self.ser.read(1024)
-                                    if self.data_id in read_data:
-                                        list_read_data = read_data.split(b'\r')
-                                        for i in list_read_data:
-                                            if i[:4] == self.data_id and len(i) > 21:
-                                                read_data = i
-                                                printf(read_data)
-                                                value, address = self.transformed_in_value_and_address(read_data)
-                                                value_dec = self.transformed_hex_to_dec(value, ctype)
-                                                printf(value)
-                                                self.file_open.write(hex(address).encode('utf-8') + b'\t')
-                                                self.file_open.write(hex(value).encode('utf-8') + b'\t')
-                                                self.file_open.write(hex(value_dec).encode('utf-8') + b'\n')
-                                                flag = 1
-                                                break
-                                        if flag == 1: flag = 0; break
+                            # # Запрос с адресом в can
+                            # while True:
+                            #     count += 1
+                            #     if count > 4: count = 0;break
+                            #     # printf(number)
+                            #     msg_bytes = self.transformed_in_bytes(addr, self.read_id)
+                            #     addr += 4
+                            #     printf(msg_bytes)
+                            #     self.ser.write(msg_bytes)
+                            #     # Чтение с can значение и адреса
+                            #     while True:
+                            #         read_data = self.ser.read(1024)
+                            #         if self.data_id in read_data:
+                            #             list_read_data = read_data.split(b'\r')
+                            #             for i in list_read_data:
+                            #                 if i[:4] == self.data_id and len(i) > 21:
+                            #                     read_data = i
+                            #                     printf(read_data)
+                            #                     value, address = self.transformed_in_value_and_address(read_data)
+                            #                     value_dec = self.transformed_hex_to_dec(value, ctype)
+                            #                     printf(value)
+                            #                     self.file_open.write(hex(address).encode('utf-8') + b'\t')
+                            #                     self.file_open.write(hex(value).encode('utf-8') + b'\t')
+                            #                     self.file_open.write(hex(value_dec).encode('utf-8') + b'\n')
+                            #                     flag = 1
+                            #                     break
+                            #             if flag == 1: flag = 0; break
         self.file_open.close()
         return 'End main_data_read'
 
@@ -255,5 +260,6 @@ cal2 = Calibrator('SES200M', 'BU_400')
 # b, c = cal.transformed_in_value_and_address(a)
 # print(b)
 # print(c)
-a = cal1.parse_data_xml()
+# a = cal1.parse_data_xml()
+a = cal1.main_data_read()
 print(a)
