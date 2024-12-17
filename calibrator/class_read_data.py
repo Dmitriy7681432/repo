@@ -6,15 +6,20 @@ from debug import printf
 
 
 class Connect(object):
-    def __init__(self):
+    ser = serial.Serial(port='COM88', baudrate=3000000, timeout=0.1)
+
+    # def __init__(self):
         # Поиск устройства
         # ports = serial.tools.list_ports.comports()
         # for port in ports:
         #     print(port.device)
         #     port = port.device
         # self.ser = serial.Serial(port =port,baudrate=3000000,timeout=0.1)
-        self.ser = serial.Serial(port='COM88', baudrate=3000000, timeout=0.1)
-        self.can_open_O(self.ser)
+        # self.ser = serial.Serial(port='COM88', baudrate=3000000, timeout=0.1)
+
+    def ser_connect(self):
+        self.ser1 =ser
+        return self.ser1
 
     # Выбор режима com_port
     def can_open_O(self, arg):
@@ -39,6 +44,8 @@ class Calibrator(Connect):
 
     # Инициализация входных данных
     def __init__(self, product, control_block):
+        # super().__init__()
+        self.ser = self.ser_connect()
         self.product = product
         self.control_block = control_block
         if self.product == "SES200M":
@@ -167,6 +174,7 @@ class Calibrator(Connect):
     def _begin_data_read(self, data_can):
         while True:
             read_data = self.ser.read(1024)
+            printf(data_can)
             if data_can[:12] in read_data:
                 list_read_data = read_data.split(b'\r')
                 for i in list_read_data:
@@ -194,8 +202,8 @@ class Calibrator(Connect):
                             read_data = i
                             printf(read_data)
                             value, address = self.transformed_in_value_and_address(read_data)
-                            print(value)
-                            print(address)
+                            printf(value)
+                            printf(address)
                             self.file_open.write(hex(address).encode('utf-8') + b'\t')
                             self.file_open.write(hex(value).encode('utf-8') + b'\n')
                             flag = 1
@@ -205,13 +213,15 @@ class Calibrator(Connect):
         return addr
 
     def main_data_read(self):
+        self.can_open_O(self.ser)
         for data_can in self.data_can_dict:
             count = 0
-            addr = self._header_data_read(data_can[1])
+            # printf(self.data_can_dict[data_can])
+            addr = self._header_data_read(self.data_can_dict[data_can])
 
             # Парсер главного словаря с данным
             for data_main in self.data_dict[data_can].items():
-                print(data_main)
+                printf(data_main)
 
                 # Запрос с адресом в can
                 while True:
@@ -233,7 +243,7 @@ class Calibrator(Connect):
                             for i in list_read_data:
                                 if i[:4] == self.data_id and len(i) > 21:
                                     read_data = i
-                                    print(read_data)
+                                    printf(read_data)
                                     value, address = self.transformed_in_value_and_address(read_data)
 
                                     # Конвертируем значения hex в dec
@@ -244,7 +254,7 @@ class Calibrator(Connect):
                                     else:
                                         value_dec = self.transformed_hex_to_dec(value, 'int')
 
-                                    print(value)
+                                    printf(value)
                                     self.file_open.write(hex(address).encode('utf-8') + b'\t')
                                     self.file_open.write(hex(value).encode('utf-8') + b'\t')
                                     self.file_open.write(hex(value_dec).encode('utf-8') + b'\n')
@@ -252,16 +262,18 @@ class Calibrator(Connect):
                                     break
                             if flag == 1: flag = 0; break
         self.file_open.close()
+        self.can_close(self.ser)
         return 'End main_data_read'
 
 
-cal = Calibrator('SES200M', 'BU_SES')
+# cal = Calibrator('SES200M', 'BU_SES')
+ser = Connect()
 cal1 = Calibrator('SES200M', 'BU_50')
-cal2 = Calibrator('SES200M', 'BU_400')
+# cal2 = Calibrator('SES200M', 'BU_400')
 # a = b't0328FF2E00000000D4BF\r'
 # b, c = cal.transformed_in_value_and_address(a)
 # print(b)
 # print(c)
-a = cal1.data_dict
+a = cal1.main_data_read()
 # a = cal1.main_data_read()
-print(a)
+printf(a)

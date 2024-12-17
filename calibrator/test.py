@@ -85,6 +85,7 @@ d['preset'] = b't033876478'
 print(d)
 
 class Connect:
+    SER =2
     def __init__(self):
         print('Init Connect')
         self.ser = 1
@@ -96,5 +97,11 @@ class Obj(Connect):
         print('Init')
         print(self.ser)
 
+    def fun(self):
+        return self.ser
 a = Obj()
 print(a)
+print(Connect.SER)
+print(a.fun())
+
+serial.Serial(port='COM88', baudrate=3000000, timeout=0.1)
