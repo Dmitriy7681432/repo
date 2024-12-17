@@ -209,46 +209,48 @@ class Calibrator(Connect):
             count = 0
             addr = self._header_data_read(data_can[1])
 
-            # Парсер главного словаря с данными
-            # doc = etree.parse('params.xml')
-            # for setting in doc.findall('.//setting'):
-            #     number = setting.attrib.get('number')
-            #     ctype = setting.attrib.get('ctype')
-            #     for products in setting.findall('products/'):
-            #         product = products.tag
-            #         if product == self.product:
-            #             cb = products.attrib.get('cb')
-            #             if cb == self.control_block:
-            for data_main in self.data_dict[data_can[0]].items():
+            # Парсер главного словаря с данным
+            for data_main in self.data_dict[data_can].items():
                 print(data_main)
 
-                            # # Запрос с адресом в can
-                            # while True:
-                            #     count += 1
-                            #     if count > 4: count = 0;break
-                            #     # printf(number)
-                            #     msg_bytes = self.transformed_in_bytes(addr, self.read_id)
-                            #     addr += 4
-                            #     printf(msg_bytes)
-                            #     self.ser.write(msg_bytes)
-                            #     # Чтение с can значение и адреса
-                            #     while True:
-                            #         read_data = self.ser.read(1024)
-                            #         if self.data_id in read_data:
-                            #             list_read_data = read_data.split(b'\r')
-                            #             for i in list_read_data:
-                            #                 if i[:4] == self.data_id and len(i) > 21:
-                            #                     read_data = i
-                            #                     printf(read_data)
-                            #                     value, address = self.transformed_in_value_and_address(read_data)
-                            #                     value_dec = self.transformed_hex_to_dec(value, ctype)
-                            #                     printf(value)
-                            #                     self.file_open.write(hex(address).encode('utf-8') + b'\t')
-                            #                     self.file_open.write(hex(value).encode('utf-8') + b'\t')
-                            #                     self.file_open.write(hex(value_dec).encode('utf-8') + b'\n')
-                            #                     flag = 1
-                            #                     break
-                            #             if flag == 1: flag = 0; break
+                # Запрос с адресом в can
+                while True:
+                    count += 1
+                    #Если парсятся уставки
+                    if data_can =='preset'and count > 4: count = 0;break
+                    elif data_can == 'filter' and count > 2: count = 0;break
+
+                    # printf(number)
+                    msg_bytes = self.transformed_in_bytes(addr, self.read_id)
+                    addr += 4
+                    printf(msg_bytes)
+                    self.ser.write(msg_bytes)
+                    # Чтение с can значение и адреса
+                    while True:
+                        read_data = self.ser.read(1024)
+                        if self.data_id in read_data:
+                            list_read_data = read_data.split(b'\r')
+                            for i in list_read_data:
+                                if i[:4] == self.data_id and len(i) > 21:
+                                    read_data = i
+                                    print(read_data)
+                                    value, address = self.transformed_in_value_and_address(read_data)
+
+                                    # Конвертируем значения hex в dec
+                                    if data_can =='preset':
+                                        value_dec = self.transformed_hex_to_dec(value, data_main[1][1])
+                                    elif data_can == 'calibr':
+                                        value_dec = self.transformed_hex_to_dec(value, 'float')
+                                    else:
+                                        value_dec = self.transformed_hex_to_dec(value, 'int')
+
+                                    print(value)
+                                    self.file_open.write(hex(address).encode('utf-8') + b'\t')
+                                    self.file_open.write(hex(value).encode('utf-8') + b'\t')
+                                    self.file_open.write(hex(value_dec).encode('utf-8') + b'\n')
+                                    flag = 1
+                                    break
+                            if flag == 1: flag = 0; break
         self.file_open.close()
         return 'End main_data_read'
 
@@ -260,6 +262,6 @@ cal2 = Calibrator('SES200M', 'BU_400')
 # b, c = cal.transformed_in_value_and_address(a)
 # print(b)
 # print(c)
-# a = cal1.parse_data_xml()
-a = cal1.main_data_read()
+a = cal1.data_dict
+# a = cal1.main_data_read()
 print(a)

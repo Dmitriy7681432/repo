@@ -84,34 +84,17 @@ for i in d.items():
 d['preset'] = b't033876478'
 print(d)
 
+class Connect:
+    def __init__(self):
+        print('Init Connect')
+        self.ser = 1
 
-# dict_data = {'s_1':'int','s2':"float"}
-# for i in dict_data:
-#     print()
 
-# b = b't64A8E400000000E50000'
-# b = b't64A8E400000000E500009'
-# b = b'AAB8E400000000E5000064A8\nA64A8E400000000E50000930D'
-# b = b't61880400D4BF5A5AA5A5'
-# c = b't6188000000000401D4BF'
-# b = transformed_in_address(b)
-# c = transformed_in_value(c)
-# print(hex(b))
-# print(hex(c))
-# serial.Serial.flushInput()
-# aa = hex(1550).encode('utf-8')[2:]
+class Obj(Connect):
+    def __init__(self):
+        super().__init__()
+        print('Init')
+        print(self.ser)
 
-# print(b't'+aa+b'8')
-# class Obj:
-#     def __init__(self,read_id):
-#         self.read_id = read_id
-#     def trans(self,arg):
-#         read_id = self.read_id
-#         # print(arg)
-#         # print(read_id)
-#         return arg,read_id
-#
-# obj = Obj(1550)
-# a,b = obj.trans(20)
-# print(a)
-# print(b)
+a = Obj()
+print(a)
