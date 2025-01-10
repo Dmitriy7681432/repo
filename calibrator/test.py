@@ -9,7 +9,7 @@ a = 3218341888
 a = 0xBFD40000
 a = '00010509\n)'
 a.replace('\n','')
-print(a)
+# print(a)
 
 def func ():
     # calibr_list_data = []
@@ -66,7 +66,7 @@ def func ():
     return data_dict
 
 a = func()
-print(a)
+# print(a)
 
 d = {'s_zero':['Единица','int'],'s_one':['Двойка','float']}
 data_dict1 = {'calibr': {}, 'preset': {}, 'filter': {}}
@@ -76,32 +76,57 @@ for i in data_dict1['preset'].items():
     # if i[0] in 'preset':
     print(i[1].append(100))
 # print(data_dict1['preset']['s_zero'].append('100'))
-print(data_dict1)
+# print(data_dict1)
 d = {'preset':b't0338456500','calibr':b't0338456500','filter':b't0338456500'}
 d = {'preset':'','calibr':'','filter':''}
 for i in d.items():
-    print(i[0])
+    pass
+    # print(i[0])
 d['preset'] = b't033876478'
-print(d)
+# print(d)
 
 class Connect:
-    SER =2
+    ser = serial.Serial(port='COM88', baudrate=3000000, timeout=0.1)
     def __init__(self):
         print('Init Connect')
-        self.ser = 1
 
+    # def ser_connect(self):
+    #     self.ser = serial.Serial(port='COM88', baudrate=3000000, timeout=0.1)
+    #     self.ser1 =self.ser
+    #     printf(self.ser)
+    #     return self.ser
 
-class Obj(Connect):
-    def __init__(self):
-        super().__init__()
+class Obj():
+    def __init__(self,arg):
+        # super().__init__()
+        self.ser = arg
         print('Init')
         print(self.ser)
 
-    def fun(self):
+    def fun(self,arg):
+        printf('can_open')
+        arg.timeot = 0.1
+        msg = b"C\r"
+        arg.write(msg)
+        msg = b"S5\rZ1\r"
+        arg.write(msg)
+        msg = b"O\r"
+        arg.write(msg)
         return self.ser
-a = Obj()
-print(a)
-print(Connect.SER)
-print(a.fun())
 
-serial.Serial(port='COM88', baudrate=3000000, timeout=0.1)
+    def fun1(self):
+        self.fun(self.ser)
+
+# ser  = Connect().ser
+# a = Obj(ser)
+# print(a)
+# b = Obj(ser)
+# print(b)
+# print(a.fun1())
+
+i = b't002800000000000000020067'
+a = b't0338002F0000'
+b = b't002800000000000000020067'
+for i in b:
+    if a in b and len(i) >21:
+        print('Yes')
