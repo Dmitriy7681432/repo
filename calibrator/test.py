@@ -124,9 +124,10 @@ class Obj():
 # print(b)
 # print(a.fun1())
 
-i = b't002800000000000000020067'
-a = b't0338002F0000'
-b = b't002800000000000000020067'
-for i in b:
-    if a in b and len(i) >21:
-        print('Yes')
+
+
+
+dct = {'preset':[],'calibr':{},'filter':{}}
+dct['preset'].append(b't12312')
+print(dct)
+

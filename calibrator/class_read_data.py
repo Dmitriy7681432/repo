@@ -9,17 +9,13 @@ class Connect(object):
     ser = serial.Serial(port='COM88', baudrate=3000000, timeout=0.1)
 
     # def __init__(self):
-        # Поиск устройства
-        # ports = serial.tools.list_ports.comports()
-        # for port in ports:
-        #     print(port.device)
-        #     port = port.device
-        # self.ser = serial.Serial(port =port,baudrate=3000000,timeout=0.1)
-        # self.ser = serial.Serial(port='COM88', baudrate=3000000, timeout=0.1)
-
-    def ser_connect(self):
-        self.ser1 =ser
-        return self.ser1
+    # Поиск устройства
+    # ports = serial.tools.list_ports.comports()
+    # for port in ports:
+    #     print(port.device)
+    #     port = port.device
+    # self.ser = serial.Serial(port =port,baudrate=3000000,timeout=0.1)
+    # self.ser = serial.Serial(port='COM88', baudrate=3000000, timeout=0.1)
 
     # Выбор режима com_port
     def can_open_O(self, arg):
@@ -43,9 +39,9 @@ class Connect(object):
 class Calibrator(Connect):
 
     # Инициализация входных данных
-    def __init__(self, product, control_block):
+    def __init__(self, ser, product, control_block):
         # super().__init__()
-        self.ser = self.ser_connect()
+        self.ser = ser
         self.product = product
         self.control_block = control_block
         if self.product == "SES200M":
@@ -73,22 +69,26 @@ class Calibrator(Connect):
         # Главный словарь с уставками, калибровками и фильтрами для интерфейса
         self.data_dict = {'preset': {}, 'calibr': {}, 'filter': {}}
         # Считывание,преобразование global_id параметров в формaт can и сохранение их в словарь
-        self.data_can_dict = {'preset': '', 'calibr':'', 'filter': ''}
+        self.data_can_dict = {'preset': '', 'calibr': '', 'filter': ''}
         self.data_can_dict['preset'] = self.parse_xml_designation(self.preset_designation)
         self.data_can_dict['calibr'] = self.parse_xml_designation(self.calibr_designation)
         self.data_can_dict['filter'] = self.parse_xml_designation(self.filter_designation)
-
+        # Копирование главного словаря для хранения значений шапки
+        self.header_data_dict ={'preset': [], 'calibr': [], 'filter': []}
         # Заполение главного словаря данными
         self.parse_data_xml()
 
         self.file_open = open('read_data.txt', 'wb')
 
     # Преобразование байтового типа в тип целочисленного значения и адреса
-    def transformed_in_value_and_address(self, arg):
+    def transformed_in_value_and_address(self, arg, type):
         value = arg[13:21]
         value = value[6:8] + value[4:6] + value[2:4] + value[0:2]
         value = value.decode('utf-8')
-        value = struct.unpack('!I', bytes.fromhex(value))
+        if type == 'int':
+            value = struct.unpack('!I', bytes.fromhex(value))
+        else:
+            value = struct.unpack('!I', bytes.fromhex(value))
         address = arg[5:13]
         address = address[6:8] + address[4:6] + address[2:4] + address[0:2]
         address = address.decode('utf-8')
@@ -107,10 +107,11 @@ class Calibrator(Connect):
     # Перевод числа из hex в decimal
     def transformed_hex_to_dec(self, value, type):
         if type == "float":
-            value = struct.unpack('!f', bytes.fromhex(value))
+            value = struct.unpack('!f', bytes.fromhex(str(value)))
             return value[0]
         elif type == 'int':
-            value = struct.unpack('!f', bytes.fromhex(value))
+            printf(value)
+            value = struct.unpack('!f', bytes.fromhex(str(value)))
             return value[0]
         return value
 
@@ -141,7 +142,7 @@ class Calibrator(Connect):
                 if product == self.product:
                     cb = products.attrib.get('cb')
                     if cb == self.control_block:
-                        preset_dict[number]= [designation,c_type]
+                        preset_dict[number] = [designation, c_type]
         # Калибровки
         for setting in doc.findall('.//parameter'):
             designation = setting.attrib.get('designation')
@@ -155,8 +156,8 @@ class Calibrator(Connect):
                                 calibr_dict[designation + '_' + i.attrib.get('IND')] = [name]
                                 # calibr_list_data.append(i.attrib.get('value'))
                         else:
-                            calibr_dict[designation + '_k'] =[name]
-                            calibr_dict[designation + '_b'] =[name]
+                            calibr_dict[designation + '_k'] = [name]
+                            calibr_dict[designation + '_b'] = [name]
                             # calibr_list_data.append('1.0')
                             # calibr_list_data.append('1.0')
                     # Фильтры
@@ -175,13 +176,17 @@ class Calibrator(Connect):
         while True:
             read_data = self.ser.read(1024)
             printf(data_can)
-            if data_can[:12] in read_data:
+            if data_can[:13] in read_data:
                 list_read_data = read_data.split(b'\r')
                 for i in list_read_data:
-                    if data_can[:12] in read_data and len(i) > 21:
+                    if data_can[:13] in i and len(i) > 21:
+                        printf(read_data)
                         read_data = i
-                        value, address = self.transformed_in_value_and_address(read_data)
-                        return address
+                        printf(read_data)
+                        value, address = self.transformed_in_value_and_address(read_data, 'int')
+                        printf(data_can[:13])
+                        printf(value)
+                        return value
 
     def _header_data_read(self, data_can):
         count = 0
@@ -201,9 +206,13 @@ class Calibrator(Connect):
                         if i[:4] == self.data_id in i and len(i) > 21:
                             read_data = i
                             printf(read_data)
-                            value, address = self.transformed_in_value_and_address(read_data)
+                            value, address = self.transformed_in_value_and_address(read_data, 'int')
                             printf(value)
                             printf(address)
+
+                            # printf(data_can)
+                            # self.header_data_dict[data_can].append(value)
+
                             self.file_open.write(hex(address).encode('utf-8') + b'\t')
                             self.file_open.write(hex(value).encode('utf-8') + b'\n')
                             flag = 1
@@ -226,9 +235,13 @@ class Calibrator(Connect):
                 # Запрос с адресом в can
                 while True:
                     count += 1
-                    #Если парсятся уставки
-                    if data_can =='preset'and count > 4: count = 0;break
-                    elif data_can == 'filter' and count > 2: count = 0;break
+                    # Если парсятся уставки
+                    if data_can == 'preset' and count > 4:
+                        count = 0;break
+                    elif data_can == 'filter' and count > 2:
+                        count = 0;break
+                    elif data_can == 'calibr' and count > 1:
+                        count = 0;break
 
                     # printf(number)
                     msg_bytes = self.transformed_in_bytes(addr, self.read_id)
@@ -244,36 +257,53 @@ class Calibrator(Connect):
                                 if i[:4] == self.data_id and len(i) > 21:
                                     read_data = i
                                     printf(read_data)
-                                    value, address = self.transformed_in_value_and_address(read_data)
 
                                     # Конвертируем значения hex в dec
-                                    if data_can =='preset':
-                                        value_dec = self.transformed_hex_to_dec(value, data_main[1][1])
+                                    if data_can == 'preset':
+                                        # value_dec = self.transformed_hex_to_dec(value, data_main[1][1])
+                                        value, address = self.transformed_in_value_and_address(read_data,
+                                                                                               data_main[1][1])
+                                        # Добавление вычитаных значений в главный словарь
+                                        self.data_dict[data_can][data_main[0]].append(value)
                                     elif data_can == 'calibr':
-                                        value_dec = self.transformed_hex_to_dec(value, 'float')
+                                        # value_dec = self.transformed_hex_to_dec(value, 'float')
+                                        value, address = self.transformed_in_value_and_address(read_data, 'float')
+                                        # Добавление вычитаных значений в главный словарь
+                                        self.data_dict[data_can][data_main[0]].append(value)
                                     else:
-                                        value_dec = self.transformed_hex_to_dec(value, 'int')
+                                        # value_dec = self.transformed_hex_to_dec(value, 'int')
+                                        value, address = self.transformed_in_value_and_address(read_data, 'int')
+                                        # Добавление вычитаных значений в главный словарь
+                                        self.data_dict[data_can][data_main[0]].append(value)
 
                                     printf(value)
                                     self.file_open.write(hex(address).encode('utf-8') + b'\t')
-                                    self.file_open.write(hex(value).encode('utf-8') + b'\t')
-                                    self.file_open.write(hex(value_dec).encode('utf-8') + b'\n')
+                                    self.file_open.write(hex(value).encode('utf-8') + b'\n')
+
+                                    # self.file_open.write(hex(value_dec).encode('utf-8') + b'\n')
                                     flag = 1
                                     break
                             if flag == 1: flag = 0; break
         self.file_open.close()
         self.can_close(self.ser)
+        printf(self.data_dict)
+        printf(self.header_data_dict)
         return 'End main_data_read'
 
 
 # cal = Calibrator('SES200M', 'BU_SES')
 ser = Connect()
-cal1 = Calibrator('SES200M', 'BU_50')
+cal1 = Calibrator(ser.ser, 'SES200M', 'BU_50')
 # cal2 = Calibrator('SES200M', 'BU_400')
 # a = b't0328FF2E00000000D4BF\r'
 # b, c = cal.transformed_in_value_and_address(a)
 # print(b)
 # print(c)
 a = cal1.main_data_read()
-# a = cal1.main_data_read()
-printf(a)
+# data_dict = cal1.data_dict
+# # printf(data_dict)
+# for i in data_dict['preset'].items():
+#     i[1].append(56824)
+#
+# # data_dict['preset']['s_zero'].append(58624)
+# print(data_dict)
