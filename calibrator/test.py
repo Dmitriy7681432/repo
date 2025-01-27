@@ -131,3 +131,7 @@ dct = {'preset':[],'calibr':{},'filter':{}}
 dct['preset'].append(b't12312')
 print(dct)
 
+def fun(a,b=1):
+    print(a,b)
+
+fun(1)

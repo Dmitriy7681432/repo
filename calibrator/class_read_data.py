@@ -33,7 +33,8 @@ class Connect(object):
         printf('can_close')
         msg = b"C\r"
         arg.write(msg)
-        arg.close()
+        # После закрытия необходимо заново инициалировать serial
+        # arg.close()
 
 
 class Calibrator(Connect):
@@ -49,6 +50,9 @@ class Calibrator(Connect):
                 self.partel_id = b't0328'
                 self.read_id = b't60E8'
                 self.data_id = b't640'
+                self.write_id = b't60F8'
+                self.confirmation_id = b't014'
+                self.erase_id = b't6108'
                 self.preset_designation = 'ADDR_PRESET_ROM'
                 self.calibr_designation = 'ADDR_CALIBR_ROM'
                 self.filter_designation = 'ADDR_FILTR_ROM'
@@ -56,6 +60,9 @@ class Calibrator(Connect):
                 self.partel_id = b't0338'
                 self.read_id = b't6188'
                 self.data_id = b't64A'
+                self.write_id = b't6198'
+                self.confirmation_id = b't015'
+                self.erase_id = b't61A8'
                 self.preset_designation = 'ADDR_PRESET_ROM2'
                 self.calibr_designation = 'ADDR_CALIBR_ROM2'
                 self.filter_designation = 'ADDR_FILTR_ROM2'
@@ -63,6 +70,9 @@ class Calibrator(Connect):
                 self.partel_id = b't0348'
                 self.read_id = b't6228'
                 self.data_id = b't654'
+                self.write_id = b't6238'
+                self.confirmation_id = b't016'
+                self.erase_id = b't6248'
                 self.preset_designation = 'ADDR_PRESET_ROM3'
                 self.calibr_designation = 'ADDR_CALIBR_ROM3'
                 self.filter_designation = 'ADDR_FILTR_ROM3'
@@ -74,7 +84,7 @@ class Calibrator(Connect):
         self.data_can_dict['calibr'] = self.parse_xml_designation(self.calibr_designation)
         self.data_can_dict['filter'] = self.parse_xml_designation(self.filter_designation)
         # Копирование главного словаря для хранения значений шапки
-        self.header_data_dict ={'preset': [], 'calibr': [], 'filter': []}
+        self.header_data_dict = {'preset': [], 'calibr': [], 'filter': []}
         # Заполение главного словаря данными
         self.parse_data_xml()
 
@@ -96,12 +106,17 @@ class Calibrator(Connect):
         return value[0], address[0]
 
     # Преобразование целочисленного значения в байтовый тип формата can
-    def transformed_in_bytes(self, arg, id):
+    def transformed_in_bytes(self, arg, id, val=b'000000000000'):
         # read_id = b't' + hex(self.read_id).upper().encode('utf-8')[2:] + b'8'
+        if val != b'000000000000':
+            val = hex(val)[2:].upper()
+            val = val[6:8] + val[4:6] + val[2:4] + val[0:2]
+            val = val.encode('utf-8') + b'0000'
+
         arg = hex(arg)[2:].upper()
         arg = arg[6:8] + arg[4:6] + arg[2:4] + arg[0:2]
         arg = arg.encode('utf-8')
-        arg = id + arg + b'000000000000' + b'\r'
+        arg = id + arg + val + b'\r'
         return arg
 
     # Перевод числа из hex в decimal
@@ -172,61 +187,83 @@ class Calibrator(Connect):
         return self.data_dict
 
     # Считывание адреса по global_id параметра
-    def _begin_data_read(self, data_can):
+    def _begin_data_read(self, data_can_dict_value):
         while True:
             read_data = self.ser.read(1024)
-            printf(data_can)
-            if data_can[:13] in read_data:
+            printf(data_can_dict_value)
+            if data_can_dict_value[:13] in read_data:
                 list_read_data = read_data.split(b'\r')
                 for i in list_read_data:
-                    if data_can[:13] in i and len(i) > 21:
+                    if data_can_dict_value[:13] in i and len(i) > 21:
                         printf(read_data)
                         read_data = i
                         printf(read_data)
                         value, address = self.transformed_in_value_and_address(read_data, 'int')
-                        printf(data_can[:13])
+                        printf(data_can_dict_value[:13])
                         printf(value)
                         return value
 
-    def _header_data_read(self, data_can):
+    def _header_data_read(self, data_can_dict_value, data_can, mode):
         count = 0
+        count1 = 0
         flag = 0
-        addr = self._begin_data_read(data_can)
+        addr = self._begin_data_read(data_can_dict_value)
         while True:
-            msg_bytes = self.transformed_in_bytes(addr, self.read_id)
+            if mode == "w":
+                msg_bytes = self.transformed_in_bytes(addr, self.write_id, self.header_data_dict[data_can][count])
+                id = self.confirmation_id
+            else:
+                msg_bytes = self.transformed_in_bytes(addr, self.read_id)
+                id = self.data_id
             addr += 4
             count += 1
             printf(msg_bytes)
             self.ser.write(msg_bytes)
             while True:
                 read_data = self.ser.read(1024)
-                if self.data_id in read_data:
+                if id in read_data:
                     list_read_data = read_data.split(b'\r')
                     for i in list_read_data:
-                        if i[:4] == self.data_id in i and len(i) > 21:
+                        if i[:4] == id in i and len(i) > 21:
                             read_data = i
                             printf(read_data)
                             value, address = self.transformed_in_value_and_address(read_data, 'int')
                             printf(value)
                             printf(address)
 
-                            # printf(data_can)
-                            # self.header_data_dict[data_can].append(value)
-
-                            self.file_open.write(hex(address).encode('utf-8') + b'\t')
-                            self.file_open.write(hex(value).encode('utf-8') + b'\n')
+                            if mode == 'w':
+                                value_write, address_write = self.transformed_in_value_and_address(read_data, 'int')
+                                # Если отправленное значение отличается от значения в квитанции, то
+                                # повторяем отправку
+                                # if value_write != value and count < 20: addr -= 4; count -= 1; count1 += 1
+                            else:
+                                self.header_data_dict[data_can].append(value)
+                                self.file_open.write(hex(address).encode('utf-8') + b'\t')
+                                self.file_open.write(hex(value).encode('utf-8') + b'\n')
                             flag = 1
                             break
                     if flag == 1: flag = 0;break
-            if count == 7: count = 0;break
+            if count == 7: count = 0; count1 = 0; break
         return addr
 
-    def main_data_read(self):
+    def main_data_read(self, mode):
+        # Открытие порта
         self.can_open_O(self.ser)
+
+        # Если на запись данных
+        if mode == 'w':
+            # Стереть сектор
+            msg_bytes = self.transformed_in_bytes(0xBFD44000, self.erase_id)
+            self.ser.write(msg_bytes)
+            time.sleep(0.5)
+
         for data_can in self.data_can_dict:
             count = 0
             # printf(self.data_can_dict[data_can])
-            addr = self._header_data_read(self.data_can_dict[data_can])
+            if mode == 'w':
+                addr = self._header_data_read(self.data_can_dict[data_can], data_can, 'w')
+            else:
+                addr = self._header_data_read(self.data_can_dict[data_can], data_can, 'r')
 
             # Парсер главного словаря с данным
             for data_main in self.data_dict[data_can].items():
@@ -236,15 +273,26 @@ class Calibrator(Connect):
                 while True:
                     count += 1
                     # Если парсятся уставки
-                    if data_can == 'preset' and count > 4:
-                        count = 0;break
-                    elif data_can == 'filter' and count > 2:
-                        count = 0;break
-                    elif data_can == 'calibr' and count > 1:
-                        count = 0;break
+                    if data_can == 'preset':
+                        if count > 4: count = 0; break
+                        if mode == 'w':
+                            printf(self.data_dict[data_can][data_main[0]][count+1])
+                            msg_bytes = self.transformed_in_bytes(addr, self.write_id, self.data_dict[data_can] \
+                                [data_main[0]][count + 1])
+                    elif data_can == 'filter':
+                        if count > 2: count = 0; break
+                        if mode == 'w':
+                            msg_bytes = self.transformed_in_bytes(addr, self.write_id, self.data_dict[data_can] \
+                                [data_main[0]][count-1])
+                    elif data_can == 'calibr':
+                        if count > 1: count = 0; break
+                        if mode == 'w':
+                            msg_bytes = self.transformed_in_bytes(addr, self.write_id, self.data_dict[data_can] \
+                                [data_main[0]][count])
 
                     # printf(number)
-                    msg_bytes = self.transformed_in_bytes(addr, self.read_id)
+                    if mode == 'r':
+                        msg_bytes = self.transformed_in_bytes(addr, self.read_id)
                     addr += 4
                     printf(msg_bytes)
                     self.ser.write(msg_bytes)
@@ -263,18 +311,36 @@ class Calibrator(Connect):
                                         # value_dec = self.transformed_hex_to_dec(value, data_main[1][1])
                                         value, address = self.transformed_in_value_and_address(read_data,
                                                                                                data_main[1][1])
-                                        # Добавление вычитаных значений в главный словарь
-                                        self.data_dict[data_can][data_main[0]].append(value)
+                                        if mode == 'w':
+                                            value_write, address_write = self.transformed_in_value_and_address \
+                                                (msg_bytes, data_main[1][1])
+                                        else:
+                                            # Добавление вычитаных значений в главный словарь
+                                            self.data_dict[data_can][data_main[0]].append(value)
                                     elif data_can == 'calibr':
                                         # value_dec = self.transformed_hex_to_dec(value, 'float')
                                         value, address = self.transformed_in_value_and_address(read_data, 'float')
-                                        # Добавление вычитаных значений в главный словарь
-                                        self.data_dict[data_can][data_main[0]].append(value)
+
+                                        if mode == 'w':
+                                            value_write, address_write = self.transformed_in_value_and_address \
+                                                (msg_bytes, 'float')
+                                        else:
+                                            # Добавление вычитаных значений в главный словарь
+                                            self.data_dict[data_can][data_main[0]].append(value)
                                     else:
                                         # value_dec = self.transformed_hex_to_dec(value, 'int')
                                         value, address = self.transformed_in_value_and_address(read_data, 'int')
-                                        # Добавление вычитаных значений в главный словарь
-                                        self.data_dict[data_can][data_main[0]].append(value)
+
+                                        if mode == 'w':
+                                            value_write, address_write = self.transformed_in_value_and_address \
+                                                (msg_bytes, 'int')
+                                        else:
+                                            # Добавление вычитаных значений в главный словарь
+                                            self.data_dict[data_can][data_main[0]].append(value)
+
+                                    # Если отправленное значение отличается от значения в квитанции, то
+                                    # повторяем отправку
+                                    # if value_write != value and count < 20: addr -= 4; count -= 1; count1 += 1
 
                                     printf(value)
                                     self.file_open.write(hex(address).encode('utf-8') + b'\t')
@@ -284,7 +350,7 @@ class Calibrator(Connect):
                                     flag = 1
                                     break
                             if flag == 1: flag = 0; break
-        self.file_open.close()
+        # self.file_open.close()
         self.can_close(self.ser)
         printf(self.data_dict)
         printf(self.header_data_dict)
@@ -294,16 +360,5 @@ class Calibrator(Connect):
 # cal = Calibrator('SES200M', 'BU_SES')
 ser = Connect()
 cal1 = Calibrator(ser.ser, 'SES200M', 'BU_50')
-# cal2 = Calibrator('SES200M', 'BU_400')
-# a = b't0328FF2E00000000D4BF\r'
-# b, c = cal.transformed_in_value_and_address(a)
-# print(b)
-# print(c)
-a = cal1.main_data_read()
-# data_dict = cal1.data_dict
-# # printf(data_dict)
-# for i in data_dict['preset'].items():
-#     i[1].append(56824)
-#
-# # data_dict['preset']['s_zero'].append(58624)
-# print(data_dict)
+cal1.main_data_read('r')
+cal1.main_data_read('w')
