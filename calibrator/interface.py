@@ -25,10 +25,6 @@ class Main(QMainWindow):
         x_size_desktop = int(x / 2.4);
         y_size_desktop = int(y / 1.3)
 
-        self.centralwidget = QtWidgets.QWidget(self)
-        self.centralwidget.setObjectName("centralWidget")
-        # self.centralwidget.setGeometry(300,300,300,300)
-        self.centralwidget.setGeometry(0,0,800,50)
 
 
         stack_size_y = int(y / 35)
@@ -37,9 +33,15 @@ class Main(QMainWindow):
         stack_size_yy = y
         stack_size_xx = int(x / 1.9)
 
-        self.stackedWidget = QtWidgets.QStackedWidget(self)
+        self.centralwidget = QtWidgets.QWidget()
+        self.centralwidget.setObjectName("centralWidget")
+        self.stackedWidget = QtWidgets.QStackedWidget(self.centralwidget)
         self.stackedWidget.setGeometry(QtCore.QRect(stack_size_x, stack_size_y, stack_size_yy, stack_size_xx))
         self.stackedWidget.setObjectName("stackedWidget")
+
+        print(stack_size_x,stack_size_y,stack_size_yy,stack_size_xx)
+        # # self.centralwidget.setGeometry(300,300,300,300)
+        # self.centralwidget.setGeometry(0,0,768,50)
 
         # Вычисляем размер экрана
         self.resize(x_size_desktop, y_size_desktop)
@@ -56,43 +58,90 @@ class Main(QMainWindow):
         self.setPalette(pal)
 
         # self.mainWidget = QWidget(self.centralwidget)
-        self.mainLayout = QHBoxLayout(self.centralwidget)
+        # self.mainWidget.setGeometry(QtCore.QRect(20, 100, 711, 122))
+        # self.mainWidget.setObjectName("mainWidget")
+        self.mainLayout = QHBoxLayout()
+        self.mainLayout.setSizeConstraint(QtWidgets.QLayout.SetDefaultConstraint)
+        self.mainLayout.setContentsMargins(0, 0, 0, 550)
+        self.mainLayout.setSpacing(2)
+        self.mainLayout.setObjectName("mainLayout")
 
         # Кнопки вкладки
-        buttonUnit1 = QToolButton(self)
+        buttonUnit1 = QToolButton()
         buttonUnit1.setText('БУ400')
-        buttonUnit2 = QToolButton(self)
+        buttonUnit2 = QToolButton()
         buttonUnit2.setText('БУ50')
+        buttonUnit3 = QToolButton()
+        buttonUnit3.setText('БУСЭС')
         buttonUnit1.clicked.connect(self.UnitWidget)
         buttonUnit2.clicked.connect(self.UnitWidget2)
+        buttonUnit3.clicked.connect(self.UnitWidget3)
         buttonUnit1.setFont(font)
         buttonUnit2.setFont(font)
+        buttonUnit3.setFont(font)
         # buttonUnit1.setGeometry(100,100,100,100)
         # buttonUnit2.setGeometry(100,100,100,100)
 
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(buttonUnit1.sizePolicy().hasHeightForWidth())
         buttonUnit1.setSizePolicy(sizePolicy)
         buttonUnit2.setSizePolicy(sizePolicy)
-        buttonUnit1.setMaximumSize(QtCore.QSize(750, 50))
-        buttonUnit2.setMaximumSize(QtCore.QSize(750, 50))
-        buttonUnit1.setGeometry(100,200,300,400)
-        buttonUnit2.setGeometry(200,100,200,300)
+        buttonUnit3.setSizePolicy(sizePolicy)
+        buttonUnit1.setMaximumSize(QtCore.QSize(250, 50))
+        buttonUnit2.setMaximumSize(QtCore.QSize(250, 50))
+        buttonUnit3.setMaximumSize(QtCore.QSize(250, 50))
+        buttonUnit1.setToolTip("")
+        buttonUnit2.setToolTip("")
+        buttonUnit3.setToolTip("")
+        buttonUnit1.setLayoutDirection(QtCore.Qt.RightToLeft)
+        buttonUnit2.setLayoutDirection(QtCore.Qt.RightToLeft)
+        buttonUnit3.setLayoutDirection(QtCore.Qt.RightToLeft)
+        buttonUnit1.setAutoFillBackground(False)
+        buttonUnit2.setAutoFillBackground(False)
+        buttonUnit3.setAutoFillBackground(False)
+        buttonUnit1.setInputMethodHints(QtCore.Qt.ImhNone)
+        buttonUnit2.setInputMethodHints(QtCore.Qt.ImhNone)
+        buttonUnit3.setInputMethodHints(QtCore.Qt.ImhNone)
+        buttonUnit1.setAutoRepeat(False)
+        buttonUnit2.setAutoRepeat(False)
+        buttonUnit3.setAutoRepeat(False)
+        buttonUnit1.setAutoExclusive(False)
+        buttonUnit2.setAutoExclusive(False)
+        buttonUnit3.setAutoExclusive(False)
+        buttonUnit1.setPopupMode(QtWidgets.QToolButton.DelayedPopup)
+        buttonUnit2.setPopupMode(QtWidgets.QToolButton.DelayedPopup)
+        buttonUnit3.setPopupMode(QtWidgets.QToolButton.DelayedPopup)
+        buttonUnit1.setToolButtonStyle(QtCore.Qt.ToolButtonIconOnly)
+        buttonUnit2.setToolButtonStyle(QtCore.Qt.ToolButtonIconOnly)
+        buttonUnit3.setToolButtonStyle(QtCore.Qt.ToolButtonIconOnly)
+        buttonUnit1.setObjectName("buttonUnit1")
+        buttonUnit2.setObjectName("buttonUnit2")
+        buttonUnit3.setObjectName("buttonUnit3")
+        # buttonUnit1.setGeometry(100,200,300,400)
+        # buttonUnit2.setGeometry(200,100,200,300)
 
 
         # Main()
         self.main = Unit().initUI(self)
         self.stackedWidget.addWidget(self.main)
         self.stackedWidget.addWidget(Unit2())
+        self.stackedWidget.addWidget(Unit2())
 
         self.mainLayout.addWidget(buttonUnit1)
         self.mainLayout.addWidget(buttonUnit2)
+        self.mainLayout.addWidget(buttonUnit3)
         # self.mainWidget.setGeometry(0,0,800,50)
-        self.mainLayout.setGeometry(QtCore.QRect(50,0,800,300))
+        # self.mainLayout.setGeometry(QtCore.QRect(250,330,200,100))
 
 
-        # self.setCentralWidget(self)
+
+        self.centralwidget.setLayout(self.mainLayout)
+
+        self.setCentralWidget(self.centralwidget)
+
+        # self.setCentralWidget(self.centralwidget)
         self.setObjectName("MainWindow")
         self.setWindowTitle('Calibrator')
         self.show()
@@ -103,6 +152,9 @@ class Main(QMainWindow):
 
     def UnitWidget2(self):
         self.stackedWidget.setCurrentIndex(1)
+
+    def UnitWidget3(self):
+        self.stackedWidget.setCurrentIndex(2)
 
 
 # class Unit(QWidget):
