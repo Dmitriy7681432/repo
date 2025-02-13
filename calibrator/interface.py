@@ -31,12 +31,12 @@ class Main(QMainWindow):
         stack_size_x = int(x / 75)
 
         stack_size_yy = int(y/1.35)
-        stack_size_xx = int(x / 2.7)
+        stack_size_xx = int(x / 2.65)
 
         self.centralwidget = QtWidgets.QWidget()
         self.centralwidget.setObjectName("centralWidget")
         self.stackedWidget = QtWidgets.QStackedWidget(self.centralwidget)
-        self.stackedWidget.setGeometry(QtCore.QRect(0, 50, stack_size_yy, stack_size_xx))
+        self.stackedWidget.setGeometry(QtCore.QRect(0, 68, stack_size_yy, stack_size_xx))
         self.stackedWidget.setObjectName("stackedWidget")
 
         print(stack_size_x,stack_size_y,stack_size_yy,stack_size_xx)
@@ -54,9 +54,24 @@ class Main(QMainWindow):
         pal = self.palette()
         # Если use 1-й аргумент, то цвет будет пропадать при переходе на др окно
         # pal.setColor(QtGui.QPalette.Window, QtGui.QColor(191, 245, 234))
-        pal.setColor(QtGui.QPalette.Window, QtGui.QColor(126, 204, 204))
+        pal.setColor(QtGui.QPalette.Window, QtGui.QColor(220, 254, 225))
         self.setPalette(pal)
 
+        # Кнопки Уставки и Калибровки
+        buttonUst = QToolButton()
+        buttonUst.setText('Уставки')
+        buttonCalibr = QToolButton()
+        buttonCalibr.setText('Калибровки')
+        # buttonAction1.clicked.connect()
+        # buttonAction2.clicked.connect()
+        buttonUst.setFont(font)
+        buttonCalibr.setFont(font)
+        buttonUst.setMaximumSize(QtCore.QSize(400, 50))
+        buttonCalibr.setMaximumSize(QtCore.QSize(400, 50))
+        buttonUst.setObjectName("buttonUst")
+        buttonCalibr.setObjectName("buttonCalibr")
+        buttonUst.setStyleSheet('background-color:rgb(153,173,232);')
+        buttonCalibr.setStyleSheet('background-color:rgb(153,173,232);')
 
         # Кнопки вкладки
         buttonUnit1 = QToolButton()
@@ -71,6 +86,9 @@ class Main(QMainWindow):
         buttonUnit1.setFont(font)
         buttonUnit2.setFont(font)
         buttonUnit3.setFont(font)
+        buttonUnit1.setStyleSheet('background-color:rgb(153,173,232);')
+        buttonUnit2.setStyleSheet('background-color:rgb(153,173,232);')
+        buttonUnit3.setStyleSheet('background-color:rgb(153,173,232);')
         # buttonUnit1.setGeometry(100,100,100,100)
         # buttonUnit2.setGeometry(100,100,100,100)
 
@@ -133,6 +151,9 @@ class Main(QMainWindow):
         buttonAction1.setObjectName("buttonAction1")
         buttonAction2.setObjectName("buttonAction2")
         buttonAction3.setObjectName("buttonAction3")
+        buttonAction1.setStyleSheet('background-color:rgb(255,240,157);')
+        buttonAction2.setStyleSheet('background-color:rgb(255,240,157);')
+        buttonAction3.setStyleSheet('background-color:rgb(255,240,157);')
 
 
         # self.mainWidget = QWidget(self.centralwidget)
@@ -140,11 +161,21 @@ class Main(QMainWindow):
         # self.mainWidget.setObjectName("mainWidget")
         self.vbox = QVBoxLayout()
         self.vbox.setContentsMargins(0,0, 0, 0)
+        self.vbox .setSpacing(0)
         # self.vbox.setGeometry(QtCore.QRect(250,330,200,100))
+
+        self.ustcalLayout = QHBoxLayout()
+        # self.actionLayout.setSizeConstraint(QtWidgets.QLayout.SetDefaultConstraint)
+        self.ustcalLayout.setContentsMargins(0, 0, 0, 0)
+        self.ustcalLayout .setSpacing(0)
+        self.ustcalLayout.setObjectName("ustcalLayout")
+        self.ustcalLayout.addWidget(buttonUst)
+        self.ustcalLayout.addWidget(buttonCalibr)
+
         self.mainLayout = QHBoxLayout()
         self.mainLayout.setSizeConstraint(QtWidgets.QLayout.SetDefaultConstraint)
-        self.mainLayout.setContentsMargins(0, 0, 0, 750)
-        self.mainLayout.setSpacing(0)
+        self.mainLayout.setContentsMargins(0, 0, 0, 730)
+        # self.mainLayout.setSpacing(0)
         self.mainLayout.setObjectName("mainLayout")
         self.mainLayout.addWidget(buttonUnit1)
         self.mainLayout.addWidget(buttonUnit2)
@@ -154,12 +185,13 @@ class Main(QMainWindow):
 
         self.actionLayout = QHBoxLayout()
         # self.actionLayout.setSizeConstraint(QtWidgets.QLayout.SetDefaultConstraint)
-        # self.actionLayout.setContentsMargins(0, 0, 0, 0)
+        self.actionLayout.setContentsMargins(0, 0, 0, 0)
         self.actionLayout.setSpacing(0)
         self.actionLayout.setObjectName("actionLayout")
         self.actionLayout.addWidget(buttonAction1)
         self.actionLayout.addWidget(buttonAction2)
         self.actionLayout.addWidget(buttonAction3)
+        self.vbox.addLayout(self.ustcalLayout)
         self.vbox.addLayout(self.mainLayout)
         self.vbox.addLayout(self.actionLayout)
 
