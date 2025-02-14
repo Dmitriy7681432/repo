@@ -14,28 +14,29 @@ class Unit(QWidget):
         # Шрифт
         font = QtGui.QFont()
         font.setFamily("Times New Roman")
-        font.setPointSize(14)
+        font.setPointSize(12)
         # font.setBold(True)
         # font.setWeight(75)
 
-        # self.centralwidget = centr
-        # self.centralwidget.setObjectName("centralWidget")
 
         # Порт
         self.page = QtWidgets.QWidget()
         self.page.setObjectName("page")
         self.page.setGeometry(QtCore.QRect(0,0,0,0))
 
+        # self.centralwidget = centr
+        # self.centralwidget(self.page)
+        # self.centralwidget.setObjectName("centralWidget")
         # self.horizontWidget = QtWidgets.QWidget(self.page)
         # self.horizontWidget.setGeometry(QtCore.QRect(20, 20, 210, 40))
         # self.horizontWidget.setObjectName("horizontWidget")
         self.horizontLayout = QtWidgets.QVBoxLayout(self.page)
         self.horizontLayout.setContentsMargins(0, 0, 0, 0)
         self.horizontLayout.setObjectName("horizontLayout")
+        # self.centralwidget.addLayout(self.horizontLayout)
         # self.horizontLayout.addStretch(1)
 
         # Таблица
-        model = QtGui.QStandardItemModel()
         lst1 = ['s_1','s_2','s_3',
                 's_1', 's_2', 's_3',
                 's_1', 's_2', 's_3',
@@ -90,46 +91,42 @@ class Unit(QWidget):
               564, 12.1, 120,
               564, 12.1, 120,
               ]
-        table = QtWidgets.QTableView()
-        for i in range(0,22):
-            item1 = QtGui.QStandardItem(lst1[i])
-            item2 = QtGui.QStandardItem(lst2[i])
-            item3 = QtGui.QStandardItem(str(lst3[i]))
-            model.appendRow([item1,item2,item3])
-        model.setHorizontalHeaderLabels(['Обозначение','Наименование','Значение'])
-        table.setModel(model)
-        table.setColumnWidth(0,140)
-        table.setColumnWidth(1,520)
-        table.setColumnWidth(2,120)
-        table.setFont(font)
 
-        # model1 = QtGui.QStandardItemModel()
-        for i in range(23,45):
-            item1 = QtGui.QStandardItem(lst1[i])
-            item2 = QtGui.QStandardItem(lst2[i])
-            item3 = QtGui.QStandardItem(str(lst3[i]))
-            model.appendRow([item1,item2,item3])
-        # model1.setHorizontalHeaderLabels(['Обозначение','Наименование','Значение'])
-        table1 = QtWidgets.QTableView()
-        table1.setModel(model)
-        table1.setColumnWidth(0,140)
-        table1.setColumnWidth(1,520)
-        table1.setColumnWidth(2,120)
-        table1.setFont(font)
-
+        count =0
+        data_tab =QtWidgets.QTabWidget()
+        for j in range(1,4):
+            model = QtGui.QStandardItemModel()
+            table = QtWidgets.QTableView()
+            for i in range(0+count,51):
+                item1 = QtGui.QStandardItem(lst1[i])
+                item2 = QtGui.QStandardItem(lst2[i])
+                item3 = QtGui.QStandardItem(str(lst3[i]))
+                item1.setTextAlignment(QtCore.Qt.AlignHCenter)
+                item3.setTextAlignment(QtCore.Qt.AlignHCenter)
+                model.appendRow([item1,item2,item3])
+                count +=1
+                if count ==22: break
+                if count == 44: break
+            model.setHorizontalHeaderLabels(['Обозначение','Наименование','Значение'])
+            table.setModel(model)
+            table.setColumnWidth(0, 140)
+            table.setColumnWidth(1, 500)
+            table.setColumnWidth(2, 154)
+            table.setFont(font)
+            table.verticalHeader().setVisible(False)
+            data_tab.addTab(table, f"Вкладка {j}")
 
 
         # Вкладки
-        data_tab =QtWidgets.QTabWidget()
-        data_tab.addTab(table, "Вкладка 1")
-        data_tab.addTab(table1, "Вкладка 2")
         # data_tab.insertTab(1,QtWidgets.QLabel('Таблица 1'),"Вкладка 2")
         # data_tab.addTab(QtWidgets.QLabel('Таблица 2'), "Калибровки")
         data_tab.setCurrentIndex(0)
-        data_tab.setDocumentMode(True)
+        # data_tab.setDocumentMode(True)
         # data_tab.tabBar().setStyleSheet('background-color:rgb(255,255,0);')
         data_tab.setStyleSheet('background-color:rgb(220,254,225);')
         self.horizontLayout.addWidget(data_tab)
+        self.horizontLayout.setAlignment(QtCore.Qt.AlignHCenter)
+        # self.horizontLayout.addWidget(table)
 
         return self.page
 
