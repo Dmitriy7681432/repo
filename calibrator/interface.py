@@ -35,7 +35,8 @@ class Main(QMainWindow):
 
         self.centralwidget = QtWidgets.QWidget()
         self.centralwidget.setObjectName("centralWidget")
-        self.stackedWidget = QtWidgets.QStackedWidget(self.centralwidget)
+        self.vbox = QVBoxLayout()
+        self.stackedWidget = QtWidgets.QStackedWidget()
         self.stackedWidget.setGeometry(QtCore.QRect(0, 68, stack_size_yy, stack_size_xx))
         self.stackedWidget.setObjectName("stackedWidget")
 
@@ -165,15 +166,14 @@ class Main(QMainWindow):
         # self.mainWidget = QWidget(self.centralwidget)
         # self.mainWidget.setGeometry(QtCore.QRect(20, 100, 711, 122))
         # self.mainWidget.setObjectName("mainWidget")
-        self.vbox = QVBoxLayout()
-        self.vbox.setContentsMargins(0,0, 0, 0)
-        self.vbox .setSpacing(0)
+        self.vbox.setContentsMargins(0,0,0, 0)
+        self.vbox.setSpacing(0)
         # self.vbox.setGeometry(QtCore.QRect(250,330,200,100))
 
         self.ustcalLayout = QHBoxLayout()
         # self.actionLayout.setSizeConstraint(QtWidgets.QLayout.SetDefaultConstraint)
         self.ustcalLayout.setContentsMargins(0, 0, 0, 0)
-        self.ustcalLayout .setSpacing(0)
+        self.ustcalLayout.setSpacing(0)
         self.ustcalLayout.setObjectName("ustcalLayout")
         self.ustcalLayout.addWidget(buttonUst)
         self.ustcalLayout.addWidget(buttonCalibr)
@@ -181,7 +181,7 @@ class Main(QMainWindow):
 
         self.mainLayout = QHBoxLayout()
         self.mainLayout.setSizeConstraint(QtWidgets.QLayout.SetDefaultConstraint)
-        self.mainLayout.setContentsMargins(0, 0, 0, 730)
+        self.mainLayout.setContentsMargins(0, 0, 0, 10)
         # self.mainLayout.setSpacing(0)
         self.mainLayout.setObjectName("mainLayout")
         self.mainLayout.addWidget(buttonUnit1)
@@ -189,6 +189,10 @@ class Main(QMainWindow):
         self.mainLayout.addWidget(buttonUnit3)
         # self.mainWidget.setGeometry(0,0,800,50)
         # self.mainLayout.setGeometry(QtCore.QRect(250,330,200,100))
+
+        self.stackLayout = QHBoxLayout()
+        self.stackLayout.addWidget(self.stackedWidget)
+        self.stackLayout.setContentsMargins(0, 0, 0, 25)
 
         self.actionLayout = QHBoxLayout()
         # self.actionLayout.setSizeConstraint(QtWidgets.QLayout.SetDefaultConstraint)
@@ -198,8 +202,10 @@ class Main(QMainWindow):
         self.actionLayout.addWidget(buttonAction1)
         self.actionLayout.addWidget(buttonAction2)
         self.actionLayout.addWidget(buttonAction3)
+
         self.vbox.addLayout(self.ustcalLayout)
         self.vbox.addLayout(self.mainLayout)
+        self.vbox.addLayout(self.stackLayout)
         self.vbox.addLayout(self.actionLayout)
 
         # Main()
@@ -207,6 +213,7 @@ class Main(QMainWindow):
         self.stackedWidget.addWidget(self.main)
         self.stackedWidget.addWidget(Unit2())
         self.stackedWidget.addWidget(Unit2())
+        # self.vbox.addWidget(self.stackedWidget)
 
 
         self.centralwidget.setLayout(self.vbox)
