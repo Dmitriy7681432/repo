@@ -9,8 +9,9 @@ class Unit(QWidget):
 
     def __init__(self):
         super().__init__()
+        self.initUI()
 
-    def initUI(self,centr):
+    def initUI(self):
         # Шрифт
         font = QtGui.QFont()
         font.setFamily("Times New Roman")
@@ -114,7 +115,7 @@ class Unit(QWidget):
             table.setColumnWidth(2, 154)
             table.setFont(font)
             table.verticalHeader().setVisible(False)
-            data_tab.addTab(table, f"Вкладка {j}")
+            data_tab.addTab(table,f"Вкладка {j}")
 
 
         # Вкладки
@@ -127,7 +128,7 @@ class Unit(QWidget):
         self.horizontLayout.addWidget(data_tab)
         self.horizontLayout.setAlignment(QtCore.Qt.AlignHCenter)
         # self.horizontLayout.addWidget(table)
-
+        print('Unit1')
         return self.page
 
 class Unit2(QWidget):
