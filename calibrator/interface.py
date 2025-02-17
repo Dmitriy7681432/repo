@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
-import sys
+import sys,serial
 from PyQt5.QtWidgets import (QWidget, QPushButton, QStackedWidget, QToolBar, QToolButton,
                              QHBoxLayout, QVBoxLayout, QApplication, QAction, QMainWindow)
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from unit_interface import Unit,Unit2
+from class_read_data import Connect,Calibrator
+from debug import printf
 
 
 class Main(QMainWindow):
@@ -227,9 +229,18 @@ class Main(QMainWindow):
         # Main()
         # self.main = Unit().initUI(self.vbox)
         # self.stackedWidget.addWidget(self.main)
-        self.stackedWidget.addWidget(Unit().initUI())
-        self.stackedWidget.addWidget(Unit2())
-        self.stackedWidget.addWidget(Unit2())
+
+        ser = Connect()
+        data_dict_bu400= Calibrator(ser.ser, 'SES200M', 'BU_400')
+        data_dict_bu50= Calibrator(ser.ser, 'SES200M', 'BU_50')
+        data_dict_buses= Calibrator(ser.ser, 'SES200M', 'BU_SES')
+
+        self.stackedWidget.addWidget(Unit(data_dict_bu400.data_dict,'preset','BU400'))
+        self.stackedWidget.addWidget(Unit(data_dict_bu50.data_dict,'preset','BU50'))
+        self.stackedWidget.addWidget(Unit(data_dict_buses.data_dict,'preset','BUSES'))
+        self.stackedWidget.addWidget(Unit(data_dict_bu400.data_dict,'calibr','BU400'))
+        self.stackedWidget.addWidget(Unit(data_dict_bu50.data_dict,'calibr','BU50'))
+        self.stackedWidget.addWidget(Unit(data_dict_buses.data_dict,'calibr','BUSES'))
         self.stackedWidget.setCurrentIndex(0)
         # self.vbox.addWidget(self.stackedWidget)
 
@@ -246,20 +257,29 @@ class Main(QMainWindow):
 
 
     def UnitWidget(self):
-        self.stackedWidget.setCurrentIndex(0)
+        if self.buttonCalibr.isChecked():
+            self.stackedWidget.setCurrentIndex(3)
+        else:
+            self.stackedWidget.setCurrentIndex(0)
         self.buttonUnit1.setCheckable(True)
         self.buttonUnit2.setChecked(False)
         self.buttonUnit3.setChecked(False)
 
     def UnitWidget2(self):
-        self.stackedWidget.setCurrentIndex(1)
+        if self.buttonCalibr.isChecked():
+            self.stackedWidget.setCurrentIndex(4)
+        else:
+            self.stackedWidget.setCurrentIndex(1)
         self.buttonUnit2.setCheckable(True)
         self.buttonUnit1.setChecked(False)
         self.buttonUnit3.setChecked(False)
         self.buttonUnit1.setDown(False)
 
     def UnitWidget3(self):
-        self.stackedWidget.setCurrentIndex(2)
+        if self.buttonCalibr.isChecked():
+            self.stackedWidget.setCurrentIndex(5)
+        else:
+            self.stackedWidget.setCurrentIndex(2)
         self.buttonUnit3.setCheckable(True)
         self.buttonUnit1.setChecked(False)
         self.buttonUnit2.setChecked(False)

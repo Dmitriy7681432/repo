@@ -6,7 +6,7 @@ from debug import printf
 
 
 class Connect(object):
-    ser = serial.Serial(port='COM88', baudrate=3000000, timeout=0.1)
+    ser = serial.Serial(port='COM15', baudrate=3000000, timeout=0.1)
 
     # def __init__(self):
     # Поиск устройства
@@ -360,5 +360,6 @@ class Calibrator(Connect):
 # cal = Calibrator('SES200M', 'BU_SES')
 ser = Connect()
 cal1 = Calibrator(ser.ser, 'SES200M', 'BU_50')
-cal1.main_data_read('r')
-cal1.main_data_read('w')
+# cal1.main_data_read('r')
+# cal1.main_data_read('w')
+printf(cal1.data_dict)

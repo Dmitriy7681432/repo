@@ -4,14 +4,16 @@ from PyQt5.QtWidgets import (QWidget, QPushButton, QStackedWidget,
                              QHBoxLayout, QVBoxLayout, QApplication, QAction, QMainWindow)
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from class_read_data import Connect,Calibrator
+from debug import printf
 
 class Unit(QWidget):
 
-    def __init__(self):
+    def __init__(self, data_dict,data, unit):
         super().__init__()
-        self.initUI()
+        self.initUI(data_dict,data,unit)
 
-    def initUI(self):
+    def initUI(self,data_dict, data,unit):
         # Шрифт
         font = QtGui.QFont()
         font.setFamily("Times New Roman")
@@ -93,21 +95,27 @@ class Unit(QWidget):
               564, 12.1, 120,
               ]
 
+        # for i in data_dict['preset'].items():
+        #     printf(i[1][0])
+        printf(data_dict[data].items())
+        printf(len(data_dict[data].items()))
+
+        len_data_dict =len(data_dict[data].items())
+
         count =0
         data_tab =QtWidgets.QTabWidget()
-        for j in range(1,4):
+        for j in range(1,len_data_dict):
             model = QtGui.QStandardItemModel()
             table = QtWidgets.QTableView()
-            for i in range(0+count,51):
-                item1 = QtGui.QStandardItem(lst1[i])
-                item2 = QtGui.QStandardItem(lst2[i])
-                item3 = QtGui.QStandardItem(str(lst3[i]))
+            for i in data_dict[data].items():
+                item1 = QtGui.QStandardItem(i[0])
+                item2 = QtGui.QStandardItem(i[1][0])
+                item3 = QtGui.QStandardItem(str(0))
                 item1.setTextAlignment(QtCore.Qt.AlignHCenter)
                 item3.setTextAlignment(QtCore.Qt.AlignHCenter)
                 model.appendRow([item1,item2,item3])
                 count +=1
                 if count ==22: break
-                if count == 44: break
             model.setHorizontalHeaderLabels(['Обозначение','Наименование','Значение'])
             table.setModel(model)
             table.setColumnWidth(0, 140)
@@ -116,6 +124,8 @@ class Unit(QWidget):
             table.setFont(font)
             table.verticalHeader().setVisible(False)
             data_tab.addTab(table,f"Вкладка {j}")
+            len_data_dict -=count
+            if len_data_dict <=0: break
 
 
         # Вкладки
@@ -128,6 +138,7 @@ class Unit(QWidget):
         self.horizontLayout.addWidget(data_tab)
         self.horizontLayout.setAlignment(QtCore.Qt.AlignHCenter)
         # self.horizontLayout.addWidget(table)
+        self.setLayout(self.horizontLayout)
         print('Unit1')
         return self.page
 
