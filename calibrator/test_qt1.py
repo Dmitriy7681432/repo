@@ -110,51 +110,82 @@
 # if __name__ == '__main__':
 #     main()
 
-import sys
-from PyQt5 import QtWidgets, uic  # Импортируем PyQt5
+# from PyQt5 import QtCore, QtWidgets, QtGui
+# import sys
+# from PyQt5.QtWidgets import QSpinBox
+# # Создаем класс делегата
+# class pinBoxDelegate(QtWidgets.QStyledItemDelegate):
+#     def createEditor(self, parent, options, index):
+#         # Создаем компонент-редактор, используемый для правки значений
+#         # количества позиций
+#         editor = QtWidgets.QSpinBox(parent)
+#         editor.setFrame(False)
+#         editor.setMinimum(0)
+#         editor.setSingleStep(1)
+#         return editor
+#     def setEditorData(self, editor, index):
+#         # Заносим в компонент-редактор значение количества
+#         value = int(index.model().data(index, QtCore.Qt.EditRole))
+#         editor.setValue(value)
+#     def updateEditorGeometry(self, editor, options, index):
+#         # Указьзаем размеры компонента-редактора
+#         editor.setGeometry(options.rect)
+#     def setModelData(self, editor, model, index):
+#         # Заносим исправленное значение количества в модель
+#         value = str(editor.value())
+#         model.setData(index, value, QtCore.Qt.EditRole)
+#
+# app = QtWidgets.QApplication(sys.argv)
+# window = QtWidgets.QTableView()
+# window.setWindowTitle("Использование делегата")
+# sti = QtGui.QStandardItemModel(parent=window)
+# lst1 = ['Дискета', 'Бумага для принтера', 'Барабан для принтера']
+# lst2 = ["10", "3", "8"]
+# for row in range(0, 3):
+#     item1 = QtGui.QStandardItem(lst1[row])
+#     item2 = QtGui.QStandardItem(lst2[row])
+#     sti.appendRow([item1, item2])
+# sti.setHorizontalHeaderLabels(['Товар', 'Кол-во'])
+# window.setModel(sti)
+# # Назначаем делегат второму столбцу таблицы
+# # window.setItemDelegateForColumn(1, SpinBoxDelegate())
+# window.setColumnWidth(0, 150)
+# window.resize(300, 150)
+# window.show()
+# sys.exit(app.exec_())
 
-class MainWindow(QtWidgets.QMainWindow):
+import sys
+from PyQt5.QtCore import *
+from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
+from PyQt5       import QtWidgets, QtGui, QtCore
+from PyQt5.QtGui import QBrush, QColor
+
+class Widget(QtWidgets.QWidget):
     def __init__(self):
         super().__init__()
-        # uic.loadUi('your_ui_file.ui', self) # Замените 'your_ui_file.ui' на имя вашего файла .ui
+        lay = QtWidgets.QVBoxLayout(self)
 
-        self.centralwidget = QtWidgets.QWidget(self)
-        # Создаем QStackedWidget
-        self.stacked_widget = QtWidgets.QStackedWidget(self.centralwidget) # self.centralwidget - это центральный виджет вашего главного окна. Если структура другая, поправьте.
-        self.stacked_widget.setGeometry(10, 10, 800, 600) # Установите геометрию по вашему ui файлу.
-        self.setCentralWidget(self.stacked_widget)
+        self.listView = QtWidgets.QListView()
+        self.label    = QtWidgets.QLabel("Please Select item in the QListView")
+        lay.addWidget(self.listView)
+        lay.addWidget(self.label)
 
-        # Создаем страницы (виджеты)
-        self.page1 = QtWidgets.QWidget()
-        self.page2 = QtWidgets.QWidget()
-        self.page3 = QtWidgets.QWidget()
+        model = QStringListModel()
+        textList = list()
+        textList = ["Itemname1", "Itemname2", "Itemname3", "Itemname4", "Itemname5", "Itemname6", "Itemname7", "Itemname8"]
+        model.setStringList(textList)
+        self.listView.setModel(model)
 
-        # Загружаем UI для каждой страницы (если используется)
-        # uic.loadUi('page1.ui', self.page1)
-        # uic.loadUi('page2.ui', self.page2)
-        # uic.loadUi('page3.ui', self.page3)
+        self.listView.clicked[QtCore.QModelIndex].connect(self.on_clicked)
 
-        # Добавляем страницы в QStackedWidget
-        self.stacked_widget.addWidget(self.page1)
-        self.stacked_widget.addWidget(self.page2)
-        self.stacked_widget.addWidget(self.page3)
+    def on_clicked(self, index):
+        item = self.listView.selectedIndexes()
+        print(item)
 
-        # Добавляем кнопки навигации (пример)
-        self.button1 = QtWidgets.QPushButton("Page 1", self)
-        self.button1.clicked.connect(lambda: self.stacked_widget.setCurrentIndex(0))
-        self.button2 = QtWidgets.QPushButton("Page 2", self)
-        self.button2.clicked.connect(lambda: self.stacked_widget.setCurrentIndex(1))
-        self.button3 = QtWidgets.QPushButton("Page 3", self)
-        self.button3.clicked.connect(lambda: self.stacked_widget.setCurrentIndex(2))
+if __name__ == '__main__':
 
-        # Расположите кнопки на вашем главном окне (в ui файле или программно).
-
-        # self.button1.move(10, 10) #Пример
-        # self.button2.move(10, 40)
-        # self.button3.move(10, 70)
-        self.show()
-
-if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
-    window = MainWindow()
+    w = Widget()
+    w.show()
     sys.exit(app.exec_())

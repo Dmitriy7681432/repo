@@ -47,30 +47,35 @@ class Unit(QWidget):
 
         len_data_dict =len(data_dict[data].items())
 
-        count =0
+        count =0; count1=0
         data_tab =QtWidgets.QTabWidget()
-        for j in range(1,len_data_dict):
-            model = QtGui.QStandardItemModel()
-            table = QtWidgets.QTableView()
-            for i in data_dict[data].items():
-                item1 = QtGui.QStandardItem(i[0])
-                item2 = QtGui.QStandardItem(i[1][0])
-                item3 = QtGui.QStandardItem(str(0))
-                item1.setTextAlignment(QtCore.Qt.AlignHCenter)
-                item3.setTextAlignment(QtCore.Qt.AlignHCenter)
-                model.appendRow([item1,item2,item3])
-                count +=1
-                if count ==22: break
-            model.setHorizontalHeaderLabels(['Обозначение','Наименование','Значение'])
-            table.setModel(model)
-            table.setColumnWidth(0, 140)
-            table.setColumnWidth(1, 500)
-            table.setColumnWidth(2, 154)
-            table.setFont(font)
-            table.verticalHeader().setVisible(False)
-            data_tab.addTab(table,f"Вкладка {j}")
-            len_data_dict -=count
-            if len_data_dict <=0: break
+        model = QtGui.QStandardItemModel()
+        table = QtWidgets.QTableView()
+        for i in data_dict[data].items():
+            item1 = QtGui.QStandardItem(i[0])
+            item2 = QtGui.QStandardItem(i[1][0])
+            item3 = QtGui.QStandardItem(str(0))
+            item1.setTextAlignment(QtCore.Qt.AlignHCenter)
+            item3.setTextAlignment(QtCore.Qt.AlignHCenter)
+            item1.setEditable(False)
+            item2.setEditable(False)
+            model.appendRow([item1,item2,item3])
+            count +=1
+            if count ==22 or count == len_data_dict:
+                model.setHorizontalHeaderLabels(['Обозначение','Наименование','Значение'])
+                table.setModel(model)
+                table.setColumnWidth(0, 140)
+                table.setColumnWidth(1, 500)
+                table.setColumnWidth(2, 154)
+                table.setRowHeight(0, 10)
+                table.setRowHeight(1, 10)
+                table.setFont(font)
+                table.verticalHeader().setVisible(False)
+                count1 +=1
+                data_tab.addTab(table,f"Вкладка {count1}")
+                model = QtGui.QStandardItemModel()
+                table = QtWidgets.QTableView()
+                count =0
 
 
         # Вкладки
@@ -87,7 +92,7 @@ class Unit(QWidget):
         print('Unit1')
         return self.page
 
-class Unit2(QWidget):
+class Param(QWidget):
 
     def __init__(self):
         super().__init__()
@@ -98,9 +103,9 @@ class Unit2(QWidget):
         # Шрифт
         font = QtGui.QFont()
         font.setFamily("Times New Roman")
-        font.setPointSize(14)
-        font.setBold(True)
-        font.setWeight(75)
+        font.setPointSize(10)
+        # font.setBold(True)
+        # font.setWeight(75)
 
         # self.centralwidget = centr
         # self.centralwidget.setObjectName("centralWidget")
@@ -120,9 +125,60 @@ class Unit2(QWidget):
         # self.horizontLayout.setContentsMargins(0, 0, 0, 0)
         # self.horizontLayout.setObjectName("horizontLayout")
 
+        self.centr_widget = QtWidgets.QWidget()
+        self.centr_widget.setGeometry(QtCore.QRect(500,500,500,500))
+
         data_tab =QtWidgets.QTabWidget()
-        data_tab.addTab(QtWidgets.QLabel('Таблица 2'), "Вкладка 1")
-        # data_tab.addTab(QtWidgets.QLabel('Таблица 4'), "Калибровки")
+        model = QtGui.QStandardItemModel()
+        table = QtWidgets.QTableView()
+        item1 = QtGui.QStandardItem('EA_F_U_A')
+        item2 = QtGui.QStandardItem('Частота')
+        item3 = QtGui.QStandardItem(str(0))
+        item1.setTextAlignment(QtCore.Qt.AlignHCenter)
+        item3.setTextAlignment(QtCore.Qt.AlignHCenter)
+        model.appendRow([item1, item2, item3])
+        # model.setHorizontalHeaderLabels(['Обозначение', 'Наименование', 'Значение'])
+        table.setModel(model)
+        table.setColumnWidth(0, 80)
+        table.setColumnWidth(1, 100)
+        table.setColumnWidth(2, 74)
+        table.setRowHeight(0,10)
+        table.setFont(font)
+        table.horizontalHeader().hide()
+        table.verticalHeader().hide()
+        table.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.widget = QtWidgets.QWidget(self.centr_widget)
+        self.widget.setContentsMargins(300,300,300,300)
+        # self.widget.setGeometry(QtCore.QRect(0,500,0,0))
+        self.vbox = QtWidgets.QVBoxLayout(self.widget)
+        self.vbox.addWidget(QtWidgets.QLabel('Таблица 1'))
+        self.vbox.addWidget(table)
+
+        model1 = QtGui.QStandardItemModel()
+        table1 = QtWidgets.QTableView()
+        item1 = QtGui.QStandardItem('N_I_B')
+        item2 = QtGui.QStandardItem('Ток')
+        item3 = QtGui.QStandardItem(str(0))
+        item1.setTextAlignment(QtCore.Qt.AlignHCenter)
+        item3.setTextAlignment(QtCore.Qt.AlignHCenter)
+        model1.appendRow([item1, item2, item3])
+        # model.setHorizontalHeaderLabels(['Обозначение', 'Наименование', 'Значение'])
+        table1.setModel(model1)
+        table1.setColumnWidth(0, 80)
+        table1.setColumnWidth(1, 100)
+        table1.setColumnWidth(2, 74)
+        table1.setRowHeight(0,10)
+        table1.setFont(font)
+        table1.horizontalHeader().hide()
+        table1.verticalHeader().hide()
+        table1.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+
+        self.widget1 = QtWidgets.QWidget(self.centr_widget)
+        self.vbox1 = QtWidgets.QVBoxLayout(self.widget1)
+        self.vbox1.addWidget(QtWidgets.QLabel('Таблица 2'))
+        self.vbox1.addWidget(table1)
+        data_tab.addTab(self.centr_widget, "Вкладка 1")
+
         data_tab.setCurrentIndex(0)
         self.horizontLayout.addWidget(data_tab)
         self.setLayout(self.horizontLayout)

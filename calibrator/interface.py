@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import (QWidget, QPushButton, QStackedWidget, QToolBar, QTo
                              QHBoxLayout, QVBoxLayout, QApplication, QAction, QMainWindow)
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from unit_interface import Unit,Unit2
+from unit_interface import Unit,Param
 from class_read_data import Connect,Calibrator
 from debug import printf
 
@@ -241,6 +241,7 @@ class Main(QMainWindow):
         self.stackedWidget.addWidget(Unit(data_dict_bu400.data_dict,'calibr','BU400'))
         self.stackedWidget.addWidget(Unit(data_dict_bu50.data_dict,'calibr','BU50'))
         self.stackedWidget.addWidget(Unit(data_dict_buses.data_dict,'calibr','BUSES'))
+        self.stackedWidget.addWidget(Param())
         self.stackedWidget.setCurrentIndex(0)
         # self.vbox.addWidget(self.stackedWidget)
 
@@ -288,10 +289,12 @@ class Main(QMainWindow):
     def UstWidget(self):
         if self.buttonUnit1.isChecked():
             self.stackedWidget.setCurrentIndex(0)
-        if self.buttonUnit2.isChecked():
+        elif self.buttonUnit2.isChecked():
             self.stackedWidget.setCurrentIndex(1)
-        if self.buttonUnit3.isChecked():
+        elif self.buttonUnit3.isChecked():
             self.stackedWidget.setCurrentIndex(2)
+        else:
+            self.stackedWidget.setCurrentIndex(0)
         self.buttonUst.setCheckable(True)
         self.buttonCalibr.setChecked(False)
         self.buttonPar.setChecked(False)
@@ -299,60 +302,25 @@ class Main(QMainWindow):
     def CalibrWidget(self):
         if self.buttonUnit1.isChecked():
             self.stackedWidget.setCurrentIndex(3)
-        if self.buttonUnit2.isChecked():
+        elif self.buttonUnit2.isChecked():
             self.stackedWidget.setCurrentIndex(4)
-        if self.buttonUnit3.isChecked():
+        elif self.buttonUnit3.isChecked():
             self.stackedWidget.setCurrentIndex(5)
+        else:
+            self.stackedWidget.setCurrentIndex(3)
         self.buttonCalibr.setCheckable(True)
         self.buttonUst.setChecked(False)
         self.buttonPar.setChecked(False)
         self.buttonUst.setDown(False)
 
     def ParWidget(self):
-        # self.stackedWidget.setCurrentIndex(2)
+        self.stackedWidget.setCurrentIndex(6)
         self.buttonPar.setCheckable(True)
         self.buttonUst.setChecked(False)
         self.buttonCalibr.setChecked(False)
         self.buttonUst.setDown(False)
 
 
-# class Unit(QWidget):
-#
-#     def __init__(self):
-#         super().__init__()
-#
-#     def initUI(self,centr):
-#         # Шрифт
-#         font = QtGui.QFont()
-#         font.setFamily("Times New Roman")
-#         font.setPointSize(14)
-#         font.setBold(True)
-#         font.setWeight(75)
-#
-#         self.centralwidget = centr
-#         self.centralwidget.setObjectName("centralWidget")
-#
-#         # Порт
-#         self.page = QtWidgets.QWidget()
-#         self.page.setObjectName("page")
-#         # self.page.setGeometry(QtCore.QRect(300,300,300,300))
-#
-#         self.horizontWidget = QtWidgets.QWidget(self.page)
-#         self.horizontWidget.setGeometry(QtCore.QRect(20, 20, 210, 40))
-#         self.horizontWidget.setObjectName("horizontWidget")
-#         self.horizontLayout = QtWidgets.QHBoxLayout(self.horizontWidget)
-#         self.horizontLayout.setContentsMargins(0, 0, 0, 0)
-#         self.horizontLayout.setObjectName("horizontLayout")
-#         # self.horizontLayout.addStretch(1)
-#         self.horizontLayout.setContentsMargins(0, 0, 0, 0)
-#         self.horizontLayout.setObjectName("horizontLayout")
-#
-#         data_tab =QtWidgets.QTabWidget(self.horizontWidget)
-#         data_tab.addTab(QtWidgets.QLabel('Таблица 1'), "Уставки")
-#         data_tab.addTab(QtWidgets.QLabel('Таблица 2'), "Калибровки")
-#         data_tab.setCurrentIndex(0)
-#         self.horizontLayout.addWidget(data_tab)
-#         return self.page
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
