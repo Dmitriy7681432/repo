@@ -154,38 +154,65 @@
 # window.show()
 # sys.exit(app.exec_())
 
-import sys
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
-from PyQt5       import QtWidgets, QtGui, QtCore
-from PyQt5.QtGui import QBrush, QColor
+# import sys
+# from PyQt5.QtCore import *
+# from PyQt5.QtGui import *
+# from PyQt5.QtWidgets import *
+# from PyQt5       import QtWidgets, QtGui, QtCore
+# from PyQt5.QtGui import QBrush, QColor
+#
+# class Widget(QtWidgets.QWidget):
+#     def __init__(self):
+#         super().__init__()
+#         lay = QtWidgets.QVBoxLayout(self)
+#
+#         self.listView = QtWidgets.QListView()
+#         self.label    = QtWidgets.QLabel("Please Select item in the QListView")
+#         lay.addWidget(self.listView)
+#         lay.addWidget(self.label)
+#
+#         model = QStringListModel()
+#         textList = list()
+#         textList = ["Itemname1", "Itemname2", "Itemname3", "Itemname4", "Itemname5", "Itemname6", "Itemname7", "Itemname8"]
+#         model.setStringList(textList)
+#         self.listView.setModel(model)
+#
+#         self.listView.clicked[QtCore.QModelIndex].connect(self.on_clicked)
+#
+#     def on_clicked(self, index):
+#         item = self.listView.selectedIndexes()
+#         print(item)
+#
+# if __name__ == '__main__':
+#
+#     app = QtWidgets.QApplication(sys.argv)
+#     w = Widget()
+#     w.show()
+#     sys.exit(app.exec_())
 
-class Widget(QtWidgets.QWidget):
+
+from PyQt5 import Qt
+
+
+class W(Qt.QMainWindow):
     def __init__(self):
         super().__init__()
-        lay = QtWidgets.QVBoxLayout(self)
+        self.table = Qt.QTableWidget(3, 1)
+        self.table.itemChanged.connect(self.on_item)
+        self.setCentralWidget(self.table)
 
-        self.listView = QtWidgets.QListView()
-        self.label    = QtWidgets.QLabel("Please Select item in the QListView")
-        lay.addWidget(self.listView)
-        lay.addWidget(self.label)
+    def on_item(self):
+        item = self.table.currentItem()
+        try:
+            n = float(item.text())
+            self.statusBar().showMessage('OK')
+        except:
+            item.setText('')
+            self.statusBar().showMessage('ERROR')
 
-        model = QStringListModel()
-        textList = list()
-        textList = ["Itemname1", "Itemname2", "Itemname3", "Itemname4", "Itemname5", "Itemname6", "Itemname7", "Itemname8"]
-        model.setStringList(textList)
-        self.listView.setModel(model)
 
-        self.listView.clicked[QtCore.QModelIndex].connect(self.on_clicked)
-
-    def on_clicked(self, index):
-        item = self.listView.selectedIndexes()
-        print(item)
-
-if __name__ == '__main__':
-
-    app = QtWidgets.QApplication(sys.argv)
-    w = Widget()
+if __name__ == "__main__":
+    app = Qt.QApplication([])
+    w = W()
     w.show()
-    sys.exit(app.exec_())
+    app.exec_()

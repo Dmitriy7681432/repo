@@ -59,16 +59,19 @@ class Unit(QWidget):
             item3.setTextAlignment(QtCore.Qt.AlignHCenter)
             item1.setEditable(False)
             item2.setEditable(False)
+            item3.setBackground(QtGui.QBrush(QtGui.QColor(255, 255, 255)))
+            item1.setSelectable(False)
+            item2.setSelectable(False)
+            item3.setSelectable(False)
             model.appendRow([item1,item2,item3])
+            table.setModel(model)
+            table.setRowHeight(count, 12)
             count +=1
-            if count ==22 or count == len_data_dict:
+            if count ==34 or count == len_data_dict:
                 model.setHorizontalHeaderLabels(['Обозначение','Наименование','Значение'])
-                table.setModel(model)
-                table.setColumnWidth(0, 140)
-                table.setColumnWidth(1, 500)
+                table.setColumnWidth(0, 190)
+                table.setColumnWidth(1, 450)
                 table.setColumnWidth(2, 154)
-                table.setRowHeight(0, 10)
-                table.setRowHeight(1, 10)
                 table.setFont(font)
                 table.verticalHeader().setVisible(False)
                 count1 +=1
@@ -76,7 +79,9 @@ class Unit(QWidget):
                 model = QtGui.QStandardItemModel()
                 table = QtWidgets.QTableView()
                 count =0
-
+        # table.horizontalHeader().sect
+        table.clicked.connect(self.changedValue)
+        model.itemChanged.connect(self.on_click)
 
         # Вкладки
         # data_tab.insertTab(1,QtWidgets.QLabel('Таблица 1'),"Вкладка 2")
@@ -84,13 +89,27 @@ class Unit(QWidget):
         data_tab.setCurrentIndex(0)
         # data_tab.setDocumentMode(True)
         # data_tab.tabBar().setStyleSheet('background-color:rgb(255,255,0);')
-        data_tab.setStyleSheet('background-color:rgb(220,254,225);')
+        data_tab.setStyleSheet('background-color:rgb(220,254,225);')\
+                               # gridline-color:gray;')
         self.horizontLayout.addWidget(data_tab)
         self.horizontLayout.setAlignment(QtCore.Qt.AlignHCenter)
         # self.horizontLayout.addWidget(table)
         self.setLayout(self.horizontLayout)
         print('Unit1')
+
         return self.page
+
+    def on_click(self, value):
+        if value.text().isdigit():
+            print('Data', value.text(), value.row())
+        else:
+            self.item3.setChild(value.row(), value.column(), self.item3.setText(self.checkValue))
+
+
+    def changedValue(self, data):
+        self.checkValue = data.data()
+        printf('SELECT', data.row(), data.column(), data.data())
+
 
 class Param(QWidget):
 
@@ -139,16 +158,19 @@ class Param(QWidget):
         model.appendRow([item1, item2, item3])
         # model.setHorizontalHeaderLabels(['Обозначение', 'Наименование', 'Значение'])
         table.setModel(model)
+        table.setRowHeight(0,10)
         table.setColumnWidth(0, 80)
         table.setColumnWidth(1, 100)
         table.setColumnWidth(2, 74)
-        table.setRowHeight(0,10)
         table.setFont(font)
         table.horizontalHeader().hide()
         table.verticalHeader().hide()
         table.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        data_tab.setStyleSheet('background-color:rgb(220,254,225);')
+        table.setStyleSheet('background-color:rgb(255,255,255);')
         self.widget = QtWidgets.QWidget(self.centr_widget)
-        self.widget.setContentsMargins(300,300,300,300)
+        self.widget.setContentsMargins(400,0,0,0)
+        self.widget.setGeometry(0,0,750,230)
         # self.widget.setGeometry(QtCore.QRect(0,500,0,0))
         self.vbox = QtWidgets.QVBoxLayout(self.widget)
         self.vbox.addWidget(QtWidgets.QLabel('Таблица 1'))
@@ -156,12 +178,14 @@ class Param(QWidget):
 
         model1 = QtGui.QStandardItemModel()
         table1 = QtWidgets.QTableView()
-        item1 = QtGui.QStandardItem('N_I_B')
-        item2 = QtGui.QStandardItem('Ток')
-        item3 = QtGui.QStandardItem(str(0))
-        item1.setTextAlignment(QtCore.Qt.AlignHCenter)
-        item3.setTextAlignment(QtCore.Qt.AlignHCenter)
-        model1.appendRow([item1, item2, item3])
+        for i in range (1,3):
+            item1 = QtGui.QStandardItem(f'N_I_B{i}')
+            item2 = QtGui.QStandardItem(f'Ток{i}')
+            self.item3 = QtGui.QStandardItem(str(i))
+            item1.setTextAlignment(QtCore.Qt.AlignHCenter)
+            item3.setTextAlignment(QtCore.Qt.AlignHCenter)
+            self.item3.setBackground(QtGui.QBrush(QtGui.QColor(255,255,9)))
+            model1.appendRow([item1, item2, self.item3])
         # model.setHorizontalHeaderLabels(['Обозначение', 'Наименование', 'Значение'])
         table1.setModel(model1)
         table1.setColumnWidth(0, 80)
@@ -171,7 +195,8 @@ class Param(QWidget):
         table1.setFont(font)
         table1.horizontalHeader().hide()
         table1.verticalHeader().hide()
-        table1.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        # table1.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        # table1.setGridStyle(0)
 
         self.widget1 = QtWidgets.QWidget(self.centr_widget)
         self.vbox1 = QtWidgets.QVBoxLayout(self.widget1)
@@ -180,6 +205,21 @@ class Param(QWidget):
         data_tab.addTab(self.centr_widget, "Вкладка 1")
 
         data_tab.setCurrentIndex(0)
+        data_tab.setStyleSheet('background-color:rgb(220,254,225);')\
+                               #gridline-color:black;')
+        table1.setStyleSheet('background-color:rgb(255,255,255);')
         self.horizontLayout.addWidget(data_tab)
+
+        table1.clicked.connect(self.selectRow)
+        model1.itemChanged.connect(self.on1_click)
         self.setLayout(self.horizontLayout)
         print('Unit2')
+
+    def on1_click(self,value):
+        if value.text().isdigit():
+            print('Data',value.text(),value.row())
+        else:
+            self.item3.setChild(value.row(),value.column(),self.item3.setText(self.checkValue))
+    def selectRow(self,data):
+        self.checkValue = data.data()
+        printf('SELECT',data.row(),data.column(),data.data())
