@@ -162,6 +162,7 @@ class Main(QMainWindow):
         self.buttonAction1.setText('Считать')
         self.buttonAction2 = QToolButton()
         self.buttonAction2.setText('Записать')
+        self.buttonAction2.setEnabled(False)
         self.buttonAction3 = QToolButton()
         self.buttonAction3.setText('Сохранить')
         # buttonAction1.clicked.connect()
@@ -258,6 +259,7 @@ class Main(QMainWindow):
 
 
     def UnitWidget(self):
+        printf('BU400')
         if self.buttonCalibr.isChecked():
             self.stackedWidget.setCurrentIndex(3)
         else:

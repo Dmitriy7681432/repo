@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
-import serial.tools.list_ports
-ports = serial.tools.list_ports.comports()
-
-for port in ports:
-    print(port.device)
-
-import serial
-
-port = "COM88"  # Replace with the appropriate COM port name
-baudrate = 3000000# Replace with the desired baud rate
-
-ser = serial.Serial(port, baudrate=baudrate,stopbits=serial.STOPBITS_ONE,bytesize=serial.EIGHTBITS)
-print(ser.isOpen())
+# import serial.tools.list_ports
+# ports = serial.tools.list_ports.comports()
+#
+# for port in ports:
+#     print(port.device)
+#
+# import serial
+#
+# port = "COM88"  # Replace with the appropriate COM port name
+# baudrate = 3000000# Replace with the desired baud rate
+#
+# ser = serial.Serial(port, baudrate=baudrate,stopbits=serial.STOPBITS_ONE,bytesize=serial.EIGHTBITS)
+# print(ser.isOpen())
 
 # Perform operations on the COM port
 
@@ -45,8 +45,8 @@ print(ser.isOpen())
 # print(data)
 # ser.close()  # Remember to close the connection when done
 
-msg = b"C\r"
-ser.write(msg)
+# msg = b"C\r"
+# ser.write(msg)
 
 
 
@@ -61,10 +61,10 @@ ser.write(msg)
 
 #
 # print(package)
-import can
-# bus = can.interfaces.slcan.slcanBus('COM80',ttyBaudrate=9600)
-import can
-import time
+# import can
+# # bus = can.interfaces.slcan.slcanBus('COM80',ttyBaudrate=9600)
+# import can
+# import time
 
 # Configuration for the SLCAN device
 # slcan_device = 'COM88'
@@ -117,3 +117,9 @@ import struct
 # a = msg.decode('utf-8')
 # print(a)
 
+
+a = '0.0'
+b = '0'
+
+if '.' in b:
+    print('Yes')

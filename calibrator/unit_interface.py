@@ -56,7 +56,13 @@ class Unit(QWidget):
 
             item1 = QtGui.QStandardItem(i[0])
             item2 = QtGui.QStandardItem(i[1][0])
-            self.item3 = QtGui.QStandardItem(str(0))
+            if data == 'preset':
+                if i[1][1] == 'int':
+                    self.item3 = QtGui.QStandardItem(str(0))
+                else:
+                    self.item3 = QtGui.QStandardItem(str(0.0))
+            else:
+                self.item3 = QtGui.QStandardItem(str(0.0))
 
             item1.setTextAlignment(QtCore.Qt.AlignHCenter)
             self.item3.setTextAlignment(QtCore.Qt.AlignHCenter)
@@ -88,11 +94,12 @@ class Unit(QWidget):
                 table = QtWidgets.QTableView()
 
         self.index_data_tab = self.data_tab.currentIndex()
-
-        self.lst_table[self.index_data_tab].clicked.connect(self.selectRow)
-        self.lst_model[self.index_data_tab].itemChanged.connect(self.changedValue)
+        for i in range(0,self.data_tab.count()):
+            self.lst_table[i].clicked.connect(self.selectRow)
+            self.lst_model[i].itemChanged.connect(self.changedValue)
+            self.lst_table[i].entered.connect(self.pressedValue)
+            # self.lst_model[i].intered.connect(self.presedValue)
         self.data_tab.currentChanged.connect(self.selectDataTab)
-
         printf(self.lst_model[0].item(0,0).text())
         printf(self.lst_model)
 
@@ -108,11 +115,15 @@ class Unit(QWidget):
         # return self.page
 
     def changedValue(self, value):
-        printf(self.index_data_tab)
+        printf(value.text())
+        printf(type(value.text()),type(self.checkValue))
         item = self.lst_model[self.index_data_tab].item(value.row(), value.column())
-        if value.text().isdigit():
-            printf('Data', value.text(), value.row())
+        if not value.text().isalpha() and '.' in self.checkValue and '.' in value.text():
+            printf('Data_float', value.text(), value.row())
             item.setBackground(QtGui.QBrush(QtGui.QColor(255,255,9)))
+        elif value.text().isdigit() and (not '.' in self.checkValue and not '.' in value.text()):
+            printf('Data_int', value.text(), value.row())
+            item.setBackground(QtGui.QBrush(QtGui.QColor(255, 255, 9)))
         else:
             printf('CHANGE',value.row(),value.column(),self.checkValue)
             item.setChild(value.row(),value.column(), item.setText(self.checkValue))
@@ -125,6 +136,9 @@ class Unit(QWidget):
 
     def selectDataTab(self,index):
         self.index_data_tab = index
+
+    def pressedValue(self,value):
+        printf(value.data())
 
 class Param(QWidget):
 
