@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import sys
+import sys,re
 from PyQt5.QtWidgets import (QWidget, QPushButton, QStackedWidget,
                              QHBoxLayout, QVBoxLayout, QApplication, QAction, QMainWindow)
 
@@ -78,7 +78,7 @@ class Unit(QWidget):
             table.setRowHeight(count, 12)
             count +=1
             count2 +=1
-            if count ==34 or count == len_data_dict:
+            if count ==34 or count2 == len_data_dict:
                 table.setColumnWidth(0, 190)
                 table.setColumnWidth(1, 450)
                 table.setColumnWidth(2, 154)
@@ -114,19 +114,22 @@ class Unit(QWidget):
 
         # return self.page
 
+    def is_valid_email(self,data):
+        return re.match('^[0-9]*[.][0-9]+$', data) is not None
+
     def changedValue(self, value):
-        printf(value.text())
-        printf(type(value.text()),type(self.checkValue))
-        item = self.lst_model[self.index_data_tab].item(value.row(), value.column())
-        if not value.text().isalpha() and '.' in self.checkValue and '.' in value.text():
-            printf('Data_float', value.text(), value.row())
-            item.setBackground(QtGui.QBrush(QtGui.QColor(255,255,9)))
-        elif value.text().isdigit() and (not '.' in self.checkValue and not '.' in value.text()):
-            printf('Data_int', value.text(), value.row())
-            item.setBackground(QtGui.QBrush(QtGui.QColor(255, 255, 9)))
-        else:
-            printf('CHANGE',value.row(),value.column(),self.checkValue)
-            item.setChild(value.row(),value.column(), item.setText(self.checkValue))
+        if self.readData_flag ==0:
+            item = self.lst_model[self.index_data_tab].item(value.row(), value.column())
+            # if not value.text().isalpha() and '.' in self.checkValue and '.' in value.text():
+            if self.is_valid_email(self.checkValue) and self.is_valid_email(value.text()):
+                printf('Data_float', value.text(), value.row())
+                item.setBackground(QtGui.QBrush(QtGui.QColor(255,255,9)))
+            elif value.text().isdigit() and (not '.' in self.checkValue and not '.' in value.text()):
+                printf('Data_int', value.text(), value.row())
+                item.setBackground(QtGui.QBrush(QtGui.QColor(255, 255, 9)))
+            else:
+                printf('CHANGE',value.row(),value.column(),self.checkValue)
+                item.setChild(value.row(),value.column(), item.setText(self.checkValue))
 
 
     def selectRow(self, data):
@@ -139,6 +142,45 @@ class Unit(QWidget):
 
     def pressedValue(self,value):
         printf(value.data())
+
+    def readData(self,data_dict,data):
+        self.readData_flag =1
+        # self.lst_model[0].itemChanged.disconnect()
+        count =0;count1 =0;num=0
+        cnt_row = self.lst_model[0].rowCount()
+        printf(cnt_row)
+        # for i in self.data_tab.count():
+        for i in data_dict[data].items():
+            item = self.lst_model[num].item(count, 2)
+            if data =='preset':
+                self.checkValue = str(i[1][2])
+                item.setChild(count, 2, item.setText(str(i[1][2])))
+            else:
+                self.checkValue = str(i[1][1])
+                item.setChild(count, 2, item.setText(str(i[1][1])))
+            count+=1
+            if count == cnt_row:
+                count =0
+                count1+=1
+                num+=1
+                if count1 == self.data_tab.count():
+                    self.readData_flag = 0
+                    return 0
+                    # printf(num)
+                    # item = self.lst_model[num].item(count, 2)
+                # else: printf(data_dict); return 0
+        self.readData_flag = 0
+
+        # printf(data_dict)
+    def writeData(self,data_dict,data):
+        # for i in range(0,self.data_tab.count()):
+        #     for j in range(0, self.lst_model[0].rowCount()):
+        #         item = self.lst_model[self.index_data_tab].item(j, 2)
+        #         data_dict[data].items()[1][2] =
+
+        dt = data_dict[data].keys()
+        print(dt)
+
 
 class Param(QWidget):
 

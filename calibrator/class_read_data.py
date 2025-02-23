@@ -6,7 +6,8 @@ from debug import printf
 
 
 class Connect(object):
-    ser = serial.Serial(port='COM15', baudrate=3000000, timeout=0.1)
+    # ser = serial.Serial(port='COM15', baudrate=3000000, timeout=0.1)
+    ser = serial.Serial()
 
     # def __init__(self):
     # Поиск устройства
@@ -355,6 +356,21 @@ class Calibrator(Connect):
         printf(self.data_dict)
         printf(self.header_data_dict)
         return 'End main_data_read'
+    def test_data_dict(self,data):
+        count =0
+        for i in self.data_dict[data].items():
+            count+=1
+            if data =='preset':
+                if i[1][1] =='float':
+                    count =float(count)
+                else:
+                    count = int(count)
+                i[1].append(count)
+            else:
+                i[1].append(float(count))
+        return self.data_dict
+        # printf(self.data_dict[data].items())
+
 
 
 # cal = Calibrator('SES200M', 'BU_SES')

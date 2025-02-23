@@ -9,9 +9,11 @@ from class_read_data import Connect,Calibrator
 from debug import printf
 
 
-class Main(QMainWindow):
+class Main():
     def __init__(self):
         super().__init__()
+
+        self.main = QMainWindow()
 
         #Шрифт
         font = QtGui.QFont()
@@ -47,18 +49,18 @@ class Main(QMainWindow):
         # self.centralwidget.setGeometry(0,0,768,50)
 
         # Вычисляем размер экрана
-        self.resize(x_size_desktop, y_size_desktop)
+        self.main.resize(x_size_desktop, y_size_desktop)
         # Вывод окна по центру
-        x_ = (desktop.width() - self.frameSize().width()) // 2
-        y_ = (desktop.height() - self.frameSize().height()) // 2
-        self.move(x_, y_)
+        x_ = (desktop.width() - self.main.frameSize().width()) // 2
+        y_ = (desktop.height() - self.main.frameSize().height()) // 2
+        self.main.move(x_, y_)
 
         # Цветовой фон
-        pal = self.palette()
+        pal = self.main.palette()
         # Если use 1-й аргумент, то цвет будет пропадать при переходе на др окно
         # pal.setColor(QtGui.QPalette.Window, QtGui.QColor(191, 245, 234))
         pal.setColor(QtGui.QPalette.Window, QtGui.QColor(220, 254, 225))
-        self.setPalette(pal)
+        self.main.setPalette(pal)
 
         # Кнопки Уставки и Калибровки
         self.buttonUst = QToolButton()
@@ -232,30 +234,52 @@ class Main(QMainWindow):
         # self.stackedWidget.addWidget(self.main)
 
         ser = Connect()
-        data_dict_bu400= Calibrator(ser.ser, 'SES200M', 'BU_400')
-        data_dict_bu50= Calibrator(ser.ser, 'SES200M', 'BU_50')
-        data_dict_buses= Calibrator(ser.ser, 'SES200M', 'BU_SES')
+        self.data_dict_bu400= Calibrator(ser.ser, 'SES200M', 'BU_400')
+        self.data_dict_bu50= Calibrator(ser.ser, 'SES200M', 'BU_50')
+        self.data_dict_buses= Calibrator(ser.ser, 'SES200M', 'BU_SES')
 
-        self.stackedWidget.addWidget(Unit(data_dict_bu400.data_dict,'preset','BU400'))
-        self.stackedWidget.addWidget(Unit(data_dict_bu50.data_dict,'preset','BU50'))
-        self.stackedWidget.addWidget(Unit(data_dict_buses.data_dict,'preset','BUSES'))
-        self.stackedWidget.addWidget(Unit(data_dict_bu400.data_dict,'calibr','BU400'))
-        self.stackedWidget.addWidget(Unit(data_dict_bu50.data_dict,'calibr','BU50'))
-        self.stackedWidget.addWidget(Unit(data_dict_buses.data_dict,'calibr','BUSES'))
-        self.stackedWidget.addWidget(Param())
+        self.unit_bu400_preset = Unit(self.data_dict_bu400.data_dict, 'preset', 'BU400')
+        self.unit_bu50_preset = Unit(self.data_dict_bu50.data_dict, 'preset', 'BU50')
+        self.unit_buses_preset = Unit(self.data_dict_buses.data_dict, 'preset', 'BUSES')
+        self.unit_bu400_calibr = Unit(self.data_dict_bu400.data_dict, 'calibr', 'BU400')
+        self.unit_bu50_calibr = Unit(self.data_dict_bu50.data_dict, 'calibr', 'BU50')
+        self.unit_buses_calibr = Unit(self.data_dict_buses.data_dict, 'calibr', 'BUSES')
+        self.param = Param()
+
+        self.stackedWidget.addWidget(self.unit_bu400_preset)
+        self.stackedWidget.addWidget(self.unit_bu50_preset)
+        self.stackedWidget.addWidget(self.unit_buses_preset)
+        self.stackedWidget.addWidget(self.unit_bu400_calibr)
+        self.stackedWidget.addWidget(self.unit_bu50_calibr)
+        self.stackedWidget.addWidget(self.unit_buses_calibr)
+        self.stackedWidget.addWidget(self.param)
         self.stackedWidget.setCurrentIndex(0)
         # self.vbox.addWidget(self.stackedWidget)
 
+        # self.buttonAction1.clicked.connect(lambda: self.readData_bu400(self.data_dict_bu400))
+        # self.buttonAction1.clicked.connect(lambda: self.readData_bu50(self.data_dict_buses))
+        # self.buttonAction1.clicked.connect(lambda: self.readData_buses(self.data_dict_bu50))
+
+        self.buttonAction1.clicked.connect(self.readData_bu400)
+        self.buttonAction1.clicked.connect(self.readData_bu50)
+        self.buttonAction1.clicked.connect(self.readData_buses)
+        self.buttonAction2.clicked.connect(self.writeData_bu400)
+        # self.buttonAction2.clicked.connect(self.readData_bu50)
+        # self.buttonAction2.clicked.connect(self.readData_buses)
+
+        self.readData_bu400_flag = 0
+        self.readData_bu50_flag = 0
+        self.readData_buses_flag = 0
 
         self.centralwidget.setLayout(self.vbox)
         # self.centralwidget.setLayout(self.actionLayout)
 
-        self.setCentralWidget(self.centralwidget)
+        self.main.setCentralWidget(self.centralwidget)
 
         # self.setCentralWidget(self.centralwidget)
-        self.setObjectName("MainWindow")
-        self.setWindowTitle('Calibrator')
-        self.show()
+        self.main.setObjectName("MainWindow")
+        self.main.setWindowTitle('Calibrator')
+        self.main.show()
 
 
     def UnitWidget(self):
@@ -267,6 +291,8 @@ class Main(QMainWindow):
         self.buttonUnit1.setCheckable(True)
         self.buttonUnit2.setChecked(False)
         self.buttonUnit3.setChecked(False)
+        if self.readData_bu400_flag ==0:
+            self.buttonAction2.setEnabled(False)
 
     def UnitWidget2(self):
         if self.buttonCalibr.isChecked():
@@ -277,6 +303,8 @@ class Main(QMainWindow):
         self.buttonUnit1.setChecked(False)
         self.buttonUnit3.setChecked(False)
         self.buttonUnit1.setDown(False)
+        if self.readData_bu50_flag ==0:
+            self.buttonAction2.setEnabled(False)
 
     def UnitWidget3(self):
         if self.buttonCalibr.isChecked():
@@ -287,6 +315,8 @@ class Main(QMainWindow):
         self.buttonUnit1.setChecked(False)
         self.buttonUnit2.setChecked(False)
         self.buttonUnit1.setDown(False)
+        if self.readData_buses_flag ==0:
+            self.buttonAction2.setEnabled(False)
 
     def UstWidget(self):
         if self.buttonUnit1.isChecked():
@@ -322,6 +352,42 @@ class Main(QMainWindow):
         self.buttonCalibr.setChecked(False)
         self.buttonUst.setDown(False)
 
+    def readData_bu400(self):
+        # printf('readData_bu400',self.buttonUnit1.isChecked())
+        if not self.buttonUnit2.isChecked() and not self.buttonUnit2.isChecked():
+            self.read_data_dict_bu400 = self.data_dict_bu400.test_data_dict('preset')
+            self.read_data_dict_bu400 = self.data_dict_bu400.test_data_dict('calibr')
+            self.unit_bu400_preset.readData(self.read_data_dict_bu400,'preset')
+            self.unit_bu400_calibr.readData(self.read_data_dict_bu400,'calibr')
+            self.buttonAction2.setEnabled(True)
+            self.readData_bu400_flag = 1
+
+    def readData_bu50(self):
+        # printf('readData_bu50',self.buttonUnit2.isChecked())
+        if self.buttonUnit2.isChecked():
+            self.read_data_dict_bu50 = self.data_dict_bu50.test_data_dict('preset')
+            self.read_data_dict_bu50 = self.data_dict_bu50.test_data_dict('calibr')
+            self.unit_bu50_preset.readData(self.read_data_dict_bu50,'preset')
+            self.unit_bu50_calibr.readData(self.read_data_dict_bu50,'calibr')
+            self.buttonAction2.setEnabled(True)
+            self.readData_bu50_flag = 1
+
+    def readData_buses(self):
+        # printf('readData_buses',self.buttonUnit3.isChecked())
+        if self.buttonUnit3.isChecked():
+            self.read_data_dict_buses = self.data_dict_buses.test_data_dict('preset')
+            self.read_data_dict_buses = self.data_dict_buses.test_data_dict('calibr')
+            self.unit_buses_preset.readData(self.read_data_dict_buses,'preset')
+            self.unit_buses_calibr.readData(self.read_data_dict_buses,'calibr')
+            self.buttonAction2.setEnabled(True)
+            self.readData_buses_flag = 1
+
+    def writeData_bu400(self):
+        # printf('readData_bu400',self.buttonUnit1.isChecked())
+        if not self.buttonUnit2.isChecked() and not self.buttonUnit2.isChecked():
+            # data_dict = self.data_dict_bu400.test_data_dict('preset')
+            # data_dict = self.data_dict_bu400.test_data_dict('calibr')
+            self.unit_bu400_preset.writeData(self.read_data_dict_bu400,'preset')
 
 
 if __name__ == '__main__':

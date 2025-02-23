@@ -118,8 +118,31 @@ import struct
 # print(a)
 
 
-a = '0.0'
+a = '3z.0'
 b = '0'
-
-if '.' in b:
+if a.isalnum():
     print('Yes')
+
+
+import re
+
+data_pattern = "^[a-zA-Zа-яА-ЯёЁ]+$"
+data_pattern1 = "^[0-9.]+$"
+def is_valid_email(data):
+    return re.match('^[0-9]*[.][0-9]+$', data) is not None
+
+# data = "gkegfemeeуууее&@("
+data = "1..1"
+
+
+print(is_valid_email(data))
+
+df ='8'
+if float(df):
+    print('OOOO')
+print(float(df))
+
+
+lst = ['1','2']
+lst [0] = '3'
+print(lst)
