@@ -90,6 +90,7 @@ class Calibrator(Connect):
         self.parse_data_xml()
 
         self.file_open = open('read_data.txt', 'wb')
+        self.flag =0
 
     # Преобразование байтового типа в тип целочисленного значения и адреса
     def transformed_in_value_and_address(self, arg, type):
@@ -357,25 +358,29 @@ class Calibrator(Connect):
         printf(self.header_data_dict)
         return 'End main_data_read'
     def test_data_dict(self,data):
+        printf(self.data_dict)
         count =0
-        for i in self.data_dict[data].items():
-            count+=1
-            if data =='preset':
-                if i[1][1] =='float':
-                    count =float(count)
+        if self.flag <2:
+            printf('FLAG')
+            for i in self.data_dict[data].items():
+                count+=1
+                if data =='preset':
+                    if i[1][1] =='float':
+                        count =float(count)
+                    else:
+                        count = int(count)
+                    i[1].append(count)
                 else:
-                    count = int(count)
-                i[1].append(count)
-            else:
-                i[1].append(float(count))
+                    i[1].append(float(count))
+        # self.flag +=1
         return self.data_dict
-        # printf(self.data_dict[data].items())
-
+    def update_data_dict(self,data_dict):
+        self.data_dict = data_dict
 
 
 # cal = Calibrator('SES200M', 'BU_SES')
-ser = Connect()
-cal1 = Calibrator(ser.ser, 'SES200M', 'BU_50')
+# ser = Connect()
+# cal1 = Calibrator(ser.ser, 'SES200M', 'BU_50')
 # cal1.main_data_read('r')
 # cal1.main_data_read('w')
-printf(cal1.data_dict)
+# printf(cal1.data_dict)

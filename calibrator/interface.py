@@ -264,6 +264,8 @@ class Main():
         self.buttonAction1.clicked.connect(self.readData_bu50)
         self.buttonAction1.clicked.connect(self.readData_buses)
         self.buttonAction2.clicked.connect(self.writeData_bu400)
+        self.buttonAction2.clicked.connect(self.writeData_bu50)
+        self.buttonAction2.clicked.connect(self.writeData_buses)
         # self.buttonAction2.clicked.connect(self.readData_bu50)
         # self.buttonAction2.clicked.connect(self.readData_buses)
 
@@ -354,7 +356,7 @@ class Main():
 
     def readData_bu400(self):
         # printf('readData_bu400',self.buttonUnit1.isChecked())
-        if not self.buttonUnit2.isChecked() and not self.buttonUnit2.isChecked():
+        if not self.buttonUnit2.isChecked() and not self.buttonUnit3.isChecked():
             self.read_data_dict_bu400 = self.data_dict_bu400.test_data_dict('preset')
             self.read_data_dict_bu400 = self.data_dict_bu400.test_data_dict('calibr')
             self.unit_bu400_preset.readData(self.read_data_dict_bu400,'preset')
@@ -383,12 +385,22 @@ class Main():
             self.readData_buses_flag = 1
 
     def writeData_bu400(self):
-        # printf('readData_bu400',self.buttonUnit1.isChecked())
-        if not self.buttonUnit2.isChecked() and not self.buttonUnit2.isChecked():
-            # data_dict = self.data_dict_bu400.test_data_dict('preset')
-            # data_dict = self.data_dict_bu400.test_data_dict('calibr')
+        if not self.buttonUnit2.isChecked() and not self.buttonUnit3.isChecked():
             self.unit_bu400_preset.writeData(self.read_data_dict_bu400,'preset')
+            data_dict = self.unit_bu400_calibr.writeData(self.read_data_dict_bu400,'calibr')
+            self.data_dict_bu400.update_data_dict(data_dict)
 
+    def writeData_bu50(self):
+        if self.buttonUnit2.isChecked():
+            self.unit_bu50_preset.writeData(self.read_data_dict_bu50,'preset')
+            data_dict = self.unit_bu50_calibr.writeData(self.read_data_dict_bu50,'calibr')
+            self.data_dict_bu50.update_data_dict(data_dict)
+
+    def writeData_buses(self):
+        if self.buttonUnit3.isChecked():
+            self.unit_buses_preset.writeData(self.read_data_dict_buses,'preset')
+            data_dict = self.unit_buses_calibr.writeData(self.read_data_dict_buses,'calibr')
+            self.data_dict_buses.update_data_dict(data_dict)
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

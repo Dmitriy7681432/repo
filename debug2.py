@@ -146,3 +146,14 @@ print(float(df))
 lst = ['1','2']
 lst [0] = '3'
 print(lst)
+x = {'one': 1, 'two': 2, 'three': 3, 'four': 4}
+
+def foo(data):
+    if not hasattr(foo, "counter"):
+        foo.counter = 0
+    foo.counter += 1
+    print("counter is", foo.counter)
+    return foo.counter
+
+print(foo(1))
+print(foo(2))

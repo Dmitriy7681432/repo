@@ -100,9 +100,8 @@ class Unit(QWidget):
             self.lst_table[i].entered.connect(self.pressedValue)
             # self.lst_model[i].intered.connect(self.presedValue)
         self.data_tab.currentChanged.connect(self.selectDataTab)
-        printf(self.lst_model[0].item(0,0).text())
-        printf(self.lst_model)
 
+        self.readData_flag = 0
         # Вкладки
         self.data_tab.setStyleSheet('background-color:rgb(220,254,225);')\
                                # gridline-color:gray;')
@@ -110,7 +109,7 @@ class Unit(QWidget):
         self.horizontLayout.setAlignment(QtCore.Qt.AlignHCenter)
         # self.horizontLayout.addWidget(table)
         self.setLayout(self.horizontLayout)
-        print('Unit1')
+        # print('Unit1')
 
         # return self.page
 
@@ -122,19 +121,19 @@ class Unit(QWidget):
             item = self.lst_model[self.index_data_tab].item(value.row(), value.column())
             # if not value.text().isalpha() and '.' in self.checkValue and '.' in value.text():
             if self.is_valid_email(self.checkValue) and self.is_valid_email(value.text()):
-                printf('Data_float', value.text(), value.row())
+                # printf('Data_float', value.text(), value.row())
                 item.setBackground(QtGui.QBrush(QtGui.QColor(255,255,9)))
             elif value.text().isdigit() and (not '.' in self.checkValue and not '.' in value.text()):
-                printf('Data_int', value.text(), value.row())
+                # printf('Data_int', value.text(), value.row())
                 item.setBackground(QtGui.QBrush(QtGui.QColor(255, 255, 9)))
             else:
-                printf('CHANGE',value.row(),value.column(),self.checkValue)
+                # printf('CHANGE',value.row(),value.column(),self.checkValue)
                 item.setChild(value.row(),value.column(), item.setText(self.checkValue))
 
 
     def selectRow(self, data):
         self.checkValue = data.data()
-        printf('SELECT', data.row(), data.column(), data.data())
+        # printf('SELECT', data.row(), data.column(), data.data())
 
 
     def selectDataTab(self,index):
@@ -144,14 +143,16 @@ class Unit(QWidget):
         printf(value.data())
 
     def readData(self,data_dict,data):
+        # item = self.lst_model[0].item(0, 2)
+        # item.setBackground(QtGui.QBrush(QtGui.QColor(255, 255, 255)))
         self.readData_flag =1
         # self.lst_model[0].itemChanged.disconnect()
         count =0;count1 =0;num=0
         cnt_row = self.lst_model[0].rowCount()
-        printf(cnt_row)
         # for i in self.data_tab.count():
         for i in data_dict[data].items():
             item = self.lst_model[num].item(count, 2)
+            item.setBackground(QtGui.QBrush(QtGui.QColor(255, 255, 255)))
             if data =='preset':
                 self.checkValue = str(i[1][2])
                 item.setChild(count, 2, item.setText(str(i[1][2])))
@@ -170,16 +171,28 @@ class Unit(QWidget):
                     # item = self.lst_model[num].item(count, 2)
                 # else: printf(data_dict); return 0
         self.readData_flag = 0
+        # printf(data_dict['preset'].items())
 
         # printf(data_dict)
     def writeData(self,data_dict,data):
-        # for i in range(0,self.data_tab.count()):
-        #     for j in range(0, self.lst_model[0].rowCount()):
-        #         item = self.lst_model[self.index_data_tab].item(j, 2)
-        #         data_dict[data].items()[1][2] =
+        print('WriteData')
+        item1 = self.lst_model[0].item(0, 2)
+        item1.setBackground(QtGui.QBrush(QtGui.QColor(255, 255, 255)))
+        count =0
+        lst_data_dict_keys = list(data_dict[data].keys())
+        for i in range(0,self.data_tab.count()):
+            for j in range(0, self.lst_model[i].rowCount()):
+                item = self.lst_model[i].item(j, 2)
+                # item1.setBackground(QtGui.QBrush(QtGui.QColor(255, 255, 255)))
+                if data =='preset':
+                    data_dict[data].get(lst_data_dict_keys[count])[2] = item.text()
+                else:
+                    data_dict[data].get(lst_data_dict_keys[count])[1] = item.text()
+                count+=1
+        # printf(data_dict[data].items())
+        return data_dict
 
-        dt = data_dict[data].keys()
-        print(dt)
+
 
 
 class Param(QWidget):
@@ -290,7 +303,7 @@ class Param(QWidget):
         table1.clicked.connect(self.selectRow)
         model1.itemChanged.connect(self.on1_click)
         self.setLayout(self.horizontLayout)
-        print('Unit2')
+        # print('Unit2')
 
     def on1_click(self,value):
         if value.text().isdigit():
