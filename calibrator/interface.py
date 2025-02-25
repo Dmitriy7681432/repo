@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import sys,serial
+import sys,serial,struct
 from PyQt5.QtWidgets import (QWidget, QPushButton, QStackedWidget, QToolBar, QToolButton,
                              QHBoxLayout, QVBoxLayout, QApplication, QAction, QMainWindow)
 
@@ -266,6 +266,7 @@ class Main():
         self.buttonAction2.clicked.connect(self.writeData_bu400)
         self.buttonAction2.clicked.connect(self.writeData_bu50)
         self.buttonAction2.clicked.connect(self.writeData_buses)
+        self.buttonAction3.clicked.connect(self.saveData_bu400)
         # self.buttonAction2.clicked.connect(self.readData_bu50)
         # self.buttonAction2.clicked.connect(self.readData_buses)
 
@@ -371,10 +372,10 @@ class Main():
     def readData_bu400(self):
         # printf('readData_bu400',self.buttonUnit1.isChecked())
         if not self.buttonUnit2.isChecked() and not self.buttonUnit3.isChecked():
-            self.read_data_dict_bu400 = self.data_dict_bu400.test_data_dict('preset')
-            self.read_data_dict_bu400 = self.data_dict_bu400.test_data_dict('calibr')
+            self.read_data_dict_bu400 = self.data_dict_bu400.data_dict
+            # self.read_data_dict_bu400 = self.data_dict_bu400.test_data_dict('calibr')
             self.unit_bu400_preset.readData(self.read_data_dict_bu400,'preset')
-            self.unit_bu400_calibr.readData(self.read_data_dict_bu400,'calibr')
+            # self.unit_bu400_calibr.readData(self.read_data_dict_bu400,'calibr')
             self.buttonAction2.setEnabled(True)
             self.readData_bu400_flag = 1
 
@@ -415,6 +416,29 @@ class Main():
             self.unit_buses_preset.writeData(self.read_data_dict_buses,'preset')
             data_dict = self.unit_buses_calibr.writeData(self.read_data_dict_buses,'calibr')
             self.data_dict_buses.update_data_dict(data_dict)
+
+    def saveData_bu400(self):
+        printf('saveData_bu400')
+        with open('preset2.bin','wb') as f:
+            for i in range(0,7):
+                f.write(struct.pack('f', 5.0))
+            for i in self.read_data_dict_bu400['preset'].items():
+                if i[1][1] =='float':
+                    f.write(struct.pack('f', float(i[1][2])))
+                    f.write(struct.pack('f', float(i[1][3])))
+                    f.write(struct.pack('f', float(i[1][4])))
+                    f.write(struct.pack('f', float(i[1][5])))
+                else:
+                    if '.' in i[1][2] or '.' in i[1][3] or '.' in i[1][4] or '.' in i[1][5]:
+                        i[1][2] = str(int(float(i[1][2]) * 1000))
+                        i[1][3] = str(int(float(i[1][3]) * 1000))
+                        i[1][4] = str(int(float(i[1][4]) * 1000))
+                        i[1][5] = str(int(float(i[1][5]) * 1000))
+                    f.write(struct.pack('i', int(i[1][2])))
+                    f.write(struct.pack('i', int(i[1][3])))
+                    f.write(struct.pack('i', int(i[1][4])))
+                    f.write(struct.pack('i', int(i[1][5])))
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

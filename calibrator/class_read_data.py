@@ -153,13 +153,16 @@ class Calibrator(Connect):
         for setting in doc.findall('.//setting'):
             number = setting.attrib.get('number')
             c_type = setting.attrib.get('ctype')
+            min = setting.attrib.get('min')
+            default_value = setting.attrib.get('default_value')
+            max = setting.attrib.get('max')
             designation = setting.attrib.get('designation')
             for products in setting.findall('products/'):
                 product = products.tag
                 if product == self.product:
                     cb = products.attrib.get('cb')
                     if cb == self.control_block:
-                        preset_dict[number] = [designation, c_type]
+                        preset_dict[number] = [designation, c_type,min,default_value,default_value,max]
         # Калибровки
         for setting in doc.findall('.//parameter'):
             designation = setting.attrib.get('designation')

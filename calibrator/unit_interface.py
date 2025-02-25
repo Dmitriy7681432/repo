@@ -153,7 +153,7 @@ class Unit(QWidget):
             item.setBackground(QtGui.QBrush(QtGui.QColor(255, 255, 255)))
             if data =='preset':
                 self.checkValue = str(i[1][2])
-                item.setChild(count, 2, item.setText(str(i[1][2])))
+                item.setChild(count, 2, item.setText(str(i[1][4])))
             else:
                 self.checkValue = str(i[1][1])
                 item.setChild(count, 2, item.setText(str(i[1][1])))

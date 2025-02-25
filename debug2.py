@@ -157,3 +157,24 @@ def foo(data):
 
 print(foo(1))
 print(foo(2))
+import struct
+f = open('preset1.bin','wb')
+sr = struct.pack('f', 0.1)
+sr1 = struct.pack('f', 0.8)
+sr2 = struct.pack('f', 0.8)
+sr3 = struct.pack('f', 0.8)
+print(sr)
+print(sr1)
+f.write(sr)
+f.write(sr1)
+f.write(sr2)
+f.write(sr3)
+f.close()
+
+a = '00000320'
+# a = '3f4ccccd'
+a = struct.unpack('!i', bytes.fromhex(a))[0]
+print(a)
+a = '0.1'
+a = int(float(a)*100)
+print(a)
