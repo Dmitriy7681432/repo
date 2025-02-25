@@ -133,7 +133,7 @@ class Unit(QWidget):
 
     def selectRow(self, data):
         self.checkValue = data.data()
-        # printf('SELECT', data.row(), data.column(), data.data())
+        printf('SELECT', data.row(), data.column(), data.data())
 
 
     def selectDataTab(self,index):
@@ -143,13 +143,11 @@ class Unit(QWidget):
         printf(value.data())
 
     def readData(self,data_dict,data):
-        # item = self.lst_model[0].item(0, 2)
-        # item.setBackground(QtGui.QBrush(QtGui.QColor(255, 255, 255)))
         self.readData_flag =1
         # self.lst_model[0].itemChanged.disconnect()
         count =0;count1 =0;num=0
         cnt_row = self.lst_model[0].rowCount()
-        # for i in self.data_tab.count():
+        # # for i in self.data_tab.count():
         for i in data_dict[data].items():
             item = self.lst_model[num].item(count, 2)
             item.setBackground(QtGui.QBrush(QtGui.QColor(255, 255, 255)))
@@ -171,13 +169,11 @@ class Unit(QWidget):
                     # item = self.lst_model[num].item(count, 2)
                 # else: printf(data_dict); return 0
         self.readData_flag = 0
-        # printf(data_dict['preset'].items())
+        printf(data_dict['preset'].items())
 
-        # printf(data_dict)
+        printf(data_dict)
     def writeData(self,data_dict,data):
         print('WriteData')
-        item1 = self.lst_model[0].item(0, 2)
-        item1.setBackground(QtGui.QBrush(QtGui.QColor(255, 255, 255)))
         count =0
         lst_data_dict_keys = list(data_dict[data].keys())
         for i in range(0,self.data_tab.count()):

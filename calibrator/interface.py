@@ -285,12 +285,13 @@ class Main():
 
 
     def UnitWidget(self):
-        printf('BU400')
+        printf('BU400',self.buttonUnit1.isChecked())
         if self.buttonCalibr.isChecked():
             self.stackedWidget.setCurrentIndex(3)
         else:
             self.stackedWidget.setCurrentIndex(0)
         self.buttonUnit1.setCheckable(True)
+        self.buttonUnit1.setDown(True)
         self.buttonUnit2.setChecked(False)
         self.buttonUnit3.setChecked(False)
         if self.readData_bu400_flag ==0:
@@ -302,6 +303,7 @@ class Main():
         else:
             self.stackedWidget.setCurrentIndex(1)
         self.buttonUnit2.setCheckable(True)
+        self.buttonUnit2.setDown(True)
         self.buttonUnit1.setChecked(False)
         self.buttonUnit3.setChecked(False)
         self.buttonUnit1.setDown(False)
@@ -314,6 +316,7 @@ class Main():
         else:
             self.stackedWidget.setCurrentIndex(2)
         self.buttonUnit3.setCheckable(True)
+        self.buttonUnit3.setDown(True)
         self.buttonUnit1.setChecked(False)
         self.buttonUnit2.setChecked(False)
         self.buttonUnit1.setDown(False)
@@ -330,6 +333,7 @@ class Main():
         else:
             self.stackedWidget.setCurrentIndex(0)
         self.buttonUst.setCheckable(True)
+        self.buttonUst.setDown(True)
         self.buttonCalibr.setChecked(False)
         self.buttonPar.setChecked(False)
 
@@ -343,6 +347,7 @@ class Main():
         else:
             self.stackedWidget.setCurrentIndex(3)
         self.buttonCalibr.setCheckable(True)
+        self.buttonCalibr.setDown(True)
         self.buttonUst.setChecked(False)
         self.buttonPar.setChecked(False)
         self.buttonUst.setDown(False)
@@ -350,6 +355,7 @@ class Main():
     def ParWidget(self):
         self.stackedWidget.setCurrentIndex(6)
         self.buttonPar.setCheckable(True)
+        self.buttonPar.setDown(True)
         self.buttonUst.setChecked(False)
         self.buttonCalibr.setChecked(False)
         self.buttonUst.setDown(False)
