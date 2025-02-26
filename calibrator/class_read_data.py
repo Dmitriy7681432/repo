@@ -156,13 +156,14 @@ class Calibrator(Connect):
             min = setting.attrib.get('min')
             default_value = setting.attrib.get('default_value')
             max = setting.attrib.get('max')
+            dimension = setting.attrib.get('dimension')
             designation = setting.attrib.get('designation')
             for products in setting.findall('products/'):
                 product = products.tag
                 if product == self.product:
                     cb = products.attrib.get('cb')
                     if cb == self.control_block:
-                        preset_dict[number] = [designation, c_type,min,default_value,default_value,max]
+                        preset_dict[number] = [designation, c_type,dimension,min,default_value,default_value,max]
         # Калибровки
         for setting in doc.findall('.//parameter'):
             designation = setting.attrib.get('designation')
@@ -173,11 +174,11 @@ class Calibrator(Connect):
                     for products2 in products1.findall('.//calibration'):
                         if len(products2.getchildren()) != 0:
                             for i in products2.findall('.//k'):
-                                calibr_dict[designation + '_' + i.attrib.get('IND')] = [name]
+                                calibr_dict[designation + '_' + i.attrib.get('IND')] = [name,i.attrib.get('value')]
                                 # calibr_list_data.append(i.attrib.get('value'))
                         else:
-                            calibr_dict[designation + '_k'] = [name]
-                            calibr_dict[designation + '_b'] = [name]
+                            calibr_dict[designation + '_k'] = [name,'1.0']
+                            calibr_dict[designation + '_b'] = [name,'0.0']
                             # calibr_list_data.append('1.0')
                             # calibr_list_data.append('1.0')
                     # Фильтры

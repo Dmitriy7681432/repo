@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import sys,re
+import sys,re,struct
 from PyQt5.QtWidgets import (QWidget, QPushButton, QStackedWidget,
                              QHBoxLayout, QVBoxLayout, QApplication, QAction, QMainWindow)
 
@@ -114,20 +114,21 @@ class Unit(QWidget):
         # return self.page
 
     def is_valid_email(self,data):
-        return re.match('^[0-9]*[.][0-9]+$', data) is not None
+        # return re.match('^[0-9]*[.][0-9]+$', data) is not None
+        return re.match('^-?\d+\.?\d*$', data) is not None
 
     def changedValue(self, value):
         if self.readData_flag ==0:
             item = self.lst_model[self.index_data_tab].item(value.row(), value.column())
             # if not value.text().isalpha() and '.' in self.checkValue and '.' in value.text():
             if self.is_valid_email(self.checkValue) and self.is_valid_email(value.text()):
-                # printf('Data_float', value.text(), value.row())
+                printf('Data_float', value.text(), value.row())
                 item.setBackground(QtGui.QBrush(QtGui.QColor(255,255,9)))
             elif value.text().isdigit() and (not '.' in self.checkValue and not '.' in value.text()):
-                # printf('Data_int', value.text(), value.row())
+                printf('Data_int', value.text(), value.row())
                 item.setBackground(QtGui.QBrush(QtGui.QColor(255, 255, 9)))
             else:
-                # printf('CHANGE',value.row(),value.column(),self.checkValue)
+                printf('CHANGE',value.row(),value.column(),self.checkValue)
                 item.setChild(value.row(),value.column(), item.setText(self.checkValue))
 
 
@@ -152,8 +153,8 @@ class Unit(QWidget):
             item = self.lst_model[num].item(count, 2)
             item.setBackground(QtGui.QBrush(QtGui.QColor(255, 255, 255)))
             if data =='preset':
-                self.checkValue = str(i[1][2])
-                item.setChild(count, 2, item.setText(str(i[1][4])))
+                self.checkValue = str(i[1][5])
+                item.setChild(count, 2, item.setText(str(i[1][5])))
             else:
                 self.checkValue = str(i[1][1])
                 item.setChild(count, 2, item.setText(str(i[1][1])))
@@ -181,12 +182,56 @@ class Unit(QWidget):
                 item = self.lst_model[i].item(j, 2)
                 # item1.setBackground(QtGui.QBrush(QtGui.QColor(255, 255, 255)))
                 if data =='preset':
-                    data_dict[data].get(lst_data_dict_keys[count])[2] = item.text()
+                    data_dict[data].get(lst_data_dict_keys[count])[5] = item.text()
                 else:
                     data_dict[data].get(lst_data_dict_keys[count])[1] = item.text()
                 count+=1
         # printf(data_dict[data].items())
         return data_dict
+
+    def saveData(self,data_dict,data,name_block):
+        print('WriteData')
+        data_dict_copy = data_dict.copy()
+        count =0
+        lst_data_dict_keys = list(data_dict_copy[data].keys())
+        printf(lst_data_dict_keys)
+        with open(f'{data}_{name_block}.bin','wb') as f:
+            for i in range(0,7):
+                f.write(struct.pack('f', 5.0))
+
+            for i in range(0,self.data_tab.count()):
+                for j in range(0, self.lst_model[i].rowCount()):
+                    item = self.lst_model[i].item(j, 2)
+                    # item1.setBackground(QtGui.QBrush(QtGui.QColor(255, 255, 255)))
+                    dt_dict = data_dict_copy[data].get(lst_data_dict_keys[count])
+                    printf(dt_dict,item.text())
+                    if data =='preset':
+                        if data_dict_copy[data].get(lst_data_dict_keys[count])[1] =='float':
+                            f.write(struct.pack('f', float(dt_dict[3])))
+                            f.write(struct.pack('f', float(dt_dict[4])))
+                            f.write(struct.pack('f', float(item.text())))
+                            f.write(struct.pack('f', float(dt_dict[6])))
+                        else:
+                            if data_dict_copy[data].get(lst_data_dict_keys[count])[2] == 'с':
+                                dt_dict[3] = str(int(float(dt_dict[3]) * 1000))
+                                dt_dict[4] = str(int(float(dt_dict[4]) * 1000))
+                                dt_item    = str(int(float(item.text())* 1000))
+                                dt_dict[6] = str(int(float(dt_dict[6]) * 1000))
+                                f.write(struct.pack('i', int(dt_dict[3])))
+                                f.write(struct.pack('i', int(dt_dict[4])))
+                                f.write(struct.pack('i', int(dt_item)))
+                                f.write(struct.pack('i', int(dt_dict[6])))
+                            else:
+                                f.write(struct.pack('i', int(dt_dict[3])))
+                                f.write(struct.pack('i', int(dt_dict[4])))
+                                f.write(struct.pack('i', int(item.text())))
+                                f.write(struct.pack('i', int(dt_dict[6])))
+                    else:
+                        f.write(struct.pack('f', float(item.text())))
+
+                    count+=1
+        printf(data_dict_copy)
+        return data_dict_copy
 
 
 
