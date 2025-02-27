@@ -129,10 +129,21 @@ import re
 data_pattern = "^[a-zA-Zа-яА-ЯёЁ]+$"
 data_pattern1 = "^[0-9.]+$"
 def is_valid_email(data):
-    return re.match('^[0-9]*[.][0-9]+$', data) is not None
+    """
+    Расшифровка:
+    ^ - начало строки;
+    -? - символ "минус" ноль или один раз;
+    \d + - цифры, минимум одна штука
+    \.? - символ точки ноль или один раз
+    \d * - снова цифры, но в этот раз минимум ноль раз
+    $ - конец строки
+    """
+    # return re.match('^[-]+[0-9]*[.][0-9]+$', data) is not None
+    return re.match('^-?\d+\.?\d*$', data) is not None
+
 
 # data = "gkegfemeeуууее&@("
-data = "1..1"
+data = "-12.12432"
 
 
 print(is_valid_email(data))
@@ -147,6 +158,10 @@ lst = ['1','2']
 lst [0] = '3'
 print(lst)
 x = {'one': 1, 'two': 2, 'three': 3, 'four': 4}
+xx = x.copy()
+xx['one'] = 2
+print(x)
+print(xx)
 
 def foo(data):
     if not hasattr(foo, "counter"):
@@ -172,9 +187,6 @@ f.write(sr3)
 f.close()
 
 a = '00000320'
-# a = '3f4ccccd'
-a = struct.unpack('!i', bytes.fromhex(a))[0]
-print(a)
-a = '0.1'
-a = int(float(a)*100)
+a = 'c2e70000'
+a = struct.unpack('!f', bytes.fromhex(a))[0]
 print(a)

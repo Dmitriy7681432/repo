@@ -191,28 +191,79 @@
 #     sys.exit(app.exec_())
 
 
-from PyQt5 import Qt
+# from PyQt5 import Qt
+#
+#
+# class W(Qt.QMainWindow):
+#     def __init__(self):
+#         super().__init__()
+#         self.table = Qt.QTableWidget(3, 1)
+#         self.table.itemChanged.connect(self.on_item)
+#         self.setCentralWidget(self.table)
+#
+#     def on_item(self):
+#         item = self.table.currentItem()
+#         try:
+#             n = float(item.text())
+#             self.statusBar().showMessage('OK')
+#         except:
+#             item.setText('')
+#             self.statusBar().showMessage('ERROR')
+#
+#
+# if __name__ == "__main__":
+#     app = Qt.QApplication([])
+#     w = W()
+#     w.show()
+#     app.exec_()
+
+import sys
+from PyQt5.QtWidgets import *
 
 
-class W(Qt.QMainWindow):
-    def __init__(self):
+class MainInterface(QMainWindow):
+
+    def __init__(self, tuple_of_dict: tuple = None):
         super().__init__()
-        self.table = Qt.QTableWidget(3, 1)
-        self.table.itemChanged.connect(self.on_item)
-        self.setCentralWidget(self.table)
 
-    def on_item(self):
-        item = self.table.currentItem()
-        try:
-            n = float(item.text())
-            self.statusBar().showMessage('OK')
-        except:
-            item.setText('')
-            self.statusBar().showMessage('ERROR')
+        self.__tuple_of_dict = tuple_of_dict
+
+        self.centralWidget = QWidget()
+        self.setCentralWidget(self.centralWidget)
+
+        self.setMinimumHeight(400)
+        self.setMinimumWidth(650)
+
+        table = QTableWidget()
+
+        if self.__tuple_of_dict:
+            table_headers = tuple(self.__tuple_of_dict[0].keys())
+
+            table.setColumnCount(len(table_headers))
+            table.setRowCount(len(self.__tuple_of_dict))
+            table.setHorizontalHeaderLabels(table_headers)
+            for num, row in enumerate(self.__tuple_of_dict):
+                for column in table_headers:
+                    if isinstance(row[column], bool):
+                        row[column] = "True" if row[column] else "False"
+                    elif isinstance(row[column], type(None)):
+                        row[column] = "None"
+                    row_item = QTableWidgetItem(row[column])
+                    table.setItem(num, table_headers.index(column), row_item)
+                    row_item.setToolTip(row[column])
+        table.horizontalHeader().setSectionResizeMode(1, QHeaderView.Stretch) # вот так
+        box = QGroupBox("Table")
+        h_layout = QHBoxLayout(box)
+        h_layout.addWidget(table)
+
+        g_layout = QGridLayout(self.centralWidget)
+        g_layout.addWidget(box, 1, 1)
 
 
-if __name__ == "__main__":
-    app = Qt.QApplication([])
-    w = W()
-    w.show()
-    app.exec_()
+if __name__ == '__main__':
+    result = ({"id": "673543", "devicename": "bla_bla_bla", "description": "My Fancy Device", "another": "value"}, )
+    app = QApplication(sys.argv)
+    app.setStyle("Fusion")
+    ex = MainInterface(tuple_of_dict=result)
+    ex.show()
+    sys.exit(app.exec_())

@@ -288,7 +288,6 @@ class Main():
 
 
     def UnitWidget(self):
-        printf('BU400',self.buttonUnit1.isChecked())
         if self.buttonCalibr.isChecked():
             self.stackedWidget.setCurrentIndex(3)
         else:
