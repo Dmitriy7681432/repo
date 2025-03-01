@@ -347,19 +347,32 @@ class Param(QWidget):
         # self.vbox2.setGeometry(QtCore.QRect(100,100,200,300))
 
         for i in range(0,60,20):
-            self.list_widget = QtWidgets.QListWidget(self.centr_widget)
+            self.list_widget = QtWidgets.QTextEdit(self.centr_widget)
             self.list_widget.setGeometry(10,10+i,300,20)
             self.list_widget.setStyleSheet('background-color:rgb(255,255,255);')
             # self.vbox2.addWidget(self.list_widget)
-            listWidgetItem = QtWidgets.QListWidgetItem("Параметры")
-            self.list_widget.addItem(listWidgetItem)
+            # listWidgetItem = QtWidgets.QListWidgetItem("Параметры")
+            # self.list_widget.addItem(listWidgetItem)
+            # self.list_widget.setFrameShape(QtWidgets.QFrame.NoFrame)
+            # self.list_widget.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+            self.list_widget.textChanged.connect(self.text_changed)
+            self.list_widget.setPlainText('Параметры калибровки уставки методы классы атрибуты Параметры калибровки уставки методы классы атрибуты ')
+            self.list_widget.setWordWrapMode(QtGui.QTextOption.WrapAnywhere)
+            self.list_widget.verticalScrollBar().hide()
+            self.list_widget.setTextInteractionFlags(QtCore.Qt.NoTextInteraction)
+            self.list_widget.setFont(font)
 
-            self.list_widget1 = QtWidgets.QListWidget(self.centr_widget)
+            self.list_widget1 = QtWidgets.QTextEdit(self.centr_widget)
             self.list_widget1.setGeometry(300,10+i,100,20)
             self.list_widget1.setStyleSheet('background-color:rgb(255,255,255);')
-            listWidgetItem1 = QtWidgets.QListWidgetItem("0")
-            self.list_widget1.addItem(listWidgetItem1)
-
+            # listWidgetItem1 = QtWidgets.QListWidgetItem("0")
+            # self.list_widget1.addItem(listWidgetItem1)
+            # self.list_widget1.setFrameShape(QtWidgets.QFrame.NoFrame)
+            # self.list_widget1.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+            self.list_widget1.setPlainText('0')
+            self.list_widget1.setWordWrapMode(QtGui.QTextOption.WrapAnywhere)
+            self.list_widget1.verticalScrollBar().hide()
+        # self.list_widget.setText('Hello')
         self.horizontLayout.addWidget(data_tab)
 
         # table1.clicked.connect(self.selectRow)
@@ -377,3 +390,16 @@ class Param(QWidget):
     def selectRow(self,data):
         self.checkValue = data.data()
         printf('SELECT',data.row(),data.column(),data.data())
+
+    def text_changed(self):
+        text = self.list_widget.toPlainText()
+        printf('change1')
+        metric = QtGui.QFontMetrics(self.list_widget.font())
+        printf('change2')
+        size_font = self.list_widget.rect()
+        printf('change3')
+        geom_font = metric.boundingRect(QtCore.QRect(0,0,0,0), QtCore.Qt.TextWordWrap,text)
+        # geom_font = metric.boundingRect(QtCore.QRect(0,0,0,0), QtGui.QTextOption.WordWrap,text)
+        printf('change4')
+        x = 10
+        self.list_widget.resize(geom_font.width()+x,geom_font.height()+x)
