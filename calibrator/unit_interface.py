@@ -348,7 +348,7 @@ class Param(QWidget):
 
         for i in range(0,60,20):
             self.list_widget = QtWidgets.QTextEdit(self.centr_widget)
-            self.list_widget.setGeometry(10,10+i,300,20)
+            self.list_widget.setGeometry(10,10+i,290,20)
             self.list_widget.setStyleSheet('background-color:rgb(255,255,255);')
             # self.vbox2.addWidget(self.list_widget)
             # listWidgetItem = QtWidgets.QListWidgetItem("Параметры")
@@ -356,8 +356,9 @@ class Param(QWidget):
             # self.list_widget.setFrameShape(QtWidgets.QFrame.NoFrame)
             # self.list_widget.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
             self.list_widget.textChanged.connect(self.text_changed)
-            self.list_widget.setPlainText('Параметры калибровки уставки методы классы атрибуты Параметры калибровки уставки методы классы атрибуты ')
-            self.list_widget.setWordWrapMode(QtGui.QTextOption.WrapAnywhere)
+            # self.list_widget.setPlainText('Параметры калибровки уставки методы классы атрибуты Параметры калибровки уставки методы классы атрибуты ')
+            self.list_widget.setPlainText('Параметры калибровки уставки методы клаcccы')
+            self.list_widget.setWordWrapMode(QtGui.QTextOption.WordWrap)
             self.list_widget.verticalScrollBar().hide()
             self.list_widget.setTextInteractionFlags(QtCore.Qt.NoTextInteraction)
             self.list_widget.setFont(font)
@@ -393,13 +394,25 @@ class Param(QWidget):
 
     def text_changed(self):
         text = self.list_widget.toPlainText()
-        printf('change1')
+        printf('text',text)
         metric = QtGui.QFontMetrics(self.list_widget.font())
-        printf('change2')
+        printf('metric',metric)
         size_font = self.list_widget.rect()
-        printf('change3')
+        printf('size_font',size_font)
         geom_font = metric.boundingRect(QtCore.QRect(0,0,0,0), QtCore.Qt.TextWordWrap,text)
+        # geom_font = metric.boundingRect(QtCore.QRect(0,0,0,0), QtCore.Qt.WrapAnywhere,text)
         # geom_font = metric.boundingRect(QtCore.QRect(0,0,0,0), QtGui.QTextOption.WordWrap,text)
-        printf('change4')
+        printf('geom_font',geom_font)
         x = 10
-        self.list_widget.resize(geom_font.width()+x,geom_font.height()+x)
+        if self.list_widget.fontMetrics().width(text) > size_font.width()-40:
+        # self.list_widget.resize(size_font.width(),geom_font.height()+x)
+            self.list_widget.resize(size_font.width(),size_font.height()*2)
+        # self.list_widget.resize(size_font.width(), size_font.height())
+        printf(geom_font.width(),geom_font.height())
+        printf(self.list_widget.fontMetrics().width(text))
+
+        font = self.list_widget.document().defaultFont()
+        fontMetrics = QtGui.QFontMetrics(font)
+        textSize = fontMetrics.size(0, self.list_widget.toPlainText())
+        textHeight = textSize.height() + 30  # Need to tweak
+        self.list_widget.setMaximumHeight(textHeight)
