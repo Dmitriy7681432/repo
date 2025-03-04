@@ -216,54 +216,162 @@
 #     w = W()
 #     w.show()
 #     app.exec_()
+#
+# import sys
+# from PyQt5.QtWidgets import *
+#
+#
+# class MainInterface(QMainWindow):
+#
+#     def __init__(self, tuple_of_dict: tuple = None):
+#         super().__init__()
+#
+#         self.__tuple_of_dict = tuple_of_dict
+#
+#         self.centralWidget = QWidget()
+#         self.setCentralWidget(self.centralWidget)
+#
+#         self.setMinimumHeight(400)
+#         self.setMinimumWidth(650)
+#
+#         table = QTableWidget()
+#
+#         if self.__tuple_of_dict:
+#             table_headers = tuple(self.__tuple_of_dict[0].keys())
+#
+#             table.setColumnCount(len(table_headers))
+#             table.setRowCount(len(self.__tuple_of_dict))
+#             table.setHorizontalHeaderLabels(table_headers)
+#             for num, row in enumerate(self.__tuple_of_dict):
+#                 for column in table_headers:
+#                     if isinstance(row[column], bool):
+#                         row[column] = "True" if row[column] else "False"
+#                     elif isinstance(row[column], type(None)):
+#                         row[column] = "None"
+#                     row_item = QTableWidgetItem(row[column])
+#                     table.setItem(num, table_headers.index(column), row_item)
+#                     row_item.setToolTip(row[column])
+#         table.horizontalHeader().setSectionResizeMode(1, QHeaderView.Stretch) # вот так
+#         box = QGroupBox("Table")
+#         h_layout = QHBoxLayout(box)
+#         h_layout.addWidget(table)
+#
+#         g_layout = QGridLayout(self.centralWidget)
+#         g_layout.addWidget(box, 1, 1)
+#
+#
+# if __name__ == '__main__':
+#     result = ({"id": "673543", "devicename": "bla_bla_bla", "description": "My Fancy Device", "another": "value"}, )
+#     app = QApplication(sys.argv)
+#     app.setStyle("Fusion")
+#     ex = MainInterface(tuple_of_dict=result)
+#     ex.show()
+#     sys.exit(app.exec_())
 
 import sys
-from PyQt5.QtWidgets import *
 
+from PyQt5.QtWidgets import QApplication, QWidget, QFrame, QTextEdit, QListWidgetItem, QListWidget, QPushButton, QHBoxLayout, QVBoxLayout, QSizePolicy
+from PyQt5.QtGui import QTextOption, QFont
+from PyQt5.QtCore import Qt
 
-class MainInterface(QMainWindow):
+# Кастомный виджет для вставки в строку QListWidget
+class ListRowWidget(QWidget):
+    def __init__(self):
+        super(ListRowWidget, self).__init__()
 
-    def __init__(self, tuple_of_dict: tuple = None):
-        super().__init__()
+        lay = QHBoxLayout()
+        lay.setMargin(0)
+        self.dummy = QWidget()
+        self.dummy.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.edit = QTextEdit()
+        self.edit.setFrameShape(QFrame.NoFrame)
+        self.edit.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        font = QFont()
+        font.setPointSize(16)
+        self.edit.setFont(font)
+        self.edit.setReadOnly(True);
 
-        self.__tuple_of_dict = tuple_of_dict
+        # Перенос строки, если не хватило места
+        self.edit.setWordWrapMode(QTextOption.WrapAnywhere)
 
-        self.centralWidget = QWidget()
-        self.setCentralWidget(self.centralWidget)
+        # Выключаем вертикальный скролбар
+        self.edit.verticalScrollBar().hide()
 
-        self.setMinimumHeight(400)
-        self.setMinimumWidth(650)
+        self.setLayout(lay)
 
-        table = QTableWidget()
+    # Сообщение
+    def setText(self, text):
+        self.edit.setText(text)
 
-        if self.__tuple_of_dict:
-            table_headers = tuple(self.__tuple_of_dict[0].keys())
+    # Выравнивание
+    def setAlignment(self, alignment):
+        if self.layout().count() > 0:
+            self.layout().removeWidget(self.dummy)
+            self.layout().removeWidget(self.edit)
 
-            table.setColumnCount(len(table_headers))
-            table.setRowCount(len(self.__tuple_of_dict))
-            table.setHorizontalHeaderLabels(table_headers)
-            for num, row in enumerate(self.__tuple_of_dict):
-                for column in table_headers:
-                    if isinstance(row[column], bool):
-                        row[column] = "True" if row[column] else "False"
-                    elif isinstance(row[column], type(None)):
-                        row[column] = "None"
-                    row_item = QTableWidgetItem(row[column])
-                    table.setItem(num, table_headers.index(column), row_item)
-                    row_item.setToolTip(row[column])
-        table.horizontalHeader().setSectionResizeMode(1, QHeaderView.Stretch) # вот так
-        box = QGroupBox("Table")
-        h_layout = QHBoxLayout(box)
-        h_layout.addWidget(table)
+        if alignment == Qt.AlignLeft:
+            self.layout().addWidget(self.dummy)
+            self.layout().addWidget(self.edit)
+        else:
+            self.layout().addWidget(self.edit)
+            self.layout().addWidget(self.dummy)
 
-        g_layout = QGridLayout(self.centralWidget)
-        g_layout.addWidget(box, 1, 1)
+    def size(self):
+        return self.edit.document().size().toSize()
 
+class Widget(QWidget):
+    def __init__(self):
+        super(Widget, self).__init__()
 
-if __name__ == '__main__':
-    result = ({"id": "673543", "devicename": "bla_bla_bla", "description": "My Fancy Device", "another": "value"}, )
-    app = QApplication(sys.argv)
-    app.setStyle("Fusion")
-    ex = MainInterface(tuple_of_dict=result)
-    ex.show()
+        self.load_ui()
+
+        self.sendButton.clicked.connect(self.send)
+        # Флажок для "выравнивания" сообщения (вправо-влево, поочередно)
+        self._side = False
+
+    def load_ui(self):
+        self.listWidget = QListWidget()
+        self.sendButton = QPushButton("Отправить")
+        self.textEdit = QTextEdit()
+        font = QFont()
+        font.setPointSize(16)
+        self.textEdit.setFont(font)
+        self.textEdit.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
+
+        hLay = QHBoxLayout()
+        hLay.addWidget(self.textEdit)
+        hLay.addWidget(self.sendButton)
+
+        vLay = QVBoxLayout()
+        vLay.addWidget(self.listWidget)
+        vLay.addItem(hLay)
+        self.setLayout(vLay)
+
+    def send(self):
+        # Получаем текст из поля ввода
+        text = self.textEdit.toPlainText()
+
+        # Итем для вставки в список
+        listItem = QListWidgetItem()
+        self.listWidget.addItem(listItem)
+
+        # Наш кастомный виджет отображения сообщений чата
+        listRowWidget = ListRowWidget()
+        # Передаем в него текст
+        listRowWidget.setText(text)
+
+        # Выравнивание в соответствии с "какой стороны пришло" сообщение
+        listRowWidget.setAlignment(Qt.AlignLeft if self._side else Qt.AlignRight)
+        self._side = not self._side
+
+        # Помещаем наш виджет вместо итема
+        self.listWidget.setItemWidget(listItem, listRowWidget)
+
+        # Устанавливаем размер строки списка
+        listItem.setSizeHint(listRowWidget.size())
+
+if __name__ == "__main__":
+    app = QApplication([])
+    widget = Widget()
+    widget.show()
     sys.exit(app.exec_())
