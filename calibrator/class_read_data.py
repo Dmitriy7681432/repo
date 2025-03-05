@@ -79,6 +79,8 @@ class Calibrator(Connect):
                 self.filter_designation = 'ADDR_FILTR_ROM3'
         # Главный словарь с уставками, калибровками и фильтрами для интерфейса
         self.data_dict = {'preset': {}, 'calibr': {}, 'filter': {}}
+        # Словарь с параметрами для вкладки Параметры для интерфейса
+        self.parsm_dict = {'bu400': {}, 'bu50': {}, 'buses': {}}
         # Считывание,преобразование global_id параметров в формaт can и сохранение их в словарь
         self.data_can_dict = {'preset': '', 'calibr': '', 'filter': ''}
         self.data_can_dict['preset'] = self.parse_xml_designation(self.preset_designation)
@@ -168,6 +170,7 @@ class Calibrator(Connect):
         for setting in doc.findall('.//parameter'):
             designation = setting.attrib.get('designation')
             name = setting.attrib.get('name')
+            type = setting.attrib.get('type')
             for products1 in setting.findall(f'.//{self.product}'):
                 cb = products1.attrib.get('cb')
                 if cb == self.control_block:

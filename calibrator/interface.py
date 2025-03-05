@@ -26,7 +26,7 @@ class Main():
         x = desktop.width();
         y = desktop.height()
         print(x, y)
-        x_size_desktop = int(x / 2.4);
+        x_size_desktop = int(x / 2.2);
         y_size_desktop = int(y / 1.3)
 
 
@@ -72,9 +72,9 @@ class Main():
         self.buttonUst.setFont(font)
         self.buttonCalibr.setFont(font)
         self.buttonPar.setFont(font)
-        self.buttonUst.setMaximumSize(QtCore.QSize(267, 50))
-        self.buttonCalibr.setMaximumSize(QtCore.QSize(267, 50))
-        self.buttonPar.setMaximumSize(QtCore.QSize(267, 50))
+        self.buttonUst.setMaximumSize(QtCore.QSize(300, 50))
+        self.buttonCalibr.setMaximumSize(QtCore.QSize(300, 50))
+        self.buttonPar.setMaximumSize(QtCore.QSize(300, 50))
         self.buttonUst.setObjectName("buttonUst")
         self.buttonCalibr.setObjectName("buttonCalibr")
         self.buttonPar.setObjectName("buttonPar")
@@ -126,9 +126,9 @@ class Main():
         # buttonUnit1.setSizePolicy(sizePolicy)
         # buttonUnit2.setSizePolicy(sizePolicy)
         # buttonUnit3.setSizePolicy(sizePolicy)
-        self.buttonUnit1.setMaximumSize(QtCore.QSize(270, 50))
-        self.buttonUnit2.setMaximumSize(QtCore.QSize(270, 50))
-        self.buttonUnit3.setMaximumSize(QtCore.QSize(270, 50))
+        self.buttonUnit1.setMaximumSize(QtCore.QSize(300, 50))
+        self.buttonUnit2.setMaximumSize(QtCore.QSize(300, 50))
+        self.buttonUnit3.setMaximumSize(QtCore.QSize(300, 50))
         self.buttonUnit1.setObjectName("buttonUnit1")
         self.buttonUnit2.setObjectName("buttonUnit2")
         self.buttonUnit3.setObjectName("buttonUnit3")
@@ -173,9 +173,9 @@ class Main():
         self.buttonAction1.setFont(font)
         self.buttonAction2.setFont(font)
         self.buttonAction3.setFont(font)
-        self.buttonAction1.setMaximumSize(QtCore.QSize(270, 50))
-        self.buttonAction2.setMaximumSize(QtCore.QSize(270, 50))
-        self.buttonAction3.setMaximumSize(QtCore.QSize(270, 50))
+        self.buttonAction1.setMaximumSize(QtCore.QSize(300, 50))
+        self.buttonAction2.setMaximumSize(QtCore.QSize(300, 50))
+        self.buttonAction3.setMaximumSize(QtCore.QSize(300, 50))
         self.buttonAction1.setObjectName("buttonAction1")
         self.buttonAction2.setObjectName("buttonAction2")
         self.buttonAction3.setObjectName("buttonAction3")

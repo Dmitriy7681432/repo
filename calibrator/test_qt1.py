@@ -268,110 +268,152 @@
 #     ex.show()
 #     sys.exit(app.exec_())
 
+# import sys
+#
+# from PyQt5.QtWidgets import QApplication, QWidget, QFrame, QTextEdit, QListWidgetItem, QListWidget, QPushButton, QHBoxLayout, QVBoxLayout, QSizePolicy
+# from PyQt5.QtGui import QTextOption, QFont
+# from PyQt5.QtCore import Qt
+#
+# # Кастомный виджет для вставки в строку QListWidget
+# class ListRowWidget(QWidget):
+#     def __init__(self):
+#         super(ListRowWidget, self).__init__()
+#
+#         lay = QHBoxLayout()
+#         lay.setMargin(0)
+#         self.dummy = QWidget()
+#         self.dummy.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+#         self.edit = QTextEdit()
+#         self.edit.setFrameShape(QFrame.NoFrame)
+#         self.edit.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+#         font = QFont()
+#         font.setPointSize(16)
+#         self.edit.setFont(font)
+#         self.edit.setReadOnly(True);
+#
+#         # Перенос строки, если не хватило места
+#         self.edit.setWordWrapMode(QTextOption.WrapAnywhere)
+#
+#         # Выключаем вертикальный скролбар
+#         self.edit.verticalScrollBar().hide()
+#
+#         self.setLayout(lay)
+#
+#     # Сообщение
+#     def setText(self, text):
+#         self.edit.setText(text)
+#
+#     # Выравнивание
+#     def setAlignment(self, alignment):
+#         if self.layout().count() > 0:
+#             self.layout().removeWidget(self.dummy)
+#             self.layout().removeWidget(self.edit)
+#
+#         if alignment == Qt.AlignLeft:
+#             self.layout().addWidget(self.dummy)
+#             self.layout().addWidget(self.edit)
+#         else:
+#             self.layout().addWidget(self.edit)
+#             self.layout().addWidget(self.dummy)
+#
+#     def size(self):
+#         return self.edit.document().size().toSize()
+#
+# class Widget(QWidget):
+#     def __init__(self):
+#         super(Widget, self).__init__()
+#
+#         self.load_ui()
+#
+#         self.sendButton.clicked.connect(self.send)
+#         # Флажок для "выравнивания" сообщения (вправо-влево, поочередно)
+#         self._side = False
+#
+#     def load_ui(self):
+#         self.listWidget = QListWidget()
+#         self.sendButton = QPushButton("Отправить")
+#         self.textEdit = QTextEdit()
+#         font = QFont()
+#         font.setPointSize(16)
+#         self.textEdit.setFont(font)
+#         self.textEdit.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
+#
+#         hLay = QHBoxLayout()
+#         hLay.addWidget(self.textEdit)
+#         hLay.addWidget(self.sendButton)
+#
+#         vLay = QVBoxLayout()
+#         vLay.addWidget(self.listWidget)
+#         vLay.addItem(hLay)
+#         self.setLayout(vLay)
+#
+#     def send(self):
+#         # Получаем текст из поля ввода
+#         text = self.textEdit.toPlainText()
+#
+#         # Итем для вставки в список
+#         listItem = QListWidgetItem()
+#         self.listWidget.addItem(listItem)
+#
+#         # Наш кастомный виджет отображения сообщений чата
+#         listRowWidget = ListRowWidget()
+#         # Передаем в него текст
+#         listRowWidget.setText(text)
+#
+#         # Выравнивание в соответствии с "какой стороны пришло" сообщение
+#         listRowWidget.setAlignment(Qt.AlignLeft if self._side else Qt.AlignRight)
+#         self._side = not self._side
+#
+#         # Помещаем наш виджет вместо итема
+#         self.listWidget.setItemWidget(listItem, listRowWidget)
+#
+#         # Устанавливаем размер строки списка
+#         listItem.setSizeHint(listRowWidget.size())
+#
+# if __name__ == "__main__":
+#     app = QApplication([])
+#     widget = Widget()
+#     widget.show()
+#     sys.exit(app.exec_())
+
 import sys
+from PyQt5 import QtCore, QtGui, QtWidgets
 
-from PyQt5.QtWidgets import QApplication, QWidget, QFrame, QTextEdit, QListWidgetItem, QListWidget, QPushButton, QHBoxLayout, QVBoxLayout, QSizePolicy
-from PyQt5.QtGui import QTextOption, QFont
-from PyQt5.QtCore import Qt
+class ListView(QtWidgets.QTreeView):
+    def __init__(self, *args, **kwargs):
+        super(ListView, self).__init__(*args, **kwargs)
+        self.setModel(QtGui.QStandardItemModel(self))
+        self.model().setColumnCount(2)
+        self.setRootIsDecorated(False)
+        self.setAllColumnsShowFocus(True)
+        self.setSelectionBehavior(
+            QtWidgets.QAbstractItemView.SelectRows)
+        self.setHeaderHidden(True)
+        self.header().setStretchLastSection(False)
+        self.header().setSectionResizeMode(
+            0, QtWidgets.QHeaderView.Stretch)
+        self.header().setSectionResizeMode(
+            1, QtWidgets.QHeaderView.ResizeToContents)
 
-# Кастомный виджет для вставки в строку QListWidget
-class ListRowWidget(QWidget):
+    def addItem(self, key, value):
+        first = QtGui.QStandardItem(key)
+        second = QtGui.QStandardItem(value)
+        second.setTextAlignment(QtCore.Qt.AlignRight)
+        self.model().appendRow([first, second])
+
+class Window(QtWidgets.QWidget):
     def __init__(self):
-        super(ListRowWidget, self).__init__()
+        super(Window, self).__init__()
+        self.view = ListView(self)
+        for text in 'Aquamarine Red Green Purple Blue Yellow '.split():
+            self.view.addItem(text, str(16 ** len(text)))
+        layout = QtWidgets.QVBoxLayout(self)
+        layout.addWidget(self.view)
 
-        lay = QHBoxLayout()
-        lay.setMargin(0)
-        self.dummy = QWidget()
-        self.dummy.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        self.edit = QTextEdit()
-        self.edit.setFrameShape(QFrame.NoFrame)
-        self.edit.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        font = QFont()
-        font.setPointSize(16)
-        self.edit.setFont(font)
-        self.edit.setReadOnly(True);
+if __name__ == '__main__':
 
-        # Перенос строки, если не хватило места
-        self.edit.setWordWrapMode(QTextOption.WrapAnywhere)
-
-        # Выключаем вертикальный скролбар
-        self.edit.verticalScrollBar().hide()
-
-        self.setLayout(lay)
-
-    # Сообщение
-    def setText(self, text):
-        self.edit.setText(text)
-
-    # Выравнивание
-    def setAlignment(self, alignment):
-        if self.layout().count() > 0:
-            self.layout().removeWidget(self.dummy)
-            self.layout().removeWidget(self.edit)
-
-        if alignment == Qt.AlignLeft:
-            self.layout().addWidget(self.dummy)
-            self.layout().addWidget(self.edit)
-        else:
-            self.layout().addWidget(self.edit)
-            self.layout().addWidget(self.dummy)
-
-    def size(self):
-        return self.edit.document().size().toSize()
-
-class Widget(QWidget):
-    def __init__(self):
-        super(Widget, self).__init__()
-
-        self.load_ui()
-
-        self.sendButton.clicked.connect(self.send)
-        # Флажок для "выравнивания" сообщения (вправо-влево, поочередно)
-        self._side = False
-
-    def load_ui(self):
-        self.listWidget = QListWidget()
-        self.sendButton = QPushButton("Отправить")
-        self.textEdit = QTextEdit()
-        font = QFont()
-        font.setPointSize(16)
-        self.textEdit.setFont(font)
-        self.textEdit.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
-
-        hLay = QHBoxLayout()
-        hLay.addWidget(self.textEdit)
-        hLay.addWidget(self.sendButton)
-
-        vLay = QVBoxLayout()
-        vLay.addWidget(self.listWidget)
-        vLay.addItem(hLay)
-        self.setLayout(vLay)
-
-    def send(self):
-        # Получаем текст из поля ввода
-        text = self.textEdit.toPlainText()
-
-        # Итем для вставки в список
-        listItem = QListWidgetItem()
-        self.listWidget.addItem(listItem)
-
-        # Наш кастомный виджет отображения сообщений чата
-        listRowWidget = ListRowWidget()
-        # Передаем в него текст
-        listRowWidget.setText(text)
-
-        # Выравнивание в соответствии с "какой стороны пришло" сообщение
-        listRowWidget.setAlignment(Qt.AlignLeft if self._side else Qt.AlignRight)
-        self._side = not self._side
-
-        # Помещаем наш виджет вместо итема
-        self.listWidget.setItemWidget(listItem, listRowWidget)
-
-        # Устанавливаем размер строки списка
-        listItem.setSizeHint(listRowWidget.size())
-
-if __name__ == "__main__":
-    app = QApplication([])
-    widget = Widget()
-    widget.show()
+    app = QtWidgets.QApplication(sys.argv)
+    window = Window()
+    window.setGeometry(600, 100, 300, 200)
+    window.show()
     sys.exit(app.exec_())

@@ -80,7 +80,7 @@ class Unit(QWidget):
             count2 +=1
             if count ==34 or count2 == len_data_dict:
                 table.setColumnWidth(0, 190)
-                table.setColumnWidth(1, 450)
+                table.setColumnWidth(1, 520)
                 table.setColumnWidth(2, 154)
                 self.model.setHorizontalHeaderLabels(['Обозначение', 'Наименование', 'Значение'])
                 table.setFont(font)
@@ -245,9 +245,9 @@ class Param(QWidget):
 
     def initUI(self):
         # Шрифт
-        font = QtGui.QFont()
-        font.setFamily("Times New Roman")
-        font.setPointSize(11)
+        self.font = QtGui.QFont()
+        self.font.setFamily("Times New Roman")
+        self.font.setPointSize(11)
         # font.setBold(True)
         # font.setWeight(75)
 
@@ -346,60 +346,42 @@ class Param(QWidget):
         # self.vbox2 = QtWidgets.QVBoxLayout(self.centr_widget)
         # self.vbox2.setGeometry(QtCore.QRect(100,100,200,300))
 
-        for i in range(0,60,20):
-            # self.list_widget = QtWidgets.QTextEdit(self.centr_widget)
-            self.list_widget = QtWidgets.QListWidget(self.centr_widget)
-            self.list_widget.setFont(font)
-            # self.list_widget.setGeometry(10,10+i,290,20)
-            self.list_widget.setStyleSheet('background-color:rgb(255,255,255);')
-            # self.vbox2.addWidget(self.list_widget)
-            text = 'Параметры уставки калибровки классы aтр '
-            self.listWidgetItem = QtWidgets.QListWidgetItem(text)
-            self.list_widget.addItem(self.listWidgetItem)
-            # self.list_widget.setFrameShape(QtWidgets.QFrame.NoFrame)
-            # self.list_widget.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
-            self.list_widget.itemChanged.connect(self.text_changed)
-            fon_metric = self.list_widget.fontMetrics().width(text)
-            printf(fon_metric)
-            self.list_widget.setWordWrap(True)
 
-            # self.listWidgetItem.setTextAlignment(QtCore.Qt.AlignCenter)
-            # self.list_widget.setItemAlignment(QtCore.Qt.AlignCenter)
+        # for i in range(0,3):
+        #     fon_metric = self.lst_widget[i].fontMetrics().width(text)
+        #     printf(fon_metric)
+        #     if fon_metric > 268:
+        #         printf('fon_m')
+        #         # self.list_widget.resize(290,35)
+        #         self.lst_widget[i].setGeometry(10, 10 + i, 290, 40)
+        #         self.lst_widget1[i].setGeometry(300, 10 + i, 100, 40)
+        #         self.lst_widget_item1[i].setSizeHint(QtCore.QSize(10, 40))
+        #     else:
+        #         self.lst_widget[i].setGeometry(10, 10 + i, 290, 20)
+        #         self.lst_widget1[i].setGeometry(300, 10 + i, 100, 20)
 
-            # self.list_widget.textChanged.connect(self.text_changed)
-            # self.list_widget.setPlainText('Параметры калибровки уставки методы классы атрибуты Параметры калибровки уставки методы классы атрибуты ')
-            # self.list_widget.setPlainText('Параметры калибровки уставки методы клаcccы')
-            # self.list_widget.setWordWrapMode(QtGui.QTextOption.WordWrap)
-            # self.list_widget.verticalScrollBar().hide()
-            # self.list_widget.setTextInteractionFlags(QtCore.Qt.NoTextInteraction)
-            # self.list_widget.setFont(font)
+        params = [1, 2, 3,4,5,6]
+        text = ['Параметры уставки калибровки классы атh']
 
-            # self.list_widget1 = QtWidgets.QTextEdit(self.centr_widget)
-            self.list_widget1 = QtWidgets.QListWidget(self.centr_widget)
-            self.listWidgetItem1 = QtWidgets.QListWidgetItem("0")
-            self.list_widget1.addItem(self.listWidgetItem1)
-            # self.list_widget1.setFrameShape(QtWidgets.QFrame.NoFrame)
-            # self.list_widget1.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
-            self.list_widget1.setStyleSheet('background-color:rgb(255,255,255);')
+        # self.add_List(10, 10, 300, 10, params, text)
+        # self.add_List(450, 10, 740, 10, params, text)
 
-            self.list_widget1.setFont(font)
-            self.listWidgetItem1.setSizeHint(QtCore.QSize(self.list_widget1.width()-4,50))
-            # self.list_widget1.setPlainText('0')
-            # self.list_widget1.setWordWrapMode(QtGui.QTextOption.WrapAnywhere)
-            # self.list_widget1.verticalScrollBar().hide()
-            self.listWidgetItem1.setTextAlignment(QtCore.Qt.AlignCenter)
+        self.model  = QtCore.QStringListModel()
+        self.model.setStringList(text)
+        self.listView = QtWidgets.QListView(self.centr_widget)
+        self.listView.setModel(self.model)
+        self.listView.setGeometry(10,10,290,40)
+        self.listView.setFont(self.font)
+        self.listView.setStyleSheet('background-color:rgb(255,255,255);')
+        self.listView.setWordWrap(True)
+        # self.listView.setWrapping(True)
+        self.listView.setResizeMode(self.listView.Adjust)
+        self.listView.setItemAlignment(QtCore.Qt.AlignBottom)
+        self.listView.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.listView.scrollTo(QtCore.QModelIndex,hint=QtWidgets.QAbstractItemView.PositionAtTop)
+        # self.listView.scroll()
 
-            if fon_metric > 268:
-                printf('fon_m')
-                # self.list_widget.resize(290,35)
-                self.list_widget.setGeometry(10, 10 + i, 290, 40)
-                self.list_widget1.setGeometry(300, 10 + i, 100, 40)
-            else:
-                self.list_widget.setGeometry(10, 10 + i, 290, 20)
-                self.list_widget1.setGeometry(300, 10 + i, 100, 20)
-        # self.list_widget.setText('Hello')
         self.horizontLayout.addWidget(data_tab)
-
         # table1.clicked.connect(self.selectRow)
         # model1.itemChanged.connect(self.on1_click)
         self.setLayout(self.horizontLayout)
@@ -443,3 +425,48 @@ class Param(QWidget):
         # textSize = fontMetrics.size(0, self.list_widget.toPlainText())
         # textHeight = textSize.height() + 30  # Need to tweak
         # self.list_widget.setMaximumHeight(textHeight)
+
+
+    def add_List(self,x1,y1,x2,y2,param_dict,text):
+        self.lst_widget = []
+        self.lst_widget1 = []
+        self.lst_widget_item1 = []
+        for i in range(0,len(param_dict)):
+            i*=20
+            self.list_widget = QtWidgets.QListWidget(self.centr_widget)
+            # self.list_widget.setGeometry(10, 10 + i, 290, 40)
+            self.list_widget.setFont(self.font)
+            self.list_widget.setStyleSheet('background-color:rgb(255,255,255);')
+            self.listWidgetItem = QtWidgets.QListWidgetItem(text)
+            self.list_widget.addItem(self.listWidgetItem)
+            # self.list_widget.setFrameShape(QtWidgets.QFrame.NoFrame)
+            # self.list_widget.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+            # self.list_widget.itemChanged.connect(self.text_changed)
+            self.list_widget.setWordWrap(True)
+            # self.listWidgetItem.setTextAlignment(QtCore.Qt.AlignCenter)
+
+            self.list_widget1 = QtWidgets.QListWidget(self.centr_widget)
+            # self.list_widget1.setGeometry(300, 10 + i, 100, 40)
+            self.listWidgetItem1 = QtWidgets.QListWidgetItem("0")
+            self.list_widget1.addItem(self.listWidgetItem1)
+            # self.list_widget1.setFrameShape(QtWidgets.QFrame.NoFrame)
+            # self.list_widget1.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+            self.list_widget1.setStyleSheet('background-color:rgb(255,255,255);')
+            self.list_widget1.setFont(self.font)
+            printf(self.list_widget1.width())
+            self.listWidgetItem1.setTextAlignment(QtCore.Qt.AlignCenter)
+            self.lst_widget.append(self.list_widget)
+            self.lst_widget1.append(self.list_widget1)
+            self.lst_widget_item1.append(self.listWidgetItem1)
+
+            fon_metric = self.list_widget.fontMetrics().width(text)
+            printf(fon_metric)
+            if fon_metric > 268:
+                printf('fon_m',i)
+                # self.list_widget.resize(290,35)
+                self.list_widget.setGeometry(x1, y1 + i+i, 290, 40)
+                self.list_widget1.setGeometry(x2, y2 + i+i, 100, 40)
+                self.listWidgetItem1.setSizeHint(QtCore.QSize(10, 40))
+            else:
+                self.list_widget.setGeometry(x1, y1 + i, 290, 20)
+                self.list_widget1.setGeometry(x2, y2 + i, 100, 20)
