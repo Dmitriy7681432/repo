@@ -190,3 +190,11 @@ a = '00000320'
 a = 'c2e70000'
 a = struct.unpack('!f', bytes.fromhex(a))[0]
 print(a)
+
+text1 = 'Параметры уставки калибровки классы аt'
+text1 = list(text1)
+# text1 = ''.join(text1)
+print(text1)
+
+def fun_text(text):
+    pass
