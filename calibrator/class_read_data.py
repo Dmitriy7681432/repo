@@ -80,7 +80,7 @@ class Calibrator(Connect):
         # Главный словарь с уставками, калибровками и фильтрами для интерфейса
         self.data_dict = {'preset': {}, 'calibr': {}, 'filter': {}}
         # Словарь с параметрами для вкладки Параметры для интерфейса
-        self.parsm_dict = {'bu400': {}, 'bu50': {}, 'buses': {}}
+        self.param_dict = {f'{self.control_block}': {}}
         # Считывание,преобразование global_id параметров в формaт can и сохранение их в словарь
         self.data_can_dict = {'preset': '', 'calibr': '', 'filter': ''}
         self.data_can_dict['preset'] = self.parse_xml_designation(self.preset_designation)
@@ -150,6 +150,7 @@ class Calibrator(Connect):
         preset_dict = {}
         calibr_dict = {}
         filter_dict = {}
+        params_dict = {}
         doc = etree.parse('params.xml')
         # Уставки
         for setting in doc.findall('.//setting'):
@@ -168,12 +169,17 @@ class Calibrator(Connect):
                         preset_dict[number] = [designation, c_type,dimension,min,default_value,default_value,max]
         # Калибровки
         for setting in doc.findall('.//parameter'):
+            unit = setting.getparent().attrib.get('name')
             designation = setting.attrib.get('designation')
             name = setting.attrib.get('name')
             type = setting.attrib.get('type')
+            ctype = setting.attrib.get('ctype')
             for products1 in setting.findall(f'.//{self.product}'):
                 cb = products1.attrib.get('cb')
-                if cb == self.control_block:
+                hidden = products1.attrib.get('hidden')
+                if cb == self.control_block and hidden == None:
+                    if type == 'Измеряемый' or type == 'Вычисляемый':
+                        params_dict[designation] = [name,ctype]
                     for products2 in products1.findall('.//calibration'):
                         if len(products2.getchildren()) != 0:
                             for i in products2.findall('.//k'):
@@ -193,6 +199,8 @@ class Calibrator(Connect):
         self.data_dict['preset'] = preset_dict
         self.data_dict['calibr'] = calibr_dict
         self.data_dict['filter'] = filter_dict
+        self.param_dict[self.control_block] = params_dict
+        printf(params_dict)
         return self.data_dict
 
     # Считывание адреса по global_id параметра

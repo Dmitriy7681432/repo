@@ -361,7 +361,7 @@ class Param(QWidget):
         #         self.lst_widget1[i].setGeometry(300, 10 + i, 100, 20)
 
         params = [1, 2, 3,4,5,6]
-        text = ['Параметры уставки калибровки классы %,']
+        text = ['Параметры уставки калибровки классы %']
         # text1 = 'Параметры уставки калибровки классы аt'
         # text1 = list(text1)
         # if text1[35] == ' ':
@@ -505,14 +505,15 @@ class Param(QWidget):
         self.lst_widget1 = []
         self.lst_widget_item1 = []
         j=0
-        for i in range(0,len(param_dict)):
+        # for i in range(0,len(param_dict)):
+        for i in range(0, 200):
             i*=20
             self.list_widget = QtWidgets.QListWidget(self.centr_widget)
             self.list_widget.setFont(self.font)
             fon_metric = self.list_widget.fontMetrics().width(text[0])
             # self.list_widget.setGeometry(10, 10 + i, 290, 40)
             self.list_widget.setStyleSheet('background-color:rgb(255,255,255);')
-            printf(text,fon_metric)
+            # printf(text,fon_metric)
             text1 = self.trans_str(fon_metric,text[0])
             self.listWidgetItem = QtWidgets.QListWidgetItem(text1[0])
             self.list_widget.addItem(self.listWidgetItem)
@@ -530,13 +531,13 @@ class Param(QWidget):
             # self.list_widget1.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
             self.list_widget1.setStyleSheet('background-color:rgb(255,255,255);')
             self.list_widget1.setFont(self.font)
-            printf(self.list_widget1.width())
+            # printf(self.list_widget1.width())
             self.listWidgetItem1.setTextAlignment(QtCore.Qt.AlignCenter)
             self.lst_widget.append(self.list_widget)
             self.lst_widget1.append(self.list_widget1)
             self.lst_widget_item1.append(self.listWidgetItem1)
 
-            printf(fon_metric)
+            # printf(fon_metric)
             if fon_metric > 268:
                 printf('fon_m',i)
                 # self.list_widget.resize(290,35)
