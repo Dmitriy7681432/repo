@@ -244,7 +244,9 @@ class Main():
         self.unit_bu400_calibr = Unit(self.data_dict_bu400.data_dict, 'calibr', 'BU400')
         self.unit_bu50_calibr = Unit(self.data_dict_bu50.data_dict, 'calibr', 'BU50')
         self.unit_buses_calibr = Unit(self.data_dict_buses.data_dict, 'calibr', 'BUSES')
-        self.param = Param()
+        self.param_bu400 = Param(self.data_dict_bu400.param_dict,'BU_400')
+        self.param_bu50 = Param(self.data_dict_bu50.param_dict,'BU_50')
+        self.param_buses = Param(self.data_dict_buses.param_dict,'BU_SES')
 
         self.stackedWidget.addWidget(self.unit_bu400_preset)
         self.stackedWidget.addWidget(self.unit_bu50_preset)
@@ -252,7 +254,9 @@ class Main():
         self.stackedWidget.addWidget(self.unit_bu400_calibr)
         self.stackedWidget.addWidget(self.unit_bu50_calibr)
         self.stackedWidget.addWidget(self.unit_buses_calibr)
-        self.stackedWidget.addWidget(self.param)
+        self.stackedWidget.addWidget(self.param_bu400)
+        self.stackedWidget.addWidget(self.param_bu50)
+        self.stackedWidget.addWidget(self.param_buses)
         self.stackedWidget.setCurrentIndex(0)
         # self.vbox.addWidget(self.stackedWidget)
 
@@ -290,6 +294,8 @@ class Main():
     def UnitWidget(self):
         if self.buttonCalibr.isChecked():
             self.stackedWidget.setCurrentIndex(3)
+        elif self.buttonPar.isChecked():
+            self.stackedWidget.setCurrentIndex(6)
         else:
             self.stackedWidget.setCurrentIndex(0)
         self.buttonUnit1.setCheckable(True)
@@ -304,6 +310,8 @@ class Main():
     def UnitWidget2(self):
         if self.buttonCalibr.isChecked():
             self.stackedWidget.setCurrentIndex(4)
+        elif self.buttonPar.isChecked():
+            self.stackedWidget.setCurrentIndex(7)
         else:
             self.stackedWidget.setCurrentIndex(1)
         self.buttonUnit2.setCheckable(True)
@@ -318,6 +326,8 @@ class Main():
     def UnitWidget3(self):
         if self.buttonCalibr.isChecked():
             self.stackedWidget.setCurrentIndex(5)
+        elif self.buttonPar.isChecked():
+            self.stackedWidget.setCurrentIndex(8)
         else:
             self.stackedWidget.setCurrentIndex(2)
         self.buttonUnit3.setCheckable(True)
@@ -362,7 +372,15 @@ class Main():
         self.buttonPar.setDown(False)
 
     def ParWidget(self):
-        self.stackedWidget.setCurrentIndex(6)
+        # self.stackedWidget.setCurrentIndex(6)
+        if self.buttonUnit1.isChecked():
+            self.stackedWidget.setCurrentIndex(6)
+        elif self.buttonUnit2.isChecked():
+            self.stackedWidget.setCurrentIndex(7)
+        elif self.buttonUnit3.isChecked():
+            self.stackedWidget.setCurrentIndex(8)
+        else:
+            self.stackedWidget.setCurrentIndex(6)
         self.buttonPar.setCheckable(True)
         self.buttonPar.setDown(True)
         self.buttonUst.setChecked(False)

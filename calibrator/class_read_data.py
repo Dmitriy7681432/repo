@@ -147,6 +147,7 @@ class Calibrator(Connect):
 
     # Считывание уставок, калибровок, фильтров и сохранение их в списки
     def parse_data_xml(self):
+        flag = 0
         preset_dict = {}
         calibr_dict = {}
         filter_dict = {}
@@ -169,7 +170,6 @@ class Calibrator(Connect):
                         preset_dict[number] = [designation, c_type,dimension,min,default_value,default_value,max]
         # Калибровки
         for setting in doc.findall('.//parameter'):
-            unit = setting.getparent().attrib.get('name')
             designation = setting.attrib.get('designation')
             name = setting.attrib.get('name')
             type = setting.attrib.get('type')
@@ -179,7 +179,18 @@ class Calibrator(Connect):
                 hidden = products1.attrib.get('hidden')
                 if cb == self.control_block and hidden == None:
                     if type == 'Измеряемый' or type == 'Вычисляемый':
-                        params_dict[designation] = [name,ctype]
+                        unit = setting.getparent().attrib.get('name')
+                        if flag == 0:
+                            # unit1 = self.pars_eskd(unit)
+                            unit1 = unit
+                            params_dict[unit1] ={}
+                            flag = 1
+                        else:
+                            if unit1 != unit:
+                                unit1 = unit
+                                # unit1 = self.pars_eskd(unit)
+                                params_dict[unit1] = {}
+                        params_dict[unit1][designation] = [name,ctype]
                     for products2 in products1.findall('.//calibration'):
                         if len(products2.getchildren()) != 0:
                             for i in products2.findall('.//k'):
@@ -200,8 +211,25 @@ class Calibrator(Connect):
         self.data_dict['calibr'] = calibr_dict
         self.data_dict['filter'] = filter_dict
         self.param_dict[self.control_block] = params_dict
-        printf(params_dict)
+        printf(self.param_dict)
+        self.pars_eskd()
         return self.data_dict
+
+    def pars_eskd(self):
+        doc = etree.parse('params.xml')
+        for eskd in doc.findall('.//system_parts/'):
+            product = eskd.getparent().getparent().tag
+            units = eskd.tag
+            if product ==self.product:
+                for i in self.param_dict[self.control_block].keys():
+                    if units ==i:
+                        self.param_dict[self.control_block][eskd.text] = self.param_dict[self.control_block].pop(i)
+                        break
+        printf(self.param_dict)
+
+            # if product==self.product and units==unit:
+            #     return eskd.text
+
 
     # Считывание адреса по global_id параметра
     def _begin_data_read(self, data_can_dict_value):

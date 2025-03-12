@@ -238,19 +238,18 @@ class Unit(QWidget):
 
 class Param(QWidget):
 
-    def __init__(self):
+    def __init__(self,param_dict,unit):
         super().__init__()
 
-        self.initUI()
+        self.initUI(param_dict,unit)
 
-    def initUI(self):
+    def initUI(self,param_dict,unit):
         # Шрифт
         self.font = QtGui.QFont()
         self.font.setFamily("Times New Roman")
         self.font.setPointSize(11)
         # font.setBold(True)
         # font.setWeight(75)
-
         # self.centralwidget = centr
         # self.centralwidget.setObjectName("centralWidget")
 
@@ -368,9 +367,11 @@ class Param(QWidget):
         #     text1[35] = '\n'
         # text1 = ''.join(text1)
         # printf(text1)
-
-        self.add_List(10, 10, 300, 10, params, text)
-        self.add_List(450, 10, 740, 10, params, text)
+        # param_dicts = self.count_keys(param_dict[unit])
+        # printf(param_dicts,len(param_dict[unit]))
+        # printf(len(param_dict[unit].items()),param_dict[unit])
+        self.add_List(10, 10, 300, 10, param_dict[unit], text)
+        self.add_List(450, 10, 740, 10, param_dict[unit], text)
 
         # self.add_List_View(10, 10, 300, 10, params, text)
         # self.add_List_View(450, 10, 740, 10, params, text)
@@ -401,6 +402,14 @@ class Param(QWidget):
         self.setLayout(self.horizontLayout)
         # print('Unit2')
 
+    def count_keys(self,d):
+        total = 0
+        for key, value in d.items():
+            if isinstance(value, dict):
+                total += self.count_keys(value)
+            else:
+                total += 1
+        return total
     def add_List_View(self,x1,y1,x2,y2,param_dict,text):
         self.lst_widget = []
         self.lst_widget1 = []
@@ -505,8 +514,8 @@ class Param(QWidget):
         self.lst_widget1 = []
         self.lst_widget_item1 = []
         j=0
-        # for i in range(0,len(param_dict)):
-        for i in range(0, 200):
+        for i in range(0,self.count_keys(param_dict)+len(param_dict)):
+        # for i in range(0, 200):
             i*=20
             self.list_widget = QtWidgets.QListWidget(self.centr_widget)
             self.list_widget.setFont(self.font)
