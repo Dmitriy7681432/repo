@@ -512,16 +512,21 @@ class Param(QWidget):
         self.lst_widget = []
         self.lst_widget1 = []
         self.lst_widget_item1 = []
-        param_list = []
+        param_obj = []
         k=0
         z =0
 
         for elem in param_dict.items():
             j = [j for j in elem[1].values()]
-            param_list.append(elem[0])
-            param_list.append(j[0][0])
-        printf(param_list)
-
+            # param_list.append(elem[0])
+            # param_list.append(j[0][0])
+            param_obj.append(('head',elem[0]))
+            param_obj.append(('name',j[0][0]))
+        printf(param_obj)
+        # for el in param_obj:
+        #     if el[0] =='name':
+        #         printf(el[1])
+        printf(len(param_obj))
         # for i in range(0,2):
         #
         #     self.label = QtWidgets.QLabel(self.centr_widget)
@@ -590,7 +595,7 @@ class Param(QWidget):
             self.lst_widget_item1.append(self.listWidgetItem1)
 
             # printf(fon_metric)
-            if fon_metric > 268:
+            if fon_metric > 269:
                 # printf('fon_m',j)
                 # self.list_widget.resize(290,35)
                 if k ==0:
