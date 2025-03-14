@@ -211,7 +211,7 @@ class Calibrator(Connect):
         self.data_dict['calibr'] = calibr_dict
         self.data_dict['filter'] = filter_dict
         self.param_dict[self.control_block] = params_dict
-        printf(self.param_dict)
+        # printf(self.param_dict)
         self.pars_eskd()
         return self.data_dict
 
