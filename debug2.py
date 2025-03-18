@@ -220,3 +220,32 @@ for elem, i in zip(range(0,10),param_dict['BU_400'].items()):
     j = [j for j in i[1].values()]
     print(i[0],j[0][0])
     print(elem)
+
+def trans_str(metric,text):
+    flag = 0
+    if metric >269:
+        len_text = int(269/7)
+        # printf(len_text,len(text),text)
+        text = list(text)
+        print(text)
+        for i in range(0,len(text)):
+            if i*7>269:
+                if text[i] != ' ':
+                    if flag==0:
+                        j = i
+                        flag=1
+                    if flag==1:
+                        j-=1
+                        if text[j]==' ':
+                            text[j] = '\n'
+                            break
+                elif text[i] == ' ':
+                    text[i] = '\n'
+                    break
+        text = ''.join(text)
+        return [text]
+    else: return [text]
+
+text = 'Уровень топлива во внутреннем баке с датчика, мм*10^-1'
+a = trans_str(365,text)
+print(a)

@@ -496,14 +496,23 @@ class Param(QWidget):
         # self.list_widget.setMaximumHeight(textHeight)
 
     def trans_str(self,metric,text):
-        if metric >268:
-            len_text = int(268/7)
-            # printf(len_text,len(text),text)
+        flag = 0
+        if metric >258:
             text = list(text)
-            for i in range(1,len(text)):
-                if text[-i] ==' ':
-                    text[-i] = '\n'
-                    break
+            for i in range(0,len(text)):
+                if i*7>258:
+                    if text[i] != ' ':
+                        if flag==0:
+                            j = i
+                            flag=1
+                        if flag==1:
+                            j-=1
+                            if text[j]==' ':
+                                text[j] = '\n'
+                                break
+                    elif text[i] == ' ':
+                        text[i] = '\n'
+                        break
             text = ''.join(text)
             return [text]
         else: return [text]
@@ -515,18 +524,16 @@ class Param(QWidget):
         param_obj = []
         k=0
         z =0
+        fon_metric =0
+        flag=0
 
         for elem in param_dict.items():
             j = [j for j in elem[1].values()]
-            # param_list.append(elem[0])
-            # param_list.append(j[0][0])
             param_obj.append(('head',elem[0]))
-            param_obj.append(('name',j[0][0]))
+            for i in j:
+                param_obj.append(('name',i[0]))
         printf(param_obj)
-        # for el in param_obj:
-        #     if el[0] =='name':
-        #         printf(el[1])
-        printf(len(param_obj))
+
         # for i in range(0,2):
         #
         #     self.label = QtWidgets.QLabel(self.centr_widget)
@@ -559,63 +566,101 @@ class Param(QWidget):
         #
 
 
-        for i in range(0,self.count_keys(param_dict)+len(param_dict)):
+        # for i in range(0,self.count_keys(param_dict)+len(param_dict)):
+        for i in range(0,len(param_obj)):
             j = i*20
+            # if i >26 and flag ==0:
+            #     x1 = 450
+            #     x2 = 740
+            #     j =0
+            #     k =0
+            #     z =0
+            #     flag =1
+            # else:
+            #     j -=560
 
 
-            self.label = QtWidgets.QLabel(self.centr_widget)
-            self.label.setText('Cредство электроснабжения')
-            self.font.setPointSize(14)
-            self.label.setFont(self.font)
-            self.font.setPointSize(11)
-            self.list_widget = QtWidgets.QListWidget(self.centr_widget)
-            self.list_widget.setFont(self.font)
-            fon_metric = self.list_widget.fontMetrics().width(text[0])
-            self.list_widget.setStyleSheet('background-color:rgb(255,255,255);')
-            text1 = self.trans_str(fon_metric,text[0])
-            self.listWidgetItem = QtWidgets.QListWidgetItem(text1[0])
-            self.list_widget.addItem(self.listWidgetItem)
-            # self.list_widget.setFrameShape(QtWidgets.QFrame.NoFrame)
-            # self.list_widget.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
-            # self.list_widget.itemChanged.connect(self.text_changed)
-            # self.list_widget.setWordWrap(True)
-            # self.listWidgetItem.setTextAlignment(QtCore.Qt.AlignCenter)
+            if param_obj[i][0] == 'head':
+                self.label = QtWidgets.QLabel(self.centr_widget)
+                if fon_metric<=269:
+                    if j ==0:
+                        self.label.setGeometry(x1 + 3, y1 + j+k, 390, 20)
+                    else:
+                        z+=5
+                        self.label.setGeometry(x1 + 3, y1 + j+z+k, 390, 20)
+                else:
+                    self.label.setGeometry(x1 + 3, y1 + j+j+k, 390, 20)
 
-            self.list_widget1 = QtWidgets.QListWidget(self.centr_widget)
-            self.listWidgetItem1 = QtWidgets.QListWidgetItem("0")
-            self.list_widget1.addItem(self.listWidgetItem1)
-            # self.list_widget1.setFrameShape(QtWidgets.QFrame.NoFrame)
-            # self.list_widget1.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
-            self.list_widget1.setStyleSheet('background-color:rgb(255,255,255);')
-            self.list_widget1.setFont(self.font)
-            # printf(self.list_widget1.width())
-            self.listWidgetItem1.setTextAlignment(QtCore.Qt.AlignCenter)
-            self.lst_widget.append(self.list_widget)
-            self.lst_widget1.append(self.list_widget1)
-            self.lst_widget_item1.append(self.listWidgetItem1)
+                self.label.setText(param_obj[i][1])
+                self.font.setPointSize(14)
+                self.label.setFont(self.font)
+                self.font.setPointSize(11)
+            else:
+                # printf(param_obj[i][1])
+                self.list_widget = QtWidgets.QListWidget(self.centr_widget)
+                self.list_widget.setFont(self.font)
+                fon_metric = self.list_widget.fontMetrics().width(param_obj[i][1])
+                self.list_widget.setStyleSheet('background-color:rgb(255,255,255);')
+                text1 = self.trans_str(fon_metric,param_obj[i][1])
+                self.listWidgetItem = QtWidgets.QListWidgetItem(text1[0])
+                self.list_widget.addItem(self.listWidgetItem)
+                printf(fon_metric,text1[0],i)
+                # self.list_widget.setFrameShape(QtWidgets.QFrame.NoFrame)
+                # self.list_widget.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+                # self.list_widget.itemChanged.connect(self.text_changed)
+                # self.list_widget.setWordWrap(True)
+                # self.listWidgetItem.setTextAlignment(QtCore.Qt.AlignCenter)
+
+                self.list_widget1 = QtWidgets.QListWidget(self.centr_widget)
+                self.listWidgetItem1 = QtWidgets.QListWidgetItem("0")
+                self.list_widget1.addItem(self.listWidgetItem1)
+                # self.list_widget1.setFrameShape(QtWidgets.QFrame.NoFrame)
+                # self.list_widget1.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+                self.list_widget1.setStyleSheet('background-color:rgb(255,255,255);')
+                self.list_widget1.setFont(self.font)
+                # printf(self.list_widget1.width())
+                self.listWidgetItem1.setTextAlignment(QtCore.Qt.AlignCenter)
+                self.lst_widget.append(self.list_widget)
+                self.lst_widget1.append(self.list_widget1)
+                self.lst_widget_item1.append(self.listWidgetItem1)
+                if fon_metric<=269:
+                    self.list_widget.setGeometry(x1, y1 + j+z+k, 290, 20)
+                    self.list_widget1.setGeometry(x2, y2 + j+z+k, 100, 20)
+                else:
+                    if k==0:
+                        self.list_widget.setGeometry(x1, y1 + j+z, 290, 35)
+                        self.list_widget1.setGeometry(x2, y2 + j+z, 100, 35)
+                        self.listWidgetItem1.setSizeHint(QtCore.QSize(10, 35))
+                        k=+15
+                    else:
+                        self.list_widget.setGeometry(x1, y1 + j+z+k, 290, 35)
+                        self.list_widget1.setGeometry(x2, y2 + j+z+k, 100, 35)
+                        self.listWidgetItem1.setSizeHint(QtCore.QSize(10, 35))
+                        k+=15
+
 
             # printf(fon_metric)
-            if fon_metric > 269:
-                # printf('fon_m',j)
-                # self.list_widget.resize(290,35)
-                if k ==0:
-                    self.label.setGeometry(x1+3, y1 + j+j, 290, 35)
-                    # self.list_widget.setGeometry(x1, y1 + j+j, 290, 35)
-                    # self.list_widget1.setGeometry(x2, y2 + j+j, 100, 35)
-                    # self.listWidgetItem1.setSizeHint(QtCore.QSize(10, 35))
-                else:
-                    k+=5
-                    self.label.setGeometry(x1, y1 + j + j-k, 290, 35)
-                    self.list_widget.setGeometry(x1, y1 + j + j-k, 290, 35)
-                    self.list_widget1.setGeometry(x2, y2 + j + j-k, 100, 35)
-                    self.listWidgetItem1.setSizeHint(QtCore.QSize(10, 35))
-            else:
-                if j ==0:
-                    self.label.setGeometry(x1+3, y1 + j, 290, 20)
-                    self.list_widget.setGeometry(x1, y1 + j+20, 290, 20)
-                    self.list_widget1.setGeometry(x2, y2 + j+20, 100, 20)
-                else:
-                    z+=5
-                    self.label.setGeometry(x1+3, y1 + j*2+z, 290, 20)
-                    self.list_widget.setGeometry(x1, y1 + j*2+20+z, 290, 20)
-                    self.list_widget1.setGeometry(x2, y2 + j*2+20+z, 100, 20)
+            # if fon_metric > 269:
+            #     # printf('fon_m',j)
+            #     # self.list_widget.resize(290,35)
+            #     if k ==0:
+            #         self.label.setGeometry(x1+3, y1 + j+j, 290, 35)
+            #         # self.list_widget.setGeometry(x1, y1 + j+j, 290, 35)
+            #         # self.list_widget1.setGeometry(x2, y2 + j+j, 100, 35)
+            #         # self.listWidgetItem1.setSizeHint(QtCore.QSize(10, 35))
+            #     else:
+            #         k+=5
+            #         self.label.setGeometry(x1, y1 + j + j-k, 290, 35)
+            #         self.list_widget.setGeometry(x1, y1 + j + j-k, 290, 35)
+            #         self.list_widget1.setGeometry(x2, y2 + j + j-k, 100, 35)
+            #         self.listWidgetItem1.setSizeHint(QtCore.QSize(10, 35))
+            # else:
+            #     if j ==0:
+            #         self.label.setGeometry(x1+3, y1 + j, 290, 20)
+            #         self.list_widget.setGeometry(x1, y1 + j+24, 290, 20)
+            #         self.list_widget1.setGeometry(x2, y2 + j+24, 100, 20)
+            #     else:
+            #         z+=10
+            #         self.label.setGeometry(x1+3, y1 + j*2+z, 290, 20)
+            #         self.list_widget.setGeometry(x1, y1 + j*2+24+z, 290, 20)
+            #         self.list_widget1.setGeometry(x2, y2 + j*2+24+z, 100, 20)
