@@ -270,7 +270,7 @@ class Param(QWidget):
         self.centr_widget = QtWidgets.QWidget()
         self.centr_widget.setGeometry(QtCore.QRect(500,500,500,500))
 
-        data_tab =QtWidgets.QTabWidget()
+        self.data_tab =QtWidgets.QTabWidget()
         # model = QtGui.QStandardItemModel()
         # table = QtWidgets.QTableView()
         # item1 = QtGui.QStandardItem('EA_F_U_A')
@@ -331,10 +331,10 @@ class Param(QWidget):
         # self.vbox1 = QtWidgets.QVBoxLayout(self.widget1)
         # self.vbox1.addWidget(QtWidgets.QLabel('Таблица 2'))
         # self.vbox1.addWidget(table1)
-        data_tab.addTab(self.centr_widget, "Вкладка 1")
 
-        data_tab.setCurrentIndex(0)
-        data_tab.setStyleSheet('background-color:rgb(220,254,225);')\
+        # data_tab.addTab(self.centr_widget, "Вкладка 1")
+        # data_tab.setCurrentIndex(0)
+        # data_tab.setStyleSheet('background-color:rgb(220,254,225);')\
                                #gridline-color:black;')
         # table1.setStyleSheet('background-color:rgb(220,254,225);')
 
@@ -395,7 +395,7 @@ class Param(QWidget):
         # printf(fon_metric)
         # printf(len(text[0]))
 
-        self.horizontLayout.addWidget(data_tab)
+        self.horizontLayout.addWidget(self.data_tab)
         # table1.clicked.connect(self.selectRow)
         # model1.itemChanged.connect(self.on1_click)
         self.setLayout(self.horizontLayout)
@@ -518,6 +518,14 @@ class Param(QWidget):
         else: return [text]
 
     def add_List(self,x1,y1,x2,y2,param_dict,text):
+
+        self.widget= QtWidgets.QWidget(self.centr_widget)
+        self.widget.setGeometry(QtCore.QRect(500,500,500,500))
+
+        self.data_tab.addTab(self.widget, "Вкладка 1")
+        self.data_tab.setCurrentIndex(0)
+        self.data_tab.setStyleSheet('background-color:rgb(220,254,225);')
+
         self.lst_widget = []
         self.lst_widget1 = []
         self.lst_widget_item1 = []
@@ -526,6 +534,7 @@ class Param(QWidget):
         z =0
         fon_metric =0
         flag=0
+        flag2=0
 
         for elem in param_dict.items():
             j = [j for j in elem[1].values()]
@@ -534,54 +543,34 @@ class Param(QWidget):
                 param_obj.append(('name',i[0]))
         printf(param_obj)
 
-        # for i in range(0,2):
-        #
-        #     self.label = QtWidgets.QLabel(self.centr_widget)
-        #     self.label.setText('Cредство электроснабжения')
-        #     self.font.setPointSize(14)
-        #     self.label.setFont(self.font)
-        #     self.font.setPointSize(11)
-        #
-        #     self.list_widget = QtWidgets.QListWidget(self.centr_widget)
-        #     self.list_widget.setFont(self.font)
-        #     fon_metric = self.list_widget.fontMetrics().width(text[0])
-        #     self.list_widget.setStyleSheet('background-color:rgb(255,255,255);')
-        #     text1 = self.trans_str(fon_metric, text[0])
-        #     self.listWidgetItem = QtWidgets.QListWidgetItem(text1[0])
-        #     self.list_widget.addItem(self.listWidgetItem)
-        #
-        #     self.list_widget1 = QtWidgets.QListWidget(self.centr_widget)
-        #     self.listWidgetItem1 = QtWidgets.QListWidgetItem("0")
-        #     self.list_widget1.addItem(self.listWidgetItem1)
-        #     self.list_widget1.setStyleSheet('background-color:rgb(255,255,255);')
-        #     self.list_widget1.setFont(self.font)
-        #     self.listWidgetItem1.setTextAlignment(QtCore.Qt.AlignCenter)
-        #     self.lst_widget.append(self.list_widget)
-        #     self.lst_widget1.append(self.list_widget1)
-        #     self.lst_widget_item1.append(self.listWidgetItem1)
-        #
-        #     self.label.setGeometry(x1+3, y1, 290, 25)
-        #     self.list_widget.setGeometry(x1, y1 + 25, 290, 20)
-        #     self.list_widget1.setGeometry(x2, y2 + 25, 100, 20)
-        #
-
-
         # for i in range(0,self.count_keys(param_dict)+len(param_dict)):
         for i in range(0,len(param_obj)):
             j = i*20
-            # if i >26 and flag ==0:
+
+            # if i == 53: flag = 0; flag2 = 0
+            # if i >26 and i <53 and flag ==0:
             #     x1 = 450
             #     x2 = 740
-            #     j =0
+            #     j =20
             #     k =0
             #     z =0
             #     flag =1
-            # else:
-            #     j -=560
-
+            # elif i >52 and i <78 and flag==0:
+            #     x1 = 10
+            #     x2 = 300
+            #     j = 20
+            #     k = 0
+            #     z = 0
+            #     flag = 1
+            #     self.widget = QtWidgets.QWidget(self.centr_widget)
+            #     self.widget.setGeometry(QtCore.QRect(500, 500, 500, 500))
+            #     self.data_tab.addTab(self.widget, "Вкладка 2")
+            # elif flag ==1:
+            #     if i>26 and i<53: j-=520
+            #     if i>52: j-= 1040
 
             if param_obj[i][0] == 'head':
-                self.label = QtWidgets.QLabel(self.centr_widget)
+                self.label = QtWidgets.QLabel(self.widget)
                 if fon_metric<=269:
                     if j ==0:
                         self.label.setGeometry(x1 + 3, y1 + j+k, 390, 20)
@@ -590,14 +579,22 @@ class Param(QWidget):
                         self.label.setGeometry(x1 + 3, y1 + j+z+k, 390, 20)
                 else:
                     self.label.setGeometry(x1 + 3, y1 + j+j+k, 390, 20)
-
-                self.label.setText(param_obj[i][1])
+                text_label = param_obj[i][1]
+                self.label.setText(text_label)
                 self.font.setPointSize(14)
                 self.label.setFont(self.font)
                 self.font.setPointSize(11)
             else:
                 # printf(param_obj[i][1])
-                self.list_widget = QtWidgets.QListWidget(self.centr_widget)
+                # if flag ==1 and flag2 ==0:
+                #     self.label = QtWidgets.QLabel(self.widget)
+                #     self.label.setGeometry(x1 + 3, y1 + j + k-20, 390, 20)
+                #     self.label.setText(text_label)
+                #     self.font.setPointSize(14)
+                #     self.label.setFont(self.font)
+                #     self.font.setPointSize(11)
+                #     flag2 =1
+                self.list_widget = QtWidgets.QListWidget(self.widget)
                 self.list_widget.setFont(self.font)
                 fon_metric = self.list_widget.fontMetrics().width(param_obj[i][1])
                 self.list_widget.setStyleSheet('background-color:rgb(255,255,255);')
@@ -611,7 +608,7 @@ class Param(QWidget):
                 # self.list_widget.setWordWrap(True)
                 # self.listWidgetItem.setTextAlignment(QtCore.Qt.AlignCenter)
 
-                self.list_widget1 = QtWidgets.QListWidget(self.centr_widget)
+                self.list_widget1 = QtWidgets.QListWidget(self.widget)
                 self.listWidgetItem1 = QtWidgets.QListWidgetItem("0")
                 self.list_widget1.addItem(self.listWidgetItem1)
                 # self.list_widget1.setFrameShape(QtWidgets.QFrame.NoFrame)
