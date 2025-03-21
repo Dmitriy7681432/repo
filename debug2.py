@@ -249,3 +249,22 @@ def trans_str(metric,text):
 text = 'Уровень топлива во внутреннем баке с датчика, мм*10^-1'
 a = trans_str(365,text)
 print(a)
+
+addr1 = 0xbfdc0000
+addr2 = 0xbfdc0000
+addr3 = 0xbfdc0000
+ad_lst1 = []
+ad_lst2 = []
+
+while(addr1 <= 0xbfdfffc0):
+    addr1 += 32
+    ad_lst1.append(hex(addr1))
+print(ad_lst1)
+while(addr2 <= 0xbfdfffc0):
+    addr2 += 24
+    ad_lst2.append(hex(addr2))
+print(ad_lst2)
+
+while(addr3 <= 0xbfdfffc0):
+    addr3 +=12
+    print(hex(addr3))

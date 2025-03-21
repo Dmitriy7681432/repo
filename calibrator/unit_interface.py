@@ -268,7 +268,7 @@ class Param(QWidget):
         # self.horizontLayout.setObjectName("horizontLayout")
 
         self.centr_widget = QtWidgets.QWidget()
-        self.centr_widget.setGeometry(QtCore.QRect(500,500,500,500))
+        self.centr_widget.setGeometry(QtCore.QRect(600,600,600,600))
 
         self.data_tab =QtWidgets.QTabWidget()
         # model = QtGui.QStandardItemModel()
@@ -520,7 +520,7 @@ class Param(QWidget):
     def add_List(self,x1,y1,x2,y2,param_dict,text):
 
         self.widget= QtWidgets.QWidget(self.centr_widget)
-        self.widget.setGeometry(QtCore.QRect(500,500,500,500))
+        self.widget.setGeometry(QtCore.QRect(600,600,600,600))
 
         self.data_tab.addTab(self.widget, "Вкладка 1")
         self.data_tab.setCurrentIndex(0)
@@ -535,6 +535,7 @@ class Param(QWidget):
         fon_metric =0
         flag=0
         flag2=0
+        size_all_widget = 0
 
         for elem in param_dict.items():
             j = [j for j in elem[1].values()]
@@ -547,28 +548,18 @@ class Param(QWidget):
         for i in range(0,len(param_obj)):
             j = i*20
 
-            # if i == 53: flag = 0; flag2 = 0
-            # if i >26 and i <53 and flag ==0:
-            #     x1 = 450
-            #     x2 = 740
-            #     j =20
-            #     k =0
-            #     z =0
-            #     flag =1
-            # elif i >52 and i <78 and flag==0:
-            #     x1 = 10
-            #     x2 = 300
-            #     j = 20
-            #     k = 0
-            #     z = 0
-            #     flag = 1
-            #     self.widget = QtWidgets.QWidget(self.centr_widget)
-            #     self.widget.setGeometry(QtCore.QRect(500, 500, 500, 500))
-            #     self.data_tab.addTab(self.widget, "Вкладка 2")
-            # elif flag ==1:
-            #     if i>26 and i<53: j-=520
-            #     if i>52: j-= 1040
-
+            # if i >26 and flag ==0:
+            if size_all_widget >self.widget.size().height() and flag ==0:
+                x1 = 450
+                x2 = 740
+                j =20
+                k =0
+                z =0
+                flag =1
+            # elif i> 26 and flag ==1:
+            elif size_all_widget > self.widget.size().height() and flag == 1:
+                j-=520
+            printf(param_obj[i][0])
             if param_obj[i][0] == 'head':
                 self.label = QtWidgets.QLabel(self.widget)
                 if fon_metric<=269:
@@ -579,21 +570,22 @@ class Param(QWidget):
                         self.label.setGeometry(x1 + 3, y1 + j+z+k, 390, 20)
                 else:
                     self.label.setGeometry(x1 + 3, y1 + j+j+k, 390, 20)
+                size_all_widget+=self.label.size().height()
                 text_label = param_obj[i][1]
                 self.label.setText(text_label)
                 self.font.setPointSize(14)
                 self.label.setFont(self.font)
                 self.font.setPointSize(11)
             else:
-                # printf(param_obj[i][1])
-                # if flag ==1 and flag2 ==0:
-                #     self.label = QtWidgets.QLabel(self.widget)
-                #     self.label.setGeometry(x1 + 3, y1 + j + k-20, 390, 20)
-                #     self.label.setText(text_label)
-                #     self.font.setPointSize(14)
-                #     self.label.setFont(self.font)
-                #     self.font.setPointSize(11)
-                #     flag2 =1
+                if flag ==1 and flag2 ==0:
+                    self.label = QtWidgets.QLabel(self.widget)
+                    self.label.setGeometry(x1 + 3, y1 + j + k-20, 390, 20)
+                    self.label.setText(text_label)
+                    self.font.setPointSize(14)
+                    self.label.setFont(self.font)
+                    self.font.setPointSize(11)
+                    flag2 =1
+                    size_all_widget+=self.label.size().height()
                 self.list_widget = QtWidgets.QListWidget(self.widget)
                 self.list_widget.setFont(self.font)
                 fon_metric = self.list_widget.fontMetrics().width(param_obj[i][1])
@@ -601,7 +593,7 @@ class Param(QWidget):
                 text1 = self.trans_str(fon_metric,param_obj[i][1])
                 self.listWidgetItem = QtWidgets.QListWidgetItem(text1[0])
                 self.list_widget.addItem(self.listWidgetItem)
-                printf(fon_metric,text1[0],i)
+                # printf(fon_metric,text1[0],i)
                 # self.list_widget.setFrameShape(QtWidgets.QFrame.NoFrame)
                 # self.list_widget.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
                 # self.list_widget.itemChanged.connect(self.text_changed)
@@ -620,7 +612,9 @@ class Param(QWidget):
                 self.lst_widget.append(self.list_widget)
                 self.lst_widget1.append(self.list_widget1)
                 self.lst_widget_item1.append(self.listWidgetItem1)
+                printf(fon_metric)
                 if fon_metric<=269:
+                    printf(j,z,k,text1[0])
                     self.list_widget.setGeometry(x1, y1 + j+z+k, 290, 20)
                     self.list_widget1.setGeometry(x2, y2 + j+z+k, 100, 20)
                 else:
@@ -635,6 +629,7 @@ class Param(QWidget):
                         self.listWidgetItem1.setSizeHint(QtCore.QSize(10, 35))
                         k+=15
 
+                size_all_widget+=self.list_widget.size().height()
 
             # printf(fon_metric)
             # if fon_metric > 269:
