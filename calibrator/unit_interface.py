@@ -369,7 +369,10 @@ class Param(QWidget):
         # param_dicts = self.count_keys(param_dict[unit])
         # printf(param_dicts,len(param_dict[unit]))
         # printf(len(param_dict[unit].items()),param_dict[unit])
-        self.add_List(10, 10, 300, 10, param_dict[unit], text)
+        start = self.add_List(10, 10, 300, 10, param_dict[unit], 0)
+        printf(start)
+        # self.add_List(10, 10, 300, 10, param_dict[unit], start)
+
         # self.add_List(450, 10, 740, 10, param_dict[unit], text)
 
         # self.add_List_View(10, 10, 300, 10, params, text)
@@ -517,7 +520,7 @@ class Param(QWidget):
             return [text]
         else: return [text]
 
-    def add_List(self,x1,y1,x2,y2,param_dict,text):
+    def add_List(self,x1,y1,x2,y2,param_dict,start_while):
 
         self.widget= QtWidgets.QWidget(self.centr_widget)
         self.widget.setGeometry(QtCore.QRect(600,600,600,600))
@@ -545,20 +548,26 @@ class Param(QWidget):
         printf(param_obj)
 
         # for i in range(0,self.count_keys(param_dict)+len(param_dict)):
-        for i in range(0,len(param_obj)):
+        print(type(start_while))
+        for i in range(start_while,len(param_obj)):
             j = i*20
 
             # if i >26 and flag ==0:
             if size_all_widget >self.widget.size().height() and flag ==0:
+                tmp = j-20
                 x1 = 450
                 x2 = 740
                 j =20
                 k =0
                 z =0
                 flag =1
+                size_all_widget =0
             # elif i> 26 and flag ==1:
-            elif size_all_widget > self.widget.size().height() and flag == 1:
-                j-=520
+            elif flag == 1:
+                j-=tmp
+                if size_all_widget >self.widget.size().height():
+                    printf(i)
+                    return
             printf(param_obj[i][0])
             if param_obj[i][0] == 'head':
                 self.label = QtWidgets.QLabel(self.widget)
