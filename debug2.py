@@ -268,3 +268,6 @@ ad_lst2 = []
 while(addr3 <= 0xbfdfffc0):
     addr3 +=36
     print(hex(addr3))
+
+for i in range(0,5):
+    print(i)
