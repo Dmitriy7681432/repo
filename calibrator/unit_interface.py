@@ -444,6 +444,12 @@ class Param(QWidget):
             if start_while!=0:
                 j-=start_while*20
 
+            if size_all_widget+20 > self.widget.size().height() and param_obj[i][0] == 'head':
+                size_all_widget += self.label.size().height()
+                flag2=1
+                printf(j)
+                printf(size_all_widget+20,self.label.size().height(),self.widget.size().height())
+
             # if i >26 and flag ==0:
             if size_all_widget >self.widget.size().height() and flag ==0:
                 tmp = j-20
@@ -479,7 +485,7 @@ class Param(QWidget):
                 self.font.setPointSize(14)
                 self.label.setFont(self.font)
                 self.font.setPointSize(11)
-            else:
+            elif param_obj[i][0] =='name':
                 if flag ==1 and flag2 ==0:
                     self.label = QtWidgets.QLabel(self.widget)
                     self.label.setGeometry(x1 + 3, y1 + j + k-20, 390, 20)
@@ -541,7 +547,6 @@ class Param(QWidget):
                         k+=15
 
                 size_all_widget+=self.list_widget.size().height()
-
             # printf(fon_metric)
             # if fon_metric > 269:
             #     # printf('fon_m',j)
