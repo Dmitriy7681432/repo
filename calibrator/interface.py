@@ -26,7 +26,8 @@ class Main():
         x = desktop.width();
         y = desktop.height()
         print(x, y)
-        x_size_desktop = int(x / 2.2);
+        # x_size_desktop = int(x / 2.2);
+        x_size_desktop = 885
         y_size_desktop = int(y / 1.3)
 
 
@@ -42,9 +43,10 @@ class Main():
         self.vbox = QVBoxLayout()
         self.stackedWidget = QtWidgets.QStackedWidget()
         self.stackedWidget.setGeometry(QtCore.QRect(0, 68, stack_size_yy, stack_size_xx))
+        printf(self.stackedWidget.size().height())
         self.stackedWidget.setObjectName("stackedWidget")
 
-        print(stack_size_x,stack_size_y,stack_size_yy,stack_size_xx)
+        printf(stack_size_x,stack_size_y,stack_size_yy,stack_size_xx)
         # self.centralwidget.setGeometry(800,800,800,800)
         # self.centralwidget.setGeometry(0,0,768,50)
 
@@ -244,9 +246,9 @@ class Main():
         self.unit_bu400_calibr = Unit(self.data_dict_bu400.data_dict, 'calibr', 'BU400')
         self.unit_bu50_calibr = Unit(self.data_dict_bu50.data_dict, 'calibr', 'BU50')
         self.unit_buses_calibr = Unit(self.data_dict_buses.data_dict, 'calibr', 'BUSES')
-        self.param_bu400 = Param(self.data_dict_bu400.param_dict,'BU_400')
-        self.param_bu50 = Param(self.data_dict_bu50.param_dict,'BU_50')
-        self.param_buses = Param(self.data_dict_buses.param_dict,'BU_SES')
+        self.param_bu400 = Param(self.data_dict_bu400.param_dict,'BU_400',int(y/2))
+        self.param_bu50 = Param(self.data_dict_bu50.param_dict,'BU_50',int(y/2))
+        self.param_buses = Param(self.data_dict_buses.param_dict,'BU_SES',int(y/2))
 
         self.stackedWidget.addWidget(self.unit_bu400_preset)
         self.stackedWidget.addWidget(self.unit_bu50_preset)

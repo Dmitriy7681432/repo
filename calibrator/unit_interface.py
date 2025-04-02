@@ -238,12 +238,13 @@ class Unit(QWidget):
 
 class Param(QWidget):
 
-    def __init__(self,param_dict,unit):
+    def __init__(self,param_dict,unit,size_stacked):
         super().__init__()
 
-        self.initUI(param_dict,unit)
+        self.initUI(param_dict,unit,size_stacked)
 
-    def initUI(self,param_dict,unit):
+    def initUI(self,param_dict,unit,size_stacked):
+        self.size_stacked = size_stacked
         # Шрифт
         self.font = QtGui.QFont()
         self.font.setFamily("Times New Roman")
@@ -358,8 +359,8 @@ class Param(QWidget):
         #         self.lst_widget[i].setGeometry(10, 10 + i, 290, 20)
         #         self.lst_widget1[i].setGeometry(300, 10 + i, 100, 20)
 
-        params = [1, 2, 3,4,5,6]
-        text = ['Параметры уставки калибровки классы %']
+        # params = [1, 2, 3,4,5,6]
+        # text = ['Параметры уставки калибровки классы %']
         # text1 = 'Параметры уставки калибровки классы аt'
         # text1 = list(text1)
         # if text1[35] == ' ':
@@ -420,7 +421,8 @@ class Param(QWidget):
         printf('func add_list')
 
         self.widget= QtWidgets.QWidget(self.centr_widget)
-        self.widget.setGeometry(QtCore.QRect(600,600,600,600))
+        printf(self.size_stacked)
+        self.widget.setGeometry(QtCore.QRect(self.size_stacked,self.size_stacked,self.size_stacked,self.size_stacked))
 
         self.data_tab.addTab(self.widget, "Вкладка 1")
         self.data_tab.setCurrentIndex(0)
