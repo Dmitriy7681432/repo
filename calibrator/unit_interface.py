@@ -449,20 +449,20 @@ class Param(QWidget):
             if size_all_widget+20 > self.widget.size().height() and param_obj[i][0] == 'head':
                 size_all_widget += self.label.size().height()
                 flag2=1
+                # j-=20
                 printf(j)
                 printf(size_all_widget+20,self.label.size().height(),self.widget.size().height())
 
-            # if i >26 and flag ==0:
             if size_all_widget >self.widget.size().height() and flag ==0:
-                tmp = j-20
+                printf()
+                tmp = j
                 x1 = 450
                 x2 = 740
-                j =20
+                j =0
                 k =0
                 z =0
                 flag =1
                 size_all_widget =0
-            # elif i> 26 and flag ==1:
             elif flag == 1:
                 j-=tmp
                 if size_all_widget >self.widget.size().height():
@@ -470,13 +470,14 @@ class Param(QWidget):
                     return i,text_label
             elif start_while!=0:
                 j+=20
-            # printf(param_obj[i][0])
             if param_obj[i][0] == 'head':
+                printf(param_obj[i][1],param_obj[i][0])
                 self.label = QtWidgets.QLabel(self.widget)
                 if fon_metric<=269:
                     if j ==0:
                         self.label.setGeometry(x1 + 3, y1 + j+k, 390, 20)
                     else:
+                        printf(j,z,k)
                         z+=5
                         self.label.setGeometry(x1 + 3, y1 + j+z+k, 390, 20)
                 else:
@@ -490,7 +491,8 @@ class Param(QWidget):
             elif param_obj[i][0] =='name':
                 if flag ==1 and flag2 ==0:
                     self.label = QtWidgets.QLabel(self.widget)
-                    self.label.setGeometry(x1 + 3, y1 + j + k-20, 390, 20)
+                    printf()
+                    self.label.setGeometry(x1 + 3, y1 + j + k, 390, 20)
                     self.label.setText(text_label)
                     self.font.setPointSize(14)
                     self.label.setFont(self.font)
@@ -499,6 +501,7 @@ class Param(QWidget):
                     size_all_widget+=self.label.size().height()
                 elif start_while ==i and start_while !=0:
                     self.label = QtWidgets.QLabel(self.widget)
+                    printf()
                     self.label.setGeometry(x1 + 3, y1 + j + k-20, 390, 20)
                     self.label.setText(text_label)
                     self.font.setPointSize(14)
@@ -534,8 +537,13 @@ class Param(QWidget):
                 # printf(fon_metric)
                 if fon_metric<=269:
                     printf(j,z,k,text1[0])
-                    self.list_widget.setGeometry(x1, y1 + j+z+k, 290, 20)
-                    self.list_widget1.setGeometry(x2, y2 + j+z+k, 100, 20)
+                    if flag==0:
+                        self.list_widget.setGeometry(x1, y1 + j+z+k, 290, 20)
+                        self.list_widget1.setGeometry(x2, y2 + j+z+k, 100, 20)
+                    else:
+                        self.list_widget.setGeometry(x1, y1 + j+z+k+20, 290, 20)
+                        self.list_widget1.setGeometry(x2, y2 + j+z+k+20, 100, 20)
+
                 else:
                     if k==0:
                         self.list_widget.setGeometry(x1, y1 + j+z, 290, 35)
@@ -549,6 +557,7 @@ class Param(QWidget):
                         k+=15
 
                 size_all_widget+=self.list_widget.size().height()
+
             # printf(fon_metric)
             # if fon_metric > 269:
             #     # printf('fon_m',j)
