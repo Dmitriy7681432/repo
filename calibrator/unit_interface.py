@@ -454,7 +454,7 @@ class Param(QWidget):
                 printf(size_all_widget+20,self.label.size().height(),self.widget.size().height())
 
             if size_all_widget >self.widget.size().height() and flag ==0:
-                printf()
+                printf(size_all_widget,self.label.size().height(),self.widget.size().height())
                 tmp = j
                 x1 = 450
                 x2 = 740
@@ -545,11 +545,19 @@ class Param(QWidget):
                         self.list_widget1.setGeometry(x2, y2 + j+z+k+20, 100, 20)
 
                 else:
+                    printf(j,z,k,text1[0])
                     if k==0:
-                        self.list_widget.setGeometry(x1, y1 + j+z, 290, 35)
-                        self.list_widget1.setGeometry(x2, y2 + j+z, 100, 35)
-                        self.listWidgetItem1.setSizeHint(QtCore.QSize(10, 35))
-                        k=+15
+                        if j ==0 and flag ==1:
+                            printf()
+                            self.list_widget.setGeometry(x1, y1 + j + z+20, 290, 35)
+                            self.list_widget1.setGeometry(x2, y2 + j + z+20, 100, 35)
+                            self.listWidgetItem1.setSizeHint(QtCore.QSize(10, 35))
+                            k+=15
+                        else:
+                            self.list_widget.setGeometry(x1, y1 + j+z, 290, 35)
+                            self.list_widget1.setGeometry(x2, y2 + j+z, 100, 35)
+                            self.listWidgetItem1.setSizeHint(QtCore.QSize(10, 35))
+                            k=+15
                     else:
                         self.list_widget.setGeometry(x1, y1 + j+z+k, 290, 35)
                         self.list_widget1.setGeometry(x2, y2 + j+z+k, 100, 35)
