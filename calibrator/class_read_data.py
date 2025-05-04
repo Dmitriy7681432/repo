@@ -225,7 +225,7 @@ class Calibrator(Connect):
                     if units ==i:
                         self.param_dict[self.control_block][eskd.text] = self.param_dict[self.control_block].pop(i)
                         break
-        printf(self.param_dict)
+        #printf(self.param_dict)
 
             # if product==self.product and units==unit:
             #     return eskd.text

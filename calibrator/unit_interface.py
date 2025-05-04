@@ -72,12 +72,14 @@ class Unit(QWidget):
             item1.setSelectable(False)
             item2.setSelectable(False)
             self.item3.setSelectable(False)
+            item1.setSizeHint(QtCore.QSize(20,100))
 
             self.model.appendRow([item1,item2,self.item3])
             table.setModel(self.model)
             table.setRowHeight(count, 12)
             count +=1
             count2 +=1
+            printf(item1.sizeHint().height())
             if count ==34 or count2 == len_data_dict:
                 table.setColumnWidth(0, 190)
                 table.setColumnWidth(1, 520)
@@ -378,16 +380,16 @@ class Param(QWidget):
             param_obj.append(('head',elem[0]))
             for i in j:
                 param_obj.append(('name',i[0]))
-        printf(param_obj)
+        # printf(param_obj)
 
         len_for = round(((len(param_obj)*20/self.size_stacked)/2)+0.5)
-        printf(len_for,len(param_obj),self.size_stacked)
+        # printf(len_for,len(param_obj),self.size_stacked)
         arg =(0,0)
         for i in range(0,len_for):
             i+=1
             self.widget = QtWidgets.QWidget(self.centr_widget)
             self.data_tab.addTab(self.widget, f"Вкладка {i}")
-            printf(self.size_stacked)
+            # printf(self.size_stacked)
             self.widget.setGeometry(
             QtCore.QRect(self.size_stacked, self.size_stacked, self.size_stacked, self.size_stacked))
 
@@ -395,7 +397,7 @@ class Param(QWidget):
             self.data_tab.setStyleSheet('background-color:rgb(220,254,225);')
             if arg!=None:
                 arg = self.add_List_half(10, 10, 300, 10, param_obj, arg[0],arg[1])
-                printf(arg)
+                # printf(arg)
             if arg!=None:
                 arg = self.add_List_half(450, 10, 740, 10, param_obj, arg[0], arg[1])
         # if arg !=None:
@@ -441,7 +443,7 @@ class Param(QWidget):
         # print('Unit2')
 
     def add_List_half(self,x1,y1,x2,y2,param_obj,start_while,text_label):
-        printf('func add_list_half')
+        # printf('func add_list_half')
 
         self.lst_widget = []
         self.lst_widget1 = []
@@ -461,17 +463,17 @@ class Param(QWidget):
                 size_all_widget += self.label.size().height()
 
             if size_all_widget > self.widget.size().height():
-                printf(i,text_label)
+                # printf(i,text_label)
                 return i, text_label
 
             if param_obj[i][0] == 'head':
-                printf(param_obj[i][1], param_obj[i][0])
+                # printf(param_obj[i][1], param_obj[i][0])
                 self.label = QtWidgets.QLabel(self.widget)
                 if fon_metric <= 269:
                     if j == 0:
                         self.label.setGeometry(x1 + 3, y1 + j + k, 390, 20)
                     else:
-                        printf(j, z, k)
+                        # printf(j, z, k)
                         z += 5
                         self.label.setGeometry(x1 + 3, y1 + j + z + k, 390, 20)
                 else:
@@ -495,7 +497,6 @@ class Param(QWidget):
                 #     size_all_widget += self.label.size().height()
                 if start_while == i and start_while != 0:
                     self.label = QtWidgets.QLabel(self.widget)
-                    printf()
                     self.label.setGeometry(x1 + 3, y1 + j + k, 390, 20)
                     self.label.setText(text_label)
                     self.font.setPointSize(14)
@@ -531,7 +532,7 @@ class Param(QWidget):
                 self.lst_widget_item1.append(self.listWidgetItem1)
                 # printf(fon_metric)
                 if fon_metric <= 269:
-                    printf(j, z, k, text1[0])
+                    # printf(j, z, k, text1[0])
                     if flag == 0:
                         self.list_widget.setGeometry(x1, y1 + j + z + k, 290, 20)
                         self.list_widget1.setGeometry(x2, y2 + j + z + k, 100, 20)
@@ -540,7 +541,7 @@ class Param(QWidget):
                         self.list_widget1.setGeometry(x2, y2 + j + z + k, 100, 20)
 
                 else:
-                    printf(j, z, k, text1[0])
+                    # printf(j, z, k, text1[0])
                     if k == 0:
                         # # if j == 0 and flag == 1:
                         # #     printf()
