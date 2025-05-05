@@ -79,7 +79,7 @@ class Unit(QWidget):
             count +=1
             count2 +=1
             # cnt_elem = round((table.size().height()/table.rowHeight(0))+0.5)
-            cnt_elem = round((height_desktop/1.7/table.rowHeight(0))+0.5)
+            cnt_elem = round((height_desktop/2/table.rowHeight(0))+0.5)
             # printf(cnt_elem)
             if count ==cnt_elem or count2 == len_data_dict:
                 table.setColumnWidth(0, 190)
@@ -118,13 +118,14 @@ class Unit(QWidget):
         # return self.page
 
     def is_valid_email(self,data):
-        # return re.match('^[0-9]*[.][0-9]+$', data) is not None
-        return re.match('^-?\d+\.?\d*$', data) is not None
+        return re.match('^[0-9]*[.][0-9]+$', data) is not None
+        # return re.match('^-?\d+\.?\d*$', data) is not None
 
     def changedValue(self, value):
         if self.readData_flag ==0:
             item = self.lst_model[self.index_data_tab].item(value.row(), value.column())
             # if not value.text().isalpha() and '.' in self.checkValue and '.' in value.text():
+            printf(type(self.checkValue),type(value.text()))
             if self.is_valid_email(self.checkValue) and self.is_valid_email(value.text()):
                 printf('Data_float', value.text(), value.row())
                 item.setBackground(QtGui.QBrush(QtGui.QColor(255,255,9)))

@@ -246,9 +246,9 @@ class Main():
         self.unit_bu400_calibr = Unit(self.data_dict_bu400.data_dict, 'calibr', 'BU400',y)
         self.unit_bu50_calibr = Unit(self.data_dict_bu50.data_dict, 'calibr', 'BU50',y)
         self.unit_buses_calibr = Unit(self.data_dict_buses.data_dict, 'calibr', 'BUSES',y)
-        self.param_bu400 = Param(self.data_dict_bu400.param_dict,'BU_400',int(y/1.8))
-        self.param_bu50 = Param(self.data_dict_bu50.param_dict,'BU_50',int(y/1.8))
-        self.param_buses = Param(self.data_dict_buses.param_dict,'BU_SES',int(y/1.8))
+        self.param_bu400 = Param(self.data_dict_bu400.param_dict,'BU_400',int(y/2))
+        self.param_bu50 = Param(self.data_dict_bu50.param_dict,'BU_50',int(y/2))
+        self.param_buses = Param(self.data_dict_buses.param_dict,'BU_SES',int(y/2))
 
         self.stackedWidget.addWidget(self.unit_bu400_preset)
         self.stackedWidget.addWidget(self.unit_bu50_preset)
