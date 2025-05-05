@@ -9,11 +9,11 @@ from debug import printf
 
 class Unit(QWidget):
 
-    def __init__(self, data_dict,data, unit):
+    def __init__(self, data_dict,data, unit, height_desktop):
         super().__init__()
-        self.initUI(data_dict,data,unit)
+        self.initUI(data_dict,data,unit, height_desktop)
 
-    def initUI(self,data_dict, data,unit):
+    def initUI(self,data_dict, data,unit,height_desktop):
         # Шрифт
         font = QtGui.QFont()
         font.setFamily("Times New Roman")
@@ -72,18 +72,20 @@ class Unit(QWidget):
             item1.setSelectable(False)
             item2.setSelectable(False)
             self.item3.setSelectable(False)
-            item1.setSizeHint(QtCore.QSize(20,100))
 
             self.model.appendRow([item1,item2,self.item3])
             table.setModel(self.model)
             table.setRowHeight(count, 12)
             count +=1
             count2 +=1
-            printf(item1.sizeHint().height())
-            if count ==34 or count2 == len_data_dict:
+            # cnt_elem = round((table.size().height()/table.rowHeight(0))+0.5)
+            cnt_elem = round((height_desktop/1.7/table.rowHeight(0))+0.5)
+            # printf(cnt_elem)
+            if count ==cnt_elem or count2 == len_data_dict:
                 table.setColumnWidth(0, 190)
                 table.setColumnWidth(1, 520)
                 table.setColumnWidth(2, 154)
+                table.setRowHeight(0,30)
                 self.model.setHorizontalHeaderLabels(['Обозначение', 'Наименование', 'Значение'])
                 table.setFont(font)
                 table.verticalHeader().setVisible(False)

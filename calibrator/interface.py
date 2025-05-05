@@ -25,7 +25,7 @@ class Main():
         desktop = QtWidgets.QApplication.desktop()
         x = desktop.width();
         y = desktop.height()
-        print(x, y)
+        printf(x, y)
         # x_size_desktop = int(x / 2.2);
         x_size_desktop = 885
         y_size_desktop = int(y / 1.3)
@@ -240,15 +240,15 @@ class Main():
         self.data_dict_bu50= Calibrator(ser.ser, 'SES200M', 'BU_50')
         self.data_dict_buses= Calibrator(ser.ser, 'SES200M', 'BU_SES')
 
-        self.unit_bu400_preset = Unit(self.data_dict_bu400.data_dict, 'preset', 'BU400')
-        self.unit_bu50_preset = Unit(self.data_dict_bu50.data_dict, 'preset', 'BU50')
-        self.unit_buses_preset = Unit(self.data_dict_buses.data_dict, 'preset', 'BUSES')
-        self.unit_bu400_calibr = Unit(self.data_dict_bu400.data_dict, 'calibr', 'BU400')
-        self.unit_bu50_calibr = Unit(self.data_dict_bu50.data_dict, 'calibr', 'BU50')
-        self.unit_buses_calibr = Unit(self.data_dict_buses.data_dict, 'calibr', 'BUSES')
-        self.param_bu400 = Param(self.data_dict_bu400.param_dict,'BU_400',int(y/2))
-        self.param_bu50 = Param(self.data_dict_bu50.param_dict,'BU_50',int(y/2))
-        self.param_buses = Param(self.data_dict_buses.param_dict,'BU_SES',int(y/2))
+        self.unit_bu400_preset = Unit(self.data_dict_bu400.data_dict, 'preset', 'BU400',y)
+        self.unit_bu50_preset = Unit(self.data_dict_bu50.data_dict, 'preset', 'BU50',y)
+        self.unit_buses_preset = Unit(self.data_dict_buses.data_dict, 'preset', 'BUSES',y)
+        self.unit_bu400_calibr = Unit(self.data_dict_bu400.data_dict, 'calibr', 'BU400',y)
+        self.unit_bu50_calibr = Unit(self.data_dict_bu50.data_dict, 'calibr', 'BU50',y)
+        self.unit_buses_calibr = Unit(self.data_dict_buses.data_dict, 'calibr', 'BUSES',y)
+        self.param_bu400 = Param(self.data_dict_bu400.param_dict,'BU_400',int(y/1.8))
+        self.param_bu50 = Param(self.data_dict_bu50.param_dict,'BU_50',int(y/1.8))
+        self.param_buses = Param(self.data_dict_buses.param_dict,'BU_SES',int(y/1.8))
 
         self.stackedWidget.addWidget(self.unit_bu400_preset)
         self.stackedWidget.addWidget(self.unit_bu50_preset)
@@ -308,6 +308,8 @@ class Main():
         self.buttonUnit3.setDown(False)
         if self.readData_bu400_flag ==0:
             self.buttonAction2.setEnabled(False)
+        else:
+            self.buttonAction2.setEnabled(True)
 
     def UnitWidget2(self):
         if self.buttonCalibr.isChecked():
@@ -324,6 +326,8 @@ class Main():
         self.buttonUnit3.setDown(False)
         if self.readData_bu50_flag ==0:
             self.buttonAction2.setEnabled(False)
+        else:
+            self.buttonAction2.setEnabled(True)
 
     def UnitWidget3(self):
         if self.buttonCalibr.isChecked():
@@ -340,6 +344,8 @@ class Main():
         self.buttonUnit2.setDown(False)
         if self.readData_buses_flag ==0:
             self.buttonAction2.setEnabled(False)
+        else:
+            self.buttonAction2.setEnabled(True)
 
     def UstWidget(self):
         if self.buttonUnit1.isChecked():
