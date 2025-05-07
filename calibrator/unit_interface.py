@@ -99,10 +99,11 @@ class Unit(QWidget):
 
         self.index_data_tab = self.data_tab.currentIndex()
         for i in range(0,self.data_tab.count()):
-            self.lst_table[i].clicked.connect(self.selectRow)
+            self.lst_table[i].clicked.connect(self.selectRow1)
             self.lst_model[i].itemChanged.connect(self.changedValue)
-            self.lst_table[i].entered.connect(self.pressedValue)
-            # self.lst_model[i].intered.connect(self.presedValue)
+            self.lst_table[i].entered.connect(self.enteredValue)
+            self.lst_table[i].pressed.connect(self.pressedValue)
+            self.lst_table[i].selectRow(0)
         self.data_tab.currentChanged.connect(self.selectDataTab)
 
         self.readData_flag = 0
@@ -118,26 +119,29 @@ class Unit(QWidget):
         # return self.page
 
     def is_valid_email(self,data):
-        return re.match('^[0-9]*[.][0-9]+$', data) is not None
-        # return re.match('^-?\d+\.?\d*$', data) is not None
+        # return re.match('^[0-9]*[.][0-9]+$', data) is not None
+        return re.match('^-?\d+\.?\d*$', data) is not None
 
     def changedValue(self, value):
+        # printf(value.data)
         if self.readData_flag ==0:
             item = self.lst_model[self.index_data_tab].item(value.row(), value.column())
             # if not value.text().isalpha() and '.' in self.checkValue and '.' in value.text():
-            printf(type(self.checkValue),type(value.text()))
-            if self.is_valid_email(self.checkValue) and self.is_valid_email(value.text()):
-                printf('Data_float', value.text(), value.row())
-                item.setBackground(QtGui.QBrush(QtGui.QColor(255,255,9)))
-            elif value.text().isdigit() and (not '.' in self.checkValue and not '.' in value.text()):
+            printf(self.checkValue,value.text())
+            if (not '.' in self.checkValue) and (not '.' in value.text()) and \
+                    self.is_valid_email(value.text()) and self.is_valid_email(self.checkValue):
                 printf('Data_int', value.text(), value.row())
+                item.setBackground(QtGui.QBrush(QtGui.QColor(255, 255, 9)))
+            elif '.' in self.checkValue and '.' in value.text() and \
+                self.is_valid_email(self.checkValue) and self.is_valid_email(value.text()):
+                printf('Data_float', value.text(), value.row())
                 item.setBackground(QtGui.QBrush(QtGui.QColor(255, 255, 9)))
             else:
                 printf('CHANGE',value.row(),value.column(),self.checkValue)
                 item.setChild(value.row(),value.column(), item.setText(self.checkValue))
 
 
-    def selectRow(self, data):
+    def selectRow1(self, data):
         self.checkValue = data.data()
         printf('SELECT', data.row(), data.column(), data.data())
 
@@ -145,9 +149,14 @@ class Unit(QWidget):
     def selectDataTab(self,index):
         self.index_data_tab = index
 
-    def pressedValue(self,value):
-        printf(value.data())
+    def enteredValue(self,value):
+        printf('ENTERED',value.data())
 
+    def pressedValue(self,value):
+        printf('PRESSED',value.data())
+
+    def activatedValue(self,value):
+        printf('ACTIVATED',value.data())
     def readData(self,data_dict,data):
         self.readData_flag =1
         # self.lst_model[0].itemChanged.disconnect()

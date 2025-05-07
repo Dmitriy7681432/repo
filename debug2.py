@@ -143,7 +143,9 @@ def is_valid_email(data):
 
 
 # data = "gkegfemeeуууее&@("
-data = "-12.12432"
+data = "1"
+if not '.' in data and is_valid_email(data):
+    print('Yes')
 
 
 print(is_valid_email(data))
@@ -151,35 +153,35 @@ print(is_valid_email(data))
 df ='8'
 if float(df):
     print('OOOO')
-print(float(df))
+# print(float(df))
 
 
 lst = ['1','2']
 lst [0] = '3'
-print(lst)
+# print(lst)
 x = {'one': 1, 'two': 2, 'three': 3, 'four': 4}
 xx = x.copy()
 xx['one'] = 2
-print(x)
-print(xx)
+# print(x)
+# print(xx)
 
 def foo(data):
     if not hasattr(foo, "counter"):
         foo.counter = 0
     foo.counter += 1
-    print("counter is", foo.counter)
+    # print("counter is", foo.counter)
     return foo.counter
 
-print(foo(1))
-print(foo(2))
+# print(foo(1))
+# print(foo(2))
 import struct
 f = open('preset1.bin','wb')
 sr = struct.pack('f', 0.1)
 sr1 = struct.pack('f', 0.8)
 sr2 = struct.pack('f', 0.8)
 sr3 = struct.pack('f', 0.8)
-print(sr)
-print(sr1)
+# print(sr)
+# print(sr1)
 f.write(sr)
 f.write(sr1)
 f.write(sr2)
@@ -189,12 +191,12 @@ f.close()
 a = '00000320'
 a = 'c2e70000'
 a = struct.unpack('!f', bytes.fromhex(a))[0]
-print(a)
+# print(a)
 
 text1 = 'Параметры уставки калибровки классы аt'
 text1 = list(text1)
 # text1 = ''.join(text1)
-print(text1)
+# print(text1)
 
 def fun_text(text):
     pass
@@ -202,7 +204,7 @@ def fun_text(text):
 dct = {}
 dct['ar'] = {}
 
-print(dct)
+# print(dct)
 dct['ar']['N_U'] = ['reo','qw']
 dct['ar']['N1_U'] = ['reo','qw']
 dct['ar1'] = {}
@@ -210,16 +212,16 @@ dct['ar1']['N2_U'] = ['reo','qw']
 dct['ar1']['N3_U'] = ['reo','qw']
 dct['ar']['N4_U'] = dct['ar'].pop('N_U')
 # dct['rr'] = dct['ar']; del dct['ar']
-print(dct)
+# print(dct)
 
 
 param_dict  ={'BU_400': {'ElectroStation': {'ALARM_REACT_CHANGE': ['Изменение реакции аварий', 'int']}, 'Net': {'N_STATE': ['Состояние', 'int'], 'NET1_NORM': ['Параметры сети 1 в норме', 'int']}, 'Net2': {'N2_STATE': ['Состояние', 'int'], 'NET2_NORM': ['Параметры сети 2 в норме', 'int']}, 'EA': {'EA_STATE': ['Состояние', 'int'], 'EA_t_COOL': ['t охлаждающей жидкости, °C', 'float']}, 'BU': {'AIR_TEMP': ['T воздуха в отсеке, °C', 'float']}, 'FUEL_PUMP': {'LEVEL_FUEL': ['Уровень топлива во внутреннем баке с датчика, мм*10^-1', 'int'], 'LEVEL_EXT_FUEL': ['Уровень топлива во внешнем баке с датчика, мм*10^-1', 'int'], 'GRADIENT_LEVEL_FUEL': ['Градиент уровня топлива во внутреннем баке', 'float'], 'GRADIENT_LEVEL_EXT_FUEL': ['Градиент уровня топлива во внешнем баке', 'float'], 'NZT_STATE': ['Состояние НЗТ', 'int'], 'LEVEL_FUEL_CALC': ['Уровень топлива во внутреннем баке, вычисляемый, %', 'float'], 'LEVEL_EXT_FUEL_CALC': ['Уровень топлива во внешнем баке, вычисляемый, %', 'float'], 'NZT_MODE': ['Режим работы НЗТ', 'int']}, 'FC1': {'FC1_U_A': ['U фазы А, В', 'float'], 'FC1_U_B': ['U фазы B, В', 'float'], 'FC1_U_C': ['U фазы C, В', 'float'], 'FC1_F_U_A': ['F U фазы А, Гц', 'float'], 'FC1_F_U_B': ['F U фазы B, Гц', 'float'], 'FC1_F_U_C': ['F U фазы C, Гц', 'float'], 'FC1_PHI_U_A': ['Угол U фазы А, °', 'float'], 'FC1_PHI_U_B': ['Угол U фазы B, °', 'float'], 'FC1_PHI_U_C': ['Угол U фазы C, °', 'float'], 'FC1_I_A': ['I фазы А, А', 'float'], 'FC1_I_B': ['I фазы B, А', 'float'], 'FC1_I_C': ['I фазы C, А', 'float'], 'FC1_PHI_I_A': ['Угол I фазы А, °', 'float'], 'FC1_PHI_I_B': ['Угол I фазы B, °', 'float'], 'FC1_PHI_I_C': ['Угол I фазы C, °', 'float'], 'FC1_U_A2': ['U фазы А2, В', 'float'], 'FC1_F_U_A2': ['F U фазы А2, Гц', 'float'], 'FC1_PHI_U_A2': ['Угол U фазы А2, °', 'float'], 'FC1_AE_STATE': ['Состояние АД ПЧ', 'int'], 'FC1_GEN_STATE': ['Состояние генератора ПЧ 1', 'int'], 'FC1_P': ['Активная мощность ПЧ 1, кВт', 'float']}, 'FC2': {'FC2_U_A': ['U фазы А, В', 'float'], 'FC2_U_B': ['U фазы B, В', 'float'], 'FC2_U_C': ['U фазы C, В', 'float'], 'FC2_F_U_A': ['F U фазы А, Гц', 'float'], 'FC2_F_U_B': ['F U фазы B, Гц', 'float'], 'FC2_F_U_C': ['F U фазы C, Гц', 'float'], 'FC2_PHI_U_A': ['Угол U фазы А, °', 'float'], 'FC2_PHI_U_B': ['Угол U фазы B, °', 'float'], 'FC2_PHI_U_C': ['Угол U фазы C, °', 'float'], 'FC2_I_A': ['I фазы А, А', 'float'], 'FC2_I_B': ['I фазы B, А', 'float'], 'FC2_I_C': ['I фазы C, А', 'float'], 'FC2_PHI_I_A': ['Угол I фазы А, °', 'float'], 'FC2_PHI_I_B': ['Угол I фазы B, °', 'float'], 'FC2_PHI_I_C': ['Угол I фазы C, °', 'float'], 'FC2_U_A2': ['U фазы А2, В', 'float'], 'FC2_F_U_A2': ['F U фазы А2, Гц', 'float'], 'FC2_PHI_U_A2': ['Угол U фазы А2, °', 'float'], 'FC2_AE_STATE': ['Состояние АД ПЧ', 'int'], 'FC2_GEN_STATE': ['Состояние генератора ПЧ', 'int'], 'FC2_P': ['Активная мощность ПЧ2, кВт', 'float']}, 'UKPT2': {'STATUS_IVEP': ['Состояние ИВЭП', 'int']}}}
 # param_dict['BU_400']['Cредство электроснабжения СЭС-200М'] = param_dict['BU_400'].pop('ElectroStation')
-print(param_dict['BU_400'].items())
+# print(param_dict['BU_400'].items())
 for elem, i in zip(range(0,10),param_dict['BU_400'].items()):
     j = [j for j in i[1].values()]
-    print(i[0],j[0][0])
-    print(elem)
+    # print(i[0],j[0][0])
+    # print(elem)
 
 def trans_str(metric,text):
     flag = 0
@@ -227,7 +229,7 @@ def trans_str(metric,text):
         len_text = int(269/7)
         # printf(len_text,len(text),text)
         text = list(text)
-        print(text)
+        # print(text)
         for i in range(0,len(text)):
             if i*7>269:
                 if text[i] != ' ':
@@ -248,7 +250,7 @@ def trans_str(metric,text):
 
 text = 'Уровень топлива во внутреннем баке с датчика, мм*10^-1'
 a = trans_str(365,text)
-print(a)
+# print(a)
 
 addr1 = 0xbfdc0000
 addr2 = 0xbfdc0000
@@ -267,7 +269,8 @@ ad_lst2 = []
 
 while(addr3 <= 0xbfdfffc0):
     addr3 +=36
-    print(hex(addr3))
+    # print(hex(addr3))
 
 for i in range(0,5):
-    print(i)
+    pass
+    # print(i)
