@@ -376,44 +376,92 @@
 #     widget.show()
 #     sys.exit(app.exec_())
 
-import sys
+# import sys
+# from PyQt5 import QtCore, QtGui, QtWidgets
+#
+# class ListView(QtWidgets.QTreeView):
+#     def __init__(self, *args, **kwargs):
+#         super(ListView, self).__init__(*args, **kwargs)
+#         self.setModel(QtGui.QStandardItemModel(self))
+#         self.model().setColumnCount(2)
+#         self.setRootIsDecorated(False)
+#         self.setAllColumnsShowFocus(True)
+#         self.setSelectionBehavior(
+#             QtWidgets.QAbstractItemView.SelectRows)
+#         self.setHeaderHidden(True)
+#         self.header().setStretchLastSection(False)
+#         self.header().setSectionResizeMode(
+#             0, QtWidgets.QHeaderView.Stretch)
+#         self.header().setSectionResizeMode(
+#             1, QtWidgets.QHeaderView.ResizeToContents)
+#
+#     def addItem(self, key, value):
+#         first = QtGui.QStandardItem(key)
+#         second = QtGui.QStandardItem(value)
+#         second.setTextAlignment(QtCore.Qt.AlignRight)
+#         self.model().appendRow([first, second])
+#
+# class Window(QtWidgets.QWidget):
+#     def __init__(self):
+#         super(Window, self).__init__()
+#         self.view = ListView(self)
+#         for text in 'Aquamarine Red Green Purple Blue Yellow '.split():
+#             self.view.addItem(text, str(16 ** len(text)))
+#         layout = QtWidgets.QVBoxLayout(self)
+#         layout.addWidget(self.view)
+#
+# if __name__ == '__main__':
+#
+#     app = QtWidgets.QApplication(sys.argv)
+#     window = Window()
+#     window.setGeometry(600, 100, 300, 200)
+#     window.show()
+#     sys.exit(app.exec_())
+
+# -*- coding: utf-8 -*-
 from PyQt5 import QtCore, QtGui, QtWidgets
+import PyQt5.Qt
 
-class ListView(QtWidgets.QTreeView):
-    def __init__(self, *args, **kwargs):
-        super(ListView, self).__init__(*args, **kwargs)
-        self.setModel(QtGui.QStandardItemModel(self))
-        self.model().setColumnCount(2)
-        self.setRootIsDecorated(False)
-        self.setAllColumnsShowFocus(True)
-        self.setSelectionBehavior(
-            QtWidgets.QAbstractItemView.SelectRows)
-        self.setHeaderHidden(True)
-        self.header().setStretchLastSection(False)
-        self.header().setSectionResizeMode(
-            0, QtWidgets.QHeaderView.Stretch)
-        self.header().setSectionResizeMode(
-            1, QtWidgets.QHeaderView.ResizeToContents)
+class MyLineEdit(QtWidgets.QLineEdit):
+    def __init__(self, parent = None):
+        QtWidgets.QLineEdit.__init__(self, parent)
+        self.id = None
+    def event(self, e):
+        if e.type() == QtCore.QEvent.Shortcut:
+            print(self.id)
+            # if self.id == e.shortcutId():
+            self.setFocus(QtCore.Qt.ShortcutFocusReason)
+            return True
+        return QtWidgets.QLineEdit.event(self, e)
 
-    def addItem(self, key, value):
-        first = QtGui.QStandardItem(key)
-        second = QtGui.QStandardItem(value)
-        second.setTextAlignment(QtCore.Qt.AlignRight)
-        self.model().appendRow([first, second])
+class MyWindow(QtWidgets.QWidget):
+    def __init__ (self, parent = None):
+        QtWidgets.QWidget.__init__(self, parent)
+        self.resize(300, 100)
+        self.label = QtWidgets.QLabel("Устано&вить фокус на поле 1")
+        self.lineEdit1 = QtWidgets.QLineEdit()
+        self.label.setBuddy(self.lineEdit1)
+        self.lineEdit2 = MyLineEdit()
+        self.lineEdit2.id = self.lineEdit2.grabShortcut(
+            QtGui.QKeySequence(PyQt5.Qt.Qt.Key_Up))
+        self.lineEdit3 = MyLineEdit()
+        self.lineEdit3.id = self.lineEdit3.grabShortcut(
+            QtGui.QKeySequence(PyQt5.Qt.Qt.Key_Up))
+        self.button = QtWidgets.QPushButton("&Убрать фокус с поля 1")
+        self.vbox = QtWidgets.QVBoxLayout()
+        self.vbox.addWidget(self.label)
+        self.vbox.addWidget(self.lineEdit1)
+        self.vbox.addWidget(self.lineEdit2)
+        self.vbox.addWidget(self.lineEdit3)
+        self.vbox.addWidget(self.button)
+        self.setLayout(self.vbox)
+        self.button.clicked.connect(self.on_clicked)
+    def on_clicked(self):
+        self.lineEdit1.clearFocus()
 
-class Window(QtWidgets.QWidget):
-    def __init__(self):
-        super(Window, self).__init__()
-        self.view = ListView(self)
-        for text in 'Aquamarine Red Green Purple Blue Yellow '.split():
-            self.view.addItem(text, str(16 ** len(text)))
-        layout = QtWidgets.QVBoxLayout(self)
-        layout.addWidget(self.view)
-
-if __name__ == '__main__':
-
+if __name__ == "__main__":
+    import sys
     app = QtWidgets.QApplication(sys.argv)
-    window = Window()
-    window.setGeometry(600, 100, 300, 200)
+    window = MyWindow()
     window.show()
     sys.exit(app.exec_())

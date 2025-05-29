@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import sys,re,struct
+import sys,re,struct,PyQt5.Qt
 from PyQt5.QtWidgets import (QWidget, QPushButton, QStackedWidget,
                              QHBoxLayout, QVBoxLayout, QApplication, QAction, QMainWindow)
 
@@ -103,7 +103,9 @@ class Unit(QWidget):
             self.lst_model[i].itemChanged.connect(self.changedValue)
             self.lst_table[i].entered.connect(self.enteredValue)
             self.lst_table[i].pressed.connect(self.pressedValue)
+            self.lst_table[i].activated.connect(self.activatedValue)
             self.lst_table[i].selectRow(0)
+            # table.activated
         self.data_tab.currentChanged.connect(self.selectDataTab)
 
         self.readData_flag = 0
@@ -146,6 +148,11 @@ class Unit(QWidget):
         printf('SELECT', data.row(), data.column(), data.data())
 
 
+    def keyPressEvent(self, e):
+
+        if e.key() == PyQt5.Qt.Qt.Key_Up:
+            printf('AS',e.text())
+
     def selectDataTab(self,index):
         self.index_data_tab = index
 
@@ -157,6 +164,7 @@ class Unit(QWidget):
 
     def activatedValue(self,value):
         printf('ACTIVATED',value.data())
+
     def readData(self,data_dict,data):
         self.readData_flag =1
         # self.lst_model[0].itemChanged.disconnect()
