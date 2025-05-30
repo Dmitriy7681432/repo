@@ -7,6 +7,27 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from class_read_data import Connect,Calibrator
 from debug import printf
 
+class Id:
+    id_lst = []
+class StandartItem(QtGui.QStandardItem):
+    def __init__(self,val):
+        self.id = None
+        self.id_lst = Id.id_lst
+        self.value = val
+
+    def standart_func(self):
+        return QtGui.QStandardItem(self.value)
+    def event(self, e):
+        printf()
+        if e.type() == QtCore.QEvent.Shortcut:
+            print(self.id)
+            if self.id == e.shortcutId():
+                self.id_lst.append(self.id)
+                self.setFocus(QtCore.Qt.ShortcutFocusReason)
+                return True
+        return QtGui.QStandardItem.event(self, e)
+
+
 class Unit(QWidget):
 
     def __init__(self, data_dict,data, unit, height_desktop):
@@ -50,6 +71,7 @@ class Unit(QWidget):
         self.model = QtGui.QStandardItemModel()
         table = QtWidgets.QTableView()
 
+
         self.lst_table = []
         self.lst_model = []
         for i in data_dict[data].items():
@@ -58,11 +80,17 @@ class Unit(QWidget):
             item2 = QtGui.QStandardItem(i[1][0])
             if data == 'preset':
                 if i[1][1] == 'int':
-                    self.item3 = QtGui.QStandardItem(str(0))
+                    # self.item3 = QtGui.QStandardItem(str(0))
+                    self.item3 = StandartItem(str(0)).standart_func()
                 else:
-                    self.item3 = QtGui.QStandardItem(str(0.0))
+                    # self.item3 = QtGui.QStandardItem(str(0.0))
+                    self.item3 = StandartItem(str(0.0)).standart_func()
             else:
-                self.item3 = QtGui.QStandardItem(str(0.0))
+                # self.item3 = QtGui.QStandardItem(str(0.0))
+                self.item3 = StandartItem(str(0.0)).standart_func()
+
+            self.item3.id = self.item3.grabShortcut(
+                QtGui.QKeySequence(PyQt5.Qt.Qt.Key_Up))
 
             item1.setTextAlignment(QtCore.Qt.AlignCenter)
             self.item3.setTextAlignment(QtCore.Qt.AlignCenter)
