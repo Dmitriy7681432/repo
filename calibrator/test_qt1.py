@@ -419,9 +419,8 @@
 #     sys.exit(app.exec_())
 
 # -*- coding: utf-8 -*-
-from PyQt5 import QtCore, QtGui, QtWidgets,
+from PyQt5 import QtCore, QtGui, QtWidgets
 import PyQt5.Qt
-import PyQt5.QtWidgets.
 
 class Id:
     id_lst = []
@@ -455,7 +454,7 @@ class MyWindow(QtWidgets.QWidget,Id):
         self.resize(300, 100)
         self.label = QtWidgets.QLabel("Устано&вить фокус на поле 1")
         self.lineEdit1 = QtWidgets.QLineEdit()
-        self.label.setBuddy(self.lineEdit1)
+        # self.label.setBuddy(self.lineEdit1)
         self.lineEdit2 = MyLineEdit()
         # self.lineEdit2 = QtWidgets.QLineEdit()
         self.lineEdit2.id = self.lineEdit2.grabShortcut(
@@ -467,7 +466,7 @@ class MyWindow(QtWidgets.QWidget,Id):
             QtGui.QKeySequence(PyQt5.Qt.Qt.Key_Up))
         self.button = QtWidgets.QPushButton("&Убрать фокус с поля 1")
         self.vbox = QtWidgets.QVBoxLayout()
-        self.vbox.addWidget(self.label)
+        # self.vbox.addWidget(self.label)
         self.vbox.addWidget(self.lineEdit1)
         self.vbox.addWidget(self.lineEdit2)
         self.vbox.addWidget(self.lineEdit3)

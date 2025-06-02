@@ -9,23 +9,22 @@ from debug import printf
 
 class Id:
     id_lst = []
-class StandartItem(QtGui.QStandardItem):
-    def __init__(self,val):
+class TableFocus(QtWidgets.QTableView,Id):
+    def __init__(self):
+        super().__init__()
         self.id = None
         self.id_lst = Id.id_lst
-        self.value = val
 
-    def standart_func(self):
-        return QtGui.QStandardItem(self.value)
+    # def tabel_func(self):
+    #     return QtWidgets.QTableView(self.value)
     def event(self, e):
-        printf()
         if e.type() == QtCore.QEvent.Shortcut:
-            print(self.id)
+            print('id',self.id)
             if self.id == e.shortcutId():
                 self.id_lst.append(self.id)
                 self.setFocus(QtCore.Qt.ShortcutFocusReason)
                 return True
-        return QtGui.QStandardItem.event(self, e)
+        return QtWidgets.QTableView.event(self,e)
 
 
 class Unit(QWidget):
@@ -69,8 +68,12 @@ class Unit(QWidget):
         count =0; count1=0;count2=0
         self.data_tab =QtWidgets.QTabWidget()
         self.model = QtGui.QStandardItemModel()
-        table = QtWidgets.QTableView()
-
+        # table = QtWidgets.QTableView()
+        table = TableFocus()
+        table.id = table.grabShortcut(
+            QtGui.QKeySequence(PyQt5.Qt.Qt.Key_Up))
+        table.id = table.grabShortcut(
+            QtGui.QKeySequence(PyQt5.Qt.Qt.Key_Down))
 
         self.lst_table = []
         self.lst_model = []
@@ -80,17 +83,12 @@ class Unit(QWidget):
             item2 = QtGui.QStandardItem(i[1][0])
             if data == 'preset':
                 if i[1][1] == 'int':
-                    # self.item3 = QtGui.QStandardItem(str(0))
-                    self.item3 = StandartItem(str(0)).standart_func()
+                    self.item3 = QtGui.QStandardItem(str(0))
                 else:
-                    # self.item3 = QtGui.QStandardItem(str(0.0))
-                    self.item3 = StandartItem(str(0.0)).standart_func()
+                    self.item3 = QtGui.QStandardItem(str(0.0))
             else:
-                # self.item3 = QtGui.QStandardItem(str(0.0))
-                self.item3 = StandartItem(str(0.0)).standart_func()
+                self.item3 = QtGui.QStandardItem(str(0.0))
 
-            self.item3.id = self.item3.grabShortcut(
-                QtGui.QKeySequence(PyQt5.Qt.Qt.Key_Up))
 
             item1.setTextAlignment(QtCore.Qt.AlignCenter)
             self.item3.setTextAlignment(QtCore.Qt.AlignCenter)
@@ -123,7 +121,12 @@ class Unit(QWidget):
                 self.lst_model.append(self.model)
                 count =0
                 self.model = QtGui.QStandardItemModel()
-                table = QtWidgets.QTableView()
+                # table = QtWidgets.QTableView()
+                table = TableFocus()
+                table.id = table.grabShortcut(
+                    QtGui.QKeySequence(PyQt5.Qt.Qt.Key_Up))
+                table.id = table.grabShortcut(
+                    QtGui.QKeySequence(PyQt5.Qt.Qt.Key_Down))
 
         self.index_data_tab = self.data_tab.currentIndex()
         for i in range(0,self.data_tab.count()):
