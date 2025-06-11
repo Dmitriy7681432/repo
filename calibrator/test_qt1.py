@@ -57,8 +57,7 @@
 #     ui.setupUi(MainWindow)
 #     MainWindow.show()
 #     sys.exit(app.exec_())
-
-
+import sys
 
 # import sys
 # from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QLabel, QHBoxLayout, QVBoxLayout, QPushButton, QTextEdit
@@ -422,66 +421,97 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import PyQt5.Qt
 
-class Id:
-    id_lst = []
-    # def __init__(self):
-    #     pass
-    # def id_func(self):
-    #     self.id_lst = []
-    # def id_ap(self):
-    #
-    #     return self.id_lst
+# class Id:
+#     id_lst = []
+#     # def __init__(self):
+#     #     pass
+#     # def id_func(self):
+#     #     self.id_lst = []
+#     # def id_ap(self):
+#     #
+#     #     return self.id_lst
+#
+# class MyLineEdit(QtWidgets.QLineEdit,Id):
+#     def __init__(self):
+#         super().__init__()
+#         self.id = None
+#         self.id_lst = Id.id_lst
+#
+#     def event(self, e):
+#         if e.type() == QtCore.QEvent.Shortcut:
+#             print(self.id)
+#             if self.id == e.shortcutId():
+#                 self.id_lst.append(self.id)
+#                 self.setFocus(QtCore.Qt.ShortcutFocusReason)
+#                 return True
+#         return QtWidgets.QLineEdit.event(self, e)
+#
+# class MyWindow(QtWidgets.QWidget,Id):
+#     def __init__ (self):
+#         super().__init__()
+#         self.tmp1 =0;self.tmp2=0;
+#         self.resize(300, 100)
+#         self.label = QtWidgets.QLabel("Устано&вить фокус на поле 1")
+#         self.lineEdit1 = QtWidgets.QLineEdit()
+#         # self.label.setBuddy(self.lineEdit1)
+#         self.lineEdit2 = MyLineEdit()
+#         # self.lineEdit2 = QtWidgets.QLineEdit()
+#         self.lineEdit2.id = self.lineEdit2.grabShortcut(
+#             QtGui.QKeySequence(PyQt5.Qt.Qt.Key_Up))
+#         print(self.lineEdit2.id)
+#         self.lineEdit3 = MyLineEdit()
+#         # self.lineEdit3 = QtWidgets.QLineEdit()
+#         self.lineEdit3.id = self.lineEdit3.grabShortcut(
+#             QtGui.QKeySequence(PyQt5.Qt.Qt.Key_Up))
+#         self.button = QtWidgets.QPushButton("&Убрать фокус с поля 1")
+#         self.vbox = QtWidgets.QVBoxLayout()
+#         # self.vbox.addWidget(self.label)
+#         self.vbox.addWidget(self.lineEdit1)
+#         self.vbox.addWidget(self.lineEdit2)
+#         self.vbox.addWidget(self.lineEdit3)
+#         self.vbox.addWidget(self.button)
+#         self.setLayout(self.vbox)
+#         self.button.clicked.connect(self.on_clicked)
+#     def on_clicked(self):
+#         self.lineEdit1.clearFocus()
+#         print(self.id_lst)
+#         self.id_lst.clear()
+#
+#
+# if __name__ == "__main__":
+#     import sys
+#     app = QtWidgets.QApplication(sys.argv)
+#     window = MyWindow()
+#     window.show()
+#     sys.exit(app.exec_())
+class MyWidget(QtWidgets.QWidget):
+    keyPressed = QtCore.pyqtSignal(int)
 
-class MyLineEdit(QtWidgets.QLineEdit,Id):
     def __init__(self):
         super().__init__()
-        self.id = None
-        self.id_lst = Id.id_lst
+        self.keyPressed.connect(self.on_key)
 
-    def event(self, e):
-        if e.type() == QtCore.QEvent.Shortcut:
-            print(self.id)
-            if self.id == e.shortcutId():
-                self.id_lst.append(self.id)
-                self.setFocus(QtCore.Qt.ShortcutFocusReason)
-                return True
-        return QtWidgets.QLineEdit.event(self, e)
+    def keyPressEvent(self, event):
+        super(MyWidget, self).keyPressEvent(event)
+        self.keyPressed.emit(event.key())
 
-class MyWindow(QtWidgets.QWidget,Id):
-    def __init__ (self):
+class My_Class():
+    def __init__(self):
         super().__init__()
-        self.tmp1 =0;self.tmp2=0;
-        self.resize(300, 100)
-        self.label = QtWidgets.QLabel("Устано&вить фокус на поле 1")
-        self.lineEdit1 = QtWidgets.QLineEdit()
-        # self.label.setBuddy(self.lineEdit1)
-        self.lineEdit2 = MyLineEdit()
-        # self.lineEdit2 = QtWidgets.QLineEdit()
-        self.lineEdit2.id = self.lineEdit2.grabShortcut(
-            QtGui.QKeySequence(PyQt5.Qt.Qt.Key_Up))
-        print(self.lineEdit2.id)
-        self.lineEdit3 = MyLineEdit()
-        # self.lineEdit3 = QtWidgets.QLineEdit()
-        self.lineEdit3.id = self.lineEdit3.grabShortcut(
-            QtGui.QKeySequence(PyQt5.Qt.Qt.Key_Up))
-        self.button = QtWidgets.QPushButton("&Убрать фокус с поля 1")
-        self.vbox = QtWidgets.QVBoxLayout()
-        # self.vbox.addWidget(self.label)
-        self.vbox.addWidget(self.lineEdit1)
-        self.vbox.addWidget(self.lineEdit2)
-        self.vbox.addWidget(self.lineEdit3)
-        self.vbox.addWidget(self.button)
-        self.setLayout(self.vbox)
-        self.button.clicked.connect(self.on_clicked)
-    def on_clicked(self):
-        self.lineEdit1.clearFocus()
-        print(self.id_lst)
-        self.id_lst.clear()
+        self.widget = MyWidget()
+        self.widget.keyPressed.connect(self.on_key)
+
+    def on_key(self,key):
+        # test for a specific key
+        if key == QtCore.Qt.Key_Return:
+            print('return key pressed')
+        else:
+            print('key pressed: %i' % key)
 
 
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    window = MyWindow()
-    window.show()
+    widget = My_Class()
+    widget.show()
     sys.exit(app.exec_())

@@ -7,14 +7,26 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from class_read_data import Connect,Calibrator
 from debug import printf
 
+
+class MyWidget(QWidget):
+    keyPressed = QtCore.pyqtSignal(int)
+
+    def keyPressEvent(self, event):
+        super(MyWidget, self).keyPressEvent(event)
+        self.keyPressed.emit(event.key())
+
 class Id:
     id_lst = []
 class TableFocus(QtWidgets.QTableView,Id):
+    keyPressed = QtCore.pyqtSignal(int)
     def __init__(self):
         super().__init__()
         self.id = None
         self.id_lst = Id.id_lst
 
+    def keyPressEvent(self, event):
+        super(TableFocus, self).keyPressEvent(event)
+        self.keyPressed.emit(event.key())
     # def tabel_func(self):
     #     return QtWidgets.QTableView(self.value)
     def event(self, e):
@@ -23,16 +35,35 @@ class TableFocus(QtWidgets.QTableView,Id):
             if self.id == e.shortcutId():
                 self.id_lst.append(self.id)
                 self.setFocus(QtCore.Qt.ShortcutFocusReason)
+                # self.setFocus(QtCore.Qt.MouseFocusReason)
                 return True
         return QtWidgets.QTableView.event(self,e)
 
 
-class Unit(QWidget):
+class Unit(MyWidget,QWidget):
+    # keyPressed = QtCore.pyqtSignal(int)
 
     def __init__(self, data_dict,data, unit, height_desktop):
         super().__init__()
         self.initUI(data_dict,data,unit, height_desktop)
+        # self.keyPressed.connect(self.on_key)
 
+    # def keyPressEvent(self, event):
+    #     super(Unit, self).keyPressEvent(event)
+    #     self.keyPressed.emit(event.key())
+
+    # def on_key(self, e):
+    #
+    #     # self.table.keyPressEvent = self.keyPressEvent
+    #     printf('keyPressEvent')
+    #     # super(Unit,self).keyPressEvent(e)
+    #
+    #     if e.key() == PyQt5.Qt.Qt.Key_Up:
+    #         printf('UP',e.text())
+    #         # self.table.focusNextChild()
+    #
+    #     if e.key() == PyQt5.Qt.Qt.Key_Down:
+    #         printf('DOWD',e.text())
     def initUI(self,data_dict, data,unit,height_desktop):
         # Шрифт
         font = QtGui.QFont()
@@ -69,11 +100,15 @@ class Unit(QWidget):
         self.data_tab =QtWidgets.QTabWidget()
         self.model = QtGui.QStandardItemModel()
         # table = QtWidgets.QTableView()
-        table = TableFocus()
-        table.id = table.grabShortcut(
-            QtGui.QKeySequence(PyQt5.Qt.Qt.Key_Up))
-        table.id = table.grabShortcut(
-            QtGui.QKeySequence(PyQt5.Qt.Qt.Key_Down))
+        self.table = TableFocus()
+        # table.id = table.grabShortcut(
+        #     QtGui.QKeySequence(PyQt5.Qt.Qt.Key_Up))
+        # table.id = table.grabShortcut(
+        #     QtGui.QKeySequence(PyQt5.Qt.Qt.Key_Down))
+        # self.table.keyPressEvent = self.keyPressEvent
+
+        # self.widget1 = MyWidget()
+
 
         self.lst_table = []
         self.lst_model = []
@@ -100,33 +135,33 @@ class Unit(QWidget):
             self.item3.setSelectable(False)
 
             self.model.appendRow([item1,item2,self.item3])
-            table.setModel(self.model)
-            table.setRowHeight(count, 12)
+            self.table.setModel(self.model)
+            self.table.setRowHeight(count, 12)
             count +=1
             count2 +=1
             # cnt_elem = round((table.size().height()/table.rowHeight(0))+0.5)
-            cnt_elem = round((height_desktop/2/table.rowHeight(0))+0.5)
+            cnt_elem = round((height_desktop/2/self.table.rowHeight(0))+0.5)
             # printf(cnt_elem)
             if count ==cnt_elem or count2 == len_data_dict:
-                table.setColumnWidth(0, 190)
-                table.setColumnWidth(1, 520)
-                table.setColumnWidth(2, 154)
-                table.setRowHeight(0,30)
+                self.table.setColumnWidth(0, 190)
+                self.table.setColumnWidth(1, 520)
+                self.table.setColumnWidth(2, 154)
+                self.table.setRowHeight(0,30)
                 self.model.setHorizontalHeaderLabels(['Обозначение', 'Наименование', 'Значение'])
-                table.setFont(font)
-                table.verticalHeader().setVisible(False)
+                self.table.setFont(font)
+                self.table.verticalHeader().setVisible(False)
                 count1 +=1
-                self.data_tab.addTab(table,f"Вкладка {count1}")
-                self.lst_table.append(table)
+                self.data_tab.addTab(self.table,f"Вкладка {count1}")
+                self.lst_table.append(self.table)
                 self.lst_model.append(self.model)
                 count =0
                 self.model = QtGui.QStandardItemModel()
                 # table = QtWidgets.QTableView()
-                table = TableFocus()
-                table.id = table.grabShortcut(
-                    QtGui.QKeySequence(PyQt5.Qt.Qt.Key_Up))
-                table.id = table.grabShortcut(
-                    QtGui.QKeySequence(PyQt5.Qt.Qt.Key_Down))
+                self.table = TableFocus()
+                # table.id = table.grabShortcut(
+                #     QtGui.QKeySequence(PyQt5.Qt.Qt.Key_Up))
+                # table.id = table.grabShortcut(
+                #     QtGui.QKeySequence(PyQt5.Qt.Qt.Key_Down))
 
         self.index_data_tab = self.data_tab.currentIndex()
         for i in range(0,self.data_tab.count()):
@@ -136,6 +171,7 @@ class Unit(QWidget):
             self.lst_table[i].pressed.connect(self.pressedValue)
             self.lst_table[i].activated.connect(self.activatedValue)
             self.lst_table[i].selectRow(0)
+            self.lst_table[i].keyPressed.connect(self.on_key)
             # table.activated
         self.data_tab.currentChanged.connect(self.selectDataTab)
 
@@ -171,18 +207,28 @@ class Unit(QWidget):
                 item.setBackground(QtGui.QBrush(QtGui.QColor(255, 255, 9)))
             else:
                 printf('CHANGE',value.row(),value.column(),self.checkValue)
-                item.setChild(value.row(),value.column(), item.setText(self.checkValue))
+                # item.setChild(value.row(),value.column(), item.setText(self.checkValue))
 
 
     def selectRow1(self, data):
         self.checkValue = data.data()
+        self.curr_row = data.row()
         printf('SELECT', data.row(), data.column(), data.data())
 
 
-    def keyPressEvent(self, e):
+    # def keyPressEvent(self, e):
+    def on_key(self, e):
 
-        if e.key() == PyQt5.Qt.Qt.Key_Up:
-            printf('AS',e.text())
+        if e == PyQt5.Qt.Qt.Key_Up:
+            printf('UP')
+            self.curr_row-=1
+            printf(self.curr_row)
+            # self.lst_table[self.curr_row].clicked.connect(self.selectRow1)
+        if e == PyQt5.Qt.Qt.Key_Down:
+            printf('DOWN')
+            self.curr_row+=1
+            printf(self.curr_row)
+            # self.lst_table[self.curr_row].clicked.connect(self.selectRow1)
 
     def selectDataTab(self,index):
         self.index_data_tab = index
