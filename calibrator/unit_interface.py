@@ -27,8 +27,6 @@ class TableFocus(QtWidgets.QTableView,Id):
     def keyPressEvent(self, event):
         super(TableFocus, self).keyPressEvent(event)
         self.keyPressed.emit(event.key())
-    # def tabel_func(self):
-    #     return QtWidgets.QTableView(self.value)
     def event(self, e):
         if e.type() == QtCore.QEvent.Shortcut:
             print('id',self.id)
@@ -140,9 +138,9 @@ class Unit(MyWidget,QWidget):
             count +=1
             count2 +=1
             # cnt_elem = round((table.size().height()/table.rowHeight(0))+0.5)
-            cnt_elem = round((height_desktop/2/self.table.rowHeight(0))+0.5)
+            self.cnt_elem = round((height_desktop/2/self.table.rowHeight(0))+0.5)
             # printf(cnt_elem)
-            if count ==cnt_elem or count2 == len_data_dict:
+            if count ==self.cnt_elem or count2 == len_data_dict:
                 self.table.setColumnWidth(0, 190)
                 self.table.setColumnWidth(1, 520)
                 self.table.setColumnWidth(2, 154)
@@ -162,6 +160,7 @@ class Unit(MyWidget,QWidget):
                 #     QtGui.QKeySequence(PyQt5.Qt.Qt.Key_Up))
                 # table.id = table.grabShortcut(
                 #     QtGui.QKeySequence(PyQt5.Qt.Qt.Key_Down))
+
 
         self.index_data_tab = self.data_tab.currentIndex()
         for i in range(0,self.data_tab.count()):
@@ -221,12 +220,15 @@ class Unit(MyWidget,QWidget):
 
         if e == PyQt5.Qt.Qt.Key_Up:
             printf('UP')
-            self.curr_row-=1
+            if self.curr_row!=0:
+                self.curr_row-=1
+
+                self.selectRow1(self.lst_table[0].selectRow(0))
             printf(self.curr_row)
-            # self.lst_table[self.curr_row].clicked.connect(self.selectRow1)
         if e == PyQt5.Qt.Qt.Key_Down:
             printf('DOWN')
-            self.curr_row+=1
+            if self.curr_row<self.cnt_elem-1:
+                self.curr_row+=1
             printf(self.curr_row)
             # self.lst_table[self.curr_row].clicked.connect(self.selectRow1)
 
