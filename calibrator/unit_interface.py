@@ -199,14 +199,16 @@ class Unit(MyWidget,QWidget):
             if (not '.' in self.checkValue) and (not '.' in value.text()) and \
                     self.is_valid_email(value.text()) and self.is_valid_email(self.checkValue):
                 printf('Data_int', value.text(), value.row())
+                self.checkValue = value.text()
                 item.setBackground(QtGui.QBrush(QtGui.QColor(255, 255, 9)))
             elif '.' in self.checkValue and '.' in value.text() and \
                 self.is_valid_email(self.checkValue) and self.is_valid_email(value.text()):
                 printf('Data_float', value.text(), value.row())
+                self.checkValue = value.text()
                 item.setBackground(QtGui.QBrush(QtGui.QColor(255, 255, 9)))
             else:
                 printf('CHANGE',value.row(),value.column(),self.checkValue)
-                # item.setChild(value.row(),value.column(), item.setText(self.checkValue))
+                item.setChild(value.row(),value.column(), item.setText(self.checkValue))
 
 
     def selectRow1(self, data):
@@ -217,20 +219,16 @@ class Unit(MyWidget,QWidget):
 
     # def keyPressEvent(self, e):
     def on_key(self, e):
-
         if e == PyQt5.Qt.Qt.Key_Up:
-            printf('UP')
             if self.curr_row!=0:
                 self.curr_row-=1
-
-                self.selectRow1(self.lst_table[0].selectRow(0))
-            printf(self.curr_row)
+                item = self.lst_model[self.index_data_tab].item(self.curr_row, 2)
+                self.checkValue = item.text()
         if e == PyQt5.Qt.Qt.Key_Down:
-            printf('DOWN')
             if self.curr_row<self.cnt_elem-1:
                 self.curr_row+=1
-            printf(self.curr_row)
-            # self.lst_table[self.curr_row].clicked.connect(self.selectRow1)
+                item = self.lst_model[self.index_data_tab].item(self.curr_row, 2)
+                self.checkValue = item.text()
 
     def selectDataTab(self,index):
         self.index_data_tab = index
