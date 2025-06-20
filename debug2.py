@@ -188,10 +188,18 @@ f.write(sr2)
 f.write(sr3)
 f.close()
 
-a = '00000320'
-a = 'c2e70000'
-a = struct.unpack('!f', bytes.fromhex(a))[0]
-# print(a)
+# a = '00000064'
+a = 3.5
+a = struct.pack('!f',a)
+print('aa',a)
+a = '00000dac'
+# a = struct.unpack('!f', bytes.fromhex(a))[0]
+a = struct.unpack('!i', bytes.fromhex(a))[0]
+# a = struct.unpack('!f', a)[0]
+
+print('a',a)
+# a  = bytes.fromhex(a)
+# print('aaa',a)
 
 text1 = 'Параметры уставки калибровки классы аt'
 text1 = list(text1)

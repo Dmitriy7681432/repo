@@ -484,34 +484,90 @@ import PyQt5.Qt
 #     window = MyWindow()
 #     window.show()
 #     sys.exit(app.exec_())
-class MyWidget(QtWidgets.QWidget):
-    keyPressed = QtCore.pyqtSignal(int)
+
+# class MyWidget(QtWidgets.QWidget):
+#     keyPressed = QtCore.pyqtSignal(int)
+#
+#     def __init__(self):
+#         super().__init__()
+#         self.keyPressed.connect(self.on_key)
+#
+#     def keyPressEvent(self, event):
+#         super(MyWidget, self).keyPressEvent(event)
+#         self.keyPressed.emit(event.key())
+#
+# class My_Class():
+#     def __init__(self):
+#         super().__init__()
+#         self.widget = MyWidget()
+#         self.widget.keyPressed.connect(self.on_key)
+#
+#     def on_key(self,key):
+#         # test for a specific key
+#         if key == QtCore.Qt.Key_Return:
+#             print('return key pressed')
+#         else:
+#             print('key pressed: %i' % key)
+#
+#
+# if __name__ == "__main__":
+#     import sys
+#     app = QtWidgets.QApplication(sys.argv)
+#     widget = My_Class()
+#     widget.show()
+#     sys.exit(app.exec_())
+import sys
+from PyQt5.QtWidgets import (QApplication, QWidget,
+                             QVBoxLayout, QProgressBar, QPushButton)
+from PyQt5.QtCore import QBasicTimer
+
+
+class Example(QWidget):
 
     def __init__(self):
         super().__init__()
-        self.keyPressed.connect(self.on_key)
+        self.initUI()
 
-    def keyPressEvent(self, event):
-        super(MyWidget, self).keyPressEvent(event)
-        self.keyPressed.emit(event.key())
+    def initUI(self):
+        self.pbar = QProgressBar(self)
+        self.pbar.setGeometry(30, 40, 200, 25)
 
-class My_Class():
-    def __init__(self):
-        super().__init__()
-        self.widget = MyWidget()
-        self.widget.keyPressed.connect(self.on_key)
+        self.btn = QPushButton('Начать', self)
+        self.btn.move(30, 80)
+        self.btn.clicked.connect(self.doAction)
 
-    def on_key(self,key):
-        # test for a specific key
-        if key == QtCore.Qt.Key_Return:
-            print('return key pressed')
+        self.timer = QBasicTimer()
+        self.step = 0
+
+        layout = QVBoxLayout()
+        layout.addWidget(self.pbar)
+        layout.addWidget(self.btn)
+        self.setLayout(layout)
+
+
+        self.setGeometry(300, 300, 280, 170)
+        self.setWindowTitle('Прогресс бар')
+        self.show()
+
+    def timerEvent(self, e):
+        if self.step >= 100:
+            self.timer.stop()
+            self.btn.setText('Закончено')
+            return
+
+        self.step = self.step + 1
+        self.pbar.setValue(self.step)
+
+    def doAction(self):
+        if self.timer.isActive():
+            self.timer.stop()
+            self.btn.setText('Начать')
         else:
-            print('key pressed: %i' % key)
+            self.timer.start(100, self)
+            self.btn.setText('Стоп')
 
 
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    widget = My_Class()
-    widget.show()
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    ex = Example()
     sys.exit(app.exec_())

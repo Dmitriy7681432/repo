@@ -195,19 +195,19 @@ class Unit(MyWidget,QWidget):
         if self.readData_flag ==0:
             item = self.lst_model[self.index_data_tab].item(value.row(), value.column())
             # if not value.text().isalpha() and '.' in self.checkValue and '.' in value.text():
-            printf(self.checkValue,value.text())
+            # printf(self.checkValue,value.text())
             if (not '.' in self.checkValue) and (not '.' in value.text()) and \
                     self.is_valid_email(value.text()) and self.is_valid_email(self.checkValue):
-                printf('Data_int', value.text(), value.row())
+                # printf('Data_int', value.text(), value.row())
                 self.checkValue = value.text()
                 item.setBackground(QtGui.QBrush(QtGui.QColor(255, 255, 9)))
             elif '.' in self.checkValue and '.' in value.text() and \
                 self.is_valid_email(self.checkValue) and self.is_valid_email(value.text()):
-                printf('Data_float', value.text(), value.row())
+                # printf('Data_float', value.text(), value.row())
                 self.checkValue = value.text()
                 item.setBackground(QtGui.QBrush(QtGui.QColor(255, 255, 9)))
             else:
-                printf('CHANGE',value.row(),value.column(),self.checkValue)
+                # printf('CHANGE',value.row(),value.column(),self.checkValue)
                 item.setChild(value.row(),value.column(), item.setText(self.checkValue))
 
 
@@ -252,11 +252,12 @@ class Unit(MyWidget,QWidget):
             item = self.lst_model[num].item(count, 2)
             item.setBackground(QtGui.QBrush(QtGui.QColor(255, 255, 255)))
             if data =='preset':
-                self.checkValue = str(i[1][5])
-                item.setChild(count, 2, item.setText(str(i[1][5])))
+                # self.checkValue = str(i[1][5])
+                self.checkValue = str(i[1][9])
+                item.setChild(count, 2, item.setText(str(i[1][9])))
             else:
-                self.checkValue = str(i[1][1])
-                item.setChild(count, 2, item.setText(str(i[1][1])))
+                self.checkValue = str(i[1][2])
+                item.setChild(count, 2, item.setText(str(i[1][2])))
             count+=1
             if count == cnt_row:
                 count =0

@@ -1,15 +1,45 @@
 # -*- coding: utf-8 -*-
 import sys,serial,struct
 from PyQt5.QtWidgets import (QWidget, QPushButton, QStackedWidget, QToolBar, QToolButton,
-                             QHBoxLayout, QVBoxLayout, QApplication, QAction, QMainWindow)
+                             QHBoxLayout, QVBoxLayout, QApplication, QAction, QMainWindow,QDialog,QLabel)
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtCore import QThread, pyqtSignal, pyqtSlot
 from unit_interface import Unit,Param
 from class_read_data import Connect,Calibrator
 from debug import printf
 
+class SecondWindow(QDialog):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("Второе окно")
+        self.button = QPushButton("Закрыть")
+        self.button.clicked.connect(self.close)
+        layout = QVBoxLayout()
+        layout.addWidget(self.button)
+        self.setLayout(layout)
 
-class Main():
+class Worker(QThread):
+    finished = pyqtSignal()
+    window_created = pyqtSignal(QWidget)
+
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.window = None
+
+    def run(self):
+        # Здесь создается второе окно
+        self.window = QWidget()
+        layout = QVBoxLayout()
+        label = QLabel("Второе окно")
+        layout.addWidget(label)
+        self.window.setLayout(layout)
+        self.window.setWindowTitle("Второе окно")
+
+        self.window_created.emit(self.window)  # Отправляем сигнал о создании окна
+        self.finished.emit()  # Отправляем сигнал об окончании работы
+        printf()
+class Main(QWidget):
     def __init__(self):
         super().__init__()
 
@@ -266,6 +296,7 @@ class Main():
         # self.buttonAction1.clicked.connect(lambda: self.readData_bu50(self.data_dict_buses))
         # self.buttonAction1.clicked.connect(lambda: self.readData_buses(self.data_dict_bu50))
 
+        # self.buttonAction1.clicked.connect(self.open_second_window)
         self.buttonAction1.clicked.connect(self.readData_bu400)
         self.buttonAction1.clicked.connect(self.readData_bu50)
         self.buttonAction1.clicked.connect(self.readData_buses)
@@ -396,11 +427,39 @@ class Main():
         self.buttonUst.setDown(False)
         self.buttonCalibr.setDown(False)
 
+    # @pyqtSlot()
+    def open_second_window(self):
+        # self.button.setEnabled(False)  # Отключаем кнопку, пока второе окно загружается
+        printf()
+        self.worker = Worker()
+        printf()
+        self.worker.window_created.connect(self.show_second_window)
+        printf()
+        self.worker.finished.connect(self.thread_finished)
+        printf()
+        self.worker.start()
+
+        printf()
+
+    # @pyqtSlot(QWidget)
+    def show_second_window(self, window):
+        self.second_window = window
+        self.second_window.show()
+        printf()
+
+    # @pyqtSlot()
+    def thread_finished(self):
+        pass
+        # self.button.setEnabled(True) # Включаем кнопку, когда второе окно отображено
     def readData_bu400(self):
         # printf('readData_bu400',self.buttonUnit1.isChecked())
         if not self.buttonUnit2.isChecked() and not self.buttonUnit3.isChecked():
+            # second_window = SecondWindow()
+            # second_window.exec_()  # Или second_window.show() для немодального окна
+            self.open_second_window()
+            self.data_dict_bu400.main_data_read('r')
             self.read_data_dict_bu400 = self.data_dict_bu400.data_dict
-            self.read_data_dict_bu400 = self.data_dict_bu400.test_data_dict('calibr')
+            # self.read_data_dict_bu400 = self.data_dict_bu400.test_data_dict('calibr')
             self.unit_bu400_preset.readData(self.read_data_dict_bu400,'preset')
             self.unit_bu400_calibr.readData(self.read_data_dict_bu400,'calibr')
             self.buttonAction2.setEnabled(True)
@@ -409,8 +468,10 @@ class Main():
     def readData_bu50(self):
         # printf('readData_bu50',self.buttonUnit2.isChecked())
         if self.buttonUnit2.isChecked():
-            self.read_data_dict_bu50 = self.data_dict_bu50.test_data_dict('preset')
-            self.read_data_dict_bu50 = self.data_dict_bu50.test_data_dict('calibr')
+            # self.read_data_dict_bu50 = self.data_dict_bu50.test_data_dict('preset')
+            # self.read_data_dict_bu50 = self.data_dict_bu50.test_data_dict('calibr')
+            self.data_dict_bu50.main_data_read('r')
+            self.read_data_dict_bu50 = self.data_dict_bu50.data_dict
             self.unit_bu50_preset.readData(self.read_data_dict_bu50,'preset')
             self.unit_bu50_calibr.readData(self.read_data_dict_bu50,'calibr')
             self.buttonAction2.setEnabled(True)
@@ -419,8 +480,10 @@ class Main():
     def readData_buses(self):
         # printf('readData_buses',self.buttonUnit3.isChecked())
         if self.buttonUnit3.isChecked():
-            self.read_data_dict_buses = self.data_dict_buses.test_data_dict('preset')
-            self.read_data_dict_buses = self.data_dict_buses.test_data_dict('calibr')
+            # self.read_data_dict_buses = self.data_dict_buses.test_data_dict('preset')
+            # self.read_data_dict_buses = self.data_dict_buses.test_data_dict('calibr')
+            self.data_dict_buses.main_data_read('r')
+            self.read_data_dict_buses = self.data_dict_buses.data_dict
             self.unit_buses_preset.readData(self.read_data_dict_buses,'preset')
             self.unit_buses_calibr.readData(self.read_data_dict_buses,'calibr')
             self.buttonAction2.setEnabled(True)

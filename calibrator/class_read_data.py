@@ -6,8 +6,8 @@ from debug import printf
 
 
 class Connect(object):
-    # ser = serial.Serial(port='COM15', baudrate=3000000, timeout=0.1)
-    ser = serial.Serial()
+    ser = serial.Serial(port='COM16', baudrate=3000000, timeout=0.1)
+    # ser = serial.Serial()
 
     # def __init__(self):
     # Поиск устройства
@@ -236,8 +236,10 @@ class Calibrator(Connect):
         while True:
             read_data = self.ser.read(1024)
             printf(data_can_dict_value)
+            # printf(read_data)
             if data_can_dict_value[:13] in read_data:
                 list_read_data = read_data.split(b'\r')
+                printf(list_read_data)
                 for i in list_read_data:
                     if data_can_dict_value[:13] in i and len(i) > 21:
                         printf(read_data)
