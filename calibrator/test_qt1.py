@@ -547,7 +547,7 @@ class Example(QWidget):
 
         self.setGeometry(300, 300, 280, 170)
         self.setWindowTitle('Прогресс бар')
-        self.show()
+        # self.show()
 
     def timerEvent(self, e):
         if self.step >= 100:
@@ -559,6 +559,7 @@ class Example(QWidget):
         self.pbar.setValue(self.step)
 
     def doAction(self):
+        print('doAction', self.timer.isActive())
         if self.timer.isActive():
             self.timer.stop()
             self.btn.setText('Начать')
@@ -570,4 +571,5 @@ class Example(QWidget):
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     ex = Example()
+    ex.show()
     sys.exit(app.exec_())

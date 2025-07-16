@@ -112,6 +112,7 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout, QLabel
 from PyQt5.QtCore import QThread, pyqtSignal, pyqtSlot
+import test_qt1
 
 class Worker(QThread):
     finished = pyqtSignal()
@@ -123,13 +124,13 @@ class Worker(QThread):
 
     def run(self):
         # Здесь создается второе окно
-        self.window = QWidget()
-        layout = QVBoxLayout()
-        label = QLabel("Второе окно")
-        layout.addWidget(label)
-        self.window.setLayout(layout)
-        self.window.setWindowTitle("Второе окно")
-
+        # self.window = QWidget()
+        # layout = QVBoxLayout()
+        # label = QLabel("Второе окно")
+        # layout.addWidget(label)
+        # self.window.setLayout(layout)
+        # self.window.setWindowTitle("Второе окно")
+        self.window = test_qt1.Example()
         self.window_created.emit(self.window)  # Отправляем сигнал о создании окна
         self.finished.emit()  # Отправляем сигнал об окончании работы
         print('3')
@@ -140,11 +141,11 @@ class MainWindow(QWidget):
         super().__init__()
         self.setWindowTitle("Главное окно")
         self.button = QPushButton("Открыть второе окно")
-        # self.button.clicked.connect(self.open_second_window)
+        self.button.clicked.connect(self.open_second_window)
         layout = QVBoxLayout()
         layout.addWidget(self.button)
         self.setLayout(layout)
-        self.open_second_window()
+        # self.open_second_window()
         # self.second_window = None
         # self.worker = None
 
