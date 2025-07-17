@@ -110,9 +110,10 @@
 #     sys.exit(app.exec_())
 
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout, QLabel
+from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout, QLabel,QProgressBar
 from PyQt5.QtCore import QThread, pyqtSignal, pyqtSlot
 import test_qt1
+from PyQt5.QtCore import QBasicTimer
 
 class Worker(QThread):
     finished = pyqtSignal()
@@ -130,10 +131,48 @@ class Worker(QThread):
         # layout.addWidget(label)
         # self.window.setLayout(layout)
         # self.window.setWindowTitle("Второе окно")
-        self.window = test_qt1.Example()
+        # self.window = test_qt1.Example()
+
+        self.window = QWidget()
+        self.pbar = QProgressBar(self.window)
+        self.pbar.setGeometry(30, 40, 200, 25)
+
+        self.btn = QPushButton('Начать', self.window)
+        self.btn.move(30, 80)
+        self.btn.clicked.connect(self.doAction)
+
+        self.timer = QBasicTimer()
+        self.step = 0
+
+        layout = QVBoxLayout()
+        layout.addWidget(self.pbar)
+        layout.addWidget(self.btn)
+        self.window.setLayout(layout)
+
+        self.window.setGeometry(300, 300, 280, 170)
+        self.window.setWindowTitle('Прогресс бар')
+
         self.window_created.emit(self.window)  # Отправляем сигнал о создании окна
         self.finished.emit()  # Отправляем сигнал об окончании работы
         print('3')
+
+    def timerEvent(self, e):
+        if self.step >= 100:
+            self.timer.stop()
+            self.btn.setText('Закончено')
+            return
+
+        self.step = self.step + 1
+        self.pbar.setValue(self.step)
+
+    def doAction(self):
+        print('doAction', self.timer.isActive())
+        if self.timer.isActive():
+            self.timer.stop()
+            self.btn.setText('Начать')
+        else:
+            self.timer.start(100, self)
+            self.btn.setText('Стоп')
 
 
 class MainWindow(QWidget):
@@ -145,6 +184,7 @@ class MainWindow(QWidget):
         layout = QVBoxLayout()
         layout.addWidget(self.button)
         self.setLayout(layout)
+        self.show()
         # self.open_second_window()
         # self.second_window = None
         # self.worker = None
@@ -171,6 +211,6 @@ class MainWindow(QWidget):
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     main_window = MainWindow()
-    main_window.show()
+    # main_window.show()
     # main_window.open_second_window()
     sys.exit(app.exec_())
