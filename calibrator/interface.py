@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 import sys,serial,struct
 from PyQt5.QtWidgets import (QWidget, QPushButton, QStackedWidget, QToolBar, QToolButton,
-                             QHBoxLayout, QVBoxLayout, QApplication, QAction, QMainWindow,QDialog,QLabel)
+                             QHBoxLayout, QVBoxLayout, QApplication, QAction, QMainWindow,QDialog,QLabel,QProgressBar)
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QThread, pyqtSignal, pyqtSlot
 from unit_interface import Unit,Param
 from class_read_data import Connect,Calibrator
 from debug import printf
+from PyQt5.QtCore import QBasicTimer
 
 class SecondWindow(QDialog):
     def __init__(self):
@@ -29,16 +30,54 @@ class Worker(QThread):
 
     def run(self):
         # Здесь создается второе окно
+        # self.window = QWidget()
+        # layout = QVBoxLayout()
+        # label = QLabel("Второе окно")
+        # layout.addWidget(label)
+        # self.window.setLayout(layout)
+        # self.window.setWindowTitle("Второе окно")
+        # self.window = test_qt1.Example()
+
         self.window = QWidget()
+        self.pbar = QProgressBar(self.window)
+        self.pbar.setGeometry(30, 40, 200, 25)
+
+        self.btn = QPushButton('Начать', self.window)
+        self.btn.move(30, 80)
+        self.btn.clicked.connect(self.doAction)
+
+        self.timer = QBasicTimer()
+        self.step = 0
+
         layout = QVBoxLayout()
-        label = QLabel("Второе окно")
-        layout.addWidget(label)
+        layout.addWidget(self.pbar)
+        layout.addWidget(self.btn)
         self.window.setLayout(layout)
-        self.window.setWindowTitle("Второе окно")
+
+        self.window.setGeometry(300, 300, 280, 170)
+        self.window.setWindowTitle('Прогресс бар')
 
         self.window_created.emit(self.window)  # Отправляем сигнал о создании окна
         self.finished.emit()  # Отправляем сигнал об окончании работы
-        printf()
+        print('3')
+
+    def timerEvent(self, e):
+        if self.step >= 100:
+            self.timer.stop()
+            self.btn.setText('Закончено')
+            return
+
+        self.step = self.step + 1
+        self.pbar.setValue(self.step)
+
+    def doAction(self):
+        print('doAction', self.timer.isActive())
+        if self.timer.isActive():
+            self.timer.stop()
+            self.btn.setText('Начать')
+        else:
+            self.timer.start(100, self)
+            self.btn.setText('Стоп')
 class Main(QWidget):
     def __init__(self):
         super().__init__()
@@ -323,6 +362,7 @@ class Main(QWidget):
         self.main.setWindowTitle('Calibrator')
         self.main.show()
 
+        self.open_second_window()
 
     def UnitWidget(self):
         if self.buttonCalibr.isChecked():
@@ -456,7 +496,7 @@ class Main(QWidget):
         if not self.buttonUnit2.isChecked() and not self.buttonUnit3.isChecked():
             # second_window = SecondWindow()
             # second_window.exec_()  # Или second_window.show() для немодального окна
-            self.open_second_window()
+            # self.open_second_window()
             self.data_dict_bu400.main_data_read('r')
             self.read_data_dict_bu400 = self.data_dict_bu400.data_dict
             # self.read_data_dict_bu400 = self.data_dict_bu400.test_data_dict('calibr')

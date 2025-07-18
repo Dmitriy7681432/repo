@@ -110,6 +110,8 @@
 #     sys.exit(app.exec_())
 
 import sys
+import time
+
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout, QLabel,QProgressBar
 from PyQt5.QtCore import QThread, pyqtSignal, pyqtSlot
 import test_qt1
@@ -176,18 +178,58 @@ class Worker(QThread):
 
 
 class MainWindow(QWidget):
+    finished2 = pyqtSignal()
+    window_created2 = pyqtSignal(QWidget)
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Главное окно")
+        self.th = QThread()
+        self.widget = QWidget()
+        self.widget.setWindowTitle("Главное окно")
+        self.pbar = QProgressBar(self.widget)
+        self.pbar.setGeometry(30, 40, 200, 25)
+
         self.button = QPushButton("Открыть второе окно")
         self.button.clicked.connect(self.open_second_window)
+
+        self.timer = QBasicTimer()
+        self.step = 0
+
+        self.btn = QPushButton('Начать', self.widget)
+        self.btn.move(30, 80)
+        self.btn.clicked.connect(self.doAction1)
+
         layout = QVBoxLayout()
         layout.addWidget(self.button)
-        self.setLayout(layout)
-        self.show()
-        # self.open_second_window()
+        layout.addWidget(self.pbar)
+        layout.addWidget(self.btn)
+        self.widget.setLayout(layout)
+        self.widget.show()
         # self.second_window = None
         # self.worker = None
+        # self.window_created2.emit(self.widget)  # Отправляем сигнал о создании окна
+        # self.finished2.emit()  # Отправляем сигнал об окончании работы
+        # self.open_second_window()
+
+    def timerEvent(self, e):
+        if self.step >= 100:
+            self.timer.stop()
+            self.btn.setText('Закончено')
+            return
+        print('timerEvent')
+        self.th.start()
+        while True:
+            self.step = self.step + 1
+            self.pbar.setValue(self.step)
+            time.sleep(1)
+
+    def doAction1(self):
+        print('doAction1', self.timer.isActive())
+        if self.timer.isActive():
+            self.timer.stop()
+            self.btn.setText('Начать')
+        else:
+            self.timer.start(100, self)
+            self.btn.setText('Стоп')
 
     # @pyqtSlot()
     def open_second_window(self):
