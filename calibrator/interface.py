@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import (QWidget, QPushButton, QStackedWidget, QToolBar, QTo
                              QHBoxLayout, QVBoxLayout, QApplication, QAction, QMainWindow,QDialog,QLabel,QProgressBar)
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtCore import QThread, pyqtSignal, pyqtSlot
+from PyQt5.QtCore import QThread, pyqtSignal, pyqtSlot,QTimer
 from unit_interface import Unit,Param
 from class_read_data import Connect,Calibrator
 from debug import printf
@@ -83,6 +83,7 @@ class Main(QWidget):
         super().__init__()
 
         self.main = QMainWindow()
+        self.timer = QTimer()
 
         #Шрифт
         font = QtGui.QFont()
@@ -497,6 +498,8 @@ class Main(QWidget):
             # second_window = SecondWindow()
             # second_window.exec_()  # Или second_window.show() для немодального окна
             # self.open_second_window()
+            # self.timer.start(100)
+            # self.timer.timeout.connect(self.data_dict_bu400.main_data_read('r'))
             self.data_dict_bu400.main_data_read('r')
             self.read_data_dict_bu400 = self.data_dict_bu400.data_dict
             # self.read_data_dict_bu400 = self.data_dict_bu400.test_data_dict('calibr')

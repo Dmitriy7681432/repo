@@ -3,6 +3,7 @@ import serial, time, binascii, struct
 import serial.tools.list_ports
 from lxml import etree
 from debug import printf
+from PyQt5.QtCore import QThread, pyqtSignal, pyqtSlot,QTimer
 
 
 class Connect(object):
@@ -43,6 +44,9 @@ class Calibrator(Connect):
     # Инициализация входных данных
     def __init__(self, ser, product, control_block):
         # super().__init__()
+        # self.thread_cal = QThread()
+        # self.thread_cal.start()
+        # self.timer = QTimer()
         self.ser = ser
         self.product = product
         self.control_block = control_block
@@ -233,28 +237,31 @@ class Calibrator(Connect):
 
     # Считывание адреса по global_id параметра
     def _begin_data_read(self, data_can_dict_value):
-        while True:
-            read_data = self.ser.read(1024)
-            printf(data_can_dict_value)
-            # printf(read_data)
-            if data_can_dict_value[:13] in read_data:
-                list_read_data = read_data.split(b'\r')
-                printf(list_read_data)
-                for i in list_read_data:
-                    if data_can_dict_value[:13] in i and len(i) > 21:
-                        printf(read_data)
-                        read_data = i
-                        printf(read_data)
-                        value, address = self.transformed_in_value_and_address(read_data, 'int')
-                        printf(data_can_dict_value[:13])
-                        printf(value)
-                        return value
+        # while True:
+        read_data = self.ser.read(1024)
+        printf(data_can_dict_value)
+        # printf(read_data)
+        if data_can_dict_value[:13] in read_data:
+            list_read_data = read_data.split(b'\r')
+            printf(list_read_data)
+            for i in list_read_data:
+                if data_can_dict_value[:13] in i and len(i) > 21:
+                    printf(read_data)
+                    read_data = i
+                    printf(read_data)
+                    value, address = self.transformed_in_value_and_address(read_data, 'int')
+                    printf(data_can_dict_value[:13])
+                    printf(value)
+                    return value
 
     def _header_data_read(self, data_can_dict_value, data_can, mode):
         count = 0
         count1 = 0
         flag = 0
+        # self.timer.start(100)
+        # self.timer.timeout.connect(lambda: self._begin_data_read(data_can_dict_value))
         addr = self._begin_data_read(data_can_dict_value)
+        addr = 0
         while True:
             if mode == "w":
                 msg_bytes = self.transformed_in_bytes(addr, self.write_id, self.header_data_dict[data_can][count])
