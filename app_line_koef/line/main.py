@@ -20,10 +20,10 @@ class MainApp(App):
    #     #self.FONT_SIZE_TEXT =90
 
     def build(self):
-       # FONT_SIZE_LABEL =30
-       # FONT_SIZE_TEXT =30
-        FONT_SIZE_LABEL =45
-        FONT_SIZE_TEXT =90
+        FONT_SIZE_LABEL =30
+        FONT_SIZE_TEXT =30
+       # FONT_SIZE_LABEL =45
+       # FONT_SIZE_TEXT =90
         box_layout = BoxLayout(orientation='vertical')
 
         box_layout_1 = BoxLayout(orientation='vertical')

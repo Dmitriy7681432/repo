@@ -254,6 +254,7 @@ class Unit(MyWidget,QWidget):
             if data =='preset':
                 # self.checkValue = str(i[1][5])
                 self.checkValue = str(i[1][9])
+                # item.setChild(count, 2, item.setText(str(i[1][5])))
                 item.setChild(count, 2, item.setText(str(i[1][9])))
             else:
                 self.checkValue = str(i[1][2])

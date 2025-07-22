@@ -7,8 +7,8 @@ from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtCore import QThread, pyqtSignal, pyqtSlot,QTimer
 
 class Connect(object):
-    ser = serial.Serial(port='COM16', baudrate=3000000, timeout=0.1)
-    # ser = serial.Serial()
+    # ser = serial.Serial(port='COM16', baudrate=3000000, timeout=0.1)
+    ser = serial.Serial()
 
     # def __init__(self):
     # Поиск устройства
@@ -304,7 +304,9 @@ class Calibrator(Connect):
             if count == 7: count = 0; count1 = 0; break
         return addr
     def rest(self):
-        printf('rest')
+        printf('func rest')
+        # while True:
+        #     printf('rest')
     def main_data_read(self, mode):
         print('main_data_read',mode)
         self.rest()
