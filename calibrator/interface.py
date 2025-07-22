@@ -9,7 +9,10 @@ from unit_interface import Unit,Param
 from class_read_data import Connect,Calibrator
 from debug import printf
 from PyQt5.QtCore import QBasicTimer
+from debug1.test1 import Testing
 
+
+from threading import Thread
 class SecondWindow(QDialog):
     def __init__(self):
         super().__init__()
@@ -78,6 +81,11 @@ class Worker(QThread):
         else:
             self.timer.start(100, self)
             self.btn.setText('Стоп')
+
+
+
+
+
 class Main(QWidget):
     def __init__(self):
         super().__init__()
@@ -305,10 +313,11 @@ class Main(QWidget):
         # self.main = Unit().initUI(self.vbox)
         # self.stackedWidget.addWidget(self.main)
 
-        ser = Connect()
-        self.data_dict_bu400= Calibrator(ser.ser, 'SES200M', 'BU_400')
-        self.data_dict_bu50= Calibrator(ser.ser, 'SES200M', 'BU_50')
-        self.data_dict_buses= Calibrator(ser.ser, 'SES200M', 'BU_SES')
+        self.ser = Connect()
+        self.data_dict_bu400= Calibrator(self.ser.ser, 'SES200M', 'BU_400')
+        self.data_dict_bu50= Calibrator(self.ser.ser, 'SES200M', 'BU_50')
+        self.data_dict_buses= Calibrator(self.ser.ser, 'SES200M', 'BU_SES')
+        self.testing = Testing(self.ser.ser, 'SES200M', 'BU_400')
 
         self.unit_bu400_preset = Unit(self.data_dict_bu400.data_dict, 'preset', 'BU400',y)
         self.unit_bu50_preset = Unit(self.data_dict_bu50.data_dict, 'preset', 'BU50',y)
@@ -363,7 +372,7 @@ class Main(QWidget):
         self.main.setWindowTitle('Calibrator')
         self.main.show()
 
-        self.open_second_window()
+        # self.open_second_window()
 
     def UnitWidget(self):
         if self.buttonCalibr.isChecked():
@@ -500,7 +509,10 @@ class Main(QWidget):
             # self.open_second_window()
             # self.timer.start(100)
             # self.timer.timeout.connect(self.data_dict_bu400.main_data_read('r'))
-            self.data_dict_bu400.main_data_read('r')
+            # th =ThreadCalibrator(self.testing)
+            th =ThreadCalibrator(self.data_dict_bu400)
+            th.start()
+            # self.data_dict_bu400.main_data_read('r')
             self.read_data_dict_bu400 = self.data_dict_bu400.data_dict
             # self.read_data_dict_bu400 = self.data_dict_bu400.test_data_dict('calibr')
             self.unit_bu400_preset.readData(self.read_data_dict_bu400,'preset')
@@ -567,6 +579,23 @@ class Main(QWidget):
             printf('saveData_buses')
             self.unit_buses_preset.saveData(self.read_data_dict_buses,'preset','buses')
             self.unit_buses_calibr.saveData(self.read_data_dict_buses,'calibr','buses')
+class ThreadCalibrator(QtCore.QThread):
+    # mysignal = QtCore.pyqtSignal(str)
+
+    def __init__(self, obj):
+        super().__init__()
+        self.obj = obj
+
+    def run(self):
+        while True:
+            print('Thread start')
+            self.obj.main_data_read('r')
+        # thread_calibrator = Calibrator(self.ser,self.product,self.control_block)
+        # self.obj.main_data_read('r')
+        # printf(self.obj.data_can_dict)
+        # self.obj.wh_func()
+        # self.obj.func_3()
+        # self.obj.while_func('r')
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
