@@ -86,17 +86,21 @@ class Worker(QThread):
 
 class ThreadCalibrator(QtCore.QThread):
 
-    # mysignal = QtCore.pyqtSignal(str)
+    mysignal = QtCore.pyqtSignal()
 
     def __init__(self, obj):
         super().__init__()
         self.obj = obj
 
     def run(self):
+        i = 1
+        print('Thread start')
+        self.obj.main_data_read('r')
         while True:
-            print('Thread start')
-            # self.obj.main_data_read('r')
-            self.obj.rest()
+            self.sleep(3)
+            self.mysignal.emit('%s'% i)
+            # self.obj.rest()
+
         # thread_calibrator = Calibrator(self.ser,self.product,self.control_block)
         # self.obj.main_data_read('r')
         # printf(self.obj.data_can_dict)
@@ -525,20 +529,25 @@ class Main(QWidget):
         if not self.buttonUnit2.isChecked() and not self.buttonUnit3.isChecked():
             # second_window = SecondWindow()
             # second_window.exec_()  # Или second_window.show() для немодального окна
-            # self.open_second_window()
+            self.open_second_window()
             # self.timer.start(100)
             # self.timer.timeout.connect(self.data_dict_bu400.main_data_read('r'))
             # th =ThreadCalibrator(self.testing)
             self.th =ThreadCalibrator(self.data_dict_bu400)
             self.th.start()
+            self.th.mysignal.connect(self.on_change,QtCore.Qt.QueuedConnection)
             # th.wait()
             # self.data_dict_bu400.main_data_read('r')
             self.read_data_dict_bu400 = self.data_dict_bu400.data_dict
             # self.read_data_dict_bu400 = self.data_dict_bu400.test_data_dict('calibr')
-            self.unit_bu400_preset.readData(self.read_data_dict_bu400,'preset')
-            self.unit_bu400_calibr.readData(self.read_data_dict_bu400,'calibr')
+            # self.unit_bu400_preset.readData(self.read_data_dict_bu400,'preset')
+            # self.unit_bu400_calibr.readData(self.read_data_dict_bu400,'calibr')
             self.buttonAction2.setEnabled(True)
             self.readData_bu400_flag = 1
+
+    def on_change(self,s):
+        self.unit_bu400_preset.readData(self.read_data_dict_bu400,'preset')
+        self.unit_bu400_calibr.readData(self.read_data_dict_bu400,'calibr')
 
     def readData_bu50(self):
         # printf('readData_bu50',self.buttonUnit2.isChecked())

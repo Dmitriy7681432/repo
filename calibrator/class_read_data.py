@@ -309,7 +309,6 @@ class Calibrator(Connect):
         #     printf('rest')
     def main_data_read(self, mode):
         print('main_data_read',mode)
-        self.rest()
         # Открытие порта
         self.can_open_O(self.ser)
 
