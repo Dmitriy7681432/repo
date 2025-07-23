@@ -293,63 +293,91 @@
 #     widget.show()
 #     app.exec_()
 
+# from PyQt5 import QtCore, QtWidgets
+#
+#
+# class MyThread(QtCore.QThread):
+#     mysignal = QtCore.pyqtSignal(str)
+#
+#     def __init__(self, parent=None):
+#         QtCore.QThread.__init__(self, parent)
+#
+#     def run(self):
+#         i =0
+#         # for i in range(1, 21):
+#         # while True:
+#         i+=1
+#         self.sleep(1)  # "Засыпаем" на 3 секунды
+#         # Передача данных из потока через сигнал
+#         # self.mysignal.emit("i = %s" % i)
+#         self.mysignal.emit('%s' %i)
+#
+#
+# class MyWindow(QtWidgets.QWidget):
+#     def __init__(self, parent=None):
+#         QtWidgets.QWidget.__init__(self, parent)
+#         self.label = QtWidgets.QLabel("Нажмите кнопку для запуска потока")
+#         self.label.setAlignment(QtCore.Qt.AlignHCenter)
+#         self.button = QtWidgets.QPushButton("Запустить процесс")
+#         self.vbox = QtWidgets.QVBoxLayout()
+#         self.vbox.addWidget(self.label)
+#         self.vbox.addWidget(self.button)
+#         self.setLayout(self.vbox)
+#         self.mythread = MyThread()  # Создаем экземпляр класса
+#         self.button.clicked.connect(self.on_clicked)
+#         self.mythread.started.connect(self.on_started)
+#         self.mythread.finished.connect(self.on_finished)
+#         self.mythread.mysignal.connect(self.on_change, QtCore.Qt.QueuedConnection)
+#
+#     def on_clicked(self):
+#         self.button.setDisabled(True)  # Делаем кнопку неактивной
+#         self.mythread.start()  # Запускаем поток
+#
+#     def on_started(self):  # Вызывается при запуске потока
+#         self.label.setText("Вызван метод on_started ()")
+#
+#     def on_finished(self):  # Вызывается при завершении потока
+#         self.label.setText("Вызван метод on_finished()")
+#         self.button.setDisabled(False)  # Делаем кнопку активной
+#
+#     def on_change(self, s):
+#         self.label.setText(s)
+#
+#
+# if __name__ == "__main__":
+#     import sys
+#
+#     app = QtWidgets.QApplication(sys.argv)
+#     window = MyWindow()
+#     window.setWindowTitle("Использование класса QThread")
+#     window.resize(300, 70)
+#     window.show()
+#     sys.exit(app.exec_())
 from PyQt5 import QtCore, QtWidgets
+import sys
+def show_modal_window():
+    global modalWindow
+    modalWindow = QtWidgets.QWidget(window1, QtCore.Qt.Window)
+    modalWindow.setWindowTitle("Модальное окно")
+    modalWindow.resize(200, 50)
+    modalWindow.setWindowModality(QtCore.Qt.WindowModal)
+    modalWindow.setAttribute(QtCore.Qt.WA_DeleteOnClose, True)
+    modalWindow.move(window1.geometry().center() - modalWindow.rect().center() -
+                     QtCore.QPoint(4, 30))
+    modalWindow.show()
 
-
-class MyThread(QtCore.QThread):
-    mysignal = QtCore.pyqtSignal(str)
-
-    def __init__(self, parent=None):
-        QtCore.QThread.__init__(self, parent)
-
-    def run(self):
-        i =0
-        # for i in range(1, 21):
-        # while True:
-        i+=1
-        self.sleep(1)  # "Засыпаем" на 3 секунды
-        # Передача данных из потока через сигнал
-        # self.mysignal.emit("i = %s" % i)
-        self.mysignal.emit('%s' %i)
-
-
-class MyWindow(QtWidgets.QWidget):
-    def __init__(self, parent=None):
-        QtWidgets.QWidget.__init__(self, parent)
-        self.label = QtWidgets.QLabel("Нажмите кнопку для запуска потока")
-        self.label.setAlignment(QtCore.Qt.AlignHCenter)
-        self.button = QtWidgets.QPushButton("Запустить процесс")
-        self.vbox = QtWidgets.QVBoxLayout()
-        self.vbox.addWidget(self.label)
-        self.vbox.addWidget(self.button)
-        self.setLayout(self.vbox)
-        self.mythread = MyThread()  # Создаем экземпляр класса
-        self.button.clicked.connect(self.on_clicked)
-        self.mythread.started.connect(self.on_started)
-        self.mythread.finished.connect(self.on_finished)
-        self.mythread.mysignal.connect(self.on_change, QtCore.Qt.QueuedConnection)
-
-    def on_clicked(self):
-        self.button.setDisabled(True)  # Делаем кнопку неактивной
-        self.mythread.start()  # Запускаем поток
-
-    def on_started(self):  # Вызывается при запуске потока
-        self.label.setText("Вызван метод on_started ()")
-
-    def on_finished(self):  # Вызывается при завершении потока
-        self.label.setText("Вызван метод on_finished()")
-        self.button.setDisabled(False)  # Делаем кнопку активной
-
-    def on_change(self, s):
-        self.label.setText(s)
-
-
-if __name__ == "__main__":
-    import sys
-
-    app = QtWidgets.QApplication(sys.argv)
-    window = MyWindow()
-    window.setWindowTitle("Использование класса QThread")
-    window.resize(300, 70)
-    window.show()
-    sys.exit(app.exec_())
+app = QtWidgets.QApplication(sys.argv)
+window1 = QtWidgets.QWidget()
+window1.setWindowTitle("Обычное окно")
+window1.resize(300, 100)
+button = QtWidgets.QPushButton("Открыть модальное окно")
+button.clicked.connect(show_modal_window)
+vbox = QtWidgets.QVBoxLayout()
+vbox.addWidget(button)
+window1.setLayout(vbox)
+window1.show()
+window2 = QtWidgets.QWidget()
+window2.setWindowTitle("Это окно не будет блокировано при WindowModal")
+window2.resize(500, 100)
+window2.show()
+sys.exit(app.exec_())

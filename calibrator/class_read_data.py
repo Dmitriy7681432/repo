@@ -306,7 +306,9 @@ class Calibrator(Connect):
     def rest(self):
         printf('func rest')
         # while True:
-        #     printf('rest')
+        for i in range(1,10):
+            time.sleep(1)
+            printf('rest')
     def main_data_read(self, mode):
         print('main_data_read',mode)
         # Открытие порта

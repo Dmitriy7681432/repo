@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 import sys,serial,struct
+import time
+
 from PyQt5.QtWidgets import (QWidget, QPushButton, QStackedWidget, QToolBar, QToolButton,
                              QHBoxLayout, QVBoxLayout, QApplication, QAction, QMainWindow,QDialog,QLabel,QProgressBar)
 
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtCore, QtGui, QtWidgets,Qt
 from PyQt5.QtCore import QThread, pyqtSignal, pyqtSlot,QTimer
 from unit_interface import Unit,Param
 from class_read_data import Connect,Calibrator
@@ -31,7 +33,7 @@ class Worker(QThread):
         super().__init__(parent)
         self.window = None
 
-    def run(self):
+    def run1(self):
         # Здесь создается второе окно
         # self.window = QWidget()
         # layout = QVBoxLayout()
@@ -59,11 +61,19 @@ class Worker(QThread):
 
         self.window.setGeometry(300, 300, 280, 170)
         self.window.setWindowTitle('Прогресс бар')
+        #Вновь
+        self.window.setWindowModality(Qt.Qt.ApplicationModal)
+        self.window.show()
 
-        self.window_created.emit(self.window)  # Отправляем сигнал о создании окна
-        self.finished.emit()  # Отправляем сигнал об окончании работы
+
+
+        # self.window_created.emit(self.window)  # Отправляем сигнал о создании окна
+        # self.finished.emit()  # Отправляем сигнал об окончании работы
         print('3')
 
+    # Вновь
+    def closeEvent(self):
+        self.window.setWindowModality(Qt.Qt.NonModal)
     def timerEvent(self, e):
         if self.step >= 100:
             self.timer.stop()
@@ -85,7 +95,7 @@ class Worker(QThread):
 
 
 class ThreadCalibrator(QtCore.QThread):
-
+    finished2 = pyqtSignal()
     mysignal = QtCore.pyqtSignal()
 
     def __init__(self, obj):
@@ -95,18 +105,13 @@ class ThreadCalibrator(QtCore.QThread):
     def run(self):
         i = 1
         print('Thread start')
-        self.obj.main_data_read('r')
-        while True:
-            self.sleep(3)
-            self.mysignal.emit('%s'% i)
-            # self.obj.rest()
-
-        # thread_calibrator = Calibrator(self.ser,self.product,self.control_block)
         # self.obj.main_data_read('r')
-        # printf(self.obj.data_can_dict)
-        # self.obj.wh_func()
-        # self.obj.func_3()
-        # self.obj.while_func('r')
+        # while True:
+        # for i in range(0,10):
+        #     self.sleep(1)
+            # self.mysignal.emit('%s'% i)
+        self.obj.rest()
+        self.finished2.emit()
 
 
 class Main(QWidget):
@@ -503,16 +508,10 @@ class Main(QWidget):
     # @pyqtSlot()
     def open_second_window(self):
         # self.button.setEnabled(False)  # Отключаем кнопку, пока второе окно загружается
-        printf()
         self.worker = Worker()
-        printf()
         self.worker.window_created.connect(self.show_second_window)
-        printf()
         self.worker.finished.connect(self.thread_finished)
-        printf()
         self.worker.start()
-
-        printf()
 
     # @pyqtSlot(QWidget)
     def show_second_window(self, window):
@@ -527,23 +526,34 @@ class Main(QWidget):
     def readData_bu400(self):
         # printf('readData_bu400',self.buttonUnit1.isChecked())
         if not self.buttonUnit2.isChecked() and not self.buttonUnit3.isChecked():
-            # second_window = SecondWindow()
-            # second_window.exec_()  # Или second_window.show() для немодального окна
-            self.open_second_window()
-            # self.timer.start(100)
-            # self.timer.timeout.connect(self.data_dict_bu400.main_data_read('r'))
-            # th =ThreadCalibrator(self.testing)
-            self.th =ThreadCalibrator(self.data_dict_bu400)
-            self.th.start()
-            self.th.mysignal.connect(self.on_change,QtCore.Qt.QueuedConnection)
+            # self.open_second_window()
+            self.worker = Worker()
+            self.worker.run1()
+            self.thread_start()
+            # self.data_dict_bu400.rest()
+            # self.th =ThreadCalibrator(self.testing)
+            # self.th =ThreadCalibrator(self.data_dict_bu400)
+            # self.th.start()
+            # self.th.mysignal.connect(self.on_change,QtCore.Qt.QueuedConnection)
             # th.wait()
             # self.data_dict_bu400.main_data_read('r')
             self.read_data_dict_bu400 = self.data_dict_bu400.data_dict
             # self.read_data_dict_bu400 = self.data_dict_bu400.test_data_dict('calibr')
             # self.unit_bu400_preset.readData(self.read_data_dict_bu400,'preset')
             # self.unit_bu400_calibr.readData(self.read_data_dict_bu400,'calibr')
-            self.buttonAction2.setEnabled(True)
+            # self.buttonAction2.setEnabled(True)
             self.readData_bu400_flag = 1
+
+    def thread_start(self):
+        # self.th =ThreadCalibrator(self.testing)
+        self.th =ThreadCalibrator(self.data_dict_bu400)
+        self.th.start()
+        self.th.mysignal.connect(self.on_change,QtCore.Qt.QueuedConnection)
+        self.th.finished2.connect(self.next_main_thread)
+
+    def next_main_thread(self):
+        print('next main thread')
+        self.buttonAction2.setEnabled(True)
 
     def on_change(self,s):
         self.unit_bu400_preset.readData(self.read_data_dict_bu400,'preset')
