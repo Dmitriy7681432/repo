@@ -3,7 +3,8 @@ import sys,serial,struct
 import time
 
 from PyQt5.QtWidgets import (QWidget, QPushButton, QStackedWidget, QToolBar, QToolButton,
-                             QHBoxLayout, QVBoxLayout, QApplication, QAction, QMainWindow,QDialog,QLabel,QProgressBar)
+                             QHBoxLayout, QVBoxLayout, QApplication, QAction, QMainWindow,QDialog,QLabel,QProgressBar,
+                             QDesktopWidget)
 
 from PyQt5 import QtCore, QtGui, QtWidgets,Qt
 from PyQt5.QtCore import QThread, pyqtSignal, pyqtSlot,QTimer
@@ -14,24 +15,14 @@ from PyQt5.QtCore import QBasicTimer
 # from debug1.test1 import Testing
 
 
-from threading import Thread
-class SecondWindow(QDialog):
-    def __init__(self):
-        super().__init__()
-        self.setWindowTitle("Второе окно")
-        self.button = QPushButton("Закрыть")
-        self.button.clicked.connect(self.close)
-        layout = QVBoxLayout()
-        layout.addWidget(self.button)
-        self.setLayout(layout)
-
 class Worker(QThread):
     finished = pyqtSignal()
     window_created = pyqtSignal(QWidget)
 
-    def __init__(self, parent=None):
-        super().__init__(parent)
+    def __init__(self,obj_main):
+        super().__init__()
         self.window = None
+        self.obj_main = obj_main
 
     def run1(self):
         # Здесь создается второе окно
@@ -47,24 +38,44 @@ class Worker(QThread):
         self.pbar = QProgressBar(self.window)
         self.pbar.setGeometry(30, 40, 200, 25)
 
-        self.btn = QPushButton('Начать', self.window)
-        self.btn.move(30, 80)
-        self.btn.clicked.connect(self.doAction)
+        # self.btn = QPushButton('Начать', self.window)
+        # self.btn.move(30, 80)
+        # self.btn.clicked.connect(self.doAction)
 
         self.timer = QBasicTimer()
         self.step = 0
 
         layout = QVBoxLayout()
         layout.addWidget(self.pbar)
-        layout.addWidget(self.btn)
+        # layout.addWidget(self.btn)
         self.window.setLayout(layout)
 
-        self.window.setGeometry(300, 300, 280, 170)
-        self.window.setWindowTitle('Прогресс бар')
-        #Вновь
+        self.window.setGeometry(100, 100, 280, 70)
+        self.center() # Центрируем окно
+        self.window.setWindowTitle('Загрузка')
+        # Блокировка главного окна
         self.window.setWindowModality(Qt.Qt.ApplicationModal)
+        # Убрать значок закрытия окна
+        self.window.setWindowFlags(Qt.Qt.CustomizeWindowHint | Qt.Qt.WindowTitleHint)
         self.window.show()
+        self.obj_main.cal_signal.connect(self.update_progress_bar)
 
+        self.doAction()
+
+    def time_stop(self):
+        self.val =100
+
+    def update_progress_bar(self,val):
+        printf('updata_pr')
+        self.val = val
+        # self.step = self.step +self.val
+        # self.pbar.setValue(self.step)
+
+    def center(self):
+        qr = self.window.frameGeometry()
+        cp = QDesktopWidget().availableGeometry().center()
+        qr.moveCenter(cp)
+        self.window.move(qr.topLeft())
 
 
         # self.window_created.emit(self.window)  # Отправляем сигнал о создании окна
@@ -72,25 +83,30 @@ class Worker(QThread):
         print('3')
 
     # Вновь
-    def closeEvent(self):
-        self.window.setWindowModality(Qt.Qt.NonModal)
+    # def closeEvent(self):
+    #     self.window.setWindowModality(Qt.Qt.NonModal)
     def timerEvent(self, e):
-        if self.step >= 100:
+        printf(self.val, self.timer.isActive())
+        self.pbar.setValue(self.val)
+        if self.val >= 100:
             self.timer.stop()
-            self.btn.setText('Закончено')
+            self.window.close()
+            self.window.setWindowModality(Qt.Qt.NonModal)
+            # self.btn.setText('Закончено')
             return
 
-        self.step = self.step + 1
-        self.pbar.setValue(self.step)
+        # self.step = self.step + self.val
+        # self.step = self.step + 1
 
     def doAction(self):
         print('doAction', self.timer.isActive())
         if self.timer.isActive():
             self.timer.stop()
-            self.btn.setText('Начать')
+            # self.btn.setText('Начать')
         else:
-            self.timer.start(100, self)
-            self.btn.setText('Стоп')
+            self.val = 0
+            self.timer.start(1000, self)
+            # self.btn.setText('Стоп')
 
 
 
@@ -527,7 +543,7 @@ class Main(QWidget):
         # printf('readData_bu400',self.buttonUnit1.isChecked())
         if not self.buttonUnit2.isChecked() and not self.buttonUnit3.isChecked():
             # self.open_second_window()
-            self.worker = Worker()
+            self.worker = Worker(self.data_dict_bu400)
             self.worker.run1()
             self.thread_start()
             # self.data_dict_bu400.rest()
@@ -554,6 +570,7 @@ class Main(QWidget):
     def next_main_thread(self):
         print('next main thread')
         self.buttonAction2.setEnabled(True)
+        self.worker.time_stop()
 
     def on_change(self,s):
         self.unit_bu400_preset.readData(self.read_data_dict_bu400,'preset')

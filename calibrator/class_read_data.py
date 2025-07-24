@@ -4,7 +4,7 @@ import serial.tools.list_ports
 from lxml import etree
 from debug import printf
 from PyQt5 import QtCore, QtWidgets
-from PyQt5.QtCore import QThread, pyqtSignal, pyqtSlot,QTimer
+from PyQt5.QtCore import QThread, pyqtSignal, pyqtSlot,QTimer,QObject
 
 class Connect(object):
     # ser = serial.Serial(port='COM16', baudrate=3000000, timeout=0.1)
@@ -39,11 +39,13 @@ class Connect(object):
         # arg.close()
 
 
-class Calibrator(Connect):
+class Calibrator(QObject,Connect):
+    cal_signal = pyqtSignal(int)
+    finish_cal_signal = pyqtSignal()
 
     # Инициализация входных данных
     def __init__(self, ser, product, control_block):
-        # super().__init__()
+        super().__init__()
         # self.thread_cal = QThread()
         # self.thread_cal.start()
         # self.timer = QTimer()
@@ -97,9 +99,6 @@ class Calibrator(Connect):
 
         self.file_open = open('read_data.txt', 'wb')
         self.flag =0
-    def func_3(self):
-        printf('HELLO')
-    # Преобразование байтового типа в тип целочисленного значения и адреса
     def transformed_in_value_and_address(self, arg, type):
         value = arg[13:21]
         value = value[6:8] + value[4:6] + value[2:4] + value[0:2]
@@ -308,6 +307,7 @@ class Calibrator(Connect):
         # while True:
         for i in range(1,10):
             time.sleep(1)
+            self.cal_signal.emit(i)
             printf('rest')
     def main_data_read(self, mode):
         print('main_data_read',mode)
