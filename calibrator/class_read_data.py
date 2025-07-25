@@ -7,8 +7,8 @@ from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtCore import QThread, pyqtSignal, pyqtSlot,QTimer,QObject
 
 class Connect(object):
-    # ser = serial.Serial(port='COM16', baudrate=3000000, timeout=0.1)
-    ser = serial.Serial()
+    ser = serial.Serial(port='COM16', baudrate=3000000, timeout=0.1)
+    # ser = serial.Serial()
 
     # def __init__(self):
     # Поиск устройства
@@ -234,10 +234,6 @@ class Calibrator(QObject,Connect):
             # if product==self.product and units==unit:
             #     return eskd.text
 
-    def wh_func(self):
-        printf('Wh func')
-        while True:
-            printf('While start')
     # Считывание адреса по global_id параметра
     def _begin_data_read(self, data_can_dict_value):
         while True:
