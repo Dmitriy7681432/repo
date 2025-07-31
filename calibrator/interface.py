@@ -69,7 +69,7 @@ class Worker(QThread):
         printf('updata_pr')
         self.val = val
         # self.step = self.step +self.val
-        # self.pbar.setValue(self.step)
+        self.pbar.setValue(self.val)
 
     def center(self):
         qr = self.window.frameGeometry()

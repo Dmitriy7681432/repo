@@ -7,7 +7,7 @@ from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtCore import QThread, pyqtSignal, pyqtSlot,QTimer,QObject
 
 class Connect(object):
-    ser = serial.Serial(port='COM16', baudrate=3000000, timeout=0.1)
+    ser = serial.Serial(port='COM16', baudrate=3000000, timeout=0.01)
     # ser = serial.Serial()
 
     # def __init__(self):
@@ -22,7 +22,7 @@ class Connect(object):
     # Выбор режима com_port
     def can_open_O(self, arg):
         printf('can_open')
-        arg.timeot = 0.1
+        arg.timeot = 0.01
         msg = b"C\r"
         arg.write(msg)
         msg = b"S5\rZ1\r"
@@ -309,6 +309,11 @@ class Calibrator(QObject,Connect):
         print('main_data_read',mode)
         # Открытие порта
         self.can_open_O(self.ser)
+        proc_elem = round((
+            (len(self.data_dict['preset']) + len(self.data_dict['calibr']) + len(self.data_dict['filter'])) / 100)+0.5)
+        printf(len(self.data_dict['preset']) + len(self.data_dict['calibr']) + len(self.data_dict['filter']))
+        count_elem = 0
+        step = 0
 
         # Если на запись данных
         if mode == 'w':
@@ -328,6 +333,11 @@ class Calibrator(QObject,Connect):
             # Парсер главного словаря с данным
             for data_main in self.data_dict[data_can].items():
                 printf(data_main)
+                count_elem +=1
+                if count_elem == proc_elem:
+                    step +=1
+                    self.cal_signal.emit(step)
+                    count_elem =0
 
                 # Запрос с адресом в can
                 while True:
