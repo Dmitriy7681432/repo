@@ -523,23 +523,6 @@ class Main(QWidget):
         self.buttonUst.setDown(False)
         self.buttonCalibr.setDown(False)
 
-    # @pyqtSlot()
-    def open_second_window(self):
-        # self.button.setEnabled(False)  # Отключаем кнопку, пока второе окно загружается
-        self.worker = Worker()
-        self.worker.window_created.connect(self.show_second_window)
-        self.worker.finished.connect(self.thread_finished)
-        self.worker.start()
-
-    # @pyqtSlot(QWidget)
-    def show_second_window(self, window):
-        self.second_window = window
-        self.second_window.show()
-        printf()
-
-    # @pyqtSlot()
-    def thread_finished(self):
-        pass
         # self.button.setEnabled(True) # Включаем кнопку, когда второе окно отображено
     def readData_bu400(self):
         # printf('readData_bu400',self.buttonUnit1.isChecked())
@@ -572,20 +555,20 @@ class Main(QWidget):
     def next_main_thread(self,name_obj):
         print('next main thread',name_obj)
         if name_obj =='BU_400':
-            # self.read_data_dict_bu400 = self.data_dict_bu400.data_dict
-            # self.unit_bu400_preset.readData(self.read_data_dict_bu400,'preset')
-            # self.unit_bu400_calibr.readData(self.read_data_dict_bu400,'calibr')
-            pass
+            self.read_data_dict_bu400 = self.data_dict_bu400.data_dict
+            self.unit_bu400_preset.readData(self.read_data_dict_bu400,'preset')
+            self.unit_bu400_calibr.readData(self.read_data_dict_bu400,'calibr')
+            # pass
         if name_obj =='BU_50':
-            # self.read_data_dict_bu50 = self.data_dict_bu50.data_dict
-            # self.unit_bu50_preset.readData(self.read_data_dict_bu50,'preset')
-            # self.unit_bu50_calibr.readData(self.read_data_dict_bu50,'calibr')
-            pass
+            self.read_data_dict_bu50 = self.data_dict_bu50.data_dict
+            self.unit_bu50_preset.readData(self.read_data_dict_bu50,'preset')
+            self.unit_bu50_calibr.readData(self.read_data_dict_bu50,'calibr')
+            # pass
         if name_obj =='BU_SES':
-            # self.read_data_dict_buses = self.data_dict_buses.data_dict
-            # self.unit_buses_preset.readData(self.read_data_dict_buses,'preset')
-            # self.unit_buses_calibr.readData(self.read_data_dict_buses,'calibr')
-            pass
+            self.read_data_dict_buses = self.data_dict_buses.data_dict
+            self.unit_buses_preset.readData(self.read_data_dict_buses,'preset')
+            self.unit_buses_calibr.readData(self.read_data_dict_buses,'calibr')
+            # pass
         self.buttonAction2.setEnabled(True)
         self.worker.time_stop()
 

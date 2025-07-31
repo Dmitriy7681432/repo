@@ -21,13 +21,23 @@ class Connect(object):
 
     # Выбор режима com_port
     def can_open_O(self, arg):
-        printf('can_open')
+        printf('can_open_O')
         arg.timeot = 0.01
         msg = b"C\r"
         arg.write(msg)
         msg = b"S5\rZ1\r"
         arg.write(msg)
         msg = b"O\r"
+        arg.write(msg)
+
+    def can_open_L(self, arg):
+        printf('can_open_L')
+        arg.timeot = 0.01
+        msg = b"C\r"
+        arg.write(msg)
+        msg = b"S5\rZ1\r"
+        arg.write(msg)
+        msg = b"L\r"
         arg.write(msg)
 
     # Закрытие com_port
@@ -425,6 +435,12 @@ class Calibrator(QObject,Connect):
         printf(self.data_dict)
         printf(self.header_data_dict)
         return 'End main_data_read'
+
+    def param_read(self,global_id):
+        while True:
+            read_data = self.ser.read(1024)
+
+
     def test_data_dict(self,data):
         printf(self.data_dict)
         count =0

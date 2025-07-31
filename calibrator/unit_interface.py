@@ -345,6 +345,7 @@ class Param(QWidget):
         self.initUI(param_dict,unit,size_stacked)
 
     def initUI(self,param_dict,unit,size_stacked):
+        self.cnt_elem = 0
         self.size_stacked = size_stacked
         # Шрифт
         self.font = QtGui.QFont()
@@ -479,11 +480,14 @@ class Param(QWidget):
             param_obj.append(('head',elem[0]))
             for i in j:
                 param_obj.append(('name',i[0]))
-        # printf(param_obj)
+        printf(param_dict[unit])
 
         len_for = round(((len(param_obj)*20/self.size_stacked)/2)+0.5)
         # printf(len_for,len(param_obj),self.size_stacked)
         arg =(0,0)
+        self.lst_widget = []
+        self.lst_widget1 = []
+        self.lst_widget_item1 = []
         for i in range(0,len_for):
             i+=1
             self.widget = QtWidgets.QWidget(self.centr_widget)
@@ -544,9 +548,6 @@ class Param(QWidget):
     def add_List_half(self,x1,y1,x2,y2,param_obj,start_while,text_label):
         # printf('func add_list_half')
 
-        self.lst_widget = []
-        self.lst_widget1 = []
-        self.lst_widget_item1 = []
         k = 0
         z = 0
         fon_metric = 0
@@ -554,6 +555,7 @@ class Param(QWidget):
         size_all_widget = 0
 
         for i in range(start_while,len(param_obj)):
+            self.cnt_elem+=1
             j = i*20
             if start_while!=0:
                 j-=start_while*20
@@ -618,7 +620,8 @@ class Param(QWidget):
                 # self.listWidgetItem.setTextAlignment(QtCore.Qt.AlignCenter)
 
                 self.list_widget1 = QtWidgets.QListWidget(self.widget)
-                self.listWidgetItem1 = QtWidgets.QListWidgetItem("0")
+                # self.listWidgetItem1 = QtWidgets.QListWidgetItem("0")
+                self.listWidgetItem1 = QtWidgets.QListWidgetItem(str(self.cnt_elem))
                 self.list_widget1.addItem(self.listWidgetItem1)
                 # self.list_widget1.setFrameShape(QtWidgets.QFrame.NoFrame)
                 # self.list_widget1.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
@@ -664,6 +667,13 @@ class Param(QWidget):
 
                 size_all_widget += self.list_widget.size().height()
 
+        lst_temp = []
+        for i in self.lst_widget_item1:
+            lst_temp.append(i.text())
+
+        # self.lst_widget_item1[0].setText('5')
+        printf(lst_temp)
+
     def add_List(self,x1,y1,x2,y2,param_obj,start_while,text_label):
         printf('func add_list')
 
@@ -675,9 +685,6 @@ class Param(QWidget):
         self.data_tab.setCurrentIndex(0)
         self.data_tab.setStyleSheet('background-color:rgb(220,254,225);')
 
-        self.lst_widget = []
-        self.lst_widget1 = []
-        self.lst_widget_item1 = []
         k=0
         z =0
         fon_metric =0
