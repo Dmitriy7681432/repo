@@ -7,8 +7,8 @@ from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtCore import QThread, pyqtSignal, pyqtSlot,QTimer,QObject
 
 class Connect(object):
-    ser = serial.Serial(port='COM16', baudrate=3000000, timeout=0.01)
-    # ser = serial.Serial()
+    # ser = serial.Serial(port='COM16', baudrate=3000000, timeout=0.01)
+    ser = serial.Serial()
 
     # def __init__(self):
     # Поиск устройства
