@@ -2,44 +2,6 @@
 // Агрегат ElectroStation
 
 // Пожар
-FIRE KEY(1) 
-// Наработка изделия
-STATION_MOTOHOURS KEY(2) 
-// Режим нейтрали
-NEUTRAL_MODE KEY(3) 
-// Аварийный останов
-AV_OST KEY(4) 
-// Состояние защит
-PROTECTIONS_STATE KEY(5) 
-// РБП
-RBP KEY(46) 
-// Формат дистанционного управления
-DU_FORMAT KEY(50) 
-// Состояние ЭА источника
-EL_DEV_STATE KEY(52) 
-// Пожар внешний
-FIRE_EXT KEY(301) 
-// Пожар
-FIRE_EXT2 KEY(302) 
-// Режим управления станцией СЭC-200М
-STATION_CONTROL_MODE KEY(303) 
-// Аварии блока
-EVENTS_BLOCK KEY(51) 
-// Сырое значение корректора напряжения ЭА
-CORRECTOR_VALUE KEY(304) 
-// Аварийный режим
-ALARM_MODE KEY(57) 
-// Режим ожидания
-WAITING_MODE KEY(305) 
-// Изменение реакции аварий
-ALARM_REACT_CHANGE KEY(59) 
-// Включить сирену
-SIREN_ON KEY(306) 
-// Включить охлаждение пульта управления
-COOLING_PU_ON KEY(307) 
-// Включeно охлаждение пульта управления
-COOLING_PU_ON_CALC KEY(308) 
-// Пожар
 EA301 KEY(53) 
 // Аварийный стоп
 EA300 KEY(54) 
@@ -50,59 +12,59 @@ EA321 KEY(56)
 // Низкое напряжение АБ СТ или АБ ОП
 EA323 KEY(58) 
 // Пониженное напряжение АКБ
-EP323 KEY(309) 
+EP323 KEY(301) 
 // Низкий уровень топлива бака 1
-EP002 KEY(310) 
+EP002 KEY(302) 
 // Низкий уровень топлива бака 2
-EP002_2 KEY(311) 
+EP002_2 KEY(303) 
 // Отключен автомат Подзаряд АБ ХД
-EP234 KEY(312) 
+EP234 KEY(304) 
 // КЗ(отключен) автомат Подзаряд АБ ХД
-EA239 KEY(313) 
+EA239 KEY(305) 
 // Неисправность реле К15 Ф22
-EA238 KEY(314) 
+EA238 KEY(306) 
 // Пониженное напряжение АБ ОП
-EP320 KEY(315) 
+EP320 KEY(307) 
 // Отключен автомат Q6 экстренного отключения
-EA373 KEY(316) 
+EA373 KEY(308) 
 // Пожар
-LIM_FIRE KEY(317) 
+LIM_FIRE KEY(309) 
 // Сработало РБП
-LIM_RBP KEY(318) 
+LIM_RBP KEY(310) 
 // Аварийный останов
-LIM_AV_OST KEY(319) 
+LIM_AV_OST KEY(311) 
 // Низкое напряжение АКБ ХД
-LIM_U_AB_SHASSIS KEY(320) 
+LIM_U_AB_SHASSIS KEY(312) 
 // Низкое напряжение АКБ
-LIM_U_AB_STARTER KEY(321) 
+LIM_U_AB_STARTER KEY(313) 
 // Предупреждение: низкое напряжение АКБ
-LIM_U_AB_STARTER_MANUAL KEY(322) 
+LIM_U_AB_STARTER_MANUAL KEY(314) 
 // ИВЭП норма
-LIM_STATUS_IVEP_NORM KEY(323) 
+LIM_STATUS_IVEP_NORM KEY(315) 
 // ИВЭП НЕ норма
-LIM_STATUS_IVEP_NO_NORM KEY(324) 
+LIM_STATUS_IVEP_NO_NORM KEY(316) 
 // Автомат Q17 (Подзаряд АБ ХД)
-LIM_AB_SHASSIS_AUT_OP KEY(325) 
+LIM_AB_SHASSIS_AUT_OP KEY(317) 
 // КЗ автомата Q17 (Подзаряд АБ ХД)
-LIM_AB_SHASSIS_AUT_ KEY(326) 
+LIM_AB_SHASSIS_AUT_ KEY(318) 
 // Не cработало РБП
-LIM_RBP_OFF KEY(327) 
+LIM_RBP_OFF KEY(319) 
 // Контроль реле К15 Ф22 при включении
-LIM_RELAY_K15_F22_ON KEY(328) 
+LIM_RELAY_K15_F22_ON KEY(320) 
 // Контроль реле К15 Ф22 при отключении
-LIM_RELAY_K15_F22_OFF KEY(329) 
+LIM_RELAY_K15_F22_OFF KEY(321) 
 // Контроль за включением охлаждения пульта управления
-LIM_COOLING_PU_ON KEY(330) 
+LIM_COOLING_PU_ON KEY(322) 
 // Контроль за отключением охлаждения пульта управления
-LIM_COOLING_PU_OFF KEY(331) 
+LIM_COOLING_PU_OFF KEY(323) 
 // Включение режима ожидания
-LIM_WAIT_ON KEY(332) 
+LIM_WAIT_ON KEY(324) 
 // Выключение режима ожидания
-LIM_WAIT_OFF KEY(333) 
+LIM_WAIT_OFF KEY(325) 
 // Пониженное напряжение АБ ОП
-LIM_U_AB_OP KEY(334) 
+LIM_U_AB_OP KEY(326) 
 // Контроль КЗ(отключен) автомат Q6 экстренного отключения
-LIM_Q6_AUT KEY(335) 
+LIM_Q6_AUT KEY(327) 
 
 // Агрегат Bus
 

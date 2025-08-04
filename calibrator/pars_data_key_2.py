@@ -45,10 +45,10 @@ class DataKey():
                             self.flag_4=1
                         # print('for4')
                         # if arg == 'parameter':
-                        if ((self.units == 'BU_50') or (self.units == 'BU_SES')or (self.units == 'BU_400')):
-                        # and ((type =='Измеряемый') or (type =='Вычисляемый')or
-                        # (type =='Внешний') or (type =='Дискретный')or
-                        # (type =='Сводный') or (type =='Команда')):
+                        if ((self.units == 'BU_50') or (self.units == 'BU_SES')or (self.units == 'BU_400'))\
+                        and ((type =='Измеряемый') or (type =='Вычисляемый')or
+                        (type =='Внешний') or (type =='Дискретный')or
+                        (type =='Сводный') or (type =='Команда')):
                             if common_id == None:
                                 if flag ==1:
                                     common_id = self.count1 + 1
