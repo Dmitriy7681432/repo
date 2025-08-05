@@ -1,0 +1,2888 @@
+
+// Агрегат ElectroStation
+
+// Пожар
+FIRE KEY(1) 
+// Наработка изделия
+STATION_MOTOHOURS KEY(2) 
+// Режим нейтрали
+NEUTRAL_MODE KEY(3) 
+// Аварийный останов
+AV_OST KEY(4) 
+// Состояние защит
+PROTECTIONS_STATE KEY(5) 
+// РБП
+RBP KEY(46) 
+// Формат дистанционного управления
+DU_FORMAT KEY(50) 
+// Состояние ЭА источника
+EL_DEV_STATE KEY(52) 
+// Пожар внешний
+FIRE_EXT KEY(301) 
+// Пожар
+FIRE_EXT2 KEY(302) 
+// Режим управления станцией СЭC-200М
+STATION_CONTROL_MODE KEY(303) 
+// Аварии блока
+EVENTS_BLOCK KEY(51) 
+// Сырое значение корректора напряжения ЭА
+CORRECTOR_VALUE KEY(304) 
+// Аварийный режим
+ALARM_MODE KEY(57) 
+// Режим ожидания
+WAITING_MODE KEY(305) 
+// Изменение реакции аварий
+ALARM_REACT_CHANGE KEY(59) 
+// Включить сирену
+SIREN_ON KEY(306) 
+// Включить охлаждение пульта управления
+COOLING_PU_ON KEY(307) 
+// Включeно охлаждение пульта управления
+COOLING_PU_ON_CALC KEY(308) 
+
+// Агрегат Bus
+
+// Не норма изоляции 50  Гц
+B_MKI_AI_EXT KEY(1300) 
+// Не норма изоляции трансформатора 1
+B_MKI_T1 KEY(1052) 
+// Не норма изоляции трансформатора 2
+B_MKI_T2 KEY(1053) 
+
+// Агрегат Net
+
+// U линейное AB, В
+N_U_AB KEY(2004) 
+// U линейное BC, В
+N_U_BC KEY(2005) 
+// U линейное AC, В
+N_U_AC KEY(2006) 
+// F U фазы A, Гц
+N_F_U_A KEY(2007) 
+// F U фазы B, Гц
+N_F_U_B KEY(2008) 
+// F U фазы C, Гц
+N_F_U_C KEY(2009) 
+// Угол U фазы A, °
+N_PHI_U_A KEY(2010) 
+// Угол U фазы B, °
+N_PHI_U_B KEY(2011) 
+// Угол U фазы C, °
+N_PHI_U_C KEY(2012) 
+// Угол U фазы A, °
+N_PHI_U_A_S KEY(2076) 
+// Угол U фазы B, °
+N_PHI_U_B_S KEY(2077) 
+// Угол U фазы C, °
+N_PHI_U_C_S KEY(2078) 
+// I фазы А, А
+N_I_A KEY(2013) 
+// I фазы B, А
+N_I_B KEY(2014) 
+// I фазы C, А
+N_I_C KEY(2015) 
+// Угол I фазы A, °
+N_PHI_I_A KEY(2019) 
+// Угол I фазы B, °
+N_PHI_I_B KEY(2020) 
+// Угол I фазы C, °
+N_PHI_I_C KEY(2021) 
+// Угол I фазы A, °
+N_PHI_I_A_S KEY(2079) 
+// Угол I фазы B, °
+N_PHI_I_B_S KEY(2080) 
+// Угол I фазы C, °
+N_PHI_I_C_S KEY(2081) 
+// Косинус
+N_COS_PHI KEY(2022) 
+// Активная мощность, кВт
+N_P KEY(2023) 
+// Реактивная мощность, кВАр
+N_Q KEY(2024) 
+// Полная мощность, кВА
+N_S KEY(2025) 
+// Состояние
+N_STATE KEY(2026) 
+// Норма
+N_NORM KEY(2027) 
+// Фазировка
+N_PH KEY(2028) 
+// Контактор ввода сети 1
+N_CONT KEY(2041) 
+// Контактор ввода сети 1
+CONT_NET KEY(2050) 
+// F U фазы A2, Гц
+N_F_U_A2 KEY(2300) 
+// Угол U фазы A2, °
+N_PHI_U_A2 KEY(2301) 
+// Обрыв одной фазы
+N_PH_PHASE KEY(2302) 
+// Аварии сети 1
+EVENTS_NET KEY(2064) 
+// U линейное AB2, В
+N_U_AB2 KEY(2303) 
+// Состояние источника сети 1
+N1_SOURCE_STATE KEY(2042) 
+// Активная мощность сети 1, вычисляемый
+N_P_CALC KEY(2304) 
+// U линейное AB сырое
+N_U_AB_RAW KEY(2305) 
+// U линейное BC сырое
+N_U_BC_RAW KEY(2306) 
+// U линейное AC сырое
+N_U_AC_RAW KEY(2307) 
+// F U фазы A сырое
+N_F_U_A_RAW KEY(2308) 
+// F U фазы B сырое
+N_F_U_B_RAW KEY(2309) 
+// F U фазы C сырое
+N_F_U_C_RAW KEY(2310) 
+// I фазы A сырое
+N_I_A_RAW KEY(2311) 
+// I фазы B сырое
+N_I_B_RAW KEY(2312) 
+// I фазы C сырое
+N_I_C_RAW KEY(2313) 
+// F U фазы A2 сырое
+N_F_U_A2_RAW KEY(2314) 
+// U линейное AB2 сырое
+N_U_AB2_RAW KEY(2315) 
+// Включено реле К1 ввода сети 1
+DISCR_RELAY_K1_NET1 KEY(2316) 
+// Включено реле К8 сирены
+ON_SIREN KEY(2317) 
+// Параметры сети 1 в норме
+NET1_NORM KEY(2043) 
+
+// Агрегат Net2
+
+// U линейное AB, В
+N2_U_AB KEY(3004) 
+// U линейное BC, В
+N2_U_BC KEY(3005) 
+// U линейное AC, В
+N2_U_AC KEY(3006) 
+// F U фазы A, Гц
+N2_F_U_A KEY(3007) 
+// F U фазы B, Гц
+N2_F_U_B KEY(3008) 
+// F U фазы C, Гц
+N2_F_U_C KEY(3009) 
+// Угол U фазы A, °
+N2_PHI_U_A KEY(3010) 
+// Угол U фазы B, °
+N2_PHI_U_B KEY(3011) 
+// Угол U фазы C, °
+N2_PHI_U_C KEY(3012) 
+// Угол U фазы A, °
+N2_PHI_U_A_S KEY(3076) 
+// Угол U фазы B, °
+N2_PHI_U_B_S KEY(3077) 
+// Угол U фазы C, °
+N2_PHI_U_C_S KEY(3078) 
+// I фазы А, А
+N2_I_A KEY(3013) 
+// I фазы B, А
+N2_I_B KEY(3014) 
+// I фазы C, А
+N2_I_C KEY(3015) 
+// Угол I фазы A, °
+N2_PHI_I_A KEY(3019) 
+// Угол I фазы B, °
+N2_PHI_I_B KEY(3020) 
+// Угол I фазы C, °
+N2_PHI_I_C KEY(3021) 
+// Угол I фазы A, °
+N2_PHI_I_A_S KEY(3079) 
+// Угол I фазы B, °
+N2_PHI_I_B_S KEY(3080) 
+// Угол I фазы C, °
+N2_PHI_I_C_S KEY(3081) 
+// Косинус
+N2_COS_PHI KEY(3022) 
+// Активная мощность, кВт
+N2_P KEY(3023) 
+// Реактивная мощность, кВАр
+N2_Q KEY(3024) 
+// Полная мощность, кВА
+N2_S KEY(3025) 
+// Состояние
+N2_STATE KEY(3026) 
+// Норма
+N2_NORM KEY(3027) 
+// Фазировка
+N2_PH KEY(3028) 
+// Обрыв фазы
+N2_PH_PHASE KEY(3029) 
+// Контактор ввода сети 2
+N2_CONT KEY(3041) 
+// Контактор ввода сети 2
+CONT_NET2 KEY(3050) 
+// U линейное AB2, В
+N2_U_AB2 KEY(3300) 
+// F U фазы A2, Гц
+N2_F_U_A2 KEY(3301) 
+// Угол U фазы A2, °
+N2_PHI_U_A2 KEY(3302) 
+// Аварии сети 2
+EVENTS_NET2 KEY(3064) 
+// Состояние источника сети 2
+N2_SOURCE_STATE KEY(3065) 
+// Активная мощность сети 2, вычисляемый
+N2_P_CALC KEY(3303) 
+// U линейное AB сырое
+N2_U_AB_RAW KEY(3304) 
+// U линейное BC сырое
+N2_U_BC_RAW KEY(3305) 
+// U линейное AC сырое
+N2_U_AC_RAW KEY(3306) 
+// F U фазы A сырое
+N2_F_U_A_RAW KEY(3307) 
+// F U фазы B сырое
+N2_F_U_B_RAW KEY(3308) 
+// F U фазы C сырое
+N2_F_U_C_RAW KEY(3309) 
+// I фазы A сырое
+N2_I_A_RAW KEY(3310) 
+// I фазы B сырое
+N2_I_B_RAW KEY(3311) 
+// I фазы C сырое
+N2_I_C_RAW KEY(3312) 
+// F U фазы A2
+N2_F_U_A2_RAW KEY(3313) 
+// U линейное AB2 сырое
+N2_U_AB2_RAW KEY(3314) 
+// Параметры сети 2 в норме
+NET2_NORM KEY(3042) 
+
+// Агрегат EA
+
+// U линейное AB, В
+EA_U_AB KEY(5004) 
+// U линейное BC, В
+EA_U_BC KEY(5005) 
+// U линейное AC, В
+EA_U_AC KEY(5006) 
+// F U фазы A, Гц
+EA_F_U_A KEY(5007) 
+// F U фазы B, Гц
+EA_F_U_B KEY(5008) 
+// F U фазы C, Гц
+EA_F_U_C KEY(5009) 
+// Угол U фазы A невыровненный, °
+EA_PHI_U_A KEY(5010) 
+// Угол U фазы B невыровненный, °
+EA_PHI_U_B KEY(5011) 
+// Угол U фазы C невыровненный, °
+EA_PHI_U_C KEY(5012) 
+// Угол U фазы A, °
+EA_PHI_U_A_S KEY(5089) 
+// Угол U фазы B, °
+EA_PHI_U_B_S KEY(5090) 
+// Угол U фазы C, °
+EA_PHI_U_C_S KEY(5091) 
+// I фазы А, А
+EA_I_A KEY(5013) 
+// I фазы B, А
+EA_I_B KEY(5014) 
+// I фазы C, А
+EA_I_C KEY(5015) 
+// Угол I фазы А, °
+EA_PHI_I_A KEY(5019) 
+// Угол I фазы B, °
+EA_PHI_I_B KEY(5020) 
+// Угол I фазы C, °
+EA_PHI_I_C KEY(5021) 
+// Угол I фазы A, °
+EA_PHI_I_A_S KEY(5092) 
+// Угол I фазы B, °
+EA_PHI_I_B_S KEY(5093) 
+// Угол I фазы C, °
+EA_PHI_I_C_S KEY(5094) 
+// Косинус
+EA_COS_PHI KEY(5022) 
+// Активная мощность, кВт
+EA_P KEY(5023) 
+// Реактивная мощность, кВАр
+EA_Q KEY(5024) 
+// Полная мощность, кВА
+EA_S KEY(5025) 
+// Состояние
+EA_STATE KEY(5026) 
+// Норма
+EA_NORM KEY(5027) 
+// t охлаждающей жидкости, °C
+EA_t_COOL KEY(5029) 
+// P масла, МПа
+EA_P_OIL KEY(5030) 
+// t масла, °C
+EA_t_OIL KEY(5031) 
+// Наработка ЭА
+EA_MOTOHOURS KEY(5032) 
+// Наработка ЭА1
+EA_MOTOHOURS1 KEY(5300) 
+// Наработка ЭА2
+EA_MOTOHOURS2 KEY(5301) 
+// Наработка ЭА3
+EA_MOTOHOURS3 KEY(5302) 
+// Наработка ЭА4
+EA_MOTOHOURS4 KEY(5303) 
+// Наработка ЭА5
+EA_MOTOHOURS5 KEY(5304) 
+// Наработка ЭА6
+EA_MOTOHOURS6 KEY(5305) 
+// Наработка ЭА7
+EA_MOTOHOURS7 KEY(5306) 
+// Наработка ЭА8
+EA_MOTOHOURS8 KEY(5307) 
+// Наработка ЭА9
+EA_MOTOHOURS9 KEY(5308) 
+// Наработка ЭА10
+EA_MOTOHOURS10 KEY(5309) 
+// Наработка ЭА11
+EA_MOTOHOURS11 KEY(5310) 
+// Наработка ЭА12
+EA_MOTOHOURS12 KEY(5311) 
+// Наработка ЭА13
+EA_MOTOHOURS13 KEY(5312) 
+// Наработка ЭА14
+EA_MOTOHOURS14 KEY(5313) 
+// Наработка ЭА15
+EA_MOTOHOURS15 KEY(5314) 
+// Наработка ЭА16
+EA_MOTOHOURS16 KEY(5315) 
+// Наработка ЭА17
+EA_MOTOHOURS17 KEY(5316) 
+// Наработка ЭА18
+EA_MOTOHOURS18 KEY(5317) 
+// Наработка ЭА19
+EA_MOTOHOURS19 KEY(5318) 
+// Наработка ЭА20
+EA_MOTOHOURS20 KEY(5319) 
+// Наработка ЭА21
+EA_MOTOHOURS21 KEY(5320) 
+// Наработка ЭА22
+EA_MOTOHOURS22 KEY(5321) 
+// Наработка ЭА24
+EA_MOTOHOURS23 KEY(5322) 
+// Наработка ЭА25
+EA_MOTOHOURS25 KEY(5323) 
+// Наработка ЭА26
+EA_MOTOHOURS26 KEY(5324) 
+// Наработка ЭА27
+EA_MOTOHOURS27 KEY(5325) 
+// Наработка ЭА28
+EA_MOTOHOURS28 KEY(5326) 
+// Наработка ЭА29
+EA_MOTOHOURS29 KEY(5327) 
+// Наработка ЭА30
+EA_MOTOHOURS30 KEY(5328) 
+// Наработка ЭА31
+EA_MOTOHOURS31 KEY(5329) 
+// Наработка ЭА32
+EA_MOTOHOURS32 KEY(5330) 
+// Обрыв датчика давления масла
+EA_P_OIL_CALC KEY(5039) 
+// Активная мощность, вычисляемый
+EA_P_CALC KEY(5331) 
+// Контактор ЭА
+EA_CONT KEY(5041) 
+// Наличие ОЖ
+EA_COOL_NORM KEY(5043) 
+// Воздушный фильтр
+EA_FILTER_NORM KEY(5044) 
+// МКИ включен
+B_MKI_ON KEY(1043) 
+// Не норма изоляции МКИ 50 Гц
+B_MKI_AI KEY(1044) 
+// Наработка ЭА до ТО
+EA_MOTOHOURS_TO KEY(5332) 
+// Истекло время наработки ЭА до ТО
+EA_MOTOHOURS_TO_END KEY(5333) 
+// Количество произведенного ТО
+EA_MOTOHOURS_TO_COUNT KEY(5334) 
+// Наработка ЭА до ТО, в часах
+EA_HOURS_TO KEY(5335) 
+// Контактор ЭА
+CONT_EA KEY(5051) 
+// Стартер
+STARTER_EA KEY(5052) 
+// Автоматическое стоп устройство
+ASU_EA KEY(5054) 
+// МКИ
+CONT_MKI KEY(1051) 
+// F U фазы A2, Гц
+EA_F_U_A2 KEY(5336) 
+// Угол U фазы A2, °
+EA_PHI_U_A2 KEY(5337) 
+// Наработка ЭА при перегрузе в пределах 10%
+EA_MOTOHOURS10 KEY(5338) 
+// Время, оставшееся до технич. обслуживания ЭА
+EA_MOTOHOURS_LEFT KEY(5339) 
+// U линейное AB2, В
+EA_U_AB2 KEY(5340) 
+// Пониженное давление масла
+EA_P_OIL_NEW KEY(5341) 
+// Авайрийное стоп устройство
+ASU_EA_CALC KEY(5342) 
+// Зарядный генератор
+CHARGE_GEN KEY(5343) 
+// Топливный клапан
+FUEL KEY(5344) 
+// Норма температуры генератора
+T_GEN_NORM KEY(5057) 
+// Норма температуры заднего подшипника
+T_BEARING_NORM KEY(5058) 
+// Питание стартера от АБ СТ
+STARTER_FROM_AB_ST KEY(5345) 
+// Питание стартера от АБ ХД
+STARTER_FROM_AB_SHASSIS KEY(5346) 
+// Питание стартера от АБ СТ от К1
+STARTER_FROM_AB_ST_K1 KEY(5059) 
+// Питание стартера от АБ ХД от К2
+STARTER_FROM_AB_SHASSIS_K2 KEY(5097) 
+// Якорь стартера
+ANCHOR_STARTER_EA KEY(5347) 
+// Начальное возбуждение
+FIELD_START KEY(5348) 
+// Переключить топливные клапаны
+FUEL_TOGGLE KEY(5349) 
+// U корректора
+U_CORR_EA KEY(5350) 
+// Питать стартер от АБ СТ
+AB_ST_TO_STARTER KEY(5351) 
+// Питать стартер от АБ ХД
+AB_SHASSIS_TO_STARTER KEY(5352) 
+// Разнос по трем фазам
+EA_F_ABC_PHASE KEY(5353) 
+// Реакции ЭА
+EA_REACT KEY(5098) 
+// Включен контактор массы стартера
+STARTER_K_MASS KEY(5354) 
+// U линейное AB сырое
+EA_U_AB_RAW KEY(5355) 
+// U линейное BC сырое
+EA_U_BC_RAW KEY(5356) 
+// U линейное AC сырое
+EA_U_AC_RAW KEY(5357) 
+// F U фазы A сырое
+EA_F_U_A_RAW KEY(5358) 
+// F U фазы B сырое
+EA_F_U_B_RAW KEY(5359) 
+// F U фазы C сырое
+EA_F_U_C_RAW KEY(5360) 
+// I фазы A сырое
+EA_I_A_RAW KEY(5361) 
+// I фазы B сырое
+EA_I_B_RAW KEY(5362) 
+// I фазы C сырое
+EA_I_C_RAW KEY(5363) 
+// t охлаждающей жидкости сырое
+EA_t_COOL_RAW KEY(5364) 
+// P масла сырое
+EA_P_OIL_RAW KEY(5365) 
+// t масла сырое
+EA_t_OIL_RAW KEY(5366) 
+// F U фазы U2 сырое
+EA_F_U_A2_RAW KEY(5367) 
+// U линейное AB2 сырое
+EA_U_AB2_RAW KEY(5368) 
+
+// Агрегат EN
+
+// I фазы A, А
+EN_I_A KEY(9013) 
+// I фазы B, А
+EN_I_B KEY(9014) 
+// I фазы C, А
+EN_I_C KEY(9015) 
+// Состояние ЭН ОЖ
+EN_STATE KEY(9016) 
+// Состояние ЭН масла
+EN_OIL_STATE KEY(9017) 
+// Автомат ЭН
+EN_AUT KEY(9040) 
+// Контактор ЭН
+EN_CONT KEY(9041) 
+// Контактор ЭН масла
+EN_OIL_CONT KEY(9042) 
+// Контактор ЭН ОЖ
+CONT_EN KEY(9051) 
+// Автомат ЭН отключен
+EN_AUT_OP KEY(9052) 
+// Защита от перегрева ОЖ
+EN_PROTECTION KEY(9053) 
+// Контактор ЭН масла
+CONT_EN_OIL KEY(9300) 
+// I фазы A сырое
+EN_I_A_RAW KEY(9301) 
+// I фазы B сырое
+EN_I_B_RAW KEY(9302) 
+// I фазы C сырое
+EN_I_C_RAW KEY(9303) 
+
+// Агрегат BU
+
+// Метка времени, мс
+TIME_STAMP KEY(12001) 
+// Метка времени
+TIME_STAMP2 KEY(12002) 
+// Метка времени
+TIME_STAMP3 KEY(12003) 
+// Команды оператора
+OPERATOR_COMMAND KEY(12011) 
+// Команды оператора
+ETHERNET_COMMAND KEY(120111) 
+// Команды оператора
+PARALLEL_COMMAND KEY(120112) 
+// Внешняя команда
+EXTERNAL_COMMAND KEY(12013) 
+// Адрес уставок в ОЗУ
+ADDR_PRESET_RAM KEY(12021) 
+// Адрес уставок в ОЗУ 2
+ADDR_PRESET_RAM2 KEY(12022) 
+// Адрес уставок в ОЗУ 3
+ADDR_PRESET_RAM3 KEY(12023) 
+// Адрес уставок в ПЗУ
+ADDR_PRESET_ROM KEY(12031) 
+// Адрес уставок в ПЗУ 2
+ADDR_PRESET_ROM2 KEY(12032) 
+// Адрес уставок в ПЗУ 3
+ADDR_PRESET_ROM3 KEY(12033) 
+// Адрес калибровок в ОЗУ
+ADDR_CALIBR_RAM KEY(12041) 
+// Адрес калибровок в ОЗУ 2
+ADDR_CALIBR_RAM2 KEY(12042) 
+// Адрес калибровок в ОЗУ 3
+ADDR_CALIBR_RAM3 KEY(12043) 
+// Адрес калибровок в ПЗУ
+ADDR_CALIBR_ROM KEY(12051) 
+// Адрес калибровок в ПЗУ 2
+ADDR_CALIBR_ROM2 KEY(12052) 
+// Адрес калибровок в ПЗУ 3
+ADDR_CALIBR_ROM3 KEY(12053) 
+// Адрес наработки
+ADDR_MOTOHOURS KEY(12061) 
+// Адрес наработки 2
+ADDR_MOTOHOURS2 KEY(12063) 
+// Адрес наработки 3
+ADDR_MOTOHOURS3 KEY(12064) 
+// Версия ПО модуля управления
+SW_VERSION KEY(12080) 
+// Версия ПО модуля управления 2
+SW_VERSION2 KEY(12081) 
+// Версия ПО модуля управления 3
+SW_VERSION3 KEY(12082) 
+// Адрес фильтров в ОЗУ
+ADDR_FILTR_RAM KEY(12091) 
+// Адрес фильтров в ОЗУ 2
+ADDR_FILTR_RAM2 KEY(12092) 
+// Адрес фильтров в ОЗУ 3
+ADDR_FILTR_RAM3 KEY(12093) 
+// Адрес фильтров в ПЗУ
+ADDR_FILTR_ROM KEY(12101) 
+// Адрес фильтров в ПЗУ 2
+ADDR_FILTR_ROM2 KEY(12102) 
+// Адрес фильтров в ПЗУ 3
+ADDR_FILTR_ROM3 KEY(12103) 
+// T воздуха в отсеке, °C
+AIR_TEMP KEY(12111) 
+// Начальный источник 400 В 50 Гц
+INITIAL_SOURCE KEY(12300) 
+// Аварии ЭА
+EVENTS_EA KEY(121031) 
+// Аварии блока
+EVENTS_BLOCK_50 KEY(121032) 
+// Предупреждения ЭА
+WARNINGS_EA KEY(12301) 
+// Команды БУ 400
+COMMANDS_BU_400 KEY(12302) 
+// Команды БУ СЭC
+COMMANDS1_BU_SES KEY(12303) 
+// Команды БУ СЭC, часть 2
+COMMANDS2_BU_SES KEY(12304) 
+// Команды БУ 50
+COMMANDS_BU_50 KEY(12305) 
+// Донесения БУ 400
+DISCRETES_400 KEY(12104) 
+// Донесения2 БУ 400
+DISCRETES2_400 KEY(12105) 
+// Донесения 1 БУ СЭС
+DISCRETES1_SES KEY(12106) 
+// Донесения 2 БУ СЭС
+DISCRETES2_SES KEY(12107) 
+// Донесения 1 БУ 50
+DISCRETES1_50 KEY(12108) 
+// Донесения 2 БУ 50
+DISCRETES2_50 KEY(12109) 
+// Режим работы
+MODE KEY(12306) 
+// Отказ люка забора
+HATCH_IN_BREAK KEY(12307) 
+// Наработка изделия, ч
+STATION_HOURS KEY(12308) 
+// Наработка ЭА, ч
+EA_HOURS KEY(12309) 
+// Наработка ЭА с перегрузом, ч
+EA_HOURS10 KEY(12310) 
+// Состояние КА А0
+FSM_A0_STATE KEY(12014) 
+// Опрос МАВ А4
+POLLING_MAV_A4 KEY(12311) 
+// Опрос МАВ А4
+POLLING_MAV_A4_2 KEY(12312) 
+// Опрос МАВ А5
+POLLING_MAV_A5 KEY(12313) 
+// Опрос МАВ А5
+POLLING_MAV_A5_2 KEY(12314) 
+// Опрос МАВ А6
+POLLING_MAV_A6 KEY(12315) 
+// Опрос МАВ А6
+POLLING_MAV_A6_2 KEY(12316) 
+// Процесс синхронизации источников
+SOURCES_SINHR KEY(12110) 
+// Состояния ПЧ
+FC_STATES2 KEY(12317) 
+// Адрес структуры режима в ОЗУ
+ADDR_STMODE_RAM1 KEY(12015) 
+// Адрес структуры режима в ОЗУ
+ADDR_STMODE_RAM2 KEY(12016) 
+// Адрес структуры режима в ОЗУ
+ADDR_STMODE_RAM3 KEY(12017) 
+// Адрес структуры режима в ПЗУ
+ADDR_STMODE_FLASH1 KEY(12018) 
+// Адрес структуры режима в ПЗУ
+ADDR_STMODE_FLASH2 KEY(12019) 
+// Адрес структуры режима в ПЗУ
+ADDR_STMODE_FLASH3 KEY(12020) 
+// Шапка уставок. CRC32
+PRESET_HEADER_CRC KEY(12118) 
+// Шапка уставок. Дата
+PRESET_HEADER_DATE KEY(12318) 
+// Шапка уставок. Время
+PRESET_HEADER_TIME KEY(12319) 
+// Шапка уставок. Git commit
+PRESET_HEADER_GIT_COMMIT KEY(12320) 
+// Шапка уставок. От дисплея?
+PRESET_HEADER_FROM_DISPLAY KEY(12321) 
+// Шапка уставок. Длина данных
+PRESET_HEADER_DATA_LENGTH KEY(12322) 
+// Шапка уставок. CRC32
+PRESET_HEADER_CRC2 KEY(12323) 
+// Шапка уставок. Дата
+PRESET_HEADER_DATE2 KEY(12324) 
+// Шапка уставок. Время
+PRESET_HEADER_TIME2 KEY(12325) 
+// Шапка уставок. Git commit
+PRESET_HEADER_GIT_COMMIT2 KEY(12326) 
+// Шапка уставок. От дисплея?
+PRESET_HEADER_FROM_DISPLAY2 KEY(12327) 
+// Шапка уставок. Длина данных
+PRESET_HEADER_DATA_LENGTH2 KEY(12328) 
+// Шапка уставок. CRC32
+PRESET_HEADER_CRC3 KEY(12329) 
+// Шапка уставок. Дата
+PRESET_HEADER_DATE3 KEY(12330) 
+// Шапка уставок. Время
+PRESET_HEADER_TIME3 KEY(12331) 
+// Шапка уставок. Git commit
+PRESET_HEADER_GIT_COMMIT3 KEY(12332) 
+// Шапка уставок. От дисплея?
+PRESET_HEADER_FROM_DISPLAY3 KEY(12333) 
+// Шапка уставок. Длина данных
+PRESET_HEADER_DATA_LENGTH3 KEY(12334) 
+// Шапка калибровок. CRC32
+CALIBRATION_HEADER_CRC KEY(12335) 
+// Шапка калибровок. Дата
+CALIBRATION_HEADER_DATE KEY(12336) 
+// Шапка калибровок. Время
+CALIBRATION_HEADER_TIME KEY(12337) 
+// Шапка калибровок. Git commit
+CALIBRATION_HEADER_GIT_COMMIT KEY(12338) 
+// Шапка калибровок. От дисплея?
+CALIBRATION_HEADER_FROM_DISPLAY KEY(12339) 
+// Шапка калибровок. Длина данных
+CALIBRATION_HEADER_DATA_LENGTH KEY(12340) 
+// Шапка калибровок. CRC32
+CALIBRATION_HEADER_CRC2 KEY(12341) 
+// Шапка калибровок. Дата
+CALIBRATION_HEADER_DATE2 KEY(12342) 
+// Шапка калибровок. Время
+CALIBRATION_HEADER_TIME2 KEY(12343) 
+// Шапка калибровок. Git commit
+CALIBRATION_HEADER_GIT_COMMIT2 KEY(12344) 
+// Шапка калибровок. От дисплея?
+CALIBRATION_HEADER_FROM_DISPLAY2 KEY(12345) 
+// Шапка калибровок. Длина данных
+CALIBRATION_HEADER_DATA_LENGTH2 KEY(12346) 
+// Шапка калибровок. CRC32
+CALIBRATION_HEADER_CRC3 KEY(12347) 
+// Шапка калибровок. Дата
+CALIBRATION_HEADER_DATE3 KEY(12348) 
+// Шапка калибровок. Время
+CALIBRATION_HEADER_TIME3 KEY(12349) 
+// Шапка калибровок. Git commit
+CALIBRATION_HEADER_GIT_COMMIT3 KEY(12350) 
+// Шапка калибровок. От дисплея?
+CALIBRATION_HEADER_FROM_DISPLAY3 KEY(12351) 
+// Шапка калибровок. Длина данных
+CALIBRATION_HEADER_DATA_LENGTH3 KEY(12352) 
+// Шапка фильтров. CRC32
+FILTER_HEADER_CRC KEY(12353) 
+// Шапка фильтров. Дата
+FILTER_HEADER_DATE KEY(12354) 
+// Шапка фильтров. Время
+FILTER_HEADER_TIME KEY(12355) 
+// Шапка фильтров. Git commit
+FILTER_HEADER_GIT_COMMIT KEY(12356) 
+// Шапка фильтров. От дисплея?
+FILTER_HEADER_FROM_DISPLAY KEY(12357) 
+// Шапка фильтров. Длина данных
+FILTER_HEADER_DATA_LENGTH KEY(12358) 
+// Шапка фильтров. CRC32
+FILTER_HEADER_CRC2 KEY(12359) 
+// Шапка фильтров. Дата
+FILTER_HEADER_DATE2 KEY(12360) 
+// Шапка фильтров. Время
+FILTER_HEADER_TIME2 KEY(12361) 
+// Шапка фильтров. Git commit
+FILTER_HEADER_GIT_COMMIT2 KEY(12362) 
+// Шапка фильтров. От дисплея?
+FILTER_HEADER_FROM_DISPLAY2 KEY(12363) 
+// Шапка фильтров. Длина данных
+FILTER_HEADER_DATA_LENGTH2 KEY(12364) 
+// Шапка фильтров. CRC32
+FILTER_HEADER_CRC3 KEY(12365) 
+// Шапка фильтров. Дата
+FILTER_HEADER_DATE3 KEY(12366) 
+// Шапка фильтров. Время
+FILTER_HEADER_TIME3 KEY(12367) 
+// Шапка фильтров. Git commit
+FILTER_HEADER_GIT_COMMIT3 KEY(12368) 
+// Шапка фильтров. От дисплея?
+FILTER_HEADER_FROM_DISPLAY3 KEY(12369) 
+// Шапка фильтров. Длина данных
+FILTER_HEADER_DATA_LENGTH3 KEY(12370) 
+// Режимы включения источников
+SOURCE_MODES KEY(12172) 
+// Сообщение о необходимости включить ПХЗ,ПАЗ
+PAZ_PHZ_ON KEY(12371) 
+// Сообщение о необходимости включить тревогу
+ALARM_ON KEY(12372) 
+// СЭС откл
+SES_OFF KEY(12175) 
+// СЭС откл исполнено
+SES_OFF_PERFORMING KEY(12373) 
+// Номер режима вкл
+NUM_MODE_ON KEY(12176) 
+// Номер режима вкл исполнено
+NUM_MODE_ON_PERFORMING KEY(12374) 
+// Сеть готова
+NET_READY KEY(12375) 
+// Сеть неисправна
+NET_ALARM KEY(12376) 
+// ДЭС готова
+SES_READY KEY(12377) 
+// ДЭС неисправна
+SES_ALARM KEY(12378) 
+// Блок управления 1
+UNIT_CONTROL_1 KEY(12379) 
+// Блок управления 2
+UNIT_CONTROL_2 KEY(12184) 
+// Блок управления 3
+UNIT_CONTROL_3 KEY(12185) 
+// Пожар СЭС
+FIRE_SES KEY(12186) 
+// ДУ вкл
+PDU_ON KEY(12187) 
+// МУ вкл
+LOCAL_ON KEY(12188) 
+// Режимы вкл и исполнено
+NUM_MODES_PERF KEY(12189) 
+// Контроль аварий по аварийному уровню топлива
+CONTROL_ALARM_LEVEL KEY(12190) 
+// Аварии блока бу 400_1
+EVENTS_BLOCK_400 KEY(12191) 
+// T воздуха в отсеке сырое
+AIR_TEMP_RAW KEY(12380) 
+// Аварии блока бу 400_2
+EVENTS_BLOCK_400_2 KEY(12192) 
+// Донесения3 БУ 400
+DISCRETES3_400 KEY(12112) 
+// Версия xml модуля управления БУ СЭС
+XML_VERSION_BUSES KEY(12381) 
+// Версия xml модуля управления БУ 50
+XML_VERSION_BU50 KEY(12382) 
+// Версия xml модуля управления БУ 400
+XML_VERSION_BU400 KEY(12383) 
+
+// Агрегат UR400
+
+// КЗ(автомат) фидера 3
+FID3_AUT KEY(18011) 
+// Автомат фидера 3 включен
+FID3_AUT_OP KEY(18012) 
+// Контактор фидера 3
+FID3_CONT KEY(18013) 
+// Автомат фидера 3-1
+FID3_1_AUT KEY(18014) 
+// Автомат фидера 3-1 включен
+FID3_1_AUT_OP KEY(18015) 
+// Контактор фидера 3-1
+FID3_1_CONT KEY(18016) 
+// Автомат фидера 3-2
+FID3_2_AUT KEY(18017) 
+// Автомат фидера 3-2 включен
+FID3_2_AUT_OP KEY(18018) 
+// Контактор фидера 3-2
+FID3_2_CONT KEY(18019) 
+// Автомат фидера 4
+FID4_AUT KEY(18020) 
+// Автомат фидера 4 включен
+FID4_AUT_OP KEY(18021) 
+// Контактор фидера 4
+FID4_CONT KEY(18022) 
+// Автомат трансформатора 1
+TRANS_AUT KEY(18023) 
+// Автомат трансформатора 1 включен
+TRANS_AUT_OP KEY(18024) 
+// Автомат трансформатора 2
+TRANS2_AUT KEY(18025) 
+// Автомат трансформатора 2 включен
+TRANS2_AUT_OP KEY(18001) 
+// Автомат СИПТ
+SIPT_AUT KEY(18300) 
+// Автомат СИПТ отключен
+SIPT_AUT_OP KEY(18301) 
+// Автомат заряда АБ ХД
+AB_SHASSIS_AUT KEY(18302) 
+// Автомат заряда АБ ХД отключен
+AB_SHASSIS_AUT_OP KEY(18303) 
+// Автомат вентиляторов
+VENT_AUT KEY(18304) 
+// Автомат вентиляторов отключен
+VENT_AUT_OP KEY(18305) 
+// Контактор вентиляторов
+VENT_CONT KEY(18002) 
+// Контактор фидера 3
+CONT_FID3 KEY(18306) 
+// Контактор фидера 3-1
+CONT_FID3_1 KEY(18307) 
+// Контактор фидера 3-2
+CONT_FID3_2 KEY(18308) 
+// Контактор фидера 4
+CONT_FID4 KEY(18309) 
+// Контактор вентиляторов
+CONT_VENT KEY(18310) 
+
+// Агрегат UR230
+
+// Автомат фидера 1
+FID1_AUT KEY(19001) 
+// Автомат фидера 1 включен
+FID1_AUT_OP KEY(19002) 
+// Контактор фидера 1
+FID1_CONT KEY(19003) 
+// Автомат фидера 2
+FID2_AUT KEY(19300) 
+// Автомат фидера 2 включен
+FID2_AUT_OP KEY(19301) 
+// Контактор фидера 2
+FID2_CONT KEY(19004) 
+// Автомат фидера 22
+FID22_AUT KEY(19302) 
+// Автомат фидера 22 включен
+FID22_AUT_OP KEY(19303) 
+// Контактор фидера 22
+FID22_CONT KEY(19304) 
+// Контактор фидера 1
+CONT_FID1 KEY(19305) 
+// Контактор фидера 2
+CONT_FID2 KEY(19306) 
+// Контактор фидера 22
+CONT_FID22 KEY(19307) 
+
+// Агрегат BK220
+
+// Автомат фидера 5
+FID5_AUT KEY(20010) 
+// Автомат фидера 5 включен
+FID5_AUT_OP KEY(20011) 
+// Контактор фидера 5
+FID5_CONT KEY(20012) 
+// Автомат фидера 5-1
+FID5_1_AUT KEY(20013) 
+// Автомат фидера 5-1 включен
+FID5_1_AUT_OP KEY(20014) 
+// Контактор фидера 5-1
+FID5_1_CONT KEY(20015) 
+// Автомат фидера 6
+FID6_AUT KEY(20016) 
+// Автомат фидера 6 включен
+FID6_AUT_OP KEY(20017) 
+// Контактор фидера 6
+FID6_CONT KEY(20018) 
+// Автомат фидера 6-1
+FID6_1_AUT KEY(20019) 
+// Автомат фидера 6-1 включен
+FID6_1_AUT_OP KEY(20020) 
+// Контактор фидера 6-1
+FID6_1_CONT KEY(20021) 
+// Автомат фидера 7
+FID7_AUT KEY(20022) 
+// Автомат фидера 7 включен
+FID7_AUT_OP KEY(20023) 
+// Контактор фидера 7
+FID7_CONT KEY(20024) 
+// Автомат фидера 8
+FID8_AUT KEY(20025) 
+// Автомат фидера 8 включен
+FID8_AUT_OP KEY(20026) 
+// Контактор фидера 8
+FID8_CONT KEY(20027) 
+// Автомат фидера 9
+FID9_AUT KEY(20028) 
+// Автомат фидера 9 включен
+FID9_AUT_OP KEY(20029) 
+// Контактор фидера 9
+FID9_CONT KEY(20030) 
+// Автомат фидера 10
+FID10_AUT KEY(20031) 
+// Автомат фидера 10 включен
+FID10_AUT_OP KEY(20032) 
+// Контактор фидера 10
+FID10_CONT KEY(20033) 
+// Автомат фидера 11
+FID11_AUT KEY(20034) 
+// Автомат фидера 11 включен
+FID11_AUT_OP KEY(20035) 
+// Контактор фидера 11
+FID11_CONT KEY(20036) 
+// Автомат фидера 11-1
+FID11_1_AUT KEY(20037) 
+// Автомат фидера 11-1 включен
+FID11_1_AUT_OP KEY(20038) 
+// Контактор фидера 11-1
+FID11_1_CONT KEY(20039) 
+// Автомат фидера 12
+FID12_AUT KEY(20040) 
+// Автомат фидера 12 включен
+FID12_AUT_OP KEY(20041) 
+// Контактор фидера 12
+FID12_CONT KEY(20042) 
+// Автомат фидера 13
+FID13_AUT KEY(20043) 
+// Автомат фидера 13 включен
+FID13_AUT_OP KEY(20044) 
+// Контактор фидера 13
+FID13_CONT KEY(20045) 
+// Автомат фидера 14
+FID14_AUT KEY(20046) 
+// Автомат фидера 14 включен
+FID14_AUT_OP KEY(20047) 
+// Контактор фидера 14
+FID14_CONT KEY(20048) 
+// Автомат фидера 15
+FID15_AUT KEY(20049) 
+// Автомат фидера 15 включен
+FID15_AUT_OP KEY(20050) 
+// Контактор фидера 15
+FID15_CONT KEY(20051) 
+// Автомат фидера 16
+FID16_AUT KEY(20052) 
+// Автомат фидера 16 включен
+FID16_AUT_OP KEY(20053) 
+// Контактор фидера 16
+FID16_CONT KEY(20054) 
+// Автомат фидера 16-1
+FID16_1_AUT KEY(20055) 
+// Автомат фидера 16-1 включен
+FID16_1_AUT_OP KEY(20056) 
+// Контактор фидера 16-1
+FID16_1_CONT KEY(20057) 
+// Контактор фидера 5
+CONT_FID5 KEY(20300) 
+// Контактор фидера 5-1
+CONT_FID5_1 KEY(20301) 
+// Контактор фидера 6
+CONT_FID6 KEY(20302) 
+// Контактор фидера 6-1
+CONT_FID6_1 KEY(20303) 
+// Контактор фидера 7
+CONT_FID7 KEY(20304) 
+// Контактор фидера 8
+CONT_FID8 KEY(20305) 
+// Контактор фидера 9
+CONT_FID9 KEY(20306) 
+// Контактор фидера 10
+CONT_FID10 KEY(20307) 
+// Контактор фидера 11
+CONT_FID11 KEY(20308) 
+// Контактор фидера 11-1
+CONT_FID11_1 KEY(20309) 
+// Контактор фидера 12
+CONT_FID12 KEY(20310) 
+// Контактор фидера 13
+CONT_FID13 KEY(20311) 
+// Контактор фидера 14
+CONT_FID14 KEY(20312) 
+// Контактор фидера 15
+CONT_FID15 KEY(20313) 
+// Контактор фидера 16
+CONT_FID16 KEY(20314) 
+// Контактор фидера 16-1
+CONT_FID16_1 KEY(20315) 
+
+// Агрегат UR27
+
+// U АБ СТ, В
+U_AB_STARTER KEY(21002) 
+// Режим работы люков забора
+H_MODE KEY(21008) 
+// Режим работы люков выброса
+H_MODE_2 KEY(21009) 
+// U аккумулятора ОП, В
+U_AB_OP KEY(21010) 
+// U АБ ХД, В
+U_AB_SHASSIS KEY(21300) 
+// Ручное управление вентиляторами
+VENT_MANUAL KEY(21011) 
+// Автоматическое управление вентиляторами
+VENT_AUTOMATIC KEY(21012) 
+// Контактор фидера 17
+FID17_CONT KEY(21301) 
+// КЗ (отключен) автомат защиты фидера 17
+FID17_AUT KEY(21302) 
+// Автомат фидера 17 включен
+FID17_AUT_OP KEY(21303) 
+// Контактор фидера 18
+FID18_CONT KEY(21304) 
+// Автомат фидера 18
+FID18_AUT KEY(21305) 
+// Автомат экстренного отключения
+Q6_AUT KEY(21306) 
+// Контактор заряда АБ ХД
+AB_SHASSIS_CONT KEY(21307) 
+// Контактор массы АБ ХД
+MASS_AB_SHASSIS_CONT KEY(21308) 
+// АБ ХД на массе
+MASS_AB_SHASSIS KEY(21309) 
+// Питание САУ от АБ ХД
+SAU_FROM_AB_SHASSIS KEY(21310) 
+// Норма СИПТ
+SIPT_NORM KEY(21311) 
+// Контактор фидера 17
+CONT_FID17 KEY(21312) 
+// Контактор фидера 18
+CONT_FID18 KEY(21313) 
+// Контактор заряда АБ ХД
+CONT_AB_SHASSIS KEY(21314) 
+// Контактор массы АБ ХД
+CONT_MASS_AB_SHASSIS KEY(21315) 
+// Не норма ПС
+SIPT_NO_NORM KEY(21316) 
+// U АБ СТ сырое
+U_AB_STARTER_RAW KEY(21317) 
+// U аккумулятора ОП сырое
+U_AB_OP_RAW KEY(21318) 
+
+// Агрегат FUEL_PUMP
+
+// Уровень топлива во внутреннем баке с датчика, мм*10^-1
+LEVEL_FUEL KEY(23300) 
+// Уровень топлива во внешнем баке с датчика, мм*10^-1
+LEVEL_EXT_FUEL KEY(23301) 
+// Градиент уровня топлива во внутреннем баке
+GRADIENT_LEVEL_FUEL KEY(23302) 
+// Градиент уровня топлива во внешнем баке
+GRADIENT_LEVEL_EXT_FUEL KEY(23303) 
+// Состояние НЗТ
+NZT_STATE KEY(23304) 
+// Уровень топлива во внутреннем баке, вычисляемый, %
+LEVEL_FUEL_CALC KEY(23305) 
+// Уровень топлива во внешнем баке, вычисляемый, %
+LEVEL_EXT_FUEL_CALC KEY(23306) 
+// Внутренний ДНУТ залит
+LOW_FUEL_EXT KEY(23307) 
+// Внешний ДНУТ залит
+LOW_EXT_FUEL_EXT KEY(23308) 
+// Режим работы НЗТ
+NZT_MODE KEY(23309) 
+// Выбор бака НЗТ
+NZT_SELECTED_TANK KEY(23011) 
+// Включить контактор НЗТ
+PUMP_ON KEY(23310) 
+// Внeшний ДНУТ залит
+LOW_FUEL KEY(23311) 
+// Внутренний ДНУТ залит
+LOW_EXT_FUEL KEY(23312) 
+// Включен контактор НЗТ
+ON_PUMP KEY(23313) 
+// Контроль по включению порога низкого уровня топлива бака 1
+LEVEL_FUEL_LIM1 KEY(23314) 
+// Контроль по включению порога низкого уровня топлива бака 2
+LEVEL_FUEL_LIM2 KEY(23315) 
+
+// Агрегат HATCH_1
+
+// Состояние люка забора 1
+HATCH_1_STATE KEY(24300) 
+// Открыть люк забора 1
+HATCH_1_O KEY(24301) 
+// Закрыть люк забора 1
+HATCH_1_C KEY(24302) 
+// Люк забора 1 открыт
+O_H_1 KEY(24303) 
+// Люк забора 1 закрыт
+C_H_1 KEY(24304) 
+// Включено реле открытия люка забора 1
+ON_O_H_1 KEY(24305) 
+// Включено реле закрытия люка забора 1
+ON_C_H_1 KEY(24306) 
+// Закрытие всех люков по команде
+CLOSING_HATCHES KEY(24307) 
+
+// Агрегат HATCH_2
+
+// Состояние люка выброса 1
+HATCH_2_STATE KEY(25300) 
+// Отказ люка забора 2
+HATCH_2_BREAK KEY(25301) 
+// Открыть люк забора 2
+HATCH_2_O KEY(25302) 
+// Закрыть люк забора 2
+HATCH_2_C KEY(25303) 
+// Люк забора 2 открыт
+O_H_2 KEY(25304) 
+// Люк забора 2 закрыт
+C_H_2 KEY(25305) 
+// Включено реле открытия люка забора 2
+ON_O_H_2 KEY(25306) 
+// Включено реле закрытия люка забора 2
+ON_C_H_2 KEY(25307) 
+
+// Агрегат HATCH_3
+
+// Состояние люка забора 3
+HATCH_3_STATE KEY(26300) 
+// Отказ люка забора 3
+HATCH_IN2_BREAK KEY(26301) 
+// Открыть люк забора 3
+HATCH_3_O KEY(26302) 
+// Закрыть люк забора 3
+HATCH_3_C KEY(26303) 
+// Люк забора 3 открыт
+O_H_3 KEY(26304) 
+// Люк забора 3 закрыт
+C_H_3 KEY(26305) 
+// Включено реле открытия люка забора 3
+ON_O_H_3 KEY(26306) 
+// Включено реле закрытия люка забора 3
+ON_C_H_3 KEY(26307) 
+
+// Агрегат HATCH_4
+
+// Состояние люка забора 4
+HATCH_4_STATE KEY(27300) 
+// Отказ люка забора 4
+HATCH_4_BREAK KEY(27301) 
+// Открыть люк забора 4
+HATCH_4_O KEY(27302) 
+// Закрыть люк забора 4
+HATCH_4_C KEY(27303) 
+// Люк забора 4 открыт
+O_H_4 KEY(27304) 
+// Люк забора 4 закрыт
+C_H_4 KEY(27305) 
+// Включено реле открытия люка забора 4
+ON_O_H_4 KEY(27306) 
+// Включено реле закрытия люка забора 4
+ON_C_H_4 KEY(27307) 
+
+// Агрегат PDU
+
+// Наличие последовательного ДУ
+VOLS_CONNECTED KEY(28300) 
+// Наличие параллельного ДУ
+PDU_CONNECTED KEY(28301) 
+// Кoманда параллельного ДУ
+PDU_COMMAND KEY(28000) 
+// Дистанционный режим (параллельный интерфейс)
+PDU_MODE KEY(28302) 
+// Дистанционный режим (последовательный интерфейс)
+VOLS_MODE KEY(28303) 
+// Местный режим
+LOCAL_MODE KEY(28304) 
+// Меандр 1 Гц
+MEANDR_1_HZ KEY(28305) 
+// Разрешение меандра
+MEANDR_OUT KEY(28306) 
+// Сводный параметр для послед. интерфейса
+PDU_SUMM_PRM KEY(28307) 
+// Готовность ЭА
+EA_READY_PARAM KEY(28308) 
+// Режим исполняется
+MODE_PERFORMING_PARAM KEY(28309) 
+// Неисправность сети 1
+NET_ALARM_PARAM KEY(28310) 
+// Готовность сети 1
+NET_READY_PARAM KEY(28311) 
+// Режим1 исполняется
+MODE1_PERFORMING_PARAM KEY(28312) 
+// Режим2 исполняется
+MODE2_PERFORMING_PARAM KEY(28313) 
+// Режим3 исполняется
+MODE3_PERFORMING_PARAM KEY(28314) 
+// Режим4 исполняется
+MODE4_PERFORMING_PARAM KEY(28315) 
+// Режим5 исполняется
+MODE5_PERFORMING_PARAM KEY(28316) 
+// Режим6 исполняется
+MODE6_PERFORMING_PARAM KEY(28317) 
+// Готовность ЭА - команда
+EA_READY_PDU KEY(28318) 
+// Режим исполняется - команда
+MODE_PERFORMING_PDU KEY(28319) 
+// Неисправность сети 1 - команда
+NET_ALARM_PDU KEY(28320) 
+// Готовность сети 1 - команда
+NET_READY_PDU KEY(28321) 
+// Индикатор пожара
+FIRE_PDU KEY(28322) 
+// Индикатор пожара 2
+FIRE2_PDU KEY(28323) 
+// Индикатор пожара 3
+FIRE3_PDU KEY(28324) 
+// Режим 1 исполняется
+MODE1_PERFORMING_PDU KEY(28325) 
+// Режим 2 исполняется
+MODE2_PERFORMING_PDU KEY(28326) 
+// Режим 3 исполняется
+MODE3_PERFORMING_PDU KEY(28327) 
+// Режим 4 исполняется
+MODE4_PERFORMING_PDU KEY(28328) 
+// Режим 5 исполняется
+MODE5_PERFORMING_PDU KEY(28329) 
+// Режим 6 исполняется
+MODE6_PERFORMING_PDU KEY(28330) 
+// Замыкание на корпус
+SHORT_MASS_PDU KEY(28331) 
+// Неисправность СЭС (50 Гц)
+SES_ALARM_50HZ_PDU KEY(28332) 
+// Неисправность СЭС (400 Гц)
+SES_ALARM_400HZ_PDU KEY(28333) 
+// Авария 400 Гц
+ALARM_400HZ_PDU KEY(28334) 
+// ПХЗ, ПАЗ
+PDU_PHZ_PAZ KEY(28335) 
+// Отключить СЭС
+PDU_SES_OFF KEY(28336) 
+// Дистанционное управление
+PDU_DIST KEY(28337) 
+// Местное управление
+PDU_LOCAL KEY(28338) 
+// Тревога
+PDU_ALARM KEY(28339) 
+// Режим 1
+PDU_MODE_1 KEY(28340) 
+// Режим 2
+PDU_MODE_2 KEY(28341) 
+// Режим 3
+PDU_MODE_3 KEY(28342) 
+// Режим 4
+PDU_MODE_4 KEY(28343) 
+// Режим 5
+PDU_MODE_5 KEY(28344) 
+// Режим 6
+PDU_MODE_6 KEY(28345) 
+
+// Агрегат SIPT
+
+// U СИПТ
+U_SIPT_EXT KEY(29300) 
+// Наработка СИПТ
+SIPT_MOTOHOURS KEY(29301) 
+// Наработка СИПТ, ч
+SIPT_HOURS KEY(29302) 
+
+// Агрегат HATCH_5
+
+// Состояние люка выброса 1
+HATCH_5_STATE KEY(30300) 
+// Отказ люка выброса 1
+HATCH_5_BREAK KEY(30301) 
+// Открыть люк выброса 1
+HATCH_5_O KEY(30302) 
+// Закрыть люк выброса 1
+HATCH_5_C KEY(30303) 
+// Люк выброса 1 открыт
+O_H_5 KEY(30005) 
+// Люк выброса 1 закрыт
+C_H_5 KEY(30006) 
+// Включено реле открывания люка выброса 1
+ON_O_H_5 KEY(30007) 
+// Включено реле закрывания люка выброса 1
+ON_C_H_5 KEY(30008) 
+
+// Агрегат HATCH_6
+
+// Состояние люка выброса 2
+HATCH_6_STATE KEY(31300) 
+// Отказ люка выброса 2
+HATCH_6_BREAK KEY(31301) 
+// Открыть люк выброса 2
+HATCH_6_O KEY(31302) 
+// Закрыть люк выброса 2
+HATCH_6_C KEY(31303) 
+// Люк выброса 2 открыт
+O_H_6 KEY(31005) 
+// Люк выброса 2 закрыт
+C_H_6 KEY(31006) 
+// Включено реле открывания люка выброса 2
+ON_O_H_6 KEY(31007) 
+// Включено реле закрывания люка выброса 2
+ON_C_H_6 KEY(31008) 
+
+// Агрегат FC1
+
+// I АД фазы А, А
+FC1_AE_I_A KEY(32001) 
+// I АД фазы B, А
+FC1_AE_I_B KEY(32002) 
+// I АД фазы C, А
+FC1_AE_I_C KEY(32003) 
+// Угол I АД фазы А, °
+FC1_AE_PHI_I_A KEY(32004) 
+// Угол I АД фазы B, °
+FC1_AE_PHI_I_B KEY(32005) 
+// Угол I АД фазы C, °
+FC1_AE_PHI_I_C KEY(32006) 
+// U фазы А, В
+FC1_U_A KEY(32007) 
+// U фазы B, В
+FC1_U_B KEY(32008) 
+// U фазы C, В
+FC1_U_C KEY(32009) 
+// F U фазы А, Гц
+FC1_F_U_A KEY(32010) 
+// F U фазы B, Гц
+FC1_F_U_B KEY(32011) 
+// F U фазы C, Гц
+FC1_F_U_C KEY(32012) 
+// Угол U фазы А, °
+FC1_PHI_U_A KEY(32013) 
+// Угол U фазы B, °
+FC1_PHI_U_B KEY(32014) 
+// Угол U фазы C, °
+FC1_PHI_U_C KEY(32015) 
+// I фазы А, А
+FC1_I_A KEY(32016) 
+// I фазы B, А
+FC1_I_B KEY(32017) 
+// I фазы C, А
+FC1_I_C KEY(32018) 
+// Угол I фазы А, °
+FC1_PHI_I_A KEY(32019) 
+// Угол I фазы B, °
+FC1_PHI_I_B KEY(32020) 
+// Угол I фазы C, °
+FC1_PHI_I_C KEY(32021) 
+// U фазы А2, В
+FC1_U_A2 KEY(32022) 
+// F U фазы А2, Гц
+FC1_F_U_A2 KEY(32023) 
+// Угол U фазы А2, °
+FC1_PHI_U_A2 KEY(32024) 
+// Состояние АД ПЧ
+FC1_AE_STATE KEY(32025) 
+// Состояние генератора ПЧ 1
+FC1_GEN_STATE KEY(32026) 
+// F U фазы А
+FC1_F_U_A_EXT KEY(32027) 
+// Фазировка ПЧ 1
+FC1_PH KEY(32028) 
+// Обрыв фазы ПЧ 1
+FC1_PH_PHASE KEY(32029) 
+// Активная мощность ПЧ 1, кВт
+FC1_P KEY(32030) 
+// Контактор питания АД ПЧ 1
+AE_FC1_CONT KEY(32031) 
+// Контактор питания АД ПЧ 1 треугольником
+AE_FC1_TRIANGLE_CONT KEY(32032) 
+// Контактор питания АД ПЧ 1 звездой
+AE_FC1_STAR_CONT KEY(32033) 
+// Контактор ПЧ 1
+FC1_CONT KEY(32034) 
+// Контактор объединения шин ПЧ 1
+FC1_BUS_CONT KEY(32035) 
+// Контактор МКИ ПЧ 1
+FC1_MKI_ON KEY(32036) 
+// Не норма изоляции ПЧ 1
+FC1_MKI_AI KEY(32037) 
+// Включено реле снятия возбуждения ПЧ 1
+ON_FC1_FIELD_OFF KEY(32038) 
+// Включено реле самовозбуждения ПЧ 1
+ON_FC1_SELF_EXCITATION KEY(32039) 
+// Включено реле корректора ПЧ 1
+ON_FC1_CORRECTOR KEY(32040) 
+// Контактор питания АД ПЧ 1
+CONT_AE_FC1 KEY(32300) 
+// Контактор питания АД ПЧ 1 треугольником
+CONT_AE_FC1_TRIANGLE KEY(32301) 
+// Контактор питания АД ПЧ 1 звездой
+CONT_AE_FC1_STAR KEY(32302) 
+// Контактор ПЧ 1
+CONT_FC1 KEY(32303) 
+// Контактор объединения шин ПЧ 1
+CONT_FC1_BUS KEY(32304) 
+// Контактор МКИ ПЧ 1
+CONT_FC1_MKI KEY(32305) 
+// Снять возбуждение ПЧ 1
+CONT_FC1_FIELD_OFF KEY(32306) 
+// Самовозбуждение ПЧ 1
+CONT_FC1_SELF_EXCITATION KEY(32307) 
+// Корректор ПЧ 1
+CONT_FC1_CORRECTOR KEY(32308) 
+// Индикация запуска ПЧ 1
+FC1_STARTING KEY(32309) 
+// Индикация что ПЧ 1 запущен или остановлен
+FC1_ON_OFF KEY(32310) 
+// Составной параметр аварий ПЧ 1 на БУ400
+EVENTS_FC1_400 KEY(32100) 
+// Составной параметр аварий ПЧ 1 БУ50
+EVENTS_FC1_50 KEY(32101) 
+// Наработка ПЧ 1
+FC1_MOTOHOURS KEY(32311) 
+// Наработка ПЧ2
+FC2_MOTOHOURS KEY(32312) 
+// Наработка ПЧ 1, в часах
+FC1_HOURS KEY(32313) 
+// Наработка ПЧ 2, в часах
+FC2_HOURS KEY(32314) 
+// I АД фазы A сырое
+FC1_AE_I_A_RAW KEY(32315) 
+// I АД фазы B сырое
+FC1_AE_I_B_RAW KEY(32316) 
+// I АД фазы C сырое
+FC1_AE_I_C_RAW KEY(32317) 
+// U фазы A сырое
+FC1_U_A_RAW KEY(32318) 
+// U фазы B сырое
+FC1_U_B_RAW KEY(32319) 
+// U фазы C сырое
+FC1_U_C_RAW KEY(32320) 
+// F U фазы A сырое
+FC1_F_U_A_RAW KEY(32321) 
+// F U фазы B сырое
+FC1_F_U_B_RAW KEY(32322) 
+// F U фазы C сырое
+FC1_F_U_C_RAW KEY(32323) 
+// I фазы A сырое
+FC1_I_A_RAW KEY(32324) 
+// I фазы B сырое
+FC1_I_B_RAW KEY(32325) 
+// I фазы C сырое
+FC1_I_C_RAW KEY(32326) 
+// U фазы A2 сырое
+FC1_U_A2_RAW KEY(32327) 
+// F U фазы A2 сырое
+FC1_F_U_A2_RAW KEY(32328) 
+// Включено реле К6 генератора ПЧ 1
+DISCR_RELAY_K6_FC1 KEY(32329) 
+// Включено реле К7 объединения шин левый и правый борт
+DISCR_RELAY_K7_BUS_LR KEY(32330) 
+// Включено реле К18 Ф5-1
+DISCR_RELAY_K18_F5_1 KEY(32331) 
+// Включено реле К19 Ф5
+DISCR_RELAY_K19_F5 KEY(32332) 
+// Включено реле К10 Ф3-1
+DISCR_RELAY_K10_F3_1 KEY(32333) 
+// Включено реле К11 Ф3
+DISCR_RELAY_K11_F3 KEY(32334) 
+
+// Агрегат FC2
+
+// I АД фазы А, А
+FC2_AE_I_A KEY(33001) 
+// I АД фазы B, А
+FC2_AE_I_B KEY(33002) 
+// I АД фазы C, А
+FC2_AE_I_C KEY(33003) 
+// Угол I АД фазы А, °
+FC2_AE_PHI_I_A KEY(33004) 
+// Угол I АД фазы B, °
+FC2_AE_PHI_I_B KEY(33005) 
+// Угол I АД фазы C, °
+FC2_AE_PHI_I_C KEY(33006) 
+// U фазы А, В
+FC2_U_A KEY(33007) 
+// U фазы B, В
+FC2_U_B KEY(33008) 
+// U фазы C, В
+FC2_U_C KEY(33009) 
+// F U фазы А, Гц
+FC2_F_U_A KEY(33010) 
+// F U фазы B, Гц
+FC2_F_U_B KEY(33011) 
+// F U фазы C, Гц
+FC2_F_U_C KEY(33012) 
+// Угол U фазы А, °
+FC2_PHI_U_A KEY(33013) 
+// Угол U фазы B, °
+FC2_PHI_U_B KEY(33014) 
+// Угол U фазы C, °
+FC2_PHI_U_C KEY(33015) 
+// I фазы А, А
+FC2_I_A KEY(33016) 
+// I фазы B, А
+FC2_I_B KEY(33017) 
+// I фазы C, А
+FC2_I_C KEY(33018) 
+// Угол I фазы А, °
+FC2_PHI_I_A KEY(33019) 
+// Угол I фазы B, °
+FC2_PHI_I_B KEY(33020) 
+// Угол I фазы C, °
+FC2_PHI_I_C KEY(33021) 
+// U фазы А2, В
+FC2_U_A2 KEY(33022) 
+// F U фазы А2, Гц
+FC2_F_U_A2 KEY(33023) 
+// Угол U фазы А2, °
+FC2_PHI_U_A2 KEY(33024) 
+// Состояние АД ПЧ
+FC2_AE_STATE KEY(33025) 
+// Состояние генератора ПЧ
+FC2_GEN_STATE KEY(33026) 
+// F U фазы А
+FC2_F_U_A_EXT KEY(33027) 
+// Фазировка ПЧ
+FC2_PH KEY(33028) 
+// Обрыв фазы ПЧ
+FC2_PH_PHASE KEY(33029) 
+// Активная мощность ПЧ2, кВт
+FC2_P KEY(33030) 
+// Составной параметр аварий ПЧ2 на БУ400
+EVENTS_FC2_400 KEY(33100) 
+// Контактор питания АД ПЧ2
+AE_FC2_CONT KEY(33031) 
+// Контактор питания АД ПЧ2 треугольником
+AE_FC2_TRIANGLE_CONT KEY(33032) 
+// Контактор питания АД ПЧ2 звездой
+AE_FC2_STAR_CONT KEY(33033) 
+// Контактор ПЧ2
+FC2_CONT KEY(33034) 
+// Контактор объединения шин ПЧ2
+FC2_BUS_CONT KEY(33035) 
+// Контактор МКИ ПЧ2
+FC2_MKI_ON KEY(33036) 
+// Не норма изоляции ПЧ2
+FC2_MKI_AI KEY(33037) 
+// Включено реле снятия возбуждения ПЧ2
+ON_FC2_FIELD_OFF KEY(33038) 
+// Включено реле самовозбуждения ПЧ2
+ON_FC2_SELF_EXCITATION KEY(33039) 
+// Включено реле корректора ПЧ2
+ON_FC2_CORRECTOR KEY(33040) 
+// Авария корректора возбуждения ПЧ2
+ALARM_CORRECTOR_FC2 KEY(33041) 
+// Контактор питания АД ПЧ2
+CONT_AE_FC2 KEY(33300) 
+// Контактор питания АД ПЧ2 треугольником
+CONT_AE_FC2_TRIANGLE KEY(33301) 
+// Контактор питания АД ПЧ2 звездой
+CONT_AE_FC2_STAR KEY(33302) 
+// Контактор ПЧ2
+CONT_FC2 KEY(33303) 
+// Контактор объединения шин ПЧ2
+CONT_FC2_BUS KEY(33304) 
+// Контактор МКИ ПЧ2
+CONT_FC2_MKI KEY(33305) 
+// Снять возбуждение ПЧ2
+CONT_FC2_FIELD_OFF KEY(33306) 
+// Самовозбуждение ПЧ2
+CONT_FC2_SELF_EXCITATION KEY(33307) 
+// Корректор ПЧ2
+CONT_FC2_CORRECTOR KEY(33308) 
+// Индикация запуска ПЧ100 2
+FC2_STARTING KEY(33309) 
+// Индикация что ПЧ100 1 запущен или остановлен
+FC2_ON_OFF KEY(33310) 
+// I АД фазы A сырое
+FC2_AE_I_A_RAW KEY(33311) 
+// I АД фазы B сырое
+FC2_AE_I_B_RAW KEY(33312) 
+// I АД фазы C сырое
+FC2_AE_I_C_RAW KEY(33313) 
+// U фазы A сырое
+FC2_U_A_RAW KEY(33314) 
+// U фазы B сырое
+FC2_U_B_RAW KEY(33315) 
+// U фазы C сырое
+FC2_U_C_RAW KEY(33316) 
+// F U фазы A сырое
+FC2_F_U_A_RAW KEY(33317) 
+// F U фазы B сырое
+FC2_F_U_B_RAW KEY(33318) 
+// F U фазы C сырое
+FC2_F_U_C_RAW KEY(33319) 
+// I фазы A сырое
+FC2_I_A_RAW KEY(33320) 
+// I фазы B сырое
+FC2_I_B_RAW KEY(33321) 
+// I фазы C сырое
+FC2_I_C_RAW KEY(33322) 
+// U фазы A2 сырое
+FC2_U_A2_RAW KEY(33323) 
+// F U фазы A2 сырое
+FC2_F_U_A2_RAW KEY(33324) 
+// Включено реле К6 генератора ПЧ 2
+DISCR_RELAY_K6_FC2 KEY(33325) 
+// Включено реле К7 объединения шин 230 В
+DISCR_RELAY_K7_BUS_230 KEY(33326) 
+// Включено реле К18 Ф6-1
+DISCR_RELAY_K18_F6_1 KEY(33327) 
+// Включено реле К19 Ф6
+DISCR_RELAY_K19_F6 KEY(33328) 
+// Пожар
+EA301 KEY(53) 
+// Аварийный стоп
+EA300 KEY(54) 
+// Не норма изоляции от РБП
+EA204 KEY(55) 
+// Низкое напряжение АБ ХД
+EA321 KEY(56) 
+// Низкое напряжение АБ СТ или АБ ОП
+EA323 KEY(58) 
+// Пониженное напряжение АКБ
+EP323 KEY(301) 
+// Низкий уровень топлива бака 1
+EP002 KEY(302) 
+// Низкий уровень топлива бака 2
+EP002_2 KEY(303) 
+// Отключен автомат Подзаряд АБ ХД
+EP234 KEY(304) 
+// КЗ(отключен) автомат Подзаряд АБ ХД
+EA239 KEY(305) 
+// Неисправность реле К15 Ф22
+EA238 KEY(306) 
+// Пониженное напряжение АБ ОП
+EP320 KEY(307) 
+// Отключен автомат Q6 экстренного отключения
+EA373 KEY(308) 
+// Не норма изоляции 50 Гц
+EP304 KEY(1300) 
+// Неисправность контактора МКИ
+EA326 KEY(1001) 
+// Не норма изоляции трансформатора 1
+EP305 KEY(1301) 
+// Не норма изоляции трансформатора 2
+EP306 KEY(1302) 
+// Напряжение сети 1 выше нормы
+EA200 KEY(2065) 
+// Напряжение сети 1 ниже нормы
+EA201 KEY(2066) 
+// Неверная фазировка сети 1
+EA202 KEY(2067) 
+// Обрыв фаз сети 1
+EA203 KEY(2068) 
+// Неисправность контактора сети 1
+EA206 KEY(2070) 
+// Частота сети 1 ниже нормы
+EA207 KEY(2071) 
+// Частота сети 1 выше нормы
+EA208 KEY(2072) 
+// КЗ сети 1
+EA219 KEY(2073) 
+// Нештатное отключение сети 1
+EA224 KEY(2074) 
+// Перегруз сети 1 по мощности
+EP225 KEY(2075) 
+// Аварийный перегруз сети 1 по мощности
+EA217 KEY(2082) 
+// Неисправность реле К1 ввода сети 1
+EA237 KEY(2083) 
+// Напряжение сети 2 выше нормы
+EA200_2 KEY(3066) 
+// Напряжение сети 2 ниже нормы
+EA201_2 KEY(3067) 
+// Неверная фазировка сети 2
+EA202_2 KEY(3068) 
+// Обрыв фаз сети 2
+EA203_2 KEY(3069) 
+// Неисправность контактора сети 2
+EA206_2 KEY(3071) 
+// Частота сети 2 ниже нормы
+EA207_2 KEY(3072) 
+// Частота сети 2 выше нормы
+EA208_2 KEY(3073) 
+// КЗ сети 2
+EA219_2 KEY(3074) 
+// Нештатное отключение сети 2
+EA224_2 KEY(3075) 
+// Перегруз сети 2 по мощности
+EP225_2 KEY(3082) 
+// Аварийный перегруз сети 2 по мощности
+EA218 KEY(3083) 
+// Неудавшийся пуск
+EA000 KEY(5064) 
+// Давление масла ниже нормы
+EA001 KEY(5065) 
+// Перегрев ОЖ двигателя
+EA002 KEY(5066) 
+// Низкий уровень ОЖ
+EA003 KEY(5067) 
+// Незавершенный останов
+EA005 KEY(5068) 
+// Обрыв датчика температуры ОЖ
+EA007 KEY(5069) 
+// Обрыв датчика давления масла
+EA008 KEY(5070) 
+// Частота ЭА выше нормы
+EA009 KEY(5071) 
+// Частота ЭА ниже нормы
+EA010 KEY(5072) 
+// Разнос
+EA012 KEY(5073) 
+// Воздушный фильтр засорен
+EP001 KEY(5074) 
+// Температура ОЖ ниже нормы
+EP003 KEY(5075) 
+// Неудавшаяся подстройка частоты
+EP005 KEY(5076) 
+// Предупреждение о низком давлении масла
+EP007 KEY(5077) 
+// Напряжение генератора выше нормы
+EA100 KEY(5078) 
+// Напряжение генератора ниже нормы
+EA101 KEY(5079) 
+// Неисправность контактора генератора
+EA102 KEY(5080) 
+// Перегруз по току
+EA103 KEY(5081) 
+// КЗ генератора или нагрузки
+EA106 KEY(5082) 
+// Пропало донесение от КГ во время работы
+EA108 KEY(5083) 
+// Перегруз по мощности
+EP109 KEY(5084) 
+// Перегрев генератора ЭА
+EA110 KEY(5085) 
+// Перегрев заднего подшипника ЭА
+EA111 KEY(5086) 
+// Перегрев масла двигателя
+EA112 KEY(5087) 
+// Ошибка синхронизации
+EA107 KEY(5095) 
+// Аварийный перегруз по мощности
+EA109 KEY(5096) 
+// Неисправность зарядного генератора
+EP011 KEY(5099) 
+// Неисправность контактора ЭН
+EA305 KEY(9008) 
+// Неисправность ЭН
+EA306 KEY(9009) 
+// КЗ в цепи ЭН
+EA322 KEY(9010) 
+// КЗ(отключен) автомат защиты ЭН
+EA324 KEY(9011) 
+// Неисправность контактора ЭН масла
+EA313 KEY(9012) 
+// Отключен автомат защиты ЭН
+EP324 KEY(9018) 
+// Обрыв датчика температуры воздуха
+EA352 KEY(12300) 
+// КЗ(отключен) автомат Q16 (ПC)
+EP425 KEY(12301) 
+// Липовая авария
+EA999 KEY(12302) 
+// Не норма ПС
+EP426 KEY(12303) 
+// Несоответствие CRC уставок БУ 50
+EP427 KEY(12304) 
+// Несоответствие CRC калибровок БУ 50
+EP428 KEY(12305) 
+// Несоответствие CRC фильтров БУ 50
+EP429 KEY(12306) 
+// Несоответствие CRC уставок БУ СЭС
+EP430 KEY(12307) 
+// Несоответствие CRC калибровок БУ СЭС
+EP431 KEY(12308) 
+// Несоответствие CRC фильтров БУ СЭС
+EP432 KEY(12309) 
+// Несоответствие CRC уставок БУ 400
+EP433 KEY(12310) 
+// Несоответствие CRC калибровок БУ 400
+EP434 KEY(12311) 
+// Несоответствие CRC фильтров БУ 400
+EP435 KEY(12312) 
+// КЗ(отключен) автомат защиты фидера 1
+EA336 KEY(19300) 
+// Отключен автомат защиты фидера 1
+EP336 KEY(19301) 
+// КЗ(отключен) автомат защиты фидера 3
+EA337 KEY(19302) 
+// Отключен автомат защиты фидера 3
+EP337 KEY(19303) 
+// КЗ(отключен) автомат защиты фидера 3-1
+EA338 KEY(19304) 
+// Отключен автомат защиты фидера 3-1
+EP338 KEY(19305) 
+// КЗ(отключен) автомат защиты фидера 3-2
+EA339 KEY(19306) 
+// Отключен автомат защиты фидера 3-2
+EP339 KEY(19307) 
+// КЗ(отключен) автомат защиты фидера 4
+EA346 KEY(19308) 
+// Отключен автомат защиты фидера 4
+EP346 KEY(19309) 
+// КЗ(отключен) автомат защиты трансформатора 1
+EA347 KEY(19310) 
+// Отключен автомат защиты трансформатора 1
+EP347 KEY(19311) 
+// КЗ(отключен) автомат защиты трансформатора 2
+EA348 KEY(19312) 
+// Отключен автомат защиты трансформатора 2
+EP348 KEY(19313) 
+// КЗ(отключен) автомат защиты фидера 5
+EA349 KEY(19314) 
+// Отключен автомат защиты фидера 5
+EP349 KEY(19315) 
+// КЗ(отключен) автомат защиты фидера 5-1
+EA351 KEY(19316) 
+// Отключен автомат защиты фидера 5-1
+EP351 KEY(19317) 
+// КЗ(отключен) автомат защиты фидера 6
+EA353 KEY(19318) 
+// Отключен автомат защиты фидера 6
+EP353 KEY(19319) 
+// КЗ(отключен) автомат защиты фидера 6-1
+EA356 KEY(19320) 
+// Отключен автомат защиты фидера 6-1
+EP356 KEY(19321) 
+// КЗ(отключен) автомат защиты фидера 7
+EA357 KEY(19322) 
+// Отключен автомат защиты фидера 7
+EP357 KEY(19323) 
+// КЗ(отключен) автомат защиты фидера 8
+EA358 KEY(19324) 
+// Отключен автомат защиты фидера 8
+EP358 KEY(19325) 
+// КЗ(отключен) автомат защиты фидера 9
+EA359 KEY(19326) 
+// Отключен автомат защиты фидера 9
+EP359 KEY(19327) 
+// КЗ(отключен) автомат защиты фидера 10
+EA360 KEY(19328) 
+// Отключен автомат защиты фидера 10
+EP360 KEY(19329) 
+// КЗ(отключен) автомат защиты фидера 11
+EA361 KEY(19330) 
+// Отключен автомат защиты фидера 11
+EP361 KEY(19331) 
+// КЗ(отключен) автомат защиты фидера 11-1
+EA362 KEY(19332) 
+// Отключен автомат защиты фидера 11-1
+EP362 KEY(19333) 
+// КЗ(отключен) автомат защиты фидера 12
+EA363 KEY(19334) 
+// Отключен автомат защиты фидера 12
+EP363 KEY(19335) 
+// КЗ(отключен) автомат защиты фидера 13
+EA364 KEY(19336) 
+// Отключен автомат защиты фидера 13
+EP364 KEY(19337) 
+// КЗ(отключен) автомат защиты фидера 14
+EA365 KEY(19338) 
+// Отключен автомат защиты фидера 14
+EP365 KEY(19339) 
+// КЗ(отключен) автомат защиты фидера 15
+EA366 KEY(19340) 
+// Отключен автомат защиты фидера 15
+EP366 KEY(19341) 
+// КЗ(отключен) автомат защиты фидера 16
+EA367 KEY(19342) 
+// Отключен автомат защиты фидера 16
+EP367 KEY(19343) 
+// КЗ(отключен) автомат защиты фидера 16-1
+EA368 KEY(19344) 
+// Отключен автомат защиты фидера 16-1
+EP368 KEY(19345) 
+// КЗ(отключен) автомат защиты фидера 2
+EA369 KEY(19346) 
+// Отключен автомат защиты фидера 2
+EP369 KEY(19347) 
+// КЗ(отключен) автомат защиты фидера 17
+EA370 KEY(19348) 
+// КЗ(отключен) автомат защиты фидера 18
+EA371 KEY(19349) 
+// КЗ(отключен) автомат защиты фидера 22
+EA372 KEY(19350) 
+// Отключен автомат защиты фидера 22
+EP372 KEY(19351) 
+// Не норма изоляции 400 Гц
+EP416 KEY(20300) 
+// Отказ НЗТ
+EA350 KEY(23300) 
+// Отказ контактора НЗТ
+EP006 KEY(23301) 
+// Кончилось топливо в баке 1
+EA354 KEY(23020) 
+// Кончилось топливо в баке 2
+EA355 KEY(23021) 
+// Отказ люка забора 1
+EA340 KEY(24300) 
+// Отказ люка забора 2
+EA341 KEY(25300) 
+// Отказ люка забора 3
+EA342 KEY(26300) 
+// Отказ люка забора 4
+EA343 KEY(27300) 
+// Напряжение СИПТ ниже нормы
+EP421 KEY(29300) 
+// Напряжение СИПТ выше нормы
+EP422 KEY(29301) 
+// Перегруз СИПТ
+EP423 KEY(29302) 
+// КЗ СИПТ
+EP424 KEY(29303) 
+// Отключен автомат СИПТ
+EA425 KEY(29304) 
+// Отказ люка выброса 1
+EA344 KEY(30009) 
+// Отказ люка выброса 2
+EA345 KEY(31009) 
+// Напряжение на выходе ПЧ 1 выше нормы
+EA500_1 KEY(32102) 
+// Напряжение на выходе ПЧ 1 ниже нормы
+EA501_1 KEY(32103) 
+// Неверная фазировка сети 400 Гц
+EA502_1 KEY(32104) 
+// Обрыв фаз сети 400 Гц
+EA503_1 KEY(32105) 
+// Частота ПЧ 1 ниже нормы
+EA507_1 KEY(32106) 
+// Частота ПЧ 1 выше нормы
+EA508_1 KEY(32107) 
+// КЗ ПЧ 1
+EA519_1 KEY(32108) 
+// Напряжение на выходе ПЧ 1 выше верхнего предела
+EA520_1 KEY(32129) 
+// Напряжение на выходе ПЧ 1 ниже нижнего предела
+EA521_1 KEY(32130) 
+// Перегруз ПЧ 1 по мощности
+EP525_1 KEY(32110) 
+// Неисправность контактора питания АД ПЧ 1
+EA550_1 KEY(32111) 
+// Неисправность контактора питания АД ПЧ 1 звездой
+EA551_1 KEY(32112) 
+// Неисправность контактора питания АД ПЧ 1 треугольником
+EA552_1 KEY(32113) 
+// Неисправность контактора ПЧ 1
+EA554 KEY(32115) 
+// Неисправность контактора объединения шин ПЧ 1
+EA555 KEY(32116) 
+// Неисправность контактора МКИ ПЧ 1
+EA556 KEY(32117) 
+// Неисправность реле снятия возбуждения ПЧ 1
+EA557 KEY(32118) 
+// Неисправность реле корректора
+EA558 KEY(32119) 
+// Неисправность реле объединения цепей возбуждения разных ПЧ
+EA559 KEY(32120) 
+// Срабатывание МКИ ПЧ 1
+EA560 KEY(32121) 
+// Неудачный пуск АД ПЧ 1. Невыход на пусковой ток
+EA562_1 KEY(32123) 
+// Неудачный пуск АД ПЧ 1. Пропало напряжение источника
+EA563_1 KEY(32124) 
+// Неудачный пуск АД ПЧ 1. Невыход на ток холостого хода
+EA564_1 KEY(32125) 
+// Превышение I АД ПЧ 1 150%
+EP565_1 KEY(32126) 
+// Превышение I АД ПЧ 1 250%
+EA566_1 KEY(32127) 
+// Отключение фидеров 400 Гц через 0,6 с
+EA567_1 KEY(32128) 
+// Неисправность реле К6 генератора ПЧ 1
+EA526_1 KEY(32131) 
+// Неисправность реле К7 объединения шин
+EA527_1 KEY(32132) 
+// Неисправность реле К18 Ф5-1
+EA528_1 KEY(32133) 
+// Неисправность реле К19 Ф5
+EA529_1 KEY(32134) 
+// Неисправность реле К10 Ф3-1
+EA530_1 KEY(32135) 
+// Неисправность реле К11 Ф3
+EA531_1 KEY(32136) 
+// Напряжение ПЧ2 выше нормы
+EA500_2 KEY(33300) 
+// Напряжение ПЧ2 ниже нормы
+EA501_2 KEY(33301) 
+// Неверная фазировка сети 400 Гц
+EA502_2 KEY(33302) 
+// Обрыв фаз сети 400 Гц
+EA503_2 KEY(33303) 
+// Частота ПЧ2 ниже нормы
+EA507_2 KEY(33304) 
+// Частота ПЧ2 выше нормы
+EA508_2 KEY(33305) 
+// КЗ ПЧ2
+EA519_2 KEY(33306) 
+// Напряжение ПЧ2 выше верхнего предела
+EA520_2 KEY(33307) 
+// Напряжение ПЧ2 ниже нижнего предела
+EA521_2 KEY(33308) 
+// Неисправность контактора питания АД ПЧ2
+EA550_2 KEY(33309) 
+// Перегруз ПЧ2 по мощности
+EP525_2 KEY(33310) 
+// Неисправность контактора питания АД ПЧ2 звездой
+EA551_2 KEY(33311) 
+// Неисправность контактора питания АД ПЧ2 треугольником
+EA552_2 KEY(33312) 
+// Неисправность контактора ПЧ2
+EA554_2 KEY(33313) 
+// Неисправность контактора объединения шин ПЧ2
+EA555_2 KEY(33314) 
+// Неисправность контактора МКИ ПЧ2
+EA556_2 KEY(33315) 
+// Неисправность реле снятия возбуждения ПЧ2
+EA557_2 KEY(33316) 
+// Неисправность реле статизма для параллельной работы ПЧ
+EA558_2 KEY(33317) 
+// Неисправность реле начального возбуждения ПЧ2
+EA559_2 KEY(33318) 
+// Срабатывание МКИ ПЧ 2
+EA560_2 KEY(33120) 
+// Неудачный пуск АД ПЧ 2. Невыход на пусковой ток
+EA562_2 KEY(33319) 
+// Неудачный пуск АД ПЧ 2. Пропало напряжение источника
+EA563_2 KEY(33320) 
+// Неудачный пуск АД ПЧ 2. Невыход на ток холостого хода
+EA564_2 KEY(33321) 
+// Превышение I АД ПЧ 2 150%
+EP565_2 KEY(33322) 
+// Превышение I АД ПЧ 2 250%
+EA566_2 KEY(33323) 
+// Неисправность реле К6 генератора ПЧ 2
+EA526_2 KEY(33042) 
+// Неисправность реле К7 объединения шин 230 В
+EA527_2 KEY(33043) 
+// Неисправность реле К18 Ф6-1
+EA528_2 KEY(33044) 
+// Неисправность реле К19 Ф6
+EA529_2 KEY(33045) 
+// Пожар
+LIM_FIRE KEY(301) 
+// Сработало РБП
+LIM_RBP KEY(302) 
+// Аварийный останов
+LIM_AV_OST KEY(303) 
+// Низкое напряжение АКБ ХД
+LIM_U_AB_SHASSIS KEY(304) 
+// Низкое напряжение АКБ
+LIM_U_AB_STARTER KEY(305) 
+// Предупреждение: низкое напряжение АКБ
+LIM_U_AB_STARTER_MANUAL KEY(306) 
+// ИВЭП норма
+LIM_STATUS_IVEP_NORM KEY(307) 
+// ИВЭП НЕ норма
+LIM_STATUS_IVEP_NO_NORM KEY(308) 
+// Автомат Q17 (Подзаряд АБ ХД)
+LIM_AB_SHASSIS_AUT_OP KEY(309) 
+// КЗ автомата Q17 (Подзаряд АБ ХД)
+LIM_AB_SHASSIS_AUT_ KEY(310) 
+// Не cработало РБП
+LIM_RBP_OFF KEY(311) 
+// Контроль реле К15 Ф22 при включении
+LIM_RELAY_K15_F22_ON KEY(312) 
+// Контроль реле К15 Ф22 при отключении
+LIM_RELAY_K15_F22_OFF KEY(313) 
+// Контроль за включением охлаждения пульта управления
+LIM_COOLING_PU_ON KEY(314) 
+// Контроль за отключением охлаждения пульта управления
+LIM_COOLING_PU_OFF KEY(315) 
+// Включение режима ожидания
+LIM_WAIT_ON KEY(316) 
+// Выключение режима ожидания
+LIM_WAIT_OFF KEY(317) 
+// Пониженное напряжение АБ ОП
+LIM_U_AB_OP KEY(318) 
+// Контроль КЗ(отключен) автомат Q6 экстренного отключения
+LIM_Q6_AUT KEY(319) 
+// Сработало МКИ
+LIM_MKI KEY(1300) 
+// Контроль включения контактора МКИ
+LIM_WAIT_KMKI_ON KEY(1301) 
+// Контроль отключения контактора МКИ
+LIM_WAIT_KMKI_OFF KEY(1302) 
+// Сработало МКИ трансформатора 1
+LIM_B_MKI_T1 KEY(1303) 
+// Сработало МКИ трансформатора 2
+LIM_B_MKI_T2 KEY(1304) 
+// Неверная фазировка/обрыв
+LIM_WRONG_PHASING KEY(2300) 
+// Контроль включения контактора сети 1
+LIM_WAIT_KN_ON KEY(2301) 
+// Контроль отключения контактора сети 1
+LIM_WAIT_KN_OFF KEY(2302) 
+// U фазы AB выше нормы
+LIM_N_U_AB_HIGH KEY(2303) 
+// U фазы AB ниже нормы
+LIM_N_U_AB_LOW KEY(2304) 
+// U фазы BC выше нормы
+LIM_N_U_BC_HIGH KEY(2305) 
+// U фазы BC ниже нормы
+LIM_N_U_BC_LOW KEY(2306) 
+// U фазы AC выше нормы
+LIM_N_U_AC_HIGH KEY(2307) 
+// U фазы AC ниже нормы
+LIM_N_U_AC_LOW KEY(2308) 
+// Частота AB выше нормы
+LIM_N_FAB_HIGH KEY(2309) 
+// Частота BC выше нормы
+LIM_N_FBC_HIGH KEY(2310) 
+// Частота CA выше нормы
+LIM_N_FCA_HIGH KEY(2311) 
+// Частота AB ниже нормы
+LIM_N_FAB_LOW KEY(2312) 
+// Частота BC выше нормы
+LIM_N_FBC_LOW KEY(2313) 
+// Частота CA выше нормы
+LIM_N_FCA_LOW KEY(2314) 
+// Обрыв одной из фаз
+LIM_BREAK_WIRE_400 KEY(2315) 
+// Нештатное отключение сети
+LIM_N_EMCY KEY(2316) 
+// Контроль обрыва датчика температуры ох.ж.
+LIM_BREAK_TEMP_SENSOR KEY(2317) 
+// Контроль обрыва датчика давления масла
+LIM_BREAK_PRESSURE_SENSOR KEY(2318) 
+// КЗ сети 1 в фазе A
+LIM_N_I_A_SHORT KEY(2319) 
+// КЗ сети 1 в фазе B
+LIM_N_I_B_SHORT KEY(2320) 
+// КЗ сети 1 в фазе C
+LIM_N_I_C_SHORT KEY(2321) 
+// Перегруз сети 1 по мощности
+LIM_P_N KEY(2322) 
+// Перегруз сети 1 по мощности выше max
+LIM_P_N_MAX KEY(2323) 
+// Контроль реле К1 ввода сети 1 при включении
+LIM_RELAY_K1_NET1_ON KEY(2324) 
+// Контроль реле К1 ввода сети 1 при отключении
+LIM_RELAY_K1_NET1_OFF KEY(2325) 
+// U фазы AB выше нормы
+LIM_N2_U_AB_HIGH KEY(3300) 
+// U фазы AB ниже нормы
+LIM_N2_U_AB_LOW KEY(3301) 
+// U фазы BC выше нормы
+LIM_N2_U_BC_HIGH KEY(3302) 
+// U фазы BC ниже нормы
+LIM_N2_U_BC_LOW KEY(3303) 
+// U фазы AC выше нормы
+LIM_N2_U_AC_HIGH KEY(3304) 
+// U фазы AC ниже нормы
+LIM_N2_U_AC_LOW KEY(3305) 
+// Неверная фазировка/обрыв
+LIM_WRONG_PHASING2 KEY(3306) 
+// Обрыв фазы
+LIM_BREAK_WIRE2 KEY(3307) 
+// Контроль включения контактора сети 2
+LIM_WAIT_KN2_ON KEY(3308) 
+// Контроль отключения контактора сети 2
+LIM_WAIT_KN2_OFF KEY(3309) 
+// Нештатное отключение сети 2
+LIM_N2_EMCY KEY(3310) 
+// КЗ сети 2 в фазе A
+LIM_N2_I_A_SHORT KEY(3311) 
+// КЗ сети 2 в фазе B
+LIM_N2_I_B_SHORT KEY(3312) 
+// КЗ сети 2 в фазе C
+LIM_N2_I_C_SHORT KEY(3313) 
+// Перегруз сети 2 по мощности
+LIM_P_N2 KEY(3314) 
+// Частота AB выше нормы
+LIM_N2_FAB_HIGH KEY(3315) 
+// Частота BC выше нормы
+LIM_N2_FBC_HIGH KEY(3316) 
+// Частота CA выше нормы
+LIM_N2_FCA_HIGH KEY(3317) 
+// Частота AB ниже нормы
+LIM_N2_FAB_LOW KEY(3318) 
+// Частота BC выше нормы
+LIM_N2_FBC_LOW KEY(3319) 
+// Частота CA выше нормы
+LIM_N2_FCA_LOW KEY(3320) 
+// Перегруз сети 2 по мощности выше max
+LIM_P_N2_MAX KEY(3321) 
+// U фазы AB выше нормы
+LIM_EA_U_AB_HIGH KEY(5300) 
+// U фазы BC выше нормы
+LIM_EA_U_BC_HIGH KEY(5301) 
+// U фазы AC выше нормы
+LIM_EA_U_AC_HIGH KEY(5302) 
+// U фазы AB ниже нормы
+LIM_EA_U_AB_LOW KEY(5303) 
+// U фазы BC ниже нормы
+LIM_EA_U_BC_LOW KEY(5304) 
+// U фазы AC ниже нормы
+LIM_EA_U_AC_LOW KEY(5305) 
+// Низкое давление масла
+LIM_EA_P_OIL_MIN KEY(5306) 
+// Пониженное давление масла
+LIM_EA_P_OIL_LOW KEY(5307) 
+// Температура ОЖ выше нормы (перегрев ОЖ)
+LIM_EA_T_COOL_HIGH KEY(5308) 
+// Температура ОЖ ниже нормы
+LIM_T_LIQ_HIGH_400 KEY(5309) 
+// Температура масла выше нормы (перегрев масла)
+LIM_EA_T_OIL_HIGH KEY(5310) 
+// Частота выше нормы
+LIM_EA_F_HIGH KEY(5311) 
+// Частота ниже нормы
+LIM_EA_F_LOW KEY(5312) 
+// Разнос
+LIM_EA_F_BREAK KEY(5313) 
+// Контроль включения контактора ЭА
+LIM_WAIT_KEA_ON KEY(5314) 
+// Контроль отключения контактора ЭА
+LIM_WAIT_KEA_OFF KEY(5315) 
+// Перегруз 50 % по току фазы А
+LIM_EA_I_A_150 KEY(5316) 
+// Перегруз 50 % по току фазы B
+LIM_EA_I_B_150 KEY(5317) 
+// Перегруз 50 % по току фазы C
+LIM_EA_I_C_150 KEY(5318) 
+// КЗ в фазе A
+LIM_EA_I_A_SHORT KEY(5319) 
+// КЗ в фазе B
+LIM_EA_I_B_SHORT KEY(5320) 
+// КЗ в фазе C
+LIM_EA_I_C_SHORT KEY(5321) 
+// Перегруз по мощности ЭА
+LIM_P_EA KEY(5322) 
+// Требование ТО
+LIM_EA_MOTOHOURS_TO_END KEY(5323) 
+// Перегруз по мощности ЭА выше max
+LIM_P_EA_MAX KEY(5324) 
+// Не норма ур. ОЖ
+LIM_EA_LEVEL KEY(5325) 
+// Перегрев заднего подшипника ЭА
+LIM_RBEA_TEMP KEY(5326) 
+// Перегрев переднего подшипника ЭА
+LIM_FBEA_TEMP KEY(5327) 
+// Перегрев генератора ЭА
+LIM_EA_TEMP KEY(5328) 
+// Засоренность воздушного фильтра
+LIM_FILTER KEY(5329) 
+// Сброс аварии Температура ОЖ ниже нормы
+LIM_T_LIQ_HIGH_400_RESET KEY(5330) 
+// Контроль неисправности зарядного генератора
+LIM_CHARGE_GEN KEY(5331) 
+// Контроль включения контактора ЭН
+LIM_WAIT_KEN_ON KEY(9300) 
+// Контроль отключения контактора ЭН
+LIM_WAIT_KEN_OFF KEY(9301) 
+// КЗ фазы A ЭН
+LIM_EN_I_A_SHORT KEY(9302) 
+// КЗ фазы B ЭН
+LIM_EN_I_B_SHORT KEY(9303) 
+// КЗ фазы C ЭН
+LIM_EN_I_C_SHORT KEY(9304) 
+// Обрыв фазы A ЭН
+LIM_EN_I_A_BREAK KEY(9305) 
+// Обрыв фазы B ЭН
+LIM_EN_I_B_BREAK KEY(9306) 
+// Обрыв фазы C ЭН
+LIM_EN_I_C_BREAK KEY(9307) 
+// Контроль КЗ(отключен) автомат защиты ЭН
+LIM_EN_QF KEY(9308) 
+// Контроль включения контактора ЭН масла
+LIM_WAIT_KEN_OIL_ON KEY(9309) 
+// Контроль отключения контактора ЭН масла
+LIM_WAIT_KEN_OIL_OFF KEY(9310) 
+// Контроль автомата защиты ЭН
+LIM_EN_AUT_OP KEY(9311) 
+// Контроль отказа люка забора
+LIM_HATCH_IN_BREAK KEY(12300) 
+// Обрыв датчика температуры воздуха
+LIM_BREAK_AIR_TEMP KEY(12301) 
+// Контроль включения контактора фидера 1
+LIM_WAIT_KFID1_ON KEY(12302) 
+// Контроль включения контактора фидера 1
+LIM_WAIT_KFID1_OFF KEY(12303) 
+// Контроль включения контактора фидера 2
+LIM_WAIT_KFID2_ON KEY(12304) 
+// Контроль включения контактора фидера 2
+LIM_WAIT_KFID2_OFF KEY(12305) 
+// Контроль включения контактора фидера 3
+LIM_WAIT_KFID3_ON KEY(12306) 
+// Контроль включения контактора фидера 3
+LIM_WAIT_KFID3_OFF KEY(12307) 
+// Контроль включения контактора фидера 3-1
+LIM_WAIT_KFID3_1_ON KEY(12308) 
+// Контроль включения контактора фидера 3-1
+LIM_WAIT_KFID3_1_OFF KEY(12309) 
+// Контроль включения контактора фидера 3-2
+LIM_WAIT_KFID3_2_ON KEY(12310) 
+// Контроль отключения контактора фидера 3-2
+LIM_WAIT_KFID3_2_OFF KEY(12311) 
+// Контроль включения контактора фидера 4
+LIM_WAIT_KFID4_ON KEY(12312) 
+// Контроль отключения контактора фидера 3-2
+LIM_WAIT_KFID4_OFF KEY(12313) 
+// Контроль аварий по аварийному уровню топливу
+LIM_CONTROL_ALARM_LEVEL KEY(12314) 
+// Контроль включения контактора фидера 22
+LIM_WAIT_KFID22_ON KEY(19300) 
+// Контроль включения контактора фидера 22
+LIM_WAIT_KFID22_OFF KEY(19301) 
+// Контроль КЗ(отключен) автомат защиты фидера 1
+LIM_FID1_AUT KEY(19302) 
+// Контроль состояния автомата защиты фидера 1
+LIM_FID1_AUT_OP KEY(19303) 
+// Контроль КЗ(отключен) автомат защиты фидера 3
+LIM_FID3_AUT KEY(19304) 
+// Контроль состояния автомата защиты фидера 3
+LIM_FID3_AUT_OP KEY(19305) 
+// Контроль КЗ(отключен) автомат защиты фидера 3-1
+LIM_FID3_1_AUT KEY(19306) 
+// Контроль состояния автомата защиты фидера 3-1
+LIM_FID3_1_AUT_OP KEY(19307) 
+// Контроль КЗ(отключен) автомат защиты фидера 3-2
+LIM_FID3_2_AUT KEY(19308) 
+// Контроль состояния автомата защиты фидера 3-2
+LIM_FID3_2_AUT_OP KEY(19309) 
+// Контроль КЗ(отключен) автомат защиты фидера 4
+LIM_FID4_AUT KEY(19310) 
+// Контроль состояния автомата защиты фидера 4
+LIM_FID4_AUT_OP KEY(19311) 
+// Контроль КЗ(отключен) автомат защиты трансформатора 1
+LIM_TRANS_AUT KEY(19312) 
+// Контроль состояния автомата защиты трансформатора 1
+LIM_TRANS_AUT_OP KEY(19313) 
+// Контроль КЗ(отключен) автомат защиты трансформатора 2
+LIM_TRANS2_AUT KEY(19314) 
+// Контроль состояния автомата защиты трансформатора 2
+LIM_TRANS2_AUT_OP KEY(19315) 
+// Контроль КЗ(отключен) автомат защиты фидера 5
+LIM_FID5_AUT KEY(19316) 
+// Контроль состояния автомата защиты фидера 5
+LIM_FID5_AUT_OP KEY(19317) 
+// Контроль КЗ(отключен) автомат защиты фидера 5-1
+LIM_FID5_1_AUT KEY(19318) 
+// Контроль состояния автомата защиты фидера 5-1
+LIM_FID5_1_AUT_OP KEY(19319) 
+// Контроль КЗ(отключен) автомат защиты фидера 6
+LIM_FID6_AUT KEY(19320) 
+// Контроль состояния автомата защиты фидера 6
+LIM_FID6_AUT_OP KEY(19321) 
+// Контроль КЗ(отключен) автомат защиты фидера 6-1
+LIM_FID6_1_AUT KEY(19322) 
+// Контроль состояния автомата защиты фидера 6
+LIM_FID6_1_AUT_OP KEY(19323) 
+// Контроль КЗ(отключен) автомат защиты фидера 7
+LIM_FID7_AUT KEY(19324) 
+// Контроль состояния автомата защиты фидера 7
+LIM_FID7_AUT_OP KEY(19325) 
+// Контроль КЗ(отключен) автомат защиты фидера 8
+LIM_FID8_AUT KEY(19326) 
+// Контроль состояния автомата защиты фидера 8
+LIM_FID8_AUT_OP KEY(19327) 
+// Контроль КЗ(отключен) автомат защиты фидера 9
+LIM_FID9_AUT KEY(19328) 
+// Контроль состояния автомата защиты фидера 9
+LIM_FID9_AUT_OP KEY(19329) 
+// Контроль КЗ(отключен) автомат защиты фидера 10
+LIM_FID10_AUT KEY(19330) 
+// Контроль состояния автомата защиты фидера 10
+LIM_FID10_AUT_OP KEY(19331) 
+// Контроль КЗ(отключен) автомат защиты фидера 11
+LIM_FID11_AUT KEY(19332) 
+// Контроль состояния автомата защиты фидера 11
+LIM_FID11_AUT_OP KEY(19333) 
+// Контроль КЗ(отключен) автомат защиты фидера 11-1
+LIM_FID11_1_AUT KEY(19334) 
+// Контроль состояния автомата защиты фидера 11
+LIM_FID11_1_AUT_OP KEY(19335) 
+// Контроль КЗ(отключен) автомат защиты фидера 12
+LIM_FID12_AUT KEY(19336) 
+// Контроль состояния автомата защиты фидера 12
+LIM_FID12_AUT_OP KEY(19337) 
+// Контроль КЗ(отключен) автомат защиты фидера 13
+LIM_FID13_AUT KEY(19338) 
+// Контроль состояния автомата защиты фидера 13
+LIM_FID13_AUT_OP KEY(19339) 
+// Контроль КЗ(отключен) автомат защиты фидера 14
+LIM_FID14_AUT KEY(19340) 
+// Контроль состояния автомата защиты фидера 14
+LIM_FID14_AUT_OP KEY(19341) 
+// Контроль КЗ(отключен) автомат защиты фидера 15
+LIM_FID15_AUT KEY(19342) 
+// Контроль состояния автомата защиты фидера 15
+LIM_FID15_AUT_OP KEY(19343) 
+// Контроль КЗ(отключен) автомат защиты фидера 16
+LIM_FID16_AUT KEY(19344) 
+// Контроль состояния автомата защиты фидера 16
+LIM_FID16_AUT_OP KEY(19345) 
+// Контроль КЗ(отключен) автомат защиты фидера 16-1
+LIM_FID16_1_AUT KEY(19346) 
+// Контроль состояния автомата защиты фидера 16-1
+LIM_FID16_1_AUT_OP KEY(19347) 
+// Контроль КЗ(отключен) автомат защиты фидера 2
+LIM_FID2_AUT KEY(19348) 
+// Контроль состояния автомата защиты фидера 2
+LIM_FID2_AUT_OP KEY(19349) 
+// Контроль состояния автомата защиты фидера 17
+LIM_FID17_AUT KEY(19350) 
+// Контроль состояния автомата защиты фидера 18
+LIM_FID18_AUT KEY(19351) 
+// Контроль КЗ(отключен) автомат защиты фидера 22
+LIM_FID22_AUT KEY(19352) 
+// Контроль состояния автомата защиты фидера 22
+LIM_FID22_AUT_OP KEY(19353) 
+// Контроль включения контактора фидера 5, БУ400 7001
+LIM_WAIT_KFID5_ON KEY(20300) 
+// Контроль отключения контактора фидера 5, БУ400 7001
+LIM_WAIT_KFID5_OFF KEY(20301) 
+// Контроль включения контактора фидера 5-1, БУ400 7001
+LIM_WAIT_KFID5_1_ON KEY(20302) 
+// Контроль отключения контактора фидера 5-1, БУ400 7001
+LIM_WAIT_KFID5_1_OFF KEY(20303) 
+// Контроль включения контактора фидера 6, БУ400 7001
+LIM_WAIT_KFID6_ON KEY(20304) 
+// Контроль отключения контактора фидера 6, БУ400 7001
+LIM_WAIT_KFID6_OFF KEY(20305) 
+// Контроль включения контактора фидера 6-1, БУ400 7001
+LIM_WAIT_KFID6_1_ON KEY(20306) 
+// Контроль отключения контактора фидера 6-1, БУ400 7001
+LIM_WAIT_KFID6_1_OFF KEY(20307) 
+// Контроль включения контактора фидера 7, БУ400 7001
+LIM_WAIT_KFID7_ON KEY(20308) 
+// Контроль отключения контактора фидера 7, БУ400 7001
+LIM_WAIT_KFID7_OFF KEY(20309) 
+// Контроль включения контактора фидера 8, БУ400 7001
+LIM_WAIT_KFID8_ON KEY(20310) 
+// Контроль отключения контактора фидера 8, БУ400 7001
+LIM_WAIT_KFID8_OFF KEY(20311) 
+// Контроль включения контактора фидера 9, БУ400 7001
+LIM_WAIT_KFID9_ON KEY(20312) 
+// Контроль отключения контактора фидера 9, БУ400 7001
+LIM_WAIT_KFID9_OFF KEY(20313) 
+// Контроль включения контактора фидера 10, БУ400 7001
+LIM_WAIT_KFID10_ON KEY(20314) 
+// Контроль отключения контактора фидера 10, БУ400 7001
+LIM_WAIT_KFID10_OFF KEY(20315) 
+// Контроль включения контактора фидера 11, БУ400 7001
+LIM_WAIT_KFID11_ON KEY(20316) 
+// Контроль отключения контактора фидера 11, БУ400 7001
+LIM_WAIT_KFID11_OFF KEY(20317) 
+// Контроль включения контактора фидера 11-1, БУ400 7001
+LIM_WAIT_KFID11_1_ON KEY(20318) 
+// Контроль отключения контактора фидера 11-1, БУ400 7001
+LIM_WAIT_KFID11_1_OFF KEY(20319) 
+// Контроль включения контактора фидера 12, БУ400 7001
+LIM_WAIT_KFID12_ON KEY(20320) 
+// Контроль отключения контактора фидера 12, БУ400 7001
+LIM_WAIT_KFID12_OFF KEY(20321) 
+// Контроль включения контактора фидера 13, БУ400 7001
+LIM_WAIT_KFID13_ON KEY(20322) 
+// Контроль отключения контактора фидера 13, БУ400 7001
+LIM_WAIT_KFID13_OFF KEY(20323) 
+// Контроль включения контактора фидера 14, БУ400 7001
+LIM_WAIT_KFID14_ON KEY(20324) 
+// Контроль отключения контактора фидера 14, БУ400 7001
+LIM_WAIT_KFID14_OFF KEY(20325) 
+// Контроль включения контактора фидера 15, БУ400 7001
+LIM_WAIT_KFID15_ON KEY(20326) 
+// Контроль отключения контактора фидера 15, БУ400 7001
+LIM_WAIT_KFID15_OFF KEY(20327) 
+// Контроль включения контактора фидера 16, БУ400 7001
+LIM_WAIT_KFID16_ON KEY(20328) 
+// Контроль отключения контактора фидера 16, БУ400 7001
+LIM_WAIT_KFID16_OFF KEY(20329) 
+// Контроль включения контактора фидера 16-1, БУ400 7001
+LIM_WAIT_KFID16_1_ON KEY(20330) 
+// Контроль отключения контактора фидера 16-1, БУ400 7001
+LIM_WAIT_KFID16_1_OFF KEY(20331) 
+// Контроль включения контактора фидера 17
+LIM_WAIT_KFID17_ON KEY(21300) 
+// Контроль включения контактора фидера 17
+LIM_WAIT_KFID17_OFF KEY(21301) 
+// Контроль включения контактора фидера 18
+LIM_WAIT_KFID18_ON KEY(21302) 
+// Контроль включения контактора фидера 18
+LIM_WAIT_KFID18_OFF KEY(21303) 
+// Контроль включения реле НЗТ
+LIM_WAIT_RFP_ON KEY(23300) 
+// Контроль отключения реле НЗТ
+LIM_WAIT_RFP_OFF KEY(23301) 
+// Аварийный уровень топлива бака 1
+LIM_ALARM_FUEL_TANK1 KEY(23302) 
+// Аварийный уровень топлива бака 2
+LIM_ALARM_FUEL_TANK2 KEY(23303) 
+// Низкий уровень топлива бака 1
+LIM_LOW_LEVEL_FUEL_TANK1 KEY(23304) 
+// Низкий уровень топлива бака 2
+LIM_LOW_LEVEL_FUEL_TANK2 KEY(23305) 
+// Контроль по включению порога по низкому уровню топлива бака 1
+LIM_LEVEL_FUEL1 KEY(23306) 
+// Контроль по включению порога по низкому уровню топлива бака 2
+LIM_LEVEL_FUEL2 KEY(23307) 
+// Контроль отказа люка забора 2
+LIM_HATCH_2_BREAK KEY(25300) 
+// Контроль отказа люка забора 3
+LIM_HATCH_IN2_BREAK KEY(26300) 
+// Контроль отказа люка забора 4
+LIM_HATCH_4_BREAK KEY(27300) 
+// Включить режим 1
+LIM_PDU_MODE_1_ON KEY(28300) 
+// Включить режим 1
+LIM_PDU_MODE_1_OFF KEY(28301) 
+// Включить режим 2
+LIM_PDU_MODE_2_ON KEY(28302) 
+// Включить режим 2
+LIM_PDU_MODE_2_OFF KEY(28303) 
+// Включить режим 3
+LIM_PDU_MODE_3_ON KEY(28304) 
+// Включить режим 3
+LIM_PDU_MODE_3_OFF KEY(28305) 
+// Включить режим 4
+LIM_PDU_MODE_4_ON KEY(28306) 
+// Включить режим 4
+LIM_PDU_MODE_4_OFF KEY(28307) 
+// Включить режим 5
+LIM_PDU_MODE_5_ON KEY(28308) 
+// Включить режим 5
+LIM_PDU_MODE_5_OFF KEY(28309) 
+// Включить режим 6
+LIM_PDU_MODE_6_ON KEY(28310) 
+// Включить режим 6
+LIM_PDU_MODE_6_OFF KEY(28311) 
+// Отключить СЭС
+LIM_PDU_SES_OFF_ON KEY(28312) 
+// Отключить СЭС
+LIM_PDU_SES_OFF_OFF KEY(28313) 
+// Включить тревогу
+LIM_PDU_ALARM_ON KEY(28314) 
+// Включить тревогу
+LIM_PDU_ALARM_OFF KEY(28315) 
+// ПХЗ, ПАЗ
+LIM_PDU_PHZ_PAZ_ON KEY(28316) 
+// ПХЗ, ПАЗ
+LIM_PDU_PHZ_PAZ_OFF KEY(28317) 
+// Автомат СИПТ (ПС)
+LIM_SIPT_AUT_OP KEY(29300) 
+// Низкое напряжение СИПТ
+LIM_U_SIPT_LOW KEY(29301) 
+// Высокое напряжение СИПТ
+LIM_U_SIPT_HIGH KEY(29302) 
+// Перегруз СИПТ
+LIM_I_SIPT_OVER KEY(29303) 
+// КЗ СИПТ
+LIM_I_SIPT_SHORT KEY(29304) 
+// СИПТ включен
+LIM_SIPT_NORM KEY(29305) 
+// СИПТ отключен
+LIM_NO_SIPT_NORM KEY(29306) 
+// Не норма ПС
+LIM_SIPT_NO_NORM KEY(29307) 
+// Контроль отказа люка выброса 1
+LIM_HATCH_5_BREAK KEY(30300) 
+// Контроль отказа люка выброса 2
+LIM_HATCH_6_BREAK KEY(31300) 
+// Контроль включения контактора питания АД ПЧ
+LIM_WAIT_KAE_ON KEY(32300) 
+// Контроль отключения контактора питания АД ПЧ
+LIM_WAIT_KAE_OFF KEY(32301) 
+// Контроль включения контактора питания АД ПЧ звездой
+LIM_WAIT_KAE_STAR_ON KEY(32302) 
+// Контроль отключения контактора питания АД ПЧ звездой
+LIM_WAIT_KAE_STAR_OFF KEY(32303) 
+// Контроль включения контактора питания АД ПЧ треугольником
+LIM_WAIT_KAE_TRIANGLE_ON KEY(32304) 
+// Контроль отключения контактора питания АД ПЧ треугольником
+LIM_WAIT_KAE_TRIANGLE_OFF KEY(32305) 
+// Превышение номинального тока АД ПЧ1 в 1,5 раза по фазе А
+LIM_FC1_A_OVERLOAD KEY(32306) 
+// Превышение номинального тока АД ПЧ1 в 1,5 раза по фазе B
+LIM_FC1_B_OVERLOAD KEY(32307) 
+// Превышение номинального тока АД ПЧ1 в 1,5 раза по фазе C
+LIM_FC1_C_OVERLOAD KEY(32308) 
+// Превышение номинального тока АД ПЧ1 в 2,5 раза по фазе А
+LIM_FC1_A_SHORT KEY(32309) 
+// Превышение номинального тока АД ПЧ1 в 2,5 раза по фазе B
+LIM_FC1_B_SHORT KEY(32310) 
+// Превышение номинального тока АД ПЧ1 в 2,5 раза по фазе C
+LIM_FC1_C_SHORT KEY(32311) 
+// Контроль включения контактора ПЧ
+LIM_WAIT_KFC1_ON KEY(32312) 
+// Контроль отключения контактора ПЧ
+LIM_WAIT_KFC1_OFF KEY(32313) 
+// Контроль включения контактора объединения шин ПЧ
+LIM_WAIT_KFC1_BUS_ON KEY(32314) 
+// Контроль отключения контактора объединения шин ПЧ
+LIM_WAIT_KFC1_BUS_OFF KEY(32315) 
+// Контроль включения контактора МКИ ПЧ
+LIM_WAIT_KFC1_MKI_ON KEY(32316) 
+// Контроль отключения контактора МКИ ПЧ
+LIM_WAIT_KFC1_MKI_OFF KEY(32317) 
+// Сработало МКИ ПЧ
+LIM_FC1_MKI KEY(32318) 
+// Контроль включения реле снятия возбуждения ПЧ
+LIM_WAIT_ON_FC1_FIELD_OFF KEY(32319) 
+// Контроль отключения реле снятия возбуждения ПЧ
+LIM_WAIT_OFF_FC1_FIELD_OFF KEY(32320) 
+// Контроль включения реле самовозбуждения ПЧ
+LIM_WAIT_ON_FC1_SELF_EXCITATION KEY(32321) 
+// Контроль отключения реле самовозбуждения ПЧ
+LIM_WAIT_OFF_FC1_SELF_EXCITATION KEY(32322) 
+// Контроль включения реле корректора ПЧ
+LIM_WAIT_ON_FC1_CORRECTOR KEY(32323) 
+// Контроль отключения реле корректора ПЧ
+LIM_WAIT_OFF_FC1_CORRECTOR KEY(32324) 
+// U фазы A выше нормы
+LIM_FC1_U_A_HIGH KEY(32325) 
+// U фазы B выше нормы
+LIM_FC1_U_B_HIGH KEY(32326) 
+// U фазы C выше нормы
+LIM_FC1_U_C_HIGH KEY(32327) 
+// U фазы A ниже нормы
+LIM_FC1_U_A_LOW KEY(32328) 
+// U фазы B ниже нормы
+LIM_FC1_U_B_LOW KEY(32329) 
+// U фазы C ниже нормы
+LIM_FC1_U_C_LOW KEY(32330) 
+// U фазы A выше верхнего предела
+LIM_FC1_U_A_TOO_HIGH KEY(32331) 
+// U фазы B выше верхнего предела
+LIM_FC1_U_B_TOO_HIGH KEY(32332) 
+// U фазы C выше верхнего предела
+LIM_FC1_U_C_TOO_HIGH KEY(32333) 
+// U фазы A ниже нижнего предела
+LIM_FC1_U_A_TOO_LOW KEY(32334) 
+// U фазы B ниже нижнего предела
+LIM_FC1_U_B_TOO_LOW KEY(32335) 
+// U фазы C ниже нижнего предела
+LIM_FC1_U_C_TOO_LOW KEY(32336) 
+// F U фазы A выше нормы
+LIM_FC1_F_U_A_HIGH KEY(32337) 
+// F U фазы B выше нормы
+LIM_FC1_F_U_B_HIGH KEY(32338) 
+// F U фазы C выше нормы
+LIM_FC1_F_U_C_HIGH KEY(32339) 
+// F U фазы A ниже нормы
+LIM_FC1_F_U_A_LOW KEY(32340) 
+// F U фазы B ниже нормы
+LIM_FC1_F_U_B_LOW KEY(32341) 
+// F U фазы C ниже нормы
+LIM_FC1_F_U_C_LOW KEY(32342) 
+// Обрыв одной из фаз ПЧ1
+LIM_BREAK_WIRE_400_1 KEY(32343) 
+// Перегруз по току 50 % ПЧ1
+LIM_FC1_GEN_I_A_OVERLOAD KEY(32344) 
+// Перегруз по току 50 % ПЧ1
+LIM_FC1_GEN_I_B_OVERLOAD KEY(32345) 
+// Перегруз по току 50 % ПЧ1
+LIM_FC1_GEN_I_C_OVERLOAD KEY(32346) 
+// КЗ ПЧ1
+LIM_FC1_GEN_I_A_SHORT KEY(32347) 
+// КЗ ПЧ1
+LIM_FC1_GEN_I_B_SHORT KEY(32348) 
+// КЗ ПЧ1
+LIM_FC1_GEN_I_C_SHORT KEY(32349) 
+// Запускается ПЧ100 1
+LIM_FC1_STARTING KEY(32350) 
+// Запускается ПЧ100 1
+LIM_FC1_ON_OFF KEY(32351) 
+// Контроль реле К6 генератора ПЧ 1 при включении
+LIM_FC1_RELAY_K6_ON KEY(32352) 
+// Контроль реле К6 генератора ПЧ 1 при отключении
+LIM_FC1_RELAY_K6_OFF KEY(32353) 
+// Контроль реле К7 объединения шин левый и правый борт при включении
+LIM_FC1_RELAY_K7_BUS_LR_ON KEY(32354) 
+// Контроль реле К7 объединения шин левый и правый борт при отключении
+LIM_FC1_RELAY_K7_BUS_LR_OFF KEY(32355) 
+// Контроль реле К18 Ф5-1 при включении
+LIM_FC1_RELAY_K18_F5_1_ON KEY(32356) 
+// Контроль реле К18 Ф5-1 при отключении
+LIM_FC1_RELAY_K18_F5_1_OFF KEY(32357) 
+// Контроль реле К19 Ф5 при включении
+LIM_FC1_RELAY_K19_F5_ON KEY(32358) 
+// Контроль реле К19 Ф5 при включении
+LIM_FC1_RELAY_K19_F5_OFF KEY(32359) 
+// Контроль реле К10 Ф3-1 при включении
+LIM_FC1_RELAY_K10_F3_1_ON KEY(32360) 
+// Контроль реле К10 Ф3-1 при отключении
+LIM_FC1_RELAY_K10_F3_1_OFF KEY(32361) 
+// Контроль реле К11 Ф3 при включении
+LIM_FC1_RELAY_K11_F3_ON KEY(32362) 
+// Контроль реле К11 Ф3 при отключении
+LIM_FC1_RELAY_K11_F3_OFF KEY(32363) 
+// Контроль включения контактора питания АД ПЧ2
+LIM_WAIT_KAE2_ON KEY(33300) 
+// Контроль отключения контактора питания АД ПЧ2
+LIM_WAIT_KAE2_OFF KEY(33301) 
+// Контроль включения контактора питания АД ПЧ2 звездой
+LIM_WAIT_KAE2_STAR_ON KEY(33302) 
+// Контроль отключения контактора питания АД ПЧ2 звездой
+LIM_WAIT_KAE2_STAR_OFF KEY(33303) 
+// Контроль включения контактора питания АД ПЧ2 треугольником
+LIM_WAIT_KAE2_TRIANGLE_ON KEY(33304) 
+// Контроль отключения контактора питания АД ПЧ2 треугольником
+LIM_WAIT_KAE2_TRIANGLE_OFF KEY(33305) 
+// Превышение номинального тока АД ПЧ2 в 1,5 раза по фазе А
+LIM_FC2_A_OVERLOAD KEY(33306) 
+// Превышение номинального тока АД ПЧ2 в 1,5 раза по фазе B
+LIM_FC2_B_OVERLOAD KEY(33307) 
+// Превышение номинального тока АД ПЧ2 в 1,5 раза по фазе C
+LIM_FC2_C_OVERLOAD KEY(33308) 
+// Превышение номинального тока АД ПЧ2 в 2,5 раза по фазе А
+LIM_FC2_A_SHORT KEY(33309) 
+// Превышение номинального тока АД ПЧ2 в 2,5 раза по фазе B
+LIM_FC2_B_SHORT KEY(33310) 
+// Превышение номинального тока АД ПЧ2 в 2,5 раза по фазе C
+LIM_FC2_C_SHORT KEY(33311) 
+// Контроль включения контактора ПЧ2
+LIM_WAIT_KFC2_ON KEY(33312) 
+// Контроль отключения контактора ПЧ2
+LIM_WAIT_KFC2_OFF KEY(33313) 
+// Контроль включения контактора объединения шин ПЧ2
+LIM_WAIT_KFC2_BUS_ON KEY(33314) 
+// Контроль отключения контактора объединения шин ПЧ2
+LIM_WAIT_KFC2_BUS_OFF KEY(33315) 
+// Контроль включения контактора МКИ ПЧ2
+LIM_WAIT_KFC2_MKI_ON KEY(33316) 
+// Контроль отключения контактора МКИ ПЧ2
+LIM_WAIT_KFC2_MKI_OFF KEY(33317) 
+// Сработало МКИ ПЧ2
+LIM_FC2_MKI KEY(33318) 
+// Контроль включения реле снятия возбуждения ПЧ2
+LIM_WAIT_ON_FC2_FIELD_OFF KEY(33319) 
+// Контроль отключения реле снятия возбуждения ПЧ2
+LIM_WAIT_OFF_FC2_FIELD_OFF KEY(33320) 
+// Контроль включения реле самовозбуждения ПЧ2
+LIM_WAIT_ON_FC2_SELF_EXCITATION KEY(33321) 
+// Контроль отключения реле самовозбуждения ПЧ2
+LIM_WAIT_OFF_FC2_SELF_EXCITATION KEY(33322) 
+// Контроль включения реле корректора ПЧ2
+LIM_WAIT_ON_FC2_CORRECTOR KEY(33323) 
+// Контроль отключения реле корректора ПЧ2
+LIM_WAIT_OFF_FC2_CORRECTOR KEY(33324) 
+// U фазы A выше нормы
+LIM_FC2_U_A_HIGH KEY(33325) 
+// U фазы B выше нормы
+LIM_FC2_U_B_HIGH KEY(33326) 
+// U фазы C выше нормы
+LIM_FC2_U_C_HIGH KEY(33327) 
+// U фазы A ниже нормы
+LIM_FC2_U_A_LOW KEY(33328) 
+// U фазы B ниже нормы
+LIM_FC2_U_B_LOW KEY(33329) 
+// U фазы C ниже нормы
+LIM_FC2_U_C_LOW KEY(33330) 
+// U фазы A выше верхнего предела
+LIM_FC2_U_A_TOO_HIGH KEY(33331) 
+// U фазы B выше верхнего предела
+LIM_FC2_U_B_TOO_HIGH KEY(33332) 
+// U фазы C выше верхнего предела
+LIM_FC2_U_C_TOO_HIGH KEY(33333) 
+// U фазы A ниже нижнего предела
+LIM_FC2_U_A_TOO_LOW KEY(33334) 
+// U фазы B ниже нижнего предела
+LIM_FC2_U_B_TOO_LOW KEY(33335) 
+// U фазы C ниже нижнего предела
+LIM_FC2_U_C_TOO_LOW KEY(33336) 
+// F U фазы A выше нормы
+LIM_FC2_F_U_A_HIGH KEY(33337) 
+// F U фазы B выше нормы
+LIM_FC2_F_U_B_HIGH KEY(33338) 
+// F U фазы C выше нормы
+LIM_FC2_F_U_C_HIGH KEY(33339) 
+// F U фазы A ниже нормы
+LIM_FC2_F_U_A_LOW KEY(33340) 
+// F U фазы B ниже нормы
+LIM_FC2_F_U_B_LOW KEY(33341) 
+// F U фазы C ниже нормы
+LIM_FC2_F_U_C_LOW KEY(33342) 
+// Обрыв одной из фаз ПЧ
+LIM_BREAK_WIRE_400_2 KEY(33343) 
+// Перегруз по току 50 % ПЧ2
+LIM_FC2_GEN_I_A_OVERLOAD KEY(33344) 
+// Перегруз по току 50 % ПЧ2
+LIM_FC2_GEN_I_B_OVERLOAD KEY(33345) 
+// Перегруз по току 50 % ПЧ2
+LIM_FC2_GEN_I_C_OVERLOAD KEY(33346) 
+// КЗ ПЧ2
+LIM_FC2_GEN_I_A_SHORT KEY(33347) 
+// КЗ ПЧ2
+LIM_FC2_GEN_I_B_SHORT KEY(33348) 
+// КЗ ПЧ2
+LIM_FC2_GEN_I_C_SHORT KEY(33349) 
+// Запускается ПЧ100 2
+LIM_FC2_STARTING KEY(33350) 
+// Индикация останова, аварии  ПЧ100 2
+LIM_FC2_ON_OFF KEY(33351) 
+// Контроль реле К6 генератора ПЧ 2 при включении
+LIM_FC2_RELAY_K6_ON KEY(33352) 
+// Контроль реле К6 генератора ПЧ 2 при отключении
+LIM_FC2_RELAY_K6_OFF KEY(33353) 
+// Контроль реле К7 объединения шин 230 В при включении
+LIM_FC2_RELAY_K7_BUS_230_ON KEY(33354) 
+// Контроль реле К7 объединения шин 230 В при отключении
+LIM_FC2_RELAY_K7_BUS_230_OFF KEY(33355) 
+// Контроль реле К18 Ф6-1 при включении
+LIM_FC2_RELAY_K18_F6_1_ON KEY(33356) 
+// Контроль реле К18 Ф6-1 при отключении
+LIM_FC2_RELAY_K18_F6_1_OFF KEY(33357) 
+// Контроль реле К19 Ф6 при включении
+LIM_FC2_RELAY_K19_F6_ON KEY(33358) 
+// Контроль реле К19 Ф6 при отключении
+LIM_FC2_RELAY_K19_F6_OFF KEY(33359) 
+
+// Устройство UKPT2
+
+// I ИВЭП, А
+I_IVEP KEY(1001000) 
+// U ИВЭП, В
+U_IVEP KEY(1001001) 
+// Состояние ИВЭП
+STATUS_IVEP KEY(1001002) 
+
+// Устройство UKPT3
+
+// I СИПТ, А
+I_SIPT KEY(1002000) 
+// U СИПТ, В
+U_SIPT KEY(1002001) 
+
+// Устройство RPMC
+
+// Обороты ЭА, об/мин
+EA_RPM KEY(2000000) 
+
+// Устройство VENT
+
+// Состояние вентилятора
+VENT_STATE KEY(3000000) 
+// Неисправность контактора вентилятора
+EA600 KEY(3000000) 
+// КЗ(отключен) автомат защиты вентилятора
+EA601 KEY(3000001) 
+// Отключен автомат защиты вентилятора
+EP602 KEY(3000002) 
+// Неудачный запуск прожига
+EA700 KEY(4000000) 
+// Неудачное прохождение прожига
+EA701 KEY(4000001) 
+// Контроль КЗ(отключен) автомат защиты вентилятора
+LIM_VENT_AUT KEY(3000000) 
+// Контроль состояния автомата защиты вентилятора
+LIM_VENT_AUT_OP KEY(3000001) 
+// Контроль включения контактора вентилятора
+LIM_WAIT_KVENT_ON KEY(3000002) 
+// Контроль отключения контактора вентилятора
+LIM_WAIT_KVENT_OFF KEY(3000003) 

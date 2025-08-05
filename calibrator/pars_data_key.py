@@ -49,7 +49,7 @@ class DataKey():
                     product = products.tag
                     # print('for3')
                     if product =='SES200M' and flag_3==0:
-                        self.unit = products.attrib.get('cb')
+                        self.units = products.attrib.get('cb')
                         if self.flag_4 ==0 and arg == 'parameter':
                             self.file.write('\n' + '// Агрегат '+unit_name + '\n'+'\n')
                             self.flag_4=1
@@ -59,6 +59,7 @@ class DataKey():
                         # and ((type =='Измеряемый') or (type =='Вычисляемый')or
                         # (type =='Внешний') or (type =='Дискретный')or
                         # (type =='Сводный') or (type =='Команда')):
+                            print(designation,arg)
                             if common_id == None:
                                 if flag ==1:
                                     common_id = self.count1 + 1
@@ -80,23 +81,23 @@ class DataKey():
                             self.count =self.count+1
                             # print(parameter_designation)
                             if common_id_1 != None: self.lst_com_id.append(common_id_1)
-                            if common_id_1!=None:
-                                if self.flag_1 ==0:
-                                    prm_com_id = int(common_id_1)
-                                    self.flag_1 = 1
-                                elif self.flag_1 ==1:
-                                    prm_com_id_1 = int(common_id_1)
-                                    self.flag_1=0
-                                    self.flag_2 = 1
-                                if self.flag_2==1:
-                                    if prm_com_id >=prm_com_id_1:
-                                        print("Error com_id", prm_com_id, 'и', prm_com_id_1)
-                                    self.flag_2=2
-                                elif self.flag_2==2:
-                                    if prm_com_id_1 >=prm_com_id:
-                                        print("Error com_id1", prm_com_id_1, 'и', prm_com_id)
-                                    self.flag_1=1
-                                    self.flag_2 = 0
+                            # if common_id_1!=None:
+                            #     if self.flag_1 ==0:
+                            #         prm_com_id = int(common_id_1)
+                            #         self.flag_1 = 1
+                            #     elif self.flag_1 ==1:
+                            #         prm_com_id_1 = int(common_id_1)
+                            #         self.flag_1=0
+                            #         self.flag_2 = 1
+                            #     if self.flag_2==1:
+                            #         if prm_com_id >=prm_com_id_1:
+                            #             print("Error com_id", prm_com_id, 'и', prm_com_id_1)
+                            #         self.flag_2=2
+                            #     elif self.flag_2==2:
+                            #         if prm_com_id_1 >=prm_com_id:
+                            #             print("Error com_id1", prm_com_id_1, 'и', prm_com_id)
+                            #         self.flag_1=1
+                            #         self.flag_2 = 0
                             # file.write(parameter_designation + parameter_common_id + "\n")
                            # file.write(parameter_designation +" "+ "KEY("+ str(parameter_common_id)+ ")"+ " " + \
                            #            str(count1) + " p " + str(count) + "\n")
@@ -249,7 +250,7 @@ class DataKey():
                     product = products.tag
                     # print('for3')
                     if product =='SES200M' and flag_3==0:
-                        unint = products.attrib.get('cb')
+                        self.units = products.attrib.get('cb')
                         if self.flag_4 ==0 and arg =='parameter':
                             self.file.write('\n' + '// Устройство '+unit_name + '\n'+'\n')
                             self.flag_4=1
@@ -266,23 +267,23 @@ class DataKey():
                             self.count =self.count+1
                             # print(parameter_designation)
                             if common_id_1 != None: self.lst_com_id.append(common_id_1)
-                            if common_id_1!=None:
-                                if self.flag_1 ==0:
-                                    prm_com_id = int(common_id_1)
-                                    self.flag_1 = 1
-                                elif self.flag_1 ==1:
-                                    prm_com_id_1 = int(common_id_1)
-                                    self.flag_1=0
-                                    self.flag_2 = 1
-                                if self.flag_2==1:
-                                    if prm_com_id >=prm_com_id_1:
-                                        print("Error com_id", prm_com_id, 'и', prm_com_id_1)
-                                    self.flag_2=2
-                                elif self.flag_2==2:
-                                    if prm_com_id_1 >=prm_com_id:
-                                        print("Error com_id1", prm_com_id_1, 'и', prm_com_id)
-                                    self.flag_1=1
-                                    self.flag_2 = 0
+                            # if common_id_1!=None:
+                            #     if self.flag_1 ==0:
+                            #         prm_com_id = int(common_id_1)
+                            #         self.flag_1 = 1
+                            #     elif self.flag_1 ==1:
+                            #         prm_com_id_1 = int(common_id_1)
+                            #         self.flag_1=0
+                            #         self.flag_2 = 1
+                            #     if self.flag_2==1:
+                            #         if prm_com_id >=prm_com_id_1:
+                            #             print("Error com_id", prm_com_id, 'и', prm_com_id_1)
+                            #         self.flag_2=2
+                            #     elif self.flag_2==2:
+                            #         if prm_com_id_1 >=prm_com_id:
+                            #             print("Error com_id1", prm_com_id_1, 'и', prm_com_id)
+                            #         self.flag_1=1
+                            #         self.flag_2 = 0
                             # file.write(parameter_designation + parameter_common_id + "\n")
                            # file.write(parameter_designation +" "+ "KEY("+ str(parameter_common_id)+ ")"+ " " + \
                            #            str(count1) + " p " + str(count) + "\n")

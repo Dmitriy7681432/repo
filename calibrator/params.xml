@@ -4544,161 +4544,6 @@
 				<SES150 cb="BU_SES"/>
 			</products>
 		</parameter>
-        <parameter name="Наработка ЭА1" type="Вычисляемый" designation="EA_MOTOHOURS1" size="4 Байта" datatype="Целочисленный" ctype="int">
-            <products>
-                <SES200M cb="BU_50"/>
-            </products>
-        </parameter>
-        <parameter name="Наработка ЭА2" type="Вычисляемый" designation="EA_MOTOHOURS2" size="4 Байта" datatype="Целочисленный" ctype="int">
-            <products>
-                <SES200M cb="BU_50"/>
-            </products>
-        </parameter>
-        <parameter name="Наработка ЭА3" type="Вычисляемый" designation="EA_MOTOHOURS3" size="4 Байта" datatype="Целочисленный" ctype="int">
-            <products>
-                <SES200M cb="BU_50"/>
-            </products>
-        </parameter>
-        <parameter name="Наработка ЭА4" type="Вычисляемый" designation="EA_MOTOHOURS4" size="4 Байта" datatype="Целочисленный" ctype="int">
-            <products>
-                <SES200M cb="BU_50"/>
-            </products>
-        </parameter>
-        <parameter name="Наработка ЭА5" type="Вычисляемый" designation="EA_MOTOHOURS5" size="4 Байта" datatype="Целочисленный" ctype="int">
-            <products>
-                <SES200M cb="BU_50"/>
-            </products>
-        </parameter>
-        <parameter name="Наработка ЭА6" type="Вычисляемый" designation="EA_MOTOHOURS6" size="4 Байта" datatype="Целочисленный" ctype="int">
-            <products>
-                <SES200M cb="BU_50"/>
-            </products>
-        </parameter>
-        <parameter name="Наработка ЭА7" type="Вычисляемый" designation="EA_MOTOHOURS7" size="4 Байта" datatype="Целочисленный" ctype="int">
-            <products>
-                <SES200M cb="BU_50"/>
-            </products>
-        </parameter>
-        <parameter name="Наработка ЭА8" type="Вычисляемый" designation="EA_MOTOHOURS8" size="4 Байта" datatype="Целочисленный" ctype="int">
-            <products>
-                <SES200M cb="BU_50"/>
-            </products>
-        </parameter>
-        <parameter name="Наработка ЭА9" type="Вычисляемый" designation="EA_MOTOHOURS9" size="4 Байта" datatype="Целочисленный" ctype="int">
-            <products>
-                <SES200M cb="BU_50"/>
-            </products>
-        </parameter>
-        <parameter name="Наработка ЭА10" type="Вычисляемый" designation="EA_MOTOHOURS10" size="4 Байта" datatype="Целочисленный" ctype="int">
-            <products>
-                <SES200M cb="BU_50"/>
-            </products>
-        </parameter>
-        <parameter name="Наработка ЭА11" type="Вычисляемый" designation="EA_MOTOHOURS11" size="4 Байта" datatype="Целочисленный" ctype="int">
-            <products>
-                <SES200M cb="BU_50"/>
-            </products>
-        </parameter>
-        <parameter name="Наработка ЭА12" type="Вычисляемый" designation="EA_MOTOHOURS12" size="4 Байта" datatype="Целочисленный" ctype="int">
-            <products>
-                <SES200M cb="BU_50"/>
-            </products>
-        </parameter>
-        <parameter name="Наработка ЭА13" type="Вычисляемый" designation="EA_MOTOHOURS13" size="4 Байта" datatype="Целочисленный" ctype="int">
-            <products>
-                <SES200M cb="BU_50"/>
-            </products>
-        </parameter>
-        <parameter name="Наработка ЭА14" type="Вычисляемый" designation="EA_MOTOHOURS14" size="4 Байта" datatype="Целочисленный" ctype="int">
-            <products>
-                <SES200M cb="BU_50"/>
-            </products>
-        </parameter>
-        <parameter name="Наработка ЭА15" type="Вычисляемый" designation="EA_MOTOHOURS15" size="4 Байта" datatype="Целочисленный" ctype="int">
-            <products>
-                <SES200M cb="BU_50"/>
-            </products>
-        </parameter>
-        <parameter name="Наработка ЭА16" type="Вычисляемый" designation="EA_MOTOHOURS16" size="4 Байта" datatype="Целочисленный" ctype="int">
-            <products>
-                <SES200M cb="BU_50"/>
-            </products>
-        </parameter>
-        <parameter name="Наработка ЭА17" type="Вычисляемый" designation="EA_MOTOHOURS17" size="4 Байта" datatype="Целочисленный" ctype="int">
-            <products>
-                <SES200M cb="BU_50"/>
-            </products>
-        </parameter>
-        <parameter name="Наработка ЭА18" type="Вычисляемый" designation="EA_MOTOHOURS18" size="4 Байта" datatype="Целочисленный" ctype="int">
-            <products>
-                <SES200M cb="BU_50"/>
-            </products>
-        </parameter>
-        <parameter name="Наработка ЭА19" type="Вычисляемый" designation="EA_MOTOHOURS19" size="4 Байта" datatype="Целочисленный" ctype="int">
-            <products>
-                <SES200M cb="BU_50"/>
-            </products>
-        </parameter>
-        <parameter name="Наработка ЭА20" type="Вычисляемый" designation="EA_MOTOHOURS20" size="4 Байта" datatype="Целочисленный" ctype="int">
-            <products>
-                <SES200M cb="BU_50"/>
-            </products>
-        </parameter>
-        <parameter name="Наработка ЭА21" type="Вычисляемый" designation="EA_MOTOHOURS21" size="4 Байта" datatype="Целочисленный" ctype="int">
-            <products>
-                <SES200M cb="BU_50"/>
-            </products>
-        </parameter>
-        <parameter name="Наработка ЭА22" type="Вычисляемый" designation="EA_MOTOHOURS22" size="4 Байта" datatype="Целочисленный" ctype="int">
-            <products>
-                <SES200M cb="BU_50"/>
-            </products>
-        </parameter>
-        <parameter name="Наработка ЭА24" type="Вычисляемый" designation="EA_MOTOHOURS23" size="4 Байта" datatype="Целочисленный" ctype="int">
-            <products>
-                <SES200M cb="BU_50"/>
-            </products>
-        </parameter>
-        <parameter name="Наработка ЭА25" type="Вычисляемый" designation="EA_MOTOHOURS25" size="4 Байта" datatype="Целочисленный" ctype="int">
-            <products>
-                <SES200M cb="BU_50"/>
-            </products>
-        </parameter>
-        <parameter name="Наработка ЭА26" type="Вычисляемый" designation="EA_MOTOHOURS26" size="4 Байта" datatype="Целочисленный" ctype="int">
-            <products>
-                <SES200M cb="BU_50"/>
-            </products>
-        </parameter>
-        <parameter name="Наработка ЭА27" type="Вычисляемый" designation="EA_MOTOHOURS27" size="4 Байта" datatype="Целочисленный" ctype="int">
-            <products>
-                <SES200M cb="BU_50"/>
-            </products>
-        </parameter>
-        <parameter name="Наработка ЭА28" type="Вычисляемый" designation="EA_MOTOHOURS28" size="4 Байта" datatype="Целочисленный" ctype="int">
-            <products>
-                <SES200M cb="BU_50"/>
-            </products>
-        </parameter>
-        <parameter name="Наработка ЭА29" type="Вычисляемый" designation="EA_MOTOHOURS29" size="4 Байта" datatype="Целочисленный" ctype="int">
-            <products>
-                <SES200M cb="BU_50"/>
-            </products>
-        </parameter>
-        <parameter name="Наработка ЭА30" type="Вычисляемый" designation="EA_MOTOHOURS30" size="4 Байта" datatype="Целочисленный" ctype="int">
-            <products>
-                <SES200M cb="BU_50"/>
-            </products>
-        </parameter>
-        <parameter name="Наработка ЭА31" type="Вычисляемый" designation="EA_MOTOHOURS31" size="4 Байта" datatype="Целочисленный" ctype="int">
-            <products>
-                <SES200M cb="BU_50"/>
-            </products>
-        </parameter>
-        <parameter name="Наработка ЭА32" type="Вычисляемый" designation="EA_MOTOHOURS32" size="4 Байта" datatype="Целочисленный" ctype="int">
-            <products>
-                <SES200M cb="BU_50"/>
-            </products>
-        </parameter>
 		<parameter name="Скорость схождения фаз" type="Вычисляемый" designation="SPEED_PHASE" size="4 Байта" datatype="Вещественный">
 			<comment>Скорость схождения фаз между двумя вычислениями</comment> 
 			<products>
@@ -25501,7 +25346,7 @@
 				<SES200M cb="BU_50"/>
 			</products>
 		</setting>
-		<setting number="s_322_1" designation="Imax холостого хода после второй ступени. " dimension="А" default_value="50" min="70" max="85" ctype="float">
+		<setting number="s_322_1" designation="Imax холостого хода после второй ступени. " dimension="А" default_value="60" min="70" max="85" ctype="float">
 			<description>Максимальное значение тока холостого хода АД, по которому вторая ступень считается завершенной</description>
 			<conditions/>
 			<algorithms>Контроль ПЧ1</algorithms>
@@ -25509,7 +25354,7 @@
 				<SES200M cb="BU_50"/>
 			</products>
 		</setting>
-		<setting number="s_322_2" designation="Imax холостого хода после второй ступени. " dimension="А" default_value="50" min="70" max="85" ctype="float">
+		<setting number="s_322_2" designation="Imax холостого хода после второй ступени. " dimension="А" default_value="60" min="70" max="85" ctype="float">
 			<description>Максимальное значение тока холостого хода АД, по которому вторая ступень считается завершенной</description>
 			<conditions/>
 			<algorithms>Контроль ПЧ2</algorithms>
@@ -26920,6 +26765,28 @@
 				<SES200M cb="BU_400"/>
 			</products>
 		</setting>
+		<setting number="s_543" designation="Порог превышающий допустимое значение наработки" dimension="1" default_value="1200" min="98" max="100" ctype="int">
+			<products>
+				<SES200M cb="BU_50"/>
+				<SES200M cb="BU_400"/>
+				<SES200M cb="BU_SES"/>
+			</products>
+		</setting>
+		<setting number="s_544" designation="Недопустимое значение наработки" dimension="1" default_value="500000" min="98" max="100" ctype="int">
+			<products>
+				<SES200M cb="BU_50"/>
+				<SES200M cb="BU_400"/>
+				<SES200M cb="BU_SES"/>
+			</products>
+		</setting>
+        <setting number="s_545" designation="Вкл/выкл анализа наработки" dimension="1" default_value="1" min="98" max="100" ctype="int">
+			<description>Значение 1 - анализ наработки вкл, иначе выкл</description>
+			<products>
+				<SES200M cb="BU_50"/>
+				<SES200M cb="BU_400"/>
+				<SES200M cb="BU_SES"/>
+			</products>
+		</setting>
     </presets>
     <!-- Идентификаторы -->
 	<identifiers>
@@ -27134,7 +27001,7 @@
 				<SES150 cb="BU_SES" value="1650"/>
 			</products>
 		</can>
-        <can purpose="XML_VERSION" value="00010003"/>
+        <can purpose="XML_VERSION" value="00010005"/>
 	</identifiers>
 	<!-- Команды по интерфейсу CAN -->
 	<command_codes>

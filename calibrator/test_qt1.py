@@ -516,60 +516,106 @@ import PyQt5.Qt
 #     widget = My_Class()
 #     widget.show()
 #     sys.exit(app.exec_())
-import sys
-from PyQt5.QtWidgets import (QApplication, QWidget,
-                             QVBoxLayout, QProgressBar, QPushButton)
-from PyQt5.QtCore import QBasicTimer
+# import sys
+# from PyQt5.QtWidgets import (QApplication, QWidget,
+#                              QVBoxLayout, QProgressBar, QPushButton)
+# from PyQt5.QtCore import QBasicTimer
+#
+#
+# class Example(QWidget):
+#
+#     def __init__(self):
+#         super().__init__()
+#         self.initUI()
+#
+#     def initUI(self):
+#         self.pbar = QProgressBar(self)
+#         self.pbar.setGeometry(30, 40, 200, 25)
+#
+#         self.btn = QPushButton('Начать', self)
+#         self.btn.move(30, 80)
+#         self.btn.clicked.connect(self.doAction)
+#
+#         self.timer = QBasicTimer()
+#         self.step = 0
+#
+#         layout = QVBoxLayout()
+#         layout.addWidget(self.pbar)
+#         layout.addWidget(self.btn)
+#         self.setLayout(layout)
+#
+#
+#         self.setGeometry(300, 300, 280, 170)
+#         self.setWindowTitle('Прогресс бар')
+#         # self.show()
+#
+#     def timerEvent(self, e):
+#         if self.step >= 100:
+#             self.timer.stop()
+#             self.btn.setText('Закончено')
+#             return
+#
+#         self.step = self.step + 1
+#         self.pbar.setValue(self.step)
+#
+#     def doAction(self):
+#         print('doAction', self.timer.isActive())
+#         if self.timer.isActive():
+#             self.timer.stop()
+#             self.btn.setText('Начать')
+#         else:
+#             self.timer.start(100, self)
+#             self.btn.setText('Стоп')
+#
+#
+# if __name__ == '__main__':
+#     app = QApplication(sys.argv)
+#     ex = Example()
+#     ex.show()
+#     sys.exit(app.exec_())
 
 
-class Example(QWidget):
 
-    def __init__(self):
-        super().__init__()
-        self.initUI()
+# print((bin(~50)))
+# print((bin(-50)))
+# print(bin(50))
+# print(~50)
+def func_tran_neg_hex_to_dec(arg):
+    arg = '0x'+arg
+    arg = int(arg,16)
+    print(type(arg))
+    t = bin(arg)
+    s = str.maketrans('01','10')
+    s1 = t[2:].translate(s)
+    print(s1)
+    s2 = (int(s1,2)+1)*-1
+    # print(s2+1)
+    return str(s2)
+ff = func_tran_neg_hex_to_dec('ffffffe7')
+print('ff',ff)
 
-    def initUI(self):
-        self.pbar = QProgressBar(self)
-        self.pbar.setGeometry(30, 40, 200, 25)
+value = '41b80000'
+import struct
+value = struct.unpack('!I', bytes.fromhex(value))
+print('type',type(value[0]))
+lst_val =[]
+# print(tuple(value[0]))
+lst_val.append(round(value[0],2))
+value = lst_val.copy()
+print(value)
 
-        self.btn = QPushButton('Начать', self)
-        self.btn.move(30, 80)
-        self.btn.clicked.connect(self.doAction)
+a = '0xffffffe7'
+# print(hex(int(a,16)))
+print(type(int(a,16)))
 
-        self.timer = QBasicTimer()
-        self.step = 0
+val = b'00000000'
+value = value.decode('utf-8')
+print('val',value)
 
-        layout = QVBoxLayout()
-        layout.addWidget(self.pbar)
-        layout.addWidget(self.btn)
-        self.setLayout(layout)
-
-
-        self.setGeometry(300, 300, 280, 170)
-        self.setWindowTitle('Прогресс бар')
-        # self.show()
-
-    def timerEvent(self, e):
-        if self.step >= 100:
-            self.timer.stop()
-            self.btn.setText('Закончено')
-            return
-
-        self.step = self.step + 1
-        self.pbar.setValue(self.step)
-
-    def doAction(self):
-        print('doAction', self.timer.isActive())
-        if self.timer.isActive():
-            self.timer.stop()
-            self.btn.setText('Начать')
-        else:
-            self.timer.start(100, self)
-            self.btn.setText('Стоп')
-
-
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    ex = Example()
-    ex.show()
-    sys.exit(app.exec_())
+# a = 0xffffffe7
+# a = bin(a)[2:]
+# print(a)
+# print(a.replace('1','0').replace('0','1'))
+# tmp = '-25'
+# if '-' in tmp:
+#     print('YE')

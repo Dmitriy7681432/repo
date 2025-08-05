@@ -7,8 +7,8 @@ from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtCore import QThread, pyqtSignal, pyqtSlot,QTimer,QObject
 
 class Connect(object):
-    # ser = serial.Serial(port='COM16', baudrate=3000000, timeout=0.01)
-    ser = serial.Serial()
+    ser = serial.Serial(port='COM16', baudrate=3000000, timeout=0.01)
+    # ser = serial.Serial()
 
     # def __init__(self):
     # Поиск устройства
@@ -110,13 +110,21 @@ class Calibrator(QObject,Connect):
         self.file_open = open('read_data.txt', 'wb')
         self.flag =0
     def transformed_in_value_and_address(self, arg, type):
+        lst_val = []
         value = arg[13:21]
         value = value[6:8] + value[4:6] + value[2:4] + value[0:2]
+        print('val',value)
         value = value.decode('utf-8')
         if type == 'int':
             value = struct.unpack('!I', bytes.fromhex(value))
+        elif type =='-int':
+            value = [self.trans_neg_hex_to_dec(value)]
+            print('val1',value)
+            # value = struct.unpack('!I', bytes.fromhex(value))
         else:
-            value = struct.unpack('!I', bytes.fromhex(value))
+            value = struct.unpack('!f', bytes.fromhex(value))
+            lst_val.append(round(value[0],6))
+            value = lst_val.copy()
         address = arg[5:13]
         address = address[6:8] + address[4:6] + address[2:4] + address[0:2]
         address = address.decode('utf-8')
@@ -148,6 +156,16 @@ class Calibrator(QObject,Connect):
             return value[0]
         return value
 
+    def trans_neg_hex_to_dec(self,arg):
+        arg = '0x' + arg
+        arg = int(arg, 16)
+        t = bin(arg)
+        s = str.maketrans('01', '10')
+        s1 = t[2:].translate(s)
+        s2 = (int(s1, 2) + 1) * -1
+        # print(s2+1)
+        return s2
+
     # Считывание global_id параметра с params.xml
     def parse_xml_designation(self, designation):
         doc = etree.parse('params.xml')
@@ -158,6 +176,7 @@ class Calibrator(QObject,Connect):
                 global_id_can_format = self.transformed_in_bytes(global_id, self.partel_id)
         # Пример возвращаемого значения: b't0338002F000000000000\r'
         return global_id_can_format
+
 
     # Считывание уставок, калибровок, фильтров и сохранение их в списки
     def parse_data_xml(self):
@@ -180,8 +199,11 @@ class Calibrator(QObject,Connect):
                 product = products.tag
                 if product == self.product:
                     cb = products.attrib.get('cb')
-                    if cb == self.control_block:
+                    if cb == self.control_block and '-' in default_value:
+                        preset_dict[number] = [designation, '-'+ c_type,dimension,min,default_value,default_value,max]
+                    elif cb == self.control_block:
                         preset_dict[number] = [designation, c_type,dimension,min,default_value,default_value,max]
+
         # Калибровки
         for setting in doc.findall('.//parameter'):
             designation = setting.attrib.get('designation')
@@ -376,9 +398,16 @@ class Calibrator(QObject,Connect):
                     addr += 4
                     printf(msg_bytes)
                     self.ser.write(msg_bytes)
+                    cnt_recept =0
                     # Чтение с can значение и адреса
                     while True:
+                        cnt_recept+=1
                         read_data = self.ser.read(1024)
+                        print(self.data_id,'---',read_data)
+                        if cnt_recept>=10:
+                            printf('er_recept')
+                            self.ser.write(msg_bytes)
+                            cnt_recept =0
                         if self.data_id in read_data:
                             list_read_data = read_data.split(b'\r')
                             for i in list_read_data:
@@ -423,8 +452,8 @@ class Calibrator(QObject,Connect):
                                     # if value_write != value and count < 20: addr -= 4; count -= 1; count1 += 1
 
                                     printf(value)
-                                    self.file_open.write(hex(address).encode('utf-8') + b'\t')
-                                    self.file_open.write(hex(value).encode('utf-8') + b'\n')
+                                    # self.file_open.write(hex(address).encode('utf-8') + b'\t')
+                                    # self.file_open.write(hex(value).encode('utf-8') + b'\n')
 
                                     # self.file_open.write(hex(value_dec).encode('utf-8') + b'\n')
                                     flag = 1
