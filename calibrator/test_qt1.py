@@ -608,10 +608,15 @@ a = '0xffffffe7'
 # print(hex(int(a,16)))
 print(type(int(a,16)))
 
-val = b'00000000'
-value = value.decode('utf-8')
-print('val',value)
+# val = b'00000000'
+# value = value.decode('utf-8')
+# print('val',value)
 
+with open(f'test.bin', 'wb') as f:
+    for i in range(0, 7):
+        f.write(struct.pack('i', -5))
+
+import tkinter
 # a = 0xffffffe7
 # a = bin(a)[2:]
 # print(a)

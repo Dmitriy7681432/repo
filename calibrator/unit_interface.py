@@ -291,7 +291,7 @@ class Unit(MyWidget,QWidget):
         return data_dict
 
     def saveData(self,data_dict,data,name_block):
-        print('WriteData')
+        print('SaveData')
         data_dict_copy = data_dict.copy()
         count =0
         lst_data_dict_keys = list(data_dict_copy[data].keys())

@@ -114,15 +114,16 @@ class ThreadCalibrator(QtCore.QThread):
     finished2 = pyqtSignal(str)
     mysignal = QtCore.pyqtSignal()
 
-    def __init__(self, obj,name_obj):
+    def __init__(self, obj,name_obj,mode):
         super().__init__()
         self.obj = obj
         self.name_obj = name_obj
+        self.mode = mode
 
     def run(self):
         i = 1
         print('Thread start')
-        self.obj.main_data_read('r')
+        self.obj.main_data_read(self.mode)
         # while True:
         # for i in range(0,10):
         #     self.sleep(1)
@@ -527,33 +528,23 @@ class Main(QWidget):
     def readData_bu400(self):
         # printf('readData_bu400',self.buttonUnit1.isChecked())
         if not self.buttonUnit2.isChecked() and not self.buttonUnit3.isChecked():
-            # self.open_second_window()
             self.worker = Worker(self.data_dict_bu400)
             self.worker.run1()
-            self.thread_start(self.data_dict_bu400,"BU_400")
-            # self.data_dict_bu400.rest()
-            # self.th =ThreadCalibrator(self.testing)
-            # self.th =ThreadCalibrator(self.data_dict_bu400)
-            # self.th.start()
-            # self.th.mysignal.connect(self.on_change,QtCore.Qt.QueuedConnection)
-            # th.wait()
-            # self.data_dict_bu400.main_data_read('r')
-            # self.read_data_dict_bu400 = self.data_dict_bu400.data_dict
-            # self.read_data_dict_bu400 = self.data_dict_bu400.test_data_dict('calibr')
-            # self.unit_bu400_preset.readData(self.read_data_dict_bu400,'preset')
-            # self.unit_bu400_calibr.readData(self.read_data_dict_bu400,'calibr')
-            # self.buttonAction2.setEnabled(True)
+            self.thread_start(self.data_dict_bu400,"BU_400",'r')
             self.readData_bu400_flag = 1
 
-    def thread_start(self,obj, name_obj):
+    def thread_start(self,obj, name_obj,mode):
         # self.th =ThreadCalibrator(self.testing)
-        self.th =ThreadCalibrator(obj,name_obj)
+        self.th =ThreadCalibrator(obj,name_obj,mode)
         self.th.start()
         # self.th.mysignal.connect(self.on_change,QtCore.Qt.QueuedConnection)
-        self.th.finished2.connect(self.next_main_thread)
+        if mode =='r':
+            self.th.finished2.connect(self.next_main_thread_read)
+        else:
+            self.th.finished2.connect(self.next_main_thread_write)
 
-    def next_main_thread(self,name_obj):
-        print('next main thread',name_obj)
+    def next_main_thread_read(self,name_obj):
+        print('next main thread read',name_obj)
         if name_obj =='BU_400':
             self.read_data_dict_bu400 = self.data_dict_bu400.data_dict
             self.unit_bu400_preset.readData(self.read_data_dict_bu400,'preset')
@@ -572,6 +563,22 @@ class Main(QWidget):
         self.buttonAction2.setEnabled(True)
         self.worker.time_stop()
 
+    def next_main_thread_write(self,name_obj):
+        print('next main thread write',name_obj)
+        if name_obj =='BU_400':
+            self.unit_bu400_preset.writeData(self.read_data_dict_bu400,'preset')
+            data_dict = self.unit_bu400_calibr.writeData(self.read_data_dict_bu400,'calibr')
+            self.data_dict_bu400.update_data_dict(data_dict)
+        if name_obj =='BU_50':
+            self.unit_bu50_preset.writeData(self.read_data_dict_bu50,'preset')
+            data_dict = self.unit_bu50_calibr.writeData(self.read_data_dict_bu50,'calibr')
+            self.data_dict_bu50.update_data_dict(data_dict)
+        if name_obj =='BU_SES':
+            self.unit_buses_preset.writeData(self.read_data_dict_buses,'preset')
+            data_dict = self.unit_buses_calibr.writeData(self.read_data_dict_buses,'calibr')
+            self.data_dict_buses.update_data_dict(data_dict)
+        self.buttonAction2.setEnabled(True)
+        self.worker.time_stop()
     def on_change(self,s):
         self.unit_bu400_preset.readData(self.read_data_dict_bu400,'preset')
         self.unit_bu400_calibr.readData(self.read_data_dict_bu400,'calibr')
@@ -581,14 +588,7 @@ class Main(QWidget):
         if self.buttonUnit2.isChecked():
             self.worker = Worker(self.data_dict_bu50)
             self.worker.run1()
-            self.thread_start(self.data_dict_bu50,"BU_50")
-            # self.read_data_dict_bu50 = self.data_dict_bu50.test_data_dict('preset')
-            # self.read_data_dict_bu50 = self.data_dict_bu50.test_data_dict('calibr')
-            # self.data_dict_bu50.main_data_read('r')
-            # self.read_data_dict_bu50 = self.data_dict_bu50.data_dict
-            # self.unit_bu50_preset.readData(self.read_data_dict_bu50,'preset')
-            # self.unit_bu50_calibr.readData(self.read_data_dict_bu50,'calibr')
-            # self.buttonAction2.setEnabled(True)
+            self.thread_start(self.data_dict_bu50,"BU_50",'r')
             self.readData_bu50_flag = 1
 
     def readData_buses(self):
@@ -596,33 +596,35 @@ class Main(QWidget):
         if self.buttonUnit3.isChecked():
             self.worker = Worker(self.data_dict_buses)
             self.worker.run1()
-            self.thread_start(self.data_dict_buses,"BU_SES")
-            # self.read_data_dict_buses = self.data_dict_buses.test_data_dict('preset')
-            # self.read_data_dict_buses = self.data_dict_buses.test_data_dict('calibr')
-            # self.data_dict_buses.main_data_read('r')
-            # self.read_data_dict_buses = self.data_dict_buses.data_dict
-            # self.unit_buses_preset.readData(self.read_data_dict_buses,'preset')
-            # self.unit_buses_calibr.readData(self.read_data_dict_buses,'calibr')
-            # self.buttonAction2.setEnabled(True)
+            self.thread_start(self.data_dict_buses,"BU_SES",'r')
             self.readData_buses_flag = 1
 
     def writeData_bu400(self):
         if not self.buttonUnit2.isChecked() and not self.buttonUnit3.isChecked():
-            self.unit_bu400_preset.writeData(self.read_data_dict_bu400,'preset')
-            data_dict = self.unit_bu400_calibr.writeData(self.read_data_dict_bu400,'calibr')
-            self.data_dict_bu400.update_data_dict(data_dict)
+            # self.unit_bu400_preset.writeData(self.read_data_dict_bu400,'preset')
+            # data_dict = self.unit_bu400_calibr.writeData(self.read_data_dict_bu400,'calibr')
+            # self.data_dict_bu400.update_data_dict(data_dict)
+            self.worker = Worker(self.data_dict_bu400)
+            self.worker.run1()
+            self.thread_start(self.data_dict_bu400,"BU_400",'w')
 
     def writeData_bu50(self):
         if self.buttonUnit2.isChecked():
-            self.unit_bu50_preset.writeData(self.read_data_dict_bu50,'preset')
-            data_dict = self.unit_bu50_calibr.writeData(self.read_data_dict_bu50,'calibr')
-            self.data_dict_bu50.update_data_dict(data_dict)
+            # self.unit_bu50_preset.writeData(self.read_data_dict_bu50,'preset')
+            # data_dict = self.unit_bu50_calibr.writeData(self.read_data_dict_bu50,'calibr')
+            # self.data_dict_bu50.update_data_dict(data_dict)
+            self.worker = Worker(self.data_dict_bu50)
+            self.worker.run1()
+            self.thread_start(self.data_dict_bu50,"BU_50",'w')
 
     def writeData_buses(self):
         if self.buttonUnit3.isChecked():
-            self.unit_buses_preset.writeData(self.read_data_dict_buses,'preset')
-            data_dict = self.unit_buses_calibr.writeData(self.read_data_dict_buses,'calibr')
-            self.data_dict_buses.update_data_dict(data_dict)
+            # self.unit_buses_preset.writeData(self.read_data_dict_buses,'preset')
+            # data_dict = self.unit_buses_calibr.writeData(self.read_data_dict_buses,'calibr')
+            # self.data_dict_buses.update_data_dict(data_dict)
+            self.worker = Worker(self.data_dict_buses)
+            self.worker.run1()
+            self.thread_start(self.data_dict_buses,"BU_SES",'w')
 
     def saveData_bu400(self):
         if not self.buttonUnit2.isChecked() and not self.buttonUnit3.isChecked():
