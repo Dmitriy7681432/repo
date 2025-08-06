@@ -585,7 +585,7 @@ def func_tran_neg_hex_to_dec(arg):
     arg = int(arg,16)
     print(type(arg))
     t = bin(arg)
-    s = str.maketrans('01','10')
+    s = str.maketrans('10','10')
     s1 = t[2:].translate(s)
     print(s1)
     s2 = (int(s1,2)+1)*-1
@@ -633,21 +633,55 @@ import tkinter
 # if '-' in tmp:
 #     print('YE')
 arg1 = 'A5A55A5A'
-arg3 = '07C07598'
+# arg3 = '07C07598'
+arg3 = '11'
 
 # arg2 = int(arg1, 16)
-arg2 = func_tran_neg_hex_to_dec(arg1)
+arg2 = func_tran_neg_hex_to_dec(arg3)
 arg2=(arg2+1)*-1
 
-print(hex(arg2))
+print('arg2',hex(arg2),type(arg2))
 import binascii
 tmp1 = 'A'
 # tmp1 = hex(tmp1).encode('utf-8')
 tmp1 = tmp1.encode('utf-8').hex()
-print(tmp1)
-tmp2 = binascii.unhexlify(arg3)
+print('tmp1',tmp1)
+tmp2 = binascii.unhexlify(arg1)
 tmp2 = int.from_bytes(tmp2,'big',signed=True)
-print(tmp2)
+print('tmp2',tmp2,type(tmp2),hex(tmp2))
 tmp3 = -1515890086
 tmp3 = bytearray(tmp3.to_bytes(length=4, byteorder="big",signed=True))
-print(tmp3)
+print('tmp3',tmp3)
+
+
+
+per = bytearray(b'ZZ\xa5\xa5')
+per = int.from_bytes(per,'little',signed=False)
+per = hex(per)[2:].upper()
+per = per[6:8] + per[4:6] + per[2:4] + per[0:2]
+per = per.encode('utf-8') + b'0000'
+print(per)
+
+
+c = '100'
+# per1 = hex(per1)
+# per1 = int.from_bytes(per1, 'little', signed=False)
+# per1 = int.to_bytes(per1,'little',signed=False)
+c = int(c)
+c = hex(c)[2:].upper()
+if len(c) == 1:
+    c = '0' + c + "000000"
+elif len(c) == 2:
+    c = c + "000000"
+elif len(c) == 4:
+    c = c[len(c) - 2:] + "  " + \
+        c[len(c) - 4:len(c) - 2] + "0000"
+elif len(c) == 6:
+    c = c[len(c) - 2:] + "  " + \
+        c[len(c) - 4:len(c) - 2] + "  " + c[len(c) - 6:len(c) - 4] + "00"
+elif len(c) == 8:
+    c = c[len(c) - 2:] + "  " + \
+        c[len(c) - 4:len(c) - 2] + "  " + c[len(c) - 6:len(c) - 4] + "  " + c[len(c) - 8:len(c) - 6]
+print(c)
+c = c.encode('utf-8') + b'0000'
+print(c)

@@ -2,7 +2,7 @@
 import serial, time, binascii, struct
 import serial.tools.list_ports
 from lxml import etree
-from debug import printf
+# from debug import printf
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtCore import QThread, pyqtSignal, pyqtSlot,QTimer,QObject
 
@@ -14,14 +14,14 @@ class Connect(object):
     # Поиск устройства
     # ports = serial.tools.list_ports.comports()
     # for port in ports:
-    #     printf(port.device)
+    #     print(port.device)
     #     port = port.device
     # self.ser = serial.Serial(port =port,baudrate=3000000,timeout=0.1)
     # self.ser = serial.Serial(port='COM88', baudrate=3000000, timeout=0.1)
 
     # Выбор режима com_port
     def can_open_O(self, arg):
-        printf('can_open_O')
+        print('can_open_O')
         arg.timeot = 0.01
         msg = b"C\r"
         arg.write(msg)
@@ -31,7 +31,7 @@ class Connect(object):
         arg.write(msg)
 
     def can_open_L(self, arg):
-        printf('can_open_L')
+        print('can_open_L')
         arg.timeot = 0.01
         msg = b"C\r"
         arg.write(msg)
@@ -42,7 +42,7 @@ class Connect(object):
 
     # Закрытие com_port
     def can_close(self, arg):
-        printf('can_close')
+        print('can_close')
         msg = b"C\r"
         arg.write(msg)
         # После закрытия необходимо заново инициалировать serial
@@ -113,21 +113,21 @@ class Calibrator(QObject,Connect):
         lst_val = []
         value = arg[13:21]
         value = value[6:8] + value[4:6] + value[2:4] + value[0:2]
-        printf('val',value)
+        print('val',value)
         value = value.decode('utf-8')
         if type == 'int' and func =='header':
-            printf(value)
+            print(value)
             value = binascii.unhexlify(value)
-            printf(value)
+            print(value)
             value = int.from_bytes(value, 'big', signed=True)
-            printf(value)
+            print(value)
             # value = struct.unpack('!I', bytes.fromhex(value))
             value = [bytearray(value.to_bytes(length=4, byteorder="little",signed=True))]
         elif type =='int':
             value = struct.unpack('!I', bytes.fromhex(value))
         elif type =='-int':
             value = [self.trans_neg_hex_to_dec(value)]
-            printf('val1',value)
+            print('val1',value)
             # value = struct.unpack('!I', bytes.fromhex(value))
         else:
             value = struct.unpack('!f', bytes.fromhex(value))
@@ -139,46 +139,17 @@ class Calibrator(QObject,Connect):
         address = struct.unpack('!I', bytes.fromhex(address))
         return value[0], address[0]
 
-    def func_val_to_hex_can(self,c):
-        c = int(c)
-        c = hex(c)[2:].upper()
-        if len(c) == 1:
-            c = '0' + c + "000000"
-        elif len(c) == 2:
-            c = c + "000000"
-        elif len(c) == 4:
-            c = c[len(c) - 2:] + "  " + \
-                c[len(c) - 4:len(c) - 2] + "0000"
-        elif len(c) == 6:
-            c = c[len(c) - 2:] + "  " + \
-                c[len(c) - 4:len(c) - 2] + "  " + c[len(c) - 6:len(c) - 4] + "00"
-        elif len(c) == 8:
-            c = c[len(c) - 2:] + "  " + \
-                c[len(c) - 4:len(c) - 2] + "  " + c[len(c) - 6:len(c) - 4] + "  " + c[len(c) - 8:len(c) - 6]
-
     # Преобразование целочисленного значения в байтовый тип формата can
-    def transformed_in_bytes(self, arg, id, val=b'000000000000',header =False):
+    def transformed_in_bytes(self, arg, id, val=b'000000000000'):
         # read_id = b't' + hex(self.read_id).upper().encode('utf-8')[2:] + b'8'
         if val != b'000000000000':
-            if header:
-                val = int.from_bytes(val, 'little', signed=False)
-                printf(val,type(val))
-                val = hex(val)[2:].upper()
-                printf(val)
-                val = val[6:8] + val[4:6] + val[2:4] + val[0:2]
-                printf(val)
-            else:
-                val = self.func_val_to_hex_can(val)
+            val = hex(val)[2:].upper()
+            val = val[6:8] + val[4:6] + val[2:4] + val[0:2]
             val = val.encode('utf-8') + b'0000'
-            printf(val)
 
-        printf(arg)
         arg = hex(arg)[2:].upper()
-        printf(arg)
         arg = arg[6:8] + arg[4:6] + arg[2:4] + arg[0:2]
-        printf(arg)
         arg = arg.encode('utf-8')
-        printf(arg)
         arg = id + arg + val + b'\r'
         return arg
 
@@ -188,7 +159,7 @@ class Calibrator(QObject,Connect):
             value = struct.unpack('!f', bytes.fromhex(str(value)))
             return value[0]
         elif type == 'int':
-            printf(value)
+            print(value)
             value = struct.unpack('!f', bytes.fromhex(str(value)))
             return value[0]
         return value
@@ -200,7 +171,7 @@ class Calibrator(QObject,Connect):
         s = str.maketrans('01', '10')
         s1 = t[2:].translate(s)
         s2 = (int(s1, 2) + 1) * -1
-        # printf(s2+1)
+        # print(s2+1)
         return s2
 
     # Считывание global_id параметра с params.xml
@@ -284,7 +255,7 @@ class Calibrator(QObject,Connect):
         self.data_dict['calibr'] = calibr_dict
         self.data_dict['filter'] = filter_dict
         self.param_dict[self.control_block] = params_dict
-        # printff(self.param_dict)
+        # printf(self.param_dict)
         self.pars_eskd()
         return self.data_dict
 
@@ -298,7 +269,7 @@ class Calibrator(QObject,Connect):
                     if units ==i:
                         self.param_dict[self.control_block][eskd.text] = self.param_dict[self.control_block].pop(i)
                         break
-        #printff(self.param_dict)
+        #printf(self.param_dict)
 
             # if product==self.product and units==unit:
             #     return eskd.text
@@ -307,19 +278,19 @@ class Calibrator(QObject,Connect):
     def _begin_data_read(self, data_can_dict_value):
         while True:
             read_data = self.ser.read(1024)
-            printf(data_can_dict_value)
-            # printff(read_data)
+            print(data_can_dict_value)
+            # printf(read_data)
             if data_can_dict_value[:13] in read_data:
                 list_read_data = read_data.split(b'\r')
-                printf(list_read_data)
+                print(list_read_data)
                 for i in list_read_data:
                     if data_can_dict_value[:13] in i and len(i) > 21:
-                        printf(read_data)
+                        print(read_data)
                         read_data = i
-                        printf(read_data)
+                        print(read_data)
                         value, address = self.transformed_in_value_and_address(read_data, 'int')
-                        printf(data_can_dict_value[:13])
-                        printf(value)
+                        print(data_can_dict_value[:13])
+                        print(value)
                         return value
 
     def _header_data_read(self, data_can_dict_value, data_can, mode):
@@ -332,23 +303,21 @@ class Calibrator(QObject,Connect):
         # addr = 0
         while True:
             if mode == "w":
-                printf(addr,self.write_id,self.header_data_dict[data_can][count])
-                msg_bytes = self.transformed_in_bytes(addr, self.write_id, self.header_data_dict[data_can][count],header=True)
-                printf()
+                msg_bytes = self.transformed_in_bytes(addr, self.write_id, self.header_data_dict[data_can][count])
                 id = self.confirmation_id
             else:
                 msg_bytes = self.transformed_in_bytes(addr, self.read_id)
                 id = self.data_id
             addr += 4
             count += 1
-            printf(msg_bytes)
+            print(msg_bytes)
             self.ser.write(msg_bytes)
             cnt_recept=0
             while True:
                 cnt_recept+=1
                 read_data = self.ser.read(1024)
                 if cnt_recept >= 10:
-                    printf('er_recept_head')
+                    print('er_recept_head')
                     self.ser.write(msg_bytes)
                     cnt_recept = 0
                 if id in read_data:
@@ -356,10 +325,10 @@ class Calibrator(QObject,Connect):
                     for i in list_read_data:
                         if i[:4] == id in i and len(i) > 21:
                             read_data = i
-                            printf(read_data)
+                            print(read_data)
                             value, address = self.transformed_in_value_and_address(read_data, 'int','header')
-                            printf(value)
-                            printf(address)
+                            print(value)
+                            print(address)
 
                             if mode == 'w':
                                 value_write, address_write = self.transformed_in_value_and_address(read_data, 'int')
@@ -377,19 +346,19 @@ class Calibrator(QObject,Connect):
             if count == 7: count = 0; count1 = 0; break
         return addr
     def rest(self):
-        printf('func rest')
+        print('func rest')
         # while True:
         for i in range(1,10):
             time.sleep(1)
             self.cal_signal.emit(i)
-            printf('rest')
+            print('rest')
     def main_data_read(self, mode):
-        printf('main_data_read',mode)
+        print('main_data_read',mode)
         # Открытие порта
         self.can_open_O(self.ser)
         proc_elem = round((
             (len(self.data_dict['preset']) + len(self.data_dict['calibr']) + len(self.data_dict['filter'])) / 100)+0.5)
-        printf(len(self.data_dict['preset']) + len(self.data_dict['calibr']) + len(self.data_dict['filter']))
+        print(len(self.data_dict['preset']) + len(self.data_dict['calibr']) + len(self.data_dict['filter']))
         count_elem = 0
         step = 0
 
@@ -402,7 +371,7 @@ class Calibrator(QObject,Connect):
 
         for data_can in self.data_can_dict:
             count = 0
-            # printff(self.data_can_dict[data_can])
+            # printf(self.data_can_dict[data_can])
             if mode == 'w':
                 addr = self._header_data_read(self.data_can_dict[data_can], data_can, 'w')
             else:
@@ -410,7 +379,7 @@ class Calibrator(QObject,Connect):
 
             # Парсер главного словаря с данным
             for data_main in self.data_dict[data_can].items():
-                printf(data_main)
+                print(data_main)
                 count_elem +=1
                 if count_elem == proc_elem:
                     step +=1
@@ -424,7 +393,7 @@ class Calibrator(QObject,Connect):
                     if data_can == 'preset':
                         if count > 4: count = 0; break
                         if mode == 'w':
-                            printf(self.data_dict[data_can][data_main[0]][count+1])
+                            print(self.data_dict[data_can][data_main[0]][count+1])
                             msg_bytes = self.transformed_in_bytes(addr, self.write_id, self.data_dict[data_can] \
                                 [data_main[0]][count + 1])
                     elif data_can == 'filter':
@@ -438,20 +407,20 @@ class Calibrator(QObject,Connect):
                             msg_bytes = self.transformed_in_bytes(addr, self.write_id, self.data_dict[data_can] \
                                 [data_main[0]][count])
 
-                    # printff(number)
+                    # printf(number)
                     if mode == 'r':
                         msg_bytes = self.transformed_in_bytes(addr, self.read_id)
                     addr += 4
-                    printf(msg_bytes)
+                    print(msg_bytes)
                     self.ser.write(msg_bytes)
                     cnt_recept =0
                     # Чтение с can значение и адреса
                     while True:
                         cnt_recept+=1
                         read_data = self.ser.read(1024)
-                        printf(self.data_id,'---',read_data)
+                        print(self.data_id,'---',read_data)
                         if cnt_recept>=10:
-                            printf('er_recept')
+                            print('er_recept')
                             self.ser.write(msg_bytes)
                             cnt_recept =0
                         if self.data_id in read_data:
@@ -459,7 +428,7 @@ class Calibrator(QObject,Connect):
                             for i in list_read_data:
                                 if i[:4] == self.data_id and len(i) > 21:
                                     read_data = i
-                                    printf(read_data)
+                                    print(read_data)
 
                                     # Конвертируем значения hex в dec
                                     if data_can == 'preset':
@@ -497,7 +466,7 @@ class Calibrator(QObject,Connect):
                                     # повторяем отправку
                                     # if value_write != value and count < 20: addr -= 4; count -= 1; count1 += 1
 
-                                    printf(value)
+                                    print(value)
                                     # self.file_open.write(hex(address).encode('utf-8') + b'\t')
                                     # self.file_open.write(hex(value).encode('utf-8') + b'\n')
 
@@ -507,8 +476,8 @@ class Calibrator(QObject,Connect):
                             if flag == 1: flag = 0; break
         # self.file_open.close()
         self.can_close(self.ser)
-        printf(self.data_dict)
-        printf(self.header_data_dict)
+        print(self.data_dict)
+        print(self.header_data_dict)
         return 'End main_data_read'
 
     def param_read(self,global_id):
@@ -517,10 +486,10 @@ class Calibrator(QObject,Connect):
 
 
     def test_data_dict(self,data):
-        printf(self.data_dict)
+        print(self.data_dict)
         count =0
         if self.flag <2:
-            printf('FLAG')
+            print('FLAG')
             for i in self.data_dict[data].items():
                 count+=1
                 if data =='preset':
@@ -543,4 +512,4 @@ class Calibrator(QObject,Connect):
 # cal1 = Calibrator(ser.ser, 'SES200M', 'BU_50')
 # cal1.main_data_read('r')
 # cal1.main_data_read('w')
-# printff(cal1.data_dict)
+# printf(cal1.data_dict)
