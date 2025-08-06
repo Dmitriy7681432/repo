@@ -290,15 +290,16 @@ class Unit(MyWidget,QWidget):
         # printf(data_dict[data].items())
         return data_dict
 
-    def saveData(self,data_dict,data,name_block):
+    def saveData(self,obj_cal,data,name_block):
         print('SaveData')
-        data_dict_copy = data_dict.copy()
+        data_dict_copy = obj_cal.data_dict.copy()
         count =0
         lst_data_dict_keys = list(data_dict_copy[data].keys())
         printf(lst_data_dict_keys)
         with open(f'{data}_{name_block}.bin','wb') as f:
-            for i in range(0,7):
-                f.write(struct.pack('f', 5.0))
+            for i in obj_cal.header_data_dict[data]:
+                print('i',i)
+                f.write(i)
 
             for i in range(0,self.data_tab.count()):
                 for j in range(0, self.lst_model[i].rowCount()):
@@ -308,6 +309,7 @@ class Unit(MyWidget,QWidget):
                     printf(dt_dict,item.text())
                     if data =='preset':
                         if data_dict_copy[data].get(lst_data_dict_keys[count])[1] =='float':
+                            printf(dt_dict[3], dt_dict[4], dt_item, dt_dict[6])
                             f.write(struct.pack('f', float(dt_dict[3])))
                             f.write(struct.pack('f', float(dt_dict[4])))
                             f.write(struct.pack('f', float(item.text())))
@@ -316,8 +318,10 @@ class Unit(MyWidget,QWidget):
                             if data_dict_copy[data].get(lst_data_dict_keys[count])[2] == 'с':
                                 dt_dict[3] = str(int(float(dt_dict[3]) * 1000))
                                 dt_dict[4] = str(int(float(dt_dict[4]) * 1000))
-                                dt_item    = str(int(float(item.text())* 1000))
+                                # dt_item    = str(int(float(item.text())* 1000))
+                                dt_item    = str(int(float(item.text())))
                                 dt_dict[6] = str(int(float(dt_dict[6]) * 1000))
+                                printf(dt_dict[3],dt_dict[4],dt_item,dt_dict[6])
                                 f.write(struct.pack('i', int(dt_dict[3])))
                                 f.write(struct.pack('i', int(dt_dict[4])))
                                 f.write(struct.pack('i', int(dt_item)))

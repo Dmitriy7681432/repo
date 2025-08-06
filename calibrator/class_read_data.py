@@ -7,8 +7,8 @@ from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtCore import QThread, pyqtSignal, pyqtSlot,QTimer,QObject
 
 class Connect(object):
-    # ser = serial.Serial(port='COM16', baudrate=3000000, timeout=0.01)
-    ser = serial.Serial()
+    ser = serial.Serial(port='COM16', baudrate=3000000, timeout=0.01)
+    # ser = serial.Serial()
 
     # def __init__(self):
     # Поиск устройства
@@ -109,13 +109,21 @@ class Calibrator(QObject,Connect):
 
         self.file_open = open('read_data.txt', 'wb')
         self.flag =0
-    def transformed_in_value_and_address(self, arg, type):
+    def transformed_in_value_and_address(self, arg, type,func=None):
         lst_val = []
         value = arg[13:21]
         value = value[6:8] + value[4:6] + value[2:4] + value[0:2]
         print('val',value)
         value = value.decode('utf-8')
-        if type == 'int':
+        if type == 'int' and func =='header':
+            print(value)
+            value = binascii.unhexlify(value)
+            print(value)
+            value = int.from_bytes(value, 'big', signed=True)
+            print(value)
+            # value = struct.unpack('!I', bytes.fromhex(value))
+            value = [bytearray(value.to_bytes(length=4, byteorder="little",signed=True))]
+        elif type =='int':
             value = struct.unpack('!I', bytes.fromhex(value))
         elif type =='-int':
             value = [self.trans_neg_hex_to_dec(value)]
@@ -199,7 +207,7 @@ class Calibrator(QObject,Connect):
                 product = products.tag
                 if product == self.product:
                     cb = products.attrib.get('cb')
-                    if cb == self.control_block and '-' in default_value:
+                    if cb == self.control_block and '-' in default_value and c_type =='int':
                         preset_dict[number] = [designation, '-'+ c_type,dimension,min,default_value,default_value,max]
                     elif cb == self.control_block:
                         preset_dict[number] = [designation, c_type,dimension,min,default_value,default_value,max]
@@ -304,15 +312,21 @@ class Calibrator(QObject,Connect):
             count += 1
             printf(msg_bytes)
             self.ser.write(msg_bytes)
+            cnt_recept=0
             while True:
+                cnt_recept+=1
                 read_data = self.ser.read(1024)
+                if cnt_recept >= 10:
+                    printf('er_recept_head')
+                    self.ser.write(msg_bytes)
+                    cnt_recept = 0
                 if id in read_data:
                     list_read_data = read_data.split(b'\r')
                     for i in list_read_data:
                         if i[:4] == id in i and len(i) > 21:
                             read_data = i
                             printf(read_data)
-                            value, address = self.transformed_in_value_and_address(read_data, 'int')
+                            value, address = self.transformed_in_value_and_address(read_data, 'int','header')
                             printf(value)
                             printf(address)
 
@@ -324,7 +338,8 @@ class Calibrator(QObject,Connect):
                             else:
                                 self.header_data_dict[data_can].append(value)
                                 self.file_open.write(hex(address).encode('utf-8') + b'\t')
-                                self.file_open.write(hex(value).encode('utf-8') + b'\n')
+                                # self.file_open.write(hex(value).encode('utf-8') + b'\n')
+                                self.file_open.write(value)
                             flag = 1
                             break
                     if flag == 1: flag = 0;break
@@ -488,6 +503,7 @@ class Calibrator(QObject,Connect):
         # self.flag +=1
         return self.data_dict
     def update_data_dict(self,data_dict):
+        self.data_dict = data_dict
         self.data_dict = data_dict
 
 

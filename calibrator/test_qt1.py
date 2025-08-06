@@ -590,7 +590,7 @@ def func_tran_neg_hex_to_dec(arg):
     print(s1)
     s2 = (int(s1,2)+1)*-1
     # print(s2+1)
-    return str(s2)
+    return s2
 ff = func_tran_neg_hex_to_dec('ffffffe7')
 print('ff',ff)
 
@@ -611,10 +611,18 @@ print(type(int(a,16)))
 # val = b'00000000'
 # value = value.decode('utf-8')
 # print('val',value)
-
 with open(f'test.bin', 'wb') as f:
     for i in range(0, 7):
-        f.write(struct.pack('i', -5))
+        # val_h = struct.pack('I',0xa5a55a5a)
+        value = -1515890086
+        out_byte_array = [bytearray(value.to_bytes(length=4, byteorder="little",signed=True))]
+        print(out_byte_array)
+        f.write(out_byte_array[0])
+
+out_byte_array = bytearray(0xA5A55A5A.to_bytes(length=4, byteorder="little"))
+print(out_byte_array)
+temp = {'preset': [2779077210, 2126990577, 352789792, 1586708, 4077122392, 0, 120], 'calibr': [2779077210, 1140334099, 352789792, 2307604, 4077122392, 0, 50], 'filter': [2779077210, 2381915854, 352789792, 2438676, 4077122392, 0, 48]}
+
 
 import tkinter
 # a = 0xffffffe7
@@ -624,3 +632,22 @@ import tkinter
 # tmp = '-25'
 # if '-' in tmp:
 #     print('YE')
+arg1 = 'A5A55A5A'
+arg3 = '07C07598'
+
+# arg2 = int(arg1, 16)
+arg2 = func_tran_neg_hex_to_dec(arg1)
+arg2=(arg2+1)*-1
+
+print(hex(arg2))
+import binascii
+tmp1 = 'A'
+# tmp1 = hex(tmp1).encode('utf-8')
+tmp1 = tmp1.encode('utf-8').hex()
+print(tmp1)
+tmp2 = binascii.unhexlify(arg3)
+tmp2 = int.from_bytes(tmp2,'big',signed=True)
+print(tmp2)
+tmp3 = -1515890086
+tmp3 = bytearray(tmp3.to_bytes(length=4, byteorder="big",signed=True))
+print(tmp3)
