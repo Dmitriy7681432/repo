@@ -691,3 +691,11 @@ lst_data_dict_keys = list(lst_main['preset'].keys())
 print(lst_data_dict_keys)
 dt_dict = lst_main['preset'].get(lst_data_dict_keys[0])
 print(dt_dict)
+
+head = {'preset': [bytearray(b'ZZ\xa5\xa5'), bytearray(b'\x13VOa'), bytearray(b' %\x06\x10'), bytearray(b'\x14Q$\x00'), bytearray(b'X\xf3\x03\xf3'), bytearray(b'\x00\x00\x00\x00'), bytearray(b'\x05\x01\x00\x00')], 'calibr': [bytearray(b'ZZ\xa5\xa5'), bytearray(b'\x0c\x18\xbd\xc4'), bytearray(b' %\x06\x10'), bytearray(b'\x14Q)\x00'), bytearray(b'X\xf3\x03\xf3'), bytearray(b'\x00\x00\x00\x00'), bytearray(b'~\x00\x00\x00')], 'filter': [bytearray(b'ZZ\xa5\xa5'), bytearray(b'R\xc2S~'), bytearray(b' %\x06\x10'), bytearray(b'\x14Q1\x00'), bytearray(b'\x14Q1\x00'), bytearray(b'\x00\x00\x00\x00'), bytearray(b'l\x00\x00\x00')]}
+
+print(head['preset'][0:])
+bb = b't65487C00D4BF581B00001025'
+bb2 = b'7C00D4BF'
+if bb2 in bb:
+    print(bb[5:13])

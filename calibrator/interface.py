@@ -408,6 +408,10 @@ class Main(QWidget):
         self.readData_bu50_flag = 0
         self.readData_buses_flag = 0
 
+        self.count_read_bu400 =-4
+        self.count_read_bu50 =-4
+        self.count_read_buses =-4
+
         self.centralwidget.setLayout(self.vbox)
         # self.centralwidget.setLayout(self.actionLayout)
 
@@ -545,22 +549,23 @@ class Main(QWidget):
     def next_main_thread_read(self,name_obj):
         printf('next main thread read',name_obj)
         if name_obj =='BU_400':
+            self.count_read_bu400 += 4
             self.obj_cal_bu400 = self.data_dict_bu400
             self.read_data_dict_bu400 = self.data_dict_bu400.data_dict
-            self.unit_bu400_preset.readData(self.read_data_dict_bu400,'preset')
-            self.unit_bu400_calibr.readData(self.read_data_dict_bu400,'calibr')
-            # pass
+            self.unit_bu400_preset.readData(self.read_data_dict_bu400,'preset',self.count_read_bu400)
+            self.unit_bu400_calibr.readData(self.read_data_dict_bu400,'calibr',self.count_read_bu400)
         if name_obj =='BU_50':
+            self.count_read_bu50 += 4
             self.obj_cal_bu50 = self.data_dict_bu50
             self.read_data_dict_bu50 = self.data_dict_bu50.data_dict
-            self.unit_bu50_preset.readData(self.read_data_dict_bu50,'preset')
-            self.unit_bu50_calibr.readData(self.read_data_dict_bu50,'calibr')
-            # pass
+            self.unit_bu50_preset.readData(self.read_data_dict_bu50,'preset',self.count_read_bu50)
+            self.unit_bu50_calibr.readData(self.read_data_dict_bu50,'calibr',self.count_read_bu50)
         if name_obj =='BU_SES':
+            self.count_read_buses += 4
             self.obj_cal_buses = self.data_dict_buses
             self.read_data_dict_buses = self.data_dict_buses.data_dict
-            self.unit_buses_preset.readData(self.read_data_dict_buses,'preset')
-            self.unit_buses_calibr.readData(self.read_data_dict_buses,'calibr')
+            self.unit_buses_preset.readData(self.read_data_dict_buses,'preset',self.count_read_buses)
+            self.unit_buses_calibr.readData(self.read_data_dict_buses,'calibr',self.count_read_buses)
             # pass
         self.buttonAction2.setEnabled(True)
         self.worker.time_stop()
@@ -581,9 +586,9 @@ class Main(QWidget):
             self.data_dict_buses.update_data_dict(data_dict)
         self.buttonAction2.setEnabled(True)
         self.worker.time_stop()
-    def on_change(self,s):
-        self.unit_bu400_preset.readData(self.read_data_dict_bu400,'preset')
-        self.unit_bu400_calibr.readData(self.read_data_dict_bu400,'calibr')
+    # def on_change(self,s):
+    #     self.unit_bu400_preset.readData(self.read_data_dict_bu400,'preset')
+    #     self.unit_bu400_calibr.readData(self.read_data_dict_bu400,'calibr')
 
     def readData_bu50(self):
         # printff('readData_bu50',self.buttonUnit2.isChecked())

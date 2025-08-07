@@ -351,10 +351,10 @@ class Calibrator(QObject,Connect):
                     printf('er_recept_head')
                     self.ser.write(msg_bytes)
                     cnt_recept = 0
-                if id in read_data:
+                if id in read_data and msg_bytes[5:13] in read_data:
                     list_read_data = read_data.split(b'\r')
                     for i in list_read_data:
-                        if i[:4] == id in i and len(i) > 21:
+                        if i[:4] == id in i and len(i) > 21 and msg_bytes[5:13] in i:
                             read_data = i
                             printf(read_data)
                             value, address = self.transformed_in_value_and_address(read_data, 'int','header')
@@ -407,6 +407,7 @@ class Calibrator(QObject,Connect):
                 addr = self._header_data_read(self.data_can_dict[data_can], data_can, 'w')
             else:
                 addr = self._header_data_read(self.data_can_dict[data_can], data_can, 'r')
+                printf(addr)
 
             # Парсер главного словаря с данным
             for data_main in self.data_dict[data_can].items():
@@ -454,10 +455,10 @@ class Calibrator(QObject,Connect):
                             printf('er_recept')
                             self.ser.write(msg_bytes)
                             cnt_recept =0
-                        if self.data_id in read_data:
+                        if self.data_id in read_data and msg_bytes[5:13] in read_data:
                             list_read_data = read_data.split(b'\r')
                             for i in list_read_data:
-                                if i[:4] == self.data_id and len(i) > 21:
+                                if i[:4] == self.data_id and len(i) > 21 and msg_bytes[5:13] in i:
                                     read_data = i
                                     printf(read_data)
 
