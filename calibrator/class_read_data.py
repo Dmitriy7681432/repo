@@ -5,17 +5,32 @@ from lxml import etree
 from debug import printf
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtCore import QThread, pyqtSignal, pyqtSlot,QTimer,QObject
+import serial.tools.list_ports
 
 class Connect(object):
-    ser = serial.Serial(port='COM16', baudrate=3000000, timeout=0.01)
     # ser = serial.Serial()
+    ports = serial.tools.list_ports.comports()
+    #     ports = serial.tools.list_ports.ListPortInfo
+    printf(ports)
+    port_dev = 0
+    for port in ports:
+        # port = port.hwid
+        # printf(port.hwid,port.name,port.vid,port.pid,port.serial_number,port.location,port.manufacturer,port.product,port.interface)
+        if 'FT4JEYIVB' == port.serial_number:
+            port_dev = port.name
+            break
+    print(port_dev)
+    ser = serial.Serial(port=port_dev, baudrate=3000000, timeout=0.01)
 
-    # def __init__(self):
+    def __init__(self):
     # Поиск устройства
-    # ports = serial.tools.list_ports.comports()
-    # for port in ports:
-    #     printf(port.device)
-    #     port = port.device
+        ports = serial.tools.list_ports.comports()
+    #     ports = serial.tools.list_ports.ListPortInfo
+    #     printf(ports)
+        # for port in ports:
+            # port = port.hwid
+            # printf(port.hwid,port.name,port.vid,port.pid,port.serial_number,port.location,port.manufacturer,port.product,port.interface)
+
     # self.ser = serial.Serial(port =port,baudrate=3000000,timeout=0.1)
     # self.ser = serial.Serial(port='COM88', baudrate=3000000, timeout=0.1)
 
@@ -140,10 +155,15 @@ class Calibrator(QObject,Connect):
         return value[0], address[0]
 
     def func_val_to_hex_can(self,c):
+        printf(c)
         c = int(c)
+        printf(c)
         c = hex(c)[2:].upper()
+        printf(c)
         if len(c) == 1:
+            printf(type(c),c)
             c = '0' + c + "000000"
+            printf(c)
         elif len(c) == 2:
             c = c + "000000"
         elif len(c) == 4:
@@ -155,6 +175,7 @@ class Calibrator(QObject,Connect):
         elif len(c) == 8:
             c = c[len(c) - 2:] + "  " + \
                 c[len(c) - 4:len(c) - 2] + "  " + c[len(c) - 6:len(c) - 4] + "  " + c[len(c) - 8:len(c) - 6]
+        return c
 
     # Преобразование целочисленного значения в байтовый тип формата can
     def transformed_in_bytes(self, arg, id, val=b'000000000000',header =False):
@@ -168,7 +189,9 @@ class Calibrator(QObject,Connect):
                 val = val[6:8] + val[4:6] + val[2:4] + val[0:2]
                 printf(val)
             else:
+                printf()
                 val = self.func_val_to_hex_can(val)
+                printf(type(val),val)
             val = val.encode('utf-8') + b'0000'
             printf(val)
 
@@ -405,8 +428,10 @@ class Calibrator(QObject,Connect):
             # printff(self.data_can_dict[data_can])
             if mode == 'w':
                 addr = self._header_data_read(self.data_can_dict[data_can], data_can, 'w')
+                id = self.confirmation_id
             else:
                 addr = self._header_data_read(self.data_can_dict[data_can], data_can, 'r')
+                id = self.data_id
                 printf(addr)
 
             # Парсер главного словаря с данным
@@ -426,6 +451,7 @@ class Calibrator(QObject,Connect):
                         if count > 4: count = 0; break
                         if mode == 'w':
                             printf(self.data_dict[data_can][data_main[0]][count+1])
+                            printf(self.data_dict[data_can][data_main[0]])
                             msg_bytes = self.transformed_in_bytes(addr, self.write_id, self.data_dict[data_can] \
                                 [data_main[0]][count + 1])
                     elif data_can == 'filter':
@@ -450,15 +476,15 @@ class Calibrator(QObject,Connect):
                     while True:
                         cnt_recept+=1
                         read_data = self.ser.read(1024)
-                        printf(self.data_id,'---',read_data)
+                        printf(id,'---',read_data)
                         if cnt_recept>=10:
                             printf('er_recept')
                             self.ser.write(msg_bytes)
                             cnt_recept =0
-                        if self.data_id in read_data and msg_bytes[5:13] in read_data:
+                        if id in read_data and msg_bytes[5:13] in read_data:
                             list_read_data = read_data.split(b'\r')
                             for i in list_read_data:
-                                if i[:4] == self.data_id and len(i) > 21 and msg_bytes[5:13] in i:
+                                if i[:4] == id and len(i) > 21 and msg_bytes[5:13] in i:
                                     read_data = i
                                     printf(read_data)
 

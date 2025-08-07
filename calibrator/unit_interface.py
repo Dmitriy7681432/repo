@@ -313,6 +313,7 @@ class Unit(MyWidget,QWidget):
         preset_indx_sec = 7
         preset_indx_no_sec = 7
         header_data_indx =0
+        filter_indx=0
         if self.count_read>=4:
             preset_indx_all+=self.count_read
             preset_indx_float+=self.count_read
@@ -324,7 +325,13 @@ class Unit(MyWidget,QWidget):
             for i in obj_cal.header_data_dict[data][header_data_indx:]:
                 printf('i',i)
                 f.write(i)
-
+            printf(data)
+            # if data == 'filter':
+            #     printf(obj_cal.data_dict['filter'][filter_indx])
+            #     for i in obj_cal.data_dict[data][filter_indx]:
+            #         f.write(struct.pack('i', int(i[filter_indx])))
+            # else:
+            #     printf()
             for i in range(0,self.data_tab.count()):
                 for j in range(0, self.lst_model[i].rowCount()):
                     item = self.lst_model[i].item(j, 2)

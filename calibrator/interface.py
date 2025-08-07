@@ -567,7 +567,7 @@ class Main(QWidget):
             self.unit_buses_preset.readData(self.read_data_dict_buses,'preset',self.count_read_buses)
             self.unit_buses_calibr.readData(self.read_data_dict_buses,'calibr',self.count_read_buses)
             # pass
-        self.buttonAction2.setEnabled(True)
+        # self.buttonAction2.setEnabled(True)
         self.worker.time_stop()
 
     def next_main_thread_write(self,name_obj):
@@ -638,18 +638,21 @@ class Main(QWidget):
             printf('saveData_bu400')
             self.unit_bu400_preset.saveData(self.obj_cal_bu400,'preset','bu400')
             self.unit_bu400_calibr.saveData(self.obj_cal_bu400,'calibr','bu400')
+            # self.unit_bu400_calibr.saveData(self.obj_cal_bu400,'filter','bu400')
 
     def saveData_bu50(self):
         if self.buttonUnit2.isChecked():
             printf('saveData_bu50')
             self.unit_bu50_preset.saveData(self.obj_cal_bu50,'preset','bu50')
             self.unit_bu50_calibr.saveData(self.obj_cal_bu50,'calibr','bu50')
+            # self.unit_bu50_calibr.saveData(self.obj_cal_bu50,'filter','bu50')
 
     def saveData_buses(self):
         if self.buttonUnit3.isChecked():
             printf('saveData_buses')
             self.unit_buses_preset.saveData(self.obj_cal_buses,'preset','buses')
             self.unit_buses_calibr.saveData(self.obj_cal_buses,'calibr','buses')
+            # self.unit_buses_calibr.saveData(self.obj_cal_buses,'filter','buses')
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

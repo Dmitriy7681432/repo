@@ -662,7 +662,7 @@ per = per.encode('utf-8') + b'0000'
 print(per)
 
 
-c = '100'
+c = '1'
 # per1 = hex(per1)
 # per1 = int.from_bytes(per1, 'little', signed=False)
 # per1 = int.to_bytes(per1,'little',signed=False)
@@ -699,3 +699,7 @@ bb = b't65487C00D4BF581B00001025'
 bb2 = b'7C00D4BF'
 if bb2 in bb:
     print(bb[5:13])
+
+val = '01000000'
+val = val.encode('utf-8') + b'0000'
+print(val)
