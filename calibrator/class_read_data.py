@@ -8,7 +8,7 @@ from PyQt5.QtCore import QThread, pyqtSignal, pyqtSlot,QTimer,QObject
 import serial.tools.list_ports
 
 class Connect(object):
-    # ser = serial.Serial()
+    ser = serial.Serial()
     ports = serial.tools.list_ports.comports()
     #     ports = serial.tools.list_ports.ListPortInfo
     printf(ports)
@@ -20,7 +20,7 @@ class Connect(object):
             port_dev = port.name
             break
     print(port_dev)
-    ser = serial.Serial(port=port_dev, baudrate=3000000, timeout=0.01)
+    # ser = serial.Serial(port=port_dev, baudrate=3000000, timeout=0.01)
 
     def __init__(self):
     # Поиск устройства
@@ -117,8 +117,6 @@ class Calibrator(QObject,Connect):
         self.data_can_dict['preset'] = self.parse_xml_designation(self.preset_designation)
         self.data_can_dict['calibr'] = self.parse_xml_designation(self.calibr_designation)
         self.data_can_dict['filter'] = self.parse_xml_designation(self.filter_designation)
-        # Копирование главного словаря для хранения значений шапки
-        self.header_data_dict = {'preset': [], 'calibr': [], 'filter': []}
         # Заполение главного словаря данными
         self.parse_data_xml()
 
@@ -240,6 +238,7 @@ class Calibrator(QObject,Connect):
 
     # Считывание уставок, калибровок, фильтров и сохранение их в списки
     def parse_data_xml(self):
+        start = time.time()
         flag = 0
         preset_dict = {}
         calibr_dict = {}
@@ -309,6 +308,9 @@ class Calibrator(QObject,Connect):
         self.param_dict[self.control_block] = params_dict
         # printff(self.param_dict)
         self.pars_eskd()
+        end = time.time()
+        printf(end - start)
+        flag = 0
         return self.data_dict
 
     def pars_eskd(self):
@@ -346,11 +348,15 @@ class Calibrator(QObject,Connect):
                         return value
 
     def _header_data_read(self, data_can_dict_value, data_can, mode):
+
         count = 0
         count1 = 0
         flag = 0
         # self.timer.start(100)
         # self.timer.timeout.connect(lambda: self._begin_data_read(data_can_dict_value))
+        if mode == 'r':
+            # Копирование главного словаря для хранения значений шапки
+            self.header_data_dict = {'preset': [], 'calibr': [], 'filter': []}
         addr = self._begin_data_read(data_can_dict_value)
         # addr = 0
         while True:
@@ -410,6 +416,12 @@ class Calibrator(QObject,Connect):
         printf('main_data_read',mode)
         # Открытие порта
         self.can_open_O(self.ser)
+
+        if mode =='r':
+            # Обновление главного словаря данных
+            self.data_dict = {'preset': {}, 'calibr': {}, 'filter': {}}
+            self.parse_data_xml()
+
         proc_elem = round((
             (len(self.data_dict['preset']) + len(self.data_dict['calibr']) + len(self.data_dict['filter'])) / 100)+0.5)
         printf(len(self.data_dict['preset']) + len(self.data_dict['calibr']) + len(self.data_dict['filter']))

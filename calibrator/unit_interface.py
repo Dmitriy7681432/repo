@@ -308,89 +308,51 @@ class Unit(MyWidget,QWidget):
         count =0
         lst_data_dict_keys = list(data_dict_copy[data].keys())
         printf(lst_data_dict_keys)
-        preset_indx_all = 7
-        preset_indx_float = 7
-        preset_indx_sec = 7
-        preset_indx_no_sec = 7
-        header_data_indx =0
-        filter_indx=0
-        if self.count_read>=4:
-            preset_indx_all+=self.count_read
-            preset_indx_float+=self.count_read
-            preset_indx_sec += self.count_read
-            preset_indx_no_sec += self.count_read
-            header_data_indx+=self.count_read+3
         with open(f'{data}_{name_block}.bin','wb') as f:
             printf(obj_cal.header_data_dict[data])
-            for i in obj_cal.header_data_dict[data][header_data_indx:]:
+            for i in obj_cal.header_data_dict[data][0:]:
                 printf('i',i)
                 f.write(i)
             printf(data)
-            # if data == 'filter':
-            #     printf(obj_cal.data_dict['filter'][filter_indx])
-            #     for i in obj_cal.data_dict[data][filter_indx]:
-            #         f.write(struct.pack('i', int(i[filter_indx])))
-            # else:
-            #     printf()
-            for i in range(0,self.data_tab.count()):
-                for j in range(0, self.lst_model[i].rowCount()):
-                    item = self.lst_model[i].item(j, 2)
-                    # item1.setBackground(QtGui.QBrush(QtGui.QColor(255, 255, 255)))
-                    dt_dict = data_dict_copy[data].get(lst_data_dict_keys[count])
-                    printf(dt_dict,item.text())
-                    if data =='preset':
-                        if data_dict_copy[data].get(lst_data_dict_keys[count])[1] =='float':
-                            printf(dt_dict[3], dt_dict[4], dt_item, dt_dict[6])
-                            printf(preset_indx_float)
-                            f.write(struct.pack('f', float(dt_dict[preset_indx_float])))
-                            printf(preset_indx_float)
-                            preset_indx_float+=1
-                            f.write(struct.pack('f', float(dt_dict[preset_indx_float])))
-                            printf(preset_indx_float)
-                            f.write(struct.pack('f', float(item.text())))
-                            printf(preset_indx_float)
-                            preset_indx_float+=2
-                            f.write(struct.pack('f', float(dt_dict[preset_indx_float])))
-                            printf(preset_indx_float)
-                            preset_indx_float = preset_indx_all
-                        else:
-                            if data_dict_copy[data].get(lst_data_dict_keys[count])[2] == 'с':
-                                printf(preset_indx_sec)
-                                dt_dict[preset_indx_sec] = str(int(float(dt_dict[preset_indx_sec])))
-                                printf(preset_indx_sec)
-                                f.write(struct.pack('i', int(dt_dict[preset_indx_sec])))
-                                preset_indx_sec += 1
-                                printf(preset_indx_sec)
-                                dt_dict[preset_indx_sec] = str(int(float(dt_dict[preset_indx_sec])))
-                                f.write(struct.pack('i', int(dt_dict[preset_indx_sec])))
-                                printf(preset_indx_sec)
-                                # dt_item    = str(int(float(item.text())* 1000))
-                                dt_item    = str(int(float(item.text())))
-                                f.write(struct.pack('i', int(dt_item)))
-                                printf(preset_indx_sec)
-                                preset_indx_sec += 2
-                                dt_dict[preset_indx_sec] = str(int(float(dt_dict[preset_indx_sec])))
-                                f.write(struct.pack('i', int(dt_dict[preset_indx_sec])))
-                                printf(preset_indx_sec)
-                                preset_indx_sec = preset_indx_all
-                                printf(dt_dict[3],dt_dict[4],dt_item,dt_dict[6])
+            if data == 'filter':
+                printf(obj_cal.data_dict[data][0])
+                for i in obj_cal.data_dict[data]:
+                    f.write(struct.pack('I', int(obj_cal.data_dict[data][i][0])))
+                    f.write(struct.pack('I', int(obj_cal.data_dict[data][i][1])))
+            else:
+                printf()
+                for i in range(0,self.data_tab.count()):
+                    for j in range(0, self.lst_model[i].rowCount()):
+                        item = self.lst_model[i].item(j, 2)
+                        # item1.setBackground(QtGui.QBrush(QtGui.QColor(255, 255, 255)))
+                        dt_dict = data_dict_copy[data].get(lst_data_dict_keys[count])
+                        printf(dt_dict,item.text())
+                        if data == 'preset':
+                            if data_dict_copy[data].get(lst_data_dict_keys[count])[1] == 'float':
+                                f.write(struct.pack('f', float(dt_dict[3])))
+                                f.write(struct.pack('f', float(dt_dict[4])))
+                                f.write(struct.pack('f', float(item.text())))
+                                f.write(struct.pack('f', float(dt_dict[6])))
                             else:
-                                printf(preset_indx_no_sec)
-                                f.write(struct.pack('i', int(dt_dict[preset_indx_no_sec])))
-                                printf(preset_indx_no_sec)
-                                preset_indx_no_sec += 1
-                                f.write(struct.pack('i', int(dt_dict[preset_indx_no_sec])))
-                                printf(preset_indx_no_sec)
-                                f.write(struct.pack('i', int(item.text())))
-                                printf(preset_indx_no_sec)
-                                preset_indx_no_sec += 2
-                                f.write(struct.pack('i', int(dt_dict[preset_indx_no_sec])))
-                                printf(preset_indx_no_sec)
-                                preset_indx_no_sec = preset_indx_all
-                    else:
-                        f.write(struct.pack('f', float(item.text())))
-
-                    count+=1
+                                if data_dict_copy[data].get(lst_data_dict_keys[count])[2] == 'с':
+                                    dt_dict[3] = str(int(float(dt_dict[3])))
+                                    f.write(struct.pack('i', int(dt_dict[3])))
+                                    dt_dict[4] = str(int(float(dt_dict[4])))
+                                    f.write(struct.pack('i', int(dt_dict[4])))
+                                    # dt_item    = str(int(float(item.text())* 1000))
+                                    dt_item    = str(int(float(item.text())))
+                                    f.write(struct.pack('i', int(dt_item)))
+                                    dt_dict[6] = str(int(float(dt_dict[6])))
+                                    f.write(struct.pack('i', int(dt_dict[6])))
+                                    printf(dt_dict[3],dt_dict[4],dt_item,dt_dict[6])
+                                else:
+                                    f.write(struct.pack('i', int(dt_dict[3])))
+                                    f.write(struct.pack('i', int(dt_dict[4])))
+                                    f.write(struct.pack('i', int(item.text())))
+                                    f.write(struct.pack('i', int(dt_dict[6])))
+                        else:
+                            f.write(struct.pack('f', float(item.text())))
+                        count+=1
         printf(data_dict_copy)
         return data_dict_copy
 
