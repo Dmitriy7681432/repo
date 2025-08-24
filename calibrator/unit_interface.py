@@ -262,9 +262,11 @@ class Unit(MyWidget,QWidget):
             item.setBackground(QtGui.QBrush(QtGui.QColor(255, 255, 255)))
             printf(preset_indx)
             if data =='preset':
+                #test
                 # self.checkValue = str(i[1][5])
                 self.checkValue = str(i[1][preset_indx])
                 printf(preset_indx)
+                #test
                 # item.setChild(count, 2, item.setText(str(i[1][5])))
                 item.setChild(count, 2, item.setText(str(i[1][preset_indx])))
                 printf(preset_indx)
@@ -304,6 +306,10 @@ class Unit(MyWidget,QWidget):
 
     def saveData(self,obj_cal,data,name_block):
         printf('SaveData')
+
+        import csv
+        lst_data = []
+
         data_dict_copy = obj_cal.data_dict.copy()
         count =0
         lst_data_dict_keys = list(data_dict_copy[data].keys())
@@ -323,7 +329,12 @@ class Unit(MyWidget,QWidget):
                 printf()
                 for i in range(0,self.data_tab.count()):
                     for j in range(0, self.lst_model[i].rowCount()):
+                        designation = self.lst_model[i].item(j, 0)
+                        name = self.lst_model[i].item(j, 1)
                         item = self.lst_model[i].item(j, 2)
+                        #для csv
+                        local_lst_data = [designation.text(), name.text(), item.text()]
+                        lst_data.append(local_lst_data)
                         # item1.setBackground(QtGui.QBrush(QtGui.QColor(255, 255, 255)))
                         dt_dict = data_dict_copy[data].get(lst_data_dict_keys[count])
                         printf(dt_dict,item.text())
@@ -353,8 +364,37 @@ class Unit(MyWidget,QWidget):
                         else:
                             f.write(struct.pack('f', float(item.text())))
                         count+=1
+        #Запись в csv
+        head_myData = [["Обозначение","Наименование","Значение"]]
+        myFile = open(f'{data}_{name_block}.csv', 'w', encoding='utf-32', newline='')
+        with myFile:
+            writer = csv.writer(myFile, delimiter='\t')
+            writer.writerows(head_myData)
+            writer.writerows(lst_data)
+
         printf(data_dict_copy)
         return data_dict_copy
+
+    #test записи в csv
+    def saveDatatest(self,data,name_block):
+        import csv
+        lst_data = []
+        #Запись в csv
+        head_myData = [["Обозначение","Наименование","Значение"]]
+        for i in range(0, self.data_tab.count()):
+            for j in range(0, self.lst_model[i].rowCount()):
+                designation = self.lst_model[i].item(j, 0)
+                name = self.lst_model[i].item(j, 1)
+                value = self.lst_model[i].item(j, 2)
+                local_lst_data =[designation.text(),name.text(),value.text()]
+                lst_data.append(local_lst_data)
+        myFile = open(f'{data}_{name_block}.csv', 'w', encoding='utf-8', newline='')
+        with myFile:
+            writer = csv.writer(myFile, delimiter='\t')
+            writer.writerows(head_myData)
+            writer.writerows(lst_data)
+            # writer.writerows(params_xml_list)
+        print("Writing complete")
 
 
 
