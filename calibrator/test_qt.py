@@ -353,31 +353,114 @@
 #     window.resize(300, 70)
 #     window.show()
 #     sys.exit(app.exec_())
-from PyQt5 import QtCore, QtWidgets
-import sys
-def show_modal_window():
-    global modalWindow
-    modalWindow = QtWidgets.QWidget(window1, QtCore.Qt.Window)
-    modalWindow.setWindowTitle("Модальное окно")
-    modalWindow.resize(200, 50)
-    modalWindow.setWindowModality(QtCore.Qt.WindowModal)
-    modalWindow.setAttribute(QtCore.Qt.WA_DeleteOnClose, True)
-    modalWindow.move(window1.geometry().center() - modalWindow.rect().center() -
-                     QtCore.QPoint(4, 30))
-    modalWindow.show()
+# from PyQt5 import QtCore, QtWidgets
+# import sys
+# def show_modal_window():
+#     global modalWindow
+#     modalWindow = QtWidgets.QWidget(window1, QtCore.Qt.Window)
+#     modalWindow.setWindowTitle("Модальное окно")
+#     modalWindow.resize(200, 50)
+#     modalWindow.setWindowModality(QtCore.Qt.WindowModal)
+#     modalWindow.setAttribute(QtCore.Qt.WA_DeleteOnClose, True)
+#     modalWindow.move(window1.geometry().center() - modalWindow.rect().center() -
+#                      QtCore.QPoint(4, 30))
+#     modalWindow.show()
+#
+# app = QtWidgets.QApplication(sys.argv)
+# window1 = QtWidgets.QWidget()
+# window1.setWindowTitle("Обычное окно")
+# window1.resize(300, 100)
+# button = QtWidgets.QPushButton("Открыть модальное окно")
+# button.clicked.connect(show_modal_window)
+# vbox = QtWidgets.QVBoxLayout()
+# vbox.addWidget(button)
+# window1.setLayout(vbox)
+# window1.show()
+# window2 = QtWidgets.QWidget()
+# window2.setWindowTitle("Это окно не будет блокировано при WindowModal")
+# window2.resize(500, 100)
+# window2.show()
+# sys.exit(app.exec_())
 
-app = QtWidgets.QApplication(sys.argv)
-window1 = QtWidgets.QWidget()
-window1.setWindowTitle("Обычное окно")
-window1.resize(300, 100)
-button = QtWidgets.QPushButton("Открыть модальное окно")
-button.clicked.connect(show_modal_window)
-vbox = QtWidgets.QVBoxLayout()
-vbox.addWidget(button)
-window1.setLayout(vbox)
-window1.show()
-window2 = QtWidgets.QWidget()
-window2.setWindowTitle("Это окно не будет блокировано при WindowModal")
-window2.resize(500, 100)
-window2.show()
-sys.exit(app.exec_())
+from docx import Document
+
+# Создаем новый документ
+document = Document()
+
+# Добавляем заголовок
+document.add_heading('Пример документа Word', level=0)
+
+# Добавляем абзац текста
+document.add_paragraph('Это первый абзац текста в документе.')
+document.add_paragraph('Это второй абзац, который также был добавлен с помощью Python.')
+
+# Добавляем список
+document.add_paragraph('Это список:')
+document.add_paragraph('Элемент 1', style='List Bullet')
+document.add_paragraph('Элемент 2', style='List Bullet')
+document.add_paragraph('Элемент 3', style='List Bullet')
+
+# Добавляем таблицу
+table = document.add_table(rows=2, cols=3)
+table.style = 'Light Shading Accent 1'
+cell = table.cell(0, 0)
+cell.text = 'Ячейка A1'
+table.cell(1, 2).text = 'Ячейка B3'
+
+# Сохраняем документ
+document.save('my_document.docx')
+
+print("Документ 'my_document.docx' успешно создан.")
+
+# from docx2pdf import convert
+#
+# convert("my_document.docx", "output.pdf")
+
+
+# полноценный рабочий код
+from docx import Document
+from docx.enum.text import WD_ALIGN_PARAGRAPH
+
+# создание пустого документа
+doc = Document()
+# данные таблицы без названий колонок
+items = (
+    (7, '1024', 'Плюшевые котята'),
+    (3, '2042', 'Меховые пчелы'),
+    (1, '1288', 'Ошейники для пуделей'),
+)
+# добавляем таблицу с одной строкой
+# для заполнения названий колонок
+table = doc.add_table(1, len(items[0]))
+# определяем стиль таблицы
+# table.style = 'Light Shading Accent 1'
+table.style = 'Table Grid'
+# Получаем строку с колонками из добавленной таблицы
+head_cells = table.rows[0].cells
+# добавляем названия колонок
+for i, item in enumerate(['Кол-во', 'ID', 'Описание']):
+    p = head_cells[i].paragraphs[0]
+    # название колонки
+    p.add_run(item).bold = True
+    # выравниваем посередине
+    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+# добавляем данные к существующей таблице
+for row in items:
+    # добавляем строку с ячейками к объекту таблицы
+    cells = table.add_row().cells
+    for i, item in enumerate(row):
+        # вставляем данные в ячейки
+        cells[i].text = str(item)
+        # если последняя ячейка
+        if i == 2:
+            # изменим шрифт
+            cells[i].paragraphs[0].runs[0].font.name = 'Arial'
+doc.save('test.docx')
+
+from docx import Document
+from docx.enum.style import WD_STYLE_TYPE
+doc = Document()
+all_styles = doc.styles
+table_styles = [s for s in all_styles if s.type == WD_STYLE_TYPE.TABLE]
+for style in table_styles:
+    print(table_styles)

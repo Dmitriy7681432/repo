@@ -263,12 +263,12 @@ class Unit(MyWidget,QWidget):
             printf(preset_indx)
             if data =='preset':
                 #test
-                # self.checkValue = str(i[1][5])
-                self.checkValue = str(i[1][preset_indx])
+                self.checkValue = str(i[1][5])
+                # self.checkValue = str(i[1][preset_indx])
                 printf(preset_indx)
                 #test
-                # item.setChild(count, 2, item.setText(str(i[1][5])))
-                item.setChild(count, 2, item.setText(str(i[1][preset_indx])))
+                item.setChild(count, 2, item.setText(str(i[1][5])))
+                # item.setChild(count, 2, item.setText(str(i[1][preset_indx])))
                 printf(preset_indx)
             else:
                 self.checkValue = str(i[1][calibr_indx])
@@ -388,7 +388,7 @@ class Unit(MyWidget,QWidget):
                 value = self.lst_model[i].item(j, 2)
                 local_lst_data =[designation.text(),name.text(),value.text()]
                 lst_data.append(local_lst_data)
-        myFile = open(f'{data}_{name_block}.csv', 'w', encoding='utf-8', newline='')
+        myFile = open(f'{data}_{name_block}.csv', 'w', encoding='utf-32', newline='')
         with myFile:
             writer = csv.writer(myFile, delimiter='\t')
             writer.writerows(head_myData)
