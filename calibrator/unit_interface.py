@@ -308,13 +308,16 @@ class Unit(MyWidget,QWidget):
         printf('SaveData')
 
         import csv
+        import os
+        folder = 'csv,docx,pdf'
+        os.makedirs(folder, exist_ok=True)
         lst_data = []
 
         data_dict_copy = obj_cal.data_dict.copy()
         count =0
         lst_data_dict_keys = list(data_dict_copy[data].keys())
         printf(lst_data_dict_keys)
-        with open(f'{data}_{name_block}.bin','wb') as f:
+        with open(f'./{folder}/{data}_{name_block}.bin','wb') as f:
             printf(obj_cal.header_data_dict[data])
             for i in obj_cal.header_data_dict[data][0:]:
                 printf('i',i)
@@ -366,11 +369,65 @@ class Unit(MyWidget,QWidget):
                         count+=1
         #Запись в csv
         head_myData = [["Обозначение","Наименование","Значение"]]
-        myFile = open(f'{data}_{name_block}.csv', 'w', encoding='utf-32', newline='')
+        myFile = open(f'./{folder}/{data}_{name_block}.csv', 'w', encoding='utf-32', newline='')
         with myFile:
             writer = csv.writer(myFile, delimiter='\t')
             writer.writerows(head_myData)
             writer.writerows(lst_data)
+
+        # Запись в docx
+        from docx import Document
+        from docx.enum.text import WD_ALIGN_PARAGRAPH
+        from docx.shared import Pt,Inches
+
+        # создание пустого документа
+        doc = Document()
+        # добавляем таблицу с одной строкой
+        # для заполнения названий колонок
+        table = doc.add_table(1, len(lst_data[0]))
+        # определяем стиль таблицы
+        # table.style = 'Light Shading Accent 1'
+        table.style = 'Table Grid'
+        # Устанавливаем размер второго столбца
+        table.columns[1].width = Inches(15)
+        # Получаем строку с колонками из добавленной таблицы
+        head_cells = table.rows[0].cells
+        # добавляем названия колонок
+        for i, item in enumerate(head_myData[0]):
+            p = head_cells[i].paragraphs[0]
+            # p.runs[0].font.name = 'Times New Roman'
+            # название колонки
+            p.add_run(item).bold = True
+            # выравниваем посередине
+            p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        for i in table.rows:
+            for cell in i.cells:
+                cell.paragraphs[0].runs[0].font.name = 'Times New Roman'
+                cell.paragraphs[0].runs[0].font.size = Pt(12)
+        # добавляем данные к существующей таблице
+        for row in lst_data:
+            # добавляем строку с ячейками к объекту таблицы
+            cells = table.add_row().cells
+            for i, item in enumerate(row):
+                # вставляем данные в ячейки
+                cells[i].text = str(item)
+                # если последняя ячейка
+                cells[i].paragraphs[0].runs[0].font.name = 'Times New Roman'
+                cells[i].paragraphs[0].runs[0].font.size = Pt(12)
+                if i ==0 or i ==2:
+                    cells[i].paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.CENTER
+
+        doc.save(f'./{folder}/{data}_{name_block}.docx')
+
+        # Конвертация в pdf
+        print("-" * 50 + "\nКонвертация .docx в .pdf:\n" + "-" * 50)
+        try: import docx2pdf
+        except Exception as e: print(f"Ошибка импорта модуля! Подробнее:\n{e}"); ok = False
+        if ok:
+            input_file = f"./{folder}/{data}_{name_block}.docx"
+            output_file = f"./{folder}/{data}_{name_block}.pdf"
+            if not os.path.exists(input_file): print(f"Файл {input_file} не найден! Выполнение конвертации невозможно!")
+            else: docx2pdf.convert(input_file, output_file)
 
         printf(data_dict_copy)
         return data_dict_copy
@@ -378,6 +435,9 @@ class Unit(MyWidget,QWidget):
     #test записи в csv
     def saveDatatest(self,data,name_block):
         import csv
+        import os
+        folder = 'csv,docx,pdf'
+        os.makedirs(folder, exist_ok=True)
         lst_data = []
         #Запись в csv
         head_myData = [["Обозначение","Наименование","Значение"]]
@@ -388,12 +448,67 @@ class Unit(MyWidget,QWidget):
                 value = self.lst_model[i].item(j, 2)
                 local_lst_data =[designation.text(),name.text(),value.text()]
                 lst_data.append(local_lst_data)
-        myFile = open(f'{data}_{name_block}.csv', 'w', encoding='utf-32', newline='')
+        myFile = open(f'./{folder}/{data}_{name_block}.csv', 'w', encoding='utf-32', newline='')
         with myFile:
             writer = csv.writer(myFile, delimiter='\t')
             writer.writerows(head_myData)
             writer.writerows(lst_data)
             # writer.writerows(params_xml_list)
+
+        # Запись в docx
+        from docx import Document
+        from docx.enum.text import WD_ALIGN_PARAGRAPH
+        from docx.shared import Pt,Inches
+
+        # создание пустого документа
+        doc = Document()
+        # добавляем таблицу с одной строкой
+        # для заполнения названий колонок
+        table = doc.add_table(1, len(lst_data[0]))
+        # определяем стиль таблицы
+        # table.style = 'Light Shading Accent 1'
+        table.style = 'Table Grid'
+        # Устанавливаем размер второго столбца
+        table.columns[1].width = Inches(15)
+        # Получаем строку с колонками из добавленной таблицы
+        head_cells = table.rows[0].cells
+        # добавляем названия колонок
+        for i, item in enumerate(head_myData[0]):
+            p = head_cells[i].paragraphs[0]
+            # p.runs[0].font.name = 'Times New Roman'
+            # название колонки
+            p.add_run(item).bold = True
+            # выравниваем посередине
+            p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        for i in table.rows:
+            for cell in i.cells:
+                cell.paragraphs[0].runs[0].font.name = 'Times New Roman'
+                cell.paragraphs[0].runs[0].font.size = Pt(12)
+        # добавляем данные к существующей таблице
+        for row in lst_data:
+            # добавляем строку с ячейками к объекту таблицы
+            cells = table.add_row().cells
+            for i, item in enumerate(row):
+                # вставляем данные в ячейки
+                cells[i].text = str(item)
+                # если последняя ячейка
+                cells[i].paragraphs[0].runs[0].font.name = 'Times New Roman'
+                cells[i].paragraphs[0].runs[0].font.size = Pt(12)
+                if i ==0 or i ==2:
+                    cells[i].paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.CENTER
+
+        doc.save(f'./{folder}/{data}_{name_block}.docx')
+
+        # Конвертация в pdf
+        print("-" * 50 + "\nКонвертация .docx в .pdf:\n" + "-" * 50)
+        try: import docx2pdf
+        except Exception as e: print(f"Ошибка импорта модуля! Подробнее:\n{e}"); ok = False
+        if ok:
+            input_file = f"./{folder}/{data}_{name_block}.docx"
+            output_file = f"./{folder}/{data}_{name_block}.pdf"
+            if not os.path.exists(input_file): print(f"Файл {input_file} не найден! Выполнение конвертации невозможно!")
+            else: docx2pdf.convert(input_file, output_file)
+
         print("Writing complete")
 
 

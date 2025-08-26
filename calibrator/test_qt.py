@@ -420,6 +420,7 @@ print("Документ 'my_document.docx' успешно создан.")
 # полноценный рабочий код
 from docx import Document
 from docx.enum.text import WD_ALIGN_PARAGRAPH
+from docx.shared import Pt,Inches
 
 # создание пустого документа
 doc = Document()
@@ -435,6 +436,7 @@ table = doc.add_table(1, len(items[0]))
 # определяем стиль таблицы
 # table.style = 'Light Shading Accent 1'
 table.style = 'Table Grid'
+table.columns[1].width = Inches(10)
 # Получаем строку с колонками из добавленной таблицы
 head_cells = table.rows[0].cells
 # добавляем названия колонок
@@ -444,6 +446,18 @@ for i, item in enumerate(['Кол-во', 'ID', 'Описание']):
     p.add_run(item).bold = True
     # выравниваем посередине
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+
+# head = table.cell(0,0)
+# head.paragraphs[0].runs[0].font.name = 'Times New Roman'
+# head1 = table.rows(0)
+# head1.cells.paragraphs[0].runs[0].font.name = 'Times New Roman'
+for i in table.rows:
+    for cell in i.cells:
+        cell.paragraphs[0].runs[0].font.name = 'Times New Roman'
+        cell.paragraphs[0].runs[0].font.size = Pt(12)
+        print('aa')
+        # print(cell.text)
+
 # добавляем данные к существующей таблице
 for row in items:
     # добавляем строку с ячейками к объекту таблицы
@@ -452,15 +466,50 @@ for row in items:
         # вставляем данные в ячейки
         cells[i].text = str(item)
         # если последняя ячейка
-        if i == 2:
-            # изменим шрифт
-            cells[i].paragraphs[0].runs[0].font.name = 'Arial'
-doc.save('test.docx')
+        # if i == 2:
+        # изменим шрифт
+        cells[i].paragraphs[0].runs[0].font.name = 'Times New Roman'
+        cells[i].paragraphs[0].runs[0].font.size = Pt(14)
+        cells[i].paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.CENTER
 
-from docx import Document
-from docx.enum.style import WD_STYLE_TYPE
-doc = Document()
-all_styles = doc.styles
-table_styles = [s for s in all_styles if s.type == WD_STYLE_TYPE.TABLE]
-for style in table_styles:
-    print(table_styles)
+import os
+os.makedirs('csv,docx,pdf',exist_ok=True)
+
+doc.save('./csv,docx,pdf/test.docx')
+
+
+import os
+print("-" * 50 + "\nКонвертация .docx в .pdf:\n" + "-" * 50)
+ok = True
+try: import docx2pdf
+except Exception as e: print(f"Ошибка импорта модуля! Подробнее:\n{e}"); ok = False
+if ok:
+    input_file = "./csv,docx,pdf/test.docx"
+    output_file = "./csv,docx,pdf/test.pdf"
+    if not os.path.exists(input_file): print(f"Файл {input_file} не найден! Выполнение конвертации невозможно!")
+    else: docx2pdf.convert(input_file, output_file)
+print("Нажмите любую клавишу для продолжения...")
+# os.system("pause > nul" if os.name == "nt" else "read > /dev/null")
+
+
+# from spire.doc import *
+# from spire.doc import Document
+#
+# document = Document()
+# document.LoadFromFile(".\\csv,docx,pdf\\test.docx")
+# document.SaveToFile("./csv,docx,pdf/test.pdf")
+# document.Close()
+
+# from aspose.words import Document
+# doc = Document('./csv,docx,pdf/test.docx')
+# doc.save('./csv,docx,pdf/test.pdf')
+
+
+# Стили таблицы
+# from docx import Document
+# from docx.enum.style import WD_STYLE_TYPE
+# doc = Document()
+# all_styles = doc.styles
+# table_styles = [s for s in all_styles if s.type == WD_STYLE_TYPE.TABLE]
+# for style in table_styles:
+#     print(table_styles)
