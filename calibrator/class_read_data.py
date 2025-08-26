@@ -8,19 +8,22 @@ from PyQt5.QtCore import QThread, pyqtSignal, pyqtSlot,QTimer,QObject
 import serial.tools.list_ports
 
 class Connect(object):
-    ser = serial.Serial()
+    # ser = serial.Serial()
     ports = serial.tools.list_ports.comports()
     #     ports = serial.tools.list_ports.ListPortInfo
     printf(ports)
     port_dev = 0
+    zip_port_dev = 0
     for port in ports:
         # port = port.hwid
         # printf(port.hwid,port.name,port.vid,port.pid,port.serial_number,port.location,port.manufacturer,port.product,port.interface)
+        if 'FT4JEYIVA' == port.serial_number:
+            zip_port_dev = port.name
         if 'FT4JEYIVB' == port.serial_number:
             port_dev = port.name
             break
     print(port_dev)
-    # ser = serial.Serial(port=port_dev, baudrate=3000000, timeout=0.01)
+    ser = serial.Serial(port=port_dev, baudrate=3000000, timeout=0.01)
 
     def __init__(self):
     # Поиск устройства
@@ -44,6 +47,9 @@ class Connect(object):
         arg.write(msg)
         msg = b"O\r"
         arg.write(msg)
+        # msg = b"F\r"
+        # arg.write(msg)
+        # printf(arg.read(1024))
 
     def can_open_L(self, arg):
         printf('can_open_L')
@@ -296,7 +302,8 @@ class Calibrator(QObject,Connect):
                             calibr_dict[designation + '_b'] = [name,'0.0']
                             # calibr_list_data.append('1.0')
                             # calibr_list_data.append('1.0')
-                    # Фильтры
+                # Фильтры
+                if cb == self.control_block:
                     for products2 in products1.findall('.//filter'):
                         # filter_dict[designation + '_FILTER'] = [products2.attrib.get('length')]
                         # filter_dict[designation + '_FILTER'] = [products2.attrib.get('length')]
@@ -330,11 +337,23 @@ class Calibrator(QObject,Connect):
 
     # Считывание адреса по global_id параметра
     def _begin_data_read(self, data_can_dict_value):
+        tmp_cnt =0
         while True:
+            tmp_cnt+=1
             read_data = self.ser.read(1024)
+            # Костыль
+            if tmp_cnt >=250:
+                self.ser.port = self.zip_port_dev
+                self.can_open_O(self.ser)
+                printf('tmp_cnt')
+                tmp_cnt=0
             printf(data_can_dict_value)
+            # self.ser.port = 'COM15'
+            # self.ser = serial.Serial(port='COM15', baudrate=3000000, timeout=0.01)
+            # self.can_open_O(self.ser)
             # printff(read_data)
             if data_can_dict_value[:13] in read_data:
+                printf(tmp_cnt)
                 list_read_data = read_data.split(b'\r')
                 printf(list_read_data)
                 for i in list_read_data:
@@ -354,9 +373,8 @@ class Calibrator(QObject,Connect):
         flag = 0
         # self.timer.start(100)
         # self.timer.timeout.connect(lambda: self._begin_data_read(data_can_dict_value))
-        if mode == 'r':
-            # Копирование главного словаря для хранения значений шапки
-            self.header_data_dict = {'preset': [], 'calibr': [], 'filter': []}
+        # if mode == 'r':
+        #     # Копирование главного словаря для хранения значений шапки
         addr = self._begin_data_read(data_can_dict_value)
         # addr = 0
         while True:
@@ -419,6 +437,7 @@ class Calibrator(QObject,Connect):
 
         if mode =='r':
             # Обновление главного словаря данных
+            self.header_data_dict = {'preset': [], 'calibr': [], 'filter': []}
             self.data_dict = {'preset': {}, 'calibr': {}, 'filter': {}}
             self.parse_data_xml()
 

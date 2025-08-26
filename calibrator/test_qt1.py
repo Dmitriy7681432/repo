@@ -748,3 +748,59 @@ with open('test_qt1.bin','wb') as f:
     # value = [bytearray(0xA5A55A5A.to_bytes(length=4, byteorder="little", signed=True))]
     # f.write(value[0])
 
+filter = {'U_AB_STARTER_FILTER': [2685206528, 4], 'U_AB_OP_FILTER': [2685207552, 4]}
+with open('test.bin', 'wb') as f:
+    for i in filter:
+    # print(filter[i][0])
+        f.write(struct.pack('I', int(filter[i][0])))
+        f.write(struct.pack('I', int(filter[i][1])))
+
+from lxml import etree
+flag = 0
+preset_dict = {}
+calibr_dict = {}
+filter_dict = {}
+params_dict = {}
+product = "SES200M"
+control_block = 'BU_SES'
+doc = etree.parse('params.xml')
+for setting in doc.findall('.//parameter'):
+    designation = setting.attrib.get('designation')
+    name = setting.attrib.get('name')
+    type = setting.attrib.get('type')
+    ctype = setting.attrib.get('ctype')
+    for products1 in setting.findall(f'.//{product}'):
+        cb = products1.attrib.get('cb')
+        hidden = products1.attrib.get('hidden')
+        if cb == control_block and hidden == None:
+            if type == 'Измеряемый' or type == 'Вычисляемый':
+                unit = setting.getparent().attrib.get('name')
+                if flag == 0:
+                    # unit1 = self.pars_eskd(unit)
+                    unit1 = unit
+                    params_dict[unit1] = {}
+                    flag = 1
+                else:
+                    if unit1 != unit:
+                        unit1 = unit
+                        # unit1 = self.pars_eskd(unit)
+                        params_dict[unit1] = {}
+                params_dict[unit1][designation] = [name, ctype]
+            for products2 in products1.findall('.//calibration'):
+                if len(products2.getchildren()) != 0:
+                    for i in products2.findall('.//k'):
+                        calibr_dict[designation + '_' + i.attrib.get('IND')] = [name, i.attrib.get('value')]
+                        # calibr_list_data.append(i.attrib.get('value'))
+                else:
+                    calibr_dict[designation + '_k'] = [name, '1.0']
+                    calibr_dict[designation + '_b'] = [name, '0.0']
+                    # calibr_list_data.append('1.0')
+                    # calibr_list_data.append('1.0')
+            # Фильтры
+        if cb == control_block:
+            for products3 in products1.findall('.//filter'):
+            # filter_dict[designation + '_FILTER'] = [products2.attrib.get('length')]
+            # filter_dict[designation + '_FILTER'] = [products2.attrib.get('length')]
+                print('designation',designation)
+                filter_dict[designation + '_FILTER'] = []
+                filter_dict[designation + '_FILTER'] = []

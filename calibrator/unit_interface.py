@@ -251,10 +251,10 @@ class Unit(MyWidget,QWidget):
         calibr_indx = 2
         self.count_read = count_read
         printf(preset_indx)
-        if self.count_read >=4:
-            preset_indx+=self.count_read
-            calibr_indx+=1
-            printf(preset_indx)
+        # if self.count_read >=4:
+        #     preset_indx+=self.count_read
+        #     calibr_indx+=1
+        #     printf(preset_indx)
         # # for i in self.data_tab.count():
         for i in data_dict[data].items():
             printf(preset_indx)
@@ -263,12 +263,12 @@ class Unit(MyWidget,QWidget):
             printf(preset_indx)
             if data =='preset':
                 #test
-                self.checkValue = str(i[1][5])
-                # self.checkValue = str(i[1][preset_indx])
+                # self.checkValue = str(i[1][5])
+                self.checkValue = str(i[1][preset_indx])
                 printf(preset_indx)
                 #test
-                item.setChild(count, 2, item.setText(str(i[1][5])))
-                # item.setChild(count, 2, item.setText(str(i[1][preset_indx])))
+                # item.setChild(count, 2, item.setText(str(i[1][5])))
+                item.setChild(count, 2, item.setText(str(i[1][preset_indx])))
                 printf(preset_indx)
             else:
                 self.checkValue = str(i[1][calibr_indx])
@@ -324,9 +324,11 @@ class Unit(MyWidget,QWidget):
                 f.write(i)
             printf(data)
             if data == 'filter':
-                printf(obj_cal.data_dict[data][0])
+                printf(obj_cal.data_dict[data])
                 for i in obj_cal.data_dict[data]:
+                    printf()
                     f.write(struct.pack('I', int(obj_cal.data_dict[data][i][0])))
+                    printf()
                     f.write(struct.pack('I', int(obj_cal.data_dict[data][i][1])))
             else:
                 printf()
@@ -367,67 +369,72 @@ class Unit(MyWidget,QWidget):
                         else:
                             f.write(struct.pack('f', float(item.text())))
                         count+=1
-        #Запись в csv
-        head_myData = [["Обозначение","Наименование","Значение"]]
-        myFile = open(f'./{folder}/{data}_{name_block}.csv', 'w', encoding='utf-32', newline='')
-        with myFile:
-            writer = csv.writer(myFile, delimiter='\t')
-            writer.writerows(head_myData)
-            writer.writerows(lst_data)
+                #Запись в csv
+                head_myData = [["Обозначение","Наименование","Значение"]]
+                myFile = open(f'./{folder}/{data}_{name_block}.csv', 'w', encoding='utf-32', newline='')
+                with myFile:
+                    writer = csv.writer(myFile, delimiter='\t')
+                    writer.writerows(head_myData)
+                    writer.writerows(lst_data)
 
-        # Запись в docx
-        from docx import Document
-        from docx.enum.text import WD_ALIGN_PARAGRAPH
-        from docx.shared import Pt,Inches
+                # Запись в docx
+                from docx import Document
+                from docx.enum.text import WD_ALIGN_PARAGRAPH
+                from docx.shared import Pt,Inches
 
-        # создание пустого документа
-        doc = Document()
-        # добавляем таблицу с одной строкой
-        # для заполнения названий колонок
-        table = doc.add_table(1, len(lst_data[0]))
-        # определяем стиль таблицы
-        # table.style = 'Light Shading Accent 1'
-        table.style = 'Table Grid'
-        # Устанавливаем размер второго столбца
-        table.columns[1].width = Inches(15)
-        # Получаем строку с колонками из добавленной таблицы
-        head_cells = table.rows[0].cells
-        # добавляем названия колонок
-        for i, item in enumerate(head_myData[0]):
-            p = head_cells[i].paragraphs[0]
-            # p.runs[0].font.name = 'Times New Roman'
-            # название колонки
-            p.add_run(item).bold = True
-            # выравниваем посередине
-            p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-        for i in table.rows:
-            for cell in i.cells:
-                cell.paragraphs[0].runs[0].font.name = 'Times New Roman'
-                cell.paragraphs[0].runs[0].font.size = Pt(12)
-        # добавляем данные к существующей таблице
-        for row in lst_data:
-            # добавляем строку с ячейками к объекту таблицы
-            cells = table.add_row().cells
-            for i, item in enumerate(row):
-                # вставляем данные в ячейки
-                cells[i].text = str(item)
-                # если последняя ячейка
-                cells[i].paragraphs[0].runs[0].font.name = 'Times New Roman'
-                cells[i].paragraphs[0].runs[0].font.size = Pt(12)
-                if i ==0 or i ==2:
-                    cells[i].paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.CENTER
+                # создание пустого документа
+                doc = Document()
+                # добавляем таблицу с одной строкой
+                # для заполнения названий колонок
+                table = doc.add_table(1, len(lst_data[0]))
+                # определяем стиль таблицы
+                # table.style = 'Light Shading Accent 1'
+                table.style = 'Table Grid'
+                # Устанавливаем размер второго столбца
+                table.columns[1].width = Inches(15)
+                # Получаем строку с колонками из добавленной таблицы
+                head_cells = table.rows[0].cells
+                # добавляем названия колонок
+                for i, item in enumerate(head_myData[0]):
+                    p = head_cells[i].paragraphs[0]
+                    # p.runs[0].font.name = 'Times New Roman'
+                    # название колонки
+                    p.add_run(item).bold = True
+                    # выравниваем посередине
+                    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+                for i in table.rows:
+                    for cell in i.cells:
+                        cell.paragraphs[0].runs[0].font.name = 'Times New Roman'
+                        cell.paragraphs[0].runs[0].font.size = Pt(12)
+                # добавляем данные к существующей таблице
+                for row in lst_data:
+                    # добавляем строку с ячейками к объекту таблицы
+                    cells = table.add_row().cells
+                    for i, item in enumerate(row):
+                        # вставляем данные в ячейки
+                        cells[i].text = str(item)
+                        # если последняя ячейка
+                        cells[i].paragraphs[0].runs[0].font.name = 'Times New Roman'
+                        cells[i].paragraphs[0].runs[0].font.size = Pt(12)
+                        if i ==0 or i ==2:
+                            cells[i].paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.CENTER
 
-        doc.save(f'./{folder}/{data}_{name_block}.docx')
+                doc.save(f'./{folder}/{data}_{name_block}.docx')
 
-        # Конвертация в pdf
-        print("-" * 50 + "\nКонвертация .docx в .pdf:\n" + "-" * 50)
-        try: import docx2pdf
-        except Exception as e: print(f"Ошибка импорта модуля! Подробнее:\n{e}"); ok = False
-        if ok:
-            input_file = f"./{folder}/{data}_{name_block}.docx"
-            output_file = f"./{folder}/{data}_{name_block}.pdf"
-            if not os.path.exists(input_file): print(f"Файл {input_file} не найден! Выполнение конвертации невозможно!")
-            else: docx2pdf.convert(input_file, output_file)
+                # Конвертация в pdf
+                print("-" * 50 + "\nКонвертация .docx в .pdf:\n" + "-" * 50)
+                ok =True
+                try:
+                    import docx2pdf
+                except Exception as e:
+                    print(f"Ошибка импорта модуля! Подробнее:\n{e}"); ok = False
+                if ok:
+                    input_file = f"./{folder}/{data}_{name_block}.docx"
+                    output_file = f"./{folder}/{data}_{name_block}.pdf"
+                    if not os.path.exists(input_file):
+                        print(f"Файл {input_file} не найден! Выполнение конвертации невозможно!")
+                    else:
+                        docx2pdf.convert(input_file, output_file)
 
         printf(data_dict_copy)
         return data_dict_copy

@@ -531,14 +531,14 @@ class Main(QWidget):
     def readData_bu400(self):
         # printff('readData_bu400',self.buttonUnit1.isChecked())
         if not self.buttonUnit2.isChecked() and not self.buttonUnit3.isChecked():
-            # self.worker = Worker(self.data_dict_bu400)
-            # self.worker.run1()
-            # self.thread_start(self.data_dict_bu400,"BU_400",'r')
-            # self.readData_bu400_flag = 1
+            self.worker = Worker(self.data_dict_bu400)
+            self.worker.run1()
+            self.thread_start(self.data_dict_bu400,"BU_400",'r')
+            self.readData_bu400_flag = 1
             # test
-            self.read_data_dict_bu400 = self.data_dict_bu400.test_data_dict('calibr')
-            self.unit_bu400_preset.readData(self.read_data_dict_bu400, 'preset',1)
-            self.unit_bu400_calibr.readData(self.read_data_dict_bu400, 'calibr',1)
+            # self.read_data_dict_bu400 = self.data_dict_bu400.test_data_dict('calibr')
+            # self.unit_bu400_preset.readData(self.read_data_dict_bu400, 'preset',1)
+            # self.unit_bu400_calibr.readData(self.read_data_dict_bu400, 'calibr',1)
 
     def thread_start(self,obj, name_obj,mode):
         # self.th =ThreadCalibrator(self.testing)
@@ -640,26 +640,26 @@ class Main(QWidget):
     def saveData_bu400(self):
         if not self.buttonUnit2.isChecked() and not self.buttonUnit3.isChecked():
             printf('saveData_bu400')
-            # self.unit_bu400_preset.saveData(self.obj_cal_bu400,'preset','bu400')
-            # self.unit_bu400_calibr.saveData(self.obj_cal_bu400,'calibr','bu400')
-            # self.unit_bu400_calibr.saveData(self.obj_cal_bu400,'filter','bu400')
+            self.unit_bu400_preset.saveData(self.obj_cal_bu400,'preset','bu400')
+            self.unit_bu400_calibr.saveData(self.obj_cal_bu400,'calibr','bu400')
+            self.unit_bu400_calibr.saveData(self.obj_cal_bu400,'filter','bu400')
             #test
-            self.unit_bu400_preset.saveDatatest('preset','bu400')
-            self.unit_bu400_calibr.saveDatatest('calibr','bu400')
+            # self.unit_bu400_preset.saveDatatest('preset','bu400')
+            # self.unit_bu400_calibr.saveDatatest('calibr','bu400')
 
     def saveData_bu50(self):
         if self.buttonUnit2.isChecked():
             printf('saveData_bu50')
             self.unit_bu50_preset.saveData(self.obj_cal_bu50,'preset','bu50')
             self.unit_bu50_calibr.saveData(self.obj_cal_bu50,'calibr','bu50')
-            # self.unit_bu50_calibr.saveData(self.obj_cal_bu50,'filter','bu50')
+            self.unit_bu50_calibr.saveData(self.obj_cal_bu50,'filter','bu50')
 
     def saveData_buses(self):
         if self.buttonUnit3.isChecked():
             printf('saveData_buses')
             self.unit_buses_preset.saveData(self.obj_cal_buses,'preset','buses')
             self.unit_buses_calibr.saveData(self.obj_cal_buses,'calibr','buses')
-            # self.unit_buses_calibr.saveData(self.obj_cal_buses,'filter','buses')
+            self.unit_buses_calibr.saveData(self.obj_cal_buses,'filter','buses')
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
