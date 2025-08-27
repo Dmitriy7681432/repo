@@ -13,7 +13,10 @@ from class_read_data import Connect,Calibrator
 from debug import printf
 from PyQt5.QtCore import QBasicTimer
 # from debug1.test1 import Testing
+import serial.tools.list_ports
 
+from PyQt5.QtWidgets import (QWidget, QLabel,
+                             QComboBox, QApplication)
 class Worker(QThread):
     finished = pyqtSignal()
     window_created = pyqtSignal(QWidget)
@@ -132,8 +135,125 @@ class ThreadCalibrator(QtCore.QThread):
         # self.finished2.emit()
 
 
-class Main(QWidget):
+class Example(QWidget):
     def __init__(self):
+        super().__init__()
+        self.initUI()
+
+    def initUI(self):
+        app = QApplication(sys.argv)
+        self.lbl = QLabel("Ubuntu", self)
+
+        combo = QComboBox(self)
+        combo.addItems(["Ubuntu", "Mandriva",
+                        "Fedora", "Arch", "Gentoo"])
+
+        combo.move(50, 50)
+        self.lbl.move(50, 150)
+
+        combo.activated[str].connect(self.onActivated)
+
+        self.setGeometry(300, 300, 300, 200)
+        self.setWindowTitle('QComboBox')
+        self.show()
+        sys.exit(app.exec_())
+
+    def onActivated(self, text):
+        self.lbl.setText(text)
+        self.lbl.adjustSize()
+class FirstWindow(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("Первое окно")
+        self.setGeometry(100, 100, 300, 200)
+
+        self.open_button = QPushButton("Открыть второе окно", self)
+        self.open_button.clicked.connect(self.open_second_window)
+        self.open_button.move(100, 80)
+
+    def open_second_window(self):
+        self.second_window = Main()
+        # self.second_window.show()
+        self.close() # Закрывает текущее (первое) окно
+
+class ComPort(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("Первое окно")
+        self.setGeometry(100, 100, 300, 200)
+
+        #Шрифт
+        font = QtGui.QFont()
+        font.setFamily("Times New Roman")
+        font.setPointSize(12)
+        # font.setBold(True)
+        # font.setWeight(75)
+
+        desktop = QtWidgets.QApplication.desktop()
+        x = desktop.width()
+        y = desktop.height()
+        x_size_desktop = 250
+        y_size_desktop = int(y / 14)
+        printf(x_size_desktop,y_size_desktop)
+        self.resize(x_size_desktop, y_size_desktop)
+        # Вывод окна по центру
+        x_ = (desktop.width() - self.frameSize().width()) // 2
+        y_ = (desktop.height() - self.frameSize().height()) // 2
+        self.move(x_, y_)
+
+        combo = QComboBox(self)
+        lst_combo =  []
+        ports = serial.tools.list_ports.comports()
+        for port in ports:
+            lst_combo.append(port.name)
+
+        # layout = QVBoxLayout(self)
+
+        self.lbl = QLabel("Выберите COM port:", self)
+        self.lbl.move(int(x_size_desktop/8.0),10)
+        combo.addItems(lst_combo)
+        combo.move(int(x_size_desktop/8.0), 30)
+
+        self.move(x_, y_)
+        combo.activated[str].connect(self.onActivated)
+
+        self.open_button = QPushButton("OK", self)
+        self.open_button.clicked.connect(self.open_second_window)
+        self.open_button.move(120, 30)
+        self.open_button.setFont(font)
+        combo.setFont(font)
+        font.setPointSize(12)
+        font.setWeight(75)
+        self.lbl.setFont(font)
+
+        # layout.addWidget(self.lbl)
+        # layout.addWidget(combo)
+        # layout.addWidget(self.open_button)
+        # Цветовой фон
+        pal = self.palette()
+        # Если use 1-й аргумент, то цвет будет пропадать при переходе на др окно
+        # pal.setColor(QtGui.QPalette.Window, QtGui.QColor(191, 245, 234))
+        pal.setColor(QtGui.QPalette.Window, QtGui.QColor(220, 254, 225))
+        self.setPalette(pal)
+
+        self.com_port_text = combo.currentText()
+
+
+    def onActivated(self, text):
+        self.com_port_text= text
+
+        # self.lbl.adjustSize()
+
+    def open_second_window(self):
+        self.second_window = Main(self.com_port_text)
+        # self.second_window.show()
+        self.close()  # Закрывает текущее (первое) окно
+
+
+class Main(QWidget):
+    def __init__(self,com_port):
+        self.com_port = com_port
+        printf(com_port)
         super().__init__()
 
         self.main = QMainWindow()
@@ -147,7 +267,7 @@ class Main(QWidget):
         font.setWeight(75)
 
         desktop = QtWidgets.QApplication.desktop()
-        x = desktop.width();
+        x = desktop.width()
         y = desktop.height()
         printf(x, y)
         # x_size_desktop = int(x / 2.2);
@@ -359,10 +479,10 @@ class Main(QWidget):
         # self.main = Unit().initUI(self.vbox)
         # self.stackedWidget.addWidget(self.main)
 
-        self.ser = Connect()
-        self.data_dict_bu400= Calibrator(self.ser.ser, 'SES200M', 'BU_400')
-        self.data_dict_bu50= Calibrator(self.ser.ser, 'SES200M', 'BU_50')
-        self.data_dict_buses= Calibrator(self.ser.ser, 'SES200M', 'BU_SES')
+        self.ser = Connect(com_port)
+        self.data_dict_bu400= Calibrator(self.ser, 'SES200M', 'BU_400')
+        self.data_dict_bu50= Calibrator(self.ser, 'SES200M', 'BU_50')
+        self.data_dict_buses= Calibrator(self.ser, 'SES200M', 'BU_SES')
         # self.testing = Testing(self.ser.ser, 'SES200M', 'BU_400')
 
         self.unit_bu400_preset = Unit(self.data_dict_bu400.data_dict, 'preset', 'BU400',y)
@@ -571,7 +691,7 @@ class Main(QWidget):
             self.unit_buses_preset.readData(self.read_data_dict_buses,'preset',self.count_read_buses)
             self.unit_buses_calibr.readData(self.read_data_dict_buses,'calibr',self.count_read_buses)
             # pass
-        # self.buttonAction2.setEnabled(True)
+        self.buttonAction2.setEnabled(True)
         self.worker.time_stop()
 
     def next_main_thread_write(self,name_obj):
@@ -664,5 +784,7 @@ class Main(QWidget):
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     app.setStyle('Fusion')
-    ex = Main()
+    ex = ComPort()
+    ex.show()
     sys.exit(app.exec_())
+    # app.exec_()

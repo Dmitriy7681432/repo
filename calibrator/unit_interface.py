@@ -422,17 +422,17 @@ class Unit(MyWidget,QWidget):
                 doc.save(f'./{folder}/{data}_{name_block}.docx')
 
                 # Конвертация в pdf
-                print("-" * 50 + "\nКонвертация .docx в .pdf:\n" + "-" * 50)
+                printf("-" * 50 + "\nКонвертация .docx в .pdf:\n" + "-" * 50)
                 ok =True
                 try:
                     import docx2pdf
                 except Exception as e:
-                    print(f"Ошибка импорта модуля! Подробнее:\n{e}"); ok = False
+                    printf(f"Ошибка импорта модуля! Подробнее:\n{e}"); ok = False
                 if ok:
                     input_file = f"./{folder}/{data}_{name_block}.docx"
                     output_file = f"./{folder}/{data}_{name_block}.pdf"
                     if not os.path.exists(input_file):
-                        print(f"Файл {input_file} не найден! Выполнение конвертации невозможно!")
+                        printf(f"Файл {input_file} не найден! Выполнение конвертации невозможно!")
                     else:
                         docx2pdf.convert(input_file, output_file)
 
@@ -507,16 +507,16 @@ class Unit(MyWidget,QWidget):
         doc.save(f'./{folder}/{data}_{name_block}.docx')
 
         # Конвертация в pdf
-        print("-" * 50 + "\nКонвертация .docx в .pdf:\n" + "-" * 50)
+        printf("-" * 50 + "\nКонвертация .docx в .pdf:\n" + "-" * 50)
         try: import docx2pdf
-        except Exception as e: print(f"Ошибка импорта модуля! Подробнее:\n{e}"); ok = False
+        except Exception as e: printf(f"Ошибка импорта модуля! Подробнее:\n{e}"); ok = False
         if ok:
             input_file = f"./{folder}/{data}_{name_block}.docx"
             output_file = f"./{folder}/{data}_{name_block}.pdf"
-            if not os.path.exists(input_file): print(f"Файл {input_file} не найден! Выполнение конвертации невозможно!")
+            if not os.path.exists(input_file): printf(f"Файл {input_file} не найден! Выполнение конвертации невозможно!")
             else: docx2pdf.convert(input_file, output_file)
 
-        print("Writing complete")
+        printf("Writing complete")
 
 
 
