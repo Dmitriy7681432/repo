@@ -2,61 +2,48 @@
 import serial, time, binascii, struct
 import serial.tools.list_ports
 from lxml import etree
-from debug import printf
+# from debug import print
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtCore import QThread, pyqtSignal, pyqtSlot,QTimer,QObject
 import serial.tools.list_ports
-import sys
-from PyQt5.QtWidgets import (QWidget, QLabel,
-                             QComboBox, QApplication)
-# class ComPort():
-#     def __init__(self):
-#         super().__init__()
-#         main_window = QtWidgets.QWidget()
-#         main_window.setWindowTitle("Пример выпадающего списка")
-#         main_window.setGeometry(100, 100, 300, 200) # x, y, width, height
-#         combo_box = QtWidgets.QComboBox(main_window)
-#         combo_box.addItem("Элемент 1")
-#         combo_box.addItems(["Элемент 2", "Элемент 3", "Элемент 4"])
-#         layout = QtWidgets.QVBoxLayout(main_window)
-#         layout.addWidget(combo_box)
-#         main_window.setLayout(layout)
-        # main_window.show()
 
 class Connect():
     # ser = serial.Serial()
     # com_port = ComPort()
-    # ports = serial.tools.list_ports.comports()
+    ports = serial.tools.list_ports.comports()
     # #     ports = serial.tools.list_ports.ListPortInfo
-    # printf(ports)
+    # print(ports)
     # port_dev = 0
     # zip_port_dev = 0
-    # for port in ports:
-    #     # port = port.hwid
-    #     printf(port.hwid,port.name,port.vid,port.pid,port.serial_number,port.location,port.manufacturer,port.product,port.interface)
-    #     if 'FT4JEYIVA' == port.serial_number:
-    #         zip_port_dev = port.name
-    #     if 'FT4JEYIVB' == port.serial_number:
-    #         port_dev = port.name
-    #         break
-    # printf(port_dev)
-    # ser = serial.Serial(port="COM10", baudrate=3000000, timeout=0.01)
-    ser = serial.Serial()
+    ports_lst = []
+    with open('ports_bd.txt','r') as file_ports:
+        ports_type_lst = file_ports.readlines()
+    for port in ports:
+        # port = port.hwid
+        # print(port.hwid,port.name,port.vid,port.pid,port.serial_number,port.location,port.manufacturer,port.product,port.interface)
+        for i in ports_type_lst:
+            if i[:3] in port.serial_number:
+                port_dev = port.name
+                ports_lst.append(port.name)
+    # print(port_dev)
+    print(ports_lst)
+    ser = serial.Serial(port=ports_lst[0], baudrate=3000000, timeout=0.01)
+    # ser = serial.Serial()
     def __init__(self,com_port):
         super().__init__()
-        self.ser = serial.Serial(port=com_port, baudrate=3000000, timeout=0.01)
+        # self.ser = serial.Serial(port=com_port, baudrate=3000000, timeout=0.01)
         # self.com_port = com_port
-        # printf(com_port)
+        # print(com_port)
         # self.ser.port = com_port
-        # printf(com_port)
+        # print(com_port)
         # self.ser.baudrate = 3000000
-        # printf(com_port)
+        # print(com_port)
         # self.ser.timeout = 0.1
-        # printf(com_port)
+        # print(com_port)
 
     # Выбор режима com_port
     def can_open_O(self, arg):
-        printf('can_open_O')
+        print('can_open_O')
         arg.timeot = 0.01
         msg = b"C\r"
         arg.write(msg)
@@ -66,10 +53,10 @@ class Connect():
         arg.write(msg)
         # msg = b"F\r"
         # arg.write(msg)
-        # printf(arg.read(1024))
+        # print(arg.read(1024))
 
     def can_open_L(self, arg):
-        printf('can_open_L')
+        print('can_open_L')
         arg.timeot = 0.01
         msg = b"C\r"
         arg.write(msg)
@@ -80,7 +67,7 @@ class Connect():
 
     # Закрытие com_port
     def can_close(self, arg):
-        printf('can_close')
+        print('can_close')
         msg = b"C\r"
         arg.write(msg)
         # После закрытия необходимо заново инициалировать serial
@@ -149,21 +136,21 @@ class Calibrator(QObject):
         lst_val = []
         value = arg[13:21]
         value = value[6:8] + value[4:6] + value[2:4] + value[0:2]
-        printf('val',value)
+        print('val',value)
         value = value.decode('utf-8')
         if type == 'int' and func =='header':
-            printf(value)
+            print(value)
             value = binascii.unhexlify(value)
-            printf(value)
+            print(value)
             value = int.from_bytes(value, 'big', signed=True)
-            printf(value)
+            print(value)
             # value = struct.unpack('!I', bytes.fromhex(value))
             value = [bytearray(value.to_bytes(length=4, byteorder="little",signed=True))]
         elif type =='int':
             value = struct.unpack('!I', bytes.fromhex(value))
         elif type =='-int':
             value = [self.trans_neg_hex_to_dec(value)]
-            printf('val1',value)
+            print('val1',value)
             # value = struct.unpack('!I', bytes.fromhex(value))
         else:
             value = struct.unpack('!f', bytes.fromhex(value))
@@ -176,15 +163,15 @@ class Calibrator(QObject):
         return value[0], address[0]
 
     def func_val_to_hex_can(self,c):
-        printf(c)
+        print(c)
         c = int(c)
-        printf(c)
+        print(c)
         c = hex(c)[2:].upper()
-        printf(c)
+        print(c)
         if len(c) == 1:
-            printf(type(c),c)
+            print(type(c),c)
             c = '0' + c + "000000"
-            printf(c)
+            print(c)
         elif len(c) == 2:
             c = c + "000000"
         elif len(c) == 4:
@@ -204,25 +191,25 @@ class Calibrator(QObject):
         if val != b'000000000000':
             if header:
                 val = int.from_bytes(val, 'little', signed=False)
-                printf(val,type(val))
+                print(val,type(val))
                 val = hex(val)[2:].upper()
-                printf(val)
+                print(val)
                 val = val[6:8] + val[4:6] + val[2:4] + val[0:2]
-                printf(val)
+                print(val)
             else:
-                printf()
+                print()
                 val = self.func_val_to_hex_can(val)
-                printf(type(val),val)
+                print(type(val),val)
             val = val.encode('utf-8') + b'0000'
-            printf(val)
+            print(val)
 
-        printf(arg)
+        # print(arg)
         arg = hex(arg)[2:].upper()
-        printf(arg)
+        # print(arg)
         arg = arg[6:8] + arg[4:6] + arg[2:4] + arg[0:2]
-        printf(arg)
+        # print(arg)
         arg = arg.encode('utf-8')
-        printf(arg)
+        # print(arg)
         arg = id + arg + val + b'\r'
         return arg
 
@@ -232,7 +219,7 @@ class Calibrator(QObject):
             value = struct.unpack('!f', bytes.fromhex(str(value)))
             return value[0]
         elif type == 'int':
-            printf(value)
+            print(value)
             value = struct.unpack('!f', bytes.fromhex(str(value)))
             return value[0]
         return value
@@ -244,7 +231,7 @@ class Calibrator(QObject):
         s = str.maketrans('01', '10')
         s1 = t[2:].translate(s)
         s2 = (int(s1, 2) + 1) * -1
-        # printf(s2+1)
+        # print(s2+1)
         return s2
 
     # Считывание global_id параметра с params.xml
@@ -330,10 +317,10 @@ class Calibrator(QObject):
         self.data_dict['calibr'] = calibr_dict
         self.data_dict['filter'] = filter_dict
         self.param_dict[self.control_block] = params_dict
-        # printff(self.param_dict)
+        # printf(self.param_dict)
         self.pars_eskd()
         end = time.time()
-        printf(end - start)
+        # print(end - start)
         flag = 0
         return self.data_dict
 
@@ -347,7 +334,7 @@ class Calibrator(QObject):
                     if units ==i:
                         self.param_dict[self.control_block][eskd.text] = self.param_dict[self.control_block].pop(i)
                         break
-        #printff(self.param_dict)
+        #printf(self.param_dict)
 
             # if product==self.product and units==unit:
             #     return eskd.text
@@ -355,31 +342,37 @@ class Calibrator(QObject):
     # Считывание адреса по global_id параметра
     def _begin_data_read(self, data_can_dict_value):
         tmp_cnt =0
+        cnt_ports =0
         while True:
             tmp_cnt+=1
             read_data = self.ser.ser.read(1024)
             # Костыль
-            # if tmp_cnt >=250:
-            #     self.ser.port = self.zip_port_dev
-            #     self.ser.can_open_O(self.ser)
-            #     printf('tmp_cnt')
-            #     tmp_cnt=0
-            printf(data_can_dict_value)
+            if tmp_cnt >=250:
+                cnt_ports+=1
+                if cnt_ports>= len(self.ser.ports_lst):
+                    print("END COM PORT")
+                    return 'ERR'
+
+                self.ser.ser.port = self.ser.ports_lst[cnt_ports]
+                self.ser.can_open_O(self.ser.ser)
+                tmp_cnt=0
+            # print(data_can_dict_value)
             # self.ser.port = 'COM15'
             # self.ser = serial.Serial(port='COM15', baudrate=3000000, timeout=0.01)
             # self.can_open_O(self.ser)
-            # printf(read_data)
+            # print(read_data)
             if data_can_dict_value[:13] in read_data:
+                print('tmp_cnt', tmp_cnt)
                 list_read_data = read_data.split(b'\r')
-                printf(list_read_data)
+                print(list_read_data)
                 for i in list_read_data:
                     if data_can_dict_value[:13] in i and len(i) > 21:
-                        printf(read_data)
+                        print(read_data)
                         read_data = i
-                        printf(read_data)
+                        print(read_data)
                         value, address = self.transformed_in_value_and_address(read_data, 'int')
-                        printf(data_can_dict_value[:13])
-                        printf(value)
+                        print(data_can_dict_value[:13])
+                        print(value)
                         return value
 
     def _header_data_read(self, data_can_dict_value, data_can, mode):
@@ -392,26 +385,30 @@ class Calibrator(QObject):
         # if mode == 'r':
         #     # Копирование главного словаря для хранения значений шапки
         addr = self._begin_data_read(data_can_dict_value)
+
+        if addr =='ERR':
+            return 'ERR'
+
         # addr = 0
         while True:
             if mode == "w":
-                printf(addr,self.write_id,self.header_data_dict[data_can][count])
+                print(addr,self.write_id,self.header_data_dict[data_can][count])
                 msg_bytes = self.transformed_in_bytes(addr, self.write_id, self.header_data_dict[data_can][count],header=True)
-                printf()
+                print()
                 id = self.confirmation_id
             else:
                 msg_bytes = self.transformed_in_bytes(addr, self.read_id)
                 id = self.data_id
             addr += 4
             count += 1
-            printf(msg_bytes)
+            print(msg_bytes)
             self.ser.ser.write(msg_bytes)
             cnt_recept=0
             while True:
                 cnt_recept+=1
                 read_data = self.ser.ser.read(1024)
                 if cnt_recept >= 10:
-                    printf('er_recept_head')
+                    print('er_recept_head')
                     self.ser.ser.write(msg_bytes)
                     cnt_recept = 0
                 if id in read_data and msg_bytes[5:13] in read_data:
@@ -419,10 +416,10 @@ class Calibrator(QObject):
                     for i in list_read_data:
                         if i[:4] == id in i and len(i) > 21 and msg_bytes[5:13] in i:
                             read_data = i
-                            printf(read_data)
+                            print(read_data)
                             value, address = self.transformed_in_value_and_address(read_data, 'int','header')
-                            printf(value)
-                            printf(address)
+                            print(value)
+                            print(address)
 
                             if mode == 'w':
                                 value_write, address_write = self.transformed_in_value_and_address(read_data, 'int')
@@ -440,14 +437,14 @@ class Calibrator(QObject):
             if count == 7: count = 0; count1 = 0; break
         return addr
     def rest(self):
-        printf('func rest')
+        print('func rest')
         # while True:
         for i in range(1,10):
             time.sleep(1)
             self.cal_signal.emit(i)
-            printf('rest')
+            print('rest')
     def main_data_read(self, mode):
-        printf('main_data_read',mode)
+        print('main_data_read',mode)
         # Открытие порта
         self.ser.can_open_O(self.ser.ser)
 
@@ -459,7 +456,7 @@ class Calibrator(QObject):
 
         proc_elem = round((
             (len(self.data_dict['preset']) + len(self.data_dict['calibr']) + len(self.data_dict['filter'])) / 100)+0.5)
-        printf(len(self.data_dict['preset']) + len(self.data_dict['calibr']) + len(self.data_dict['filter']))
+        print(len(self.data_dict['preset']) + len(self.data_dict['calibr']) + len(self.data_dict['filter']))
         count_elem = 0
         step = 0
 
@@ -473,19 +470,19 @@ class Calibrator(QObject):
         for data_can in self.data_can_dict:
             count = 0
             count2 = 0
-            # printff(self.data_can_dict[data_can])
+            # printf(self.data_can_dict[data_can])
             if mode == 'w':
                 addr = self._header_data_read(self.data_can_dict[data_can], data_can, 'w')
                 id = self.confirmation_id
             else:
                 addr = self._header_data_read(self.data_can_dict[data_can], data_can, 'r')
                 id = self.data_id
-                printf(addr)
-
+                print(addr)
+            if addr =='ERR': return 'ERR'
             # Парсер главного словаря с данным
             for data_main in self.data_dict[data_can].items():
-                printf(data_main)
-                printf(self.data_dict[data_can].items())
+                print(data_main)
+                print(self.data_dict[data_can].items())
                 count_elem +=1
                 if count_elem == proc_elem:
                     step +=1
@@ -500,8 +497,8 @@ class Calibrator(QObject):
                     if data_can == 'preset':
                         if count > 4: count = 0; break
                         if mode == 'w':
-                            printf(self.data_dict[data_can][data_main[0]][count2+1])
-                            printf(self.data_dict[data_can][data_main[0]])
+                            print(self.data_dict[data_can][data_main[0]][count2+1])
+                            print(self.data_dict[data_can][data_main[0]])
                             msg_bytes = self.transformed_in_bytes(addr, self.write_id, self.data_dict[data_can] \
                                 [data_main[0]][count2 + 1])
                     elif data_can == 'filter':
@@ -515,20 +512,20 @@ class Calibrator(QObject):
                             msg_bytes = self.transformed_in_bytes(addr, self.write_id, self.data_dict[data_can] \
                                 [data_main[0]][count])
 
-                    # printff(number)
+                    # printf(number)
                     if mode == 'r':
                         msg_bytes = self.transformed_in_bytes(addr, self.read_id)
                     addr += 4
-                    printf(msg_bytes)
+                    print(msg_bytes)
                     self.ser.ser.write(msg_bytes)
                     cnt_recept =0
                     # Чтение с can значение и адреса
                     while True:
                         cnt_recept+=1
                         read_data = self.ser.ser.read(1024)
-                        printf(id,'---',read_data)
+                        print(id,'---',read_data)
                         if cnt_recept>=10:
-                            printf('er_recept')
+                            print('er_recept')
                             self.ser.ser.write(msg_bytes)
                             cnt_recept =0
                         if id in read_data and msg_bytes[5:13] in read_data:
@@ -536,7 +533,7 @@ class Calibrator(QObject):
                             for i in list_read_data:
                                 if i[:4] == id and len(i) > 21 and msg_bytes[5:13] in i:
                                     read_data = i
-                                    printf(read_data)
+                                    print(read_data)
 
                                     # Конвертируем значения hex в dec
                                     if data_can == 'preset':
@@ -574,7 +571,7 @@ class Calibrator(QObject):
                                     # повторяем отправку
                                     # if value_write != value and count < 20: addr -= 4; count -= 1; count1 += 1
 
-                                    printf(value)
+                                    print(value)
                                     # self.file_open.write(hex(address).encode('utf-8') + b'\t')
                                     # self.file_open.write(hex(value).encode('utf-8') + b'\n')
 
@@ -584,8 +581,8 @@ class Calibrator(QObject):
                             if flag == 1: flag = 0; break
         # self.file_open.close()
         self.ser.can_close(self.ser.ser)
-        printf(self.data_dict)
-        printf(self.header_data_dict)
+        print(self.data_dict)
+        print(self.header_data_dict)
         return 'End main_data_read'
 
     def param_read(self,global_id):
@@ -594,10 +591,10 @@ class Calibrator(QObject):
 
 
     def test_data_dict(self,data):
-        printf(self.data_dict)
+        print(self.data_dict)
         count =0
         if self.flag <2:
-            printf('FLAG')
+            print('FLAG')
             for i in self.data_dict[data].items():
                 count+=1
                 if data =='preset':
@@ -620,4 +617,4 @@ class Calibrator(QObject):
 # cal1 = Calibrator(ser.ser, 'SES200M', 'BU_50')
 # cal1.main_data_read('r')
 # cal1.main_data_read('w')
-# printff(cal1.data_dict)
+# printf(cal1.data_dict)

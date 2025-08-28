@@ -10,16 +10,55 @@ from PyQt5 import QtCore, QtGui, QtWidgets,Qt
 from PyQt5.QtCore import QThread, pyqtSignal, pyqtSlot,QTimer
 from unit_interface import Unit,Param
 from class_read_data import Connect,Calibrator
-from debug import printf
+# from debug import print
 from PyQt5.QtCore import QBasicTimer
 # from debug1.test1 import Testing
 import serial.tools.list_ports
 
 from PyQt5.QtWidgets import (QWidget, QLabel,
                              QComboBox, QApplication)
+
+class SignalErr():
+    def __init__(self):
+        super().__init__()
+
+        self.widget = QWidget()
+
+        #Шрифт
+        font = QtGui.QFont()
+        font.setFamily("Times New Roman")
+        font.setPointSize(16)
+        font.setBold(True)
+        font.setWeight(75)
+
+
+        # Цветовой фон
+        pal = self.widget.palette()
+        # Если use 1-й аргумент, то цвет будет пропадать при переходе на др окно
+        # pal.setColor(QtGui.QPalette.Window, QtGui.QColor(191, 245, 234))
+        pal.setColor(QtGui.QPalette.Window, QtGui.QColor(220, 254, 225))
+        self.widget.setPalette(pal)
+
+        self.widget.setWindowTitle("Warning")
+        self.widget.setGeometry(100, 100, 300, 50)
+
+        self.center()
+        self.lbl = QLabel("Не нашел com_port!!!",self.widget)
+        self.lbl.move(50,10)
+        self.lbl.setFont(font)
+        self.lbl.setStyleSheet('color: red;')
+        self.widget.show()
+
+    def center(self):
+        qr = self.widget.frameGeometry()
+        cp = QDesktopWidget().availableGeometry().center()
+        qr.moveCenter(cp)
+        self.widget.move(qr.topLeft())
+
 class Worker(QThread):
     finished = pyqtSignal()
     window_created = pyqtSignal(QWidget)
+    flag_err_work =0
 
     def __init__(self,obj_main):
         super().__init__()
@@ -68,7 +107,7 @@ class Worker(QThread):
         self.val =100
 
     def update_progress_bar(self,val):
-        printf('updata_pr')
+        print('updata_pr')
         self.val = val
         # self.step = self.step +self.val
         self.pbar.setValue(self.val)
@@ -82,15 +121,15 @@ class Worker(QThread):
 
         # self.window_created.emit(self.window)  # Отправляем сигнал о создании окна
         # self.finished.emit()  # Отправляем сигнал об окончании работы
-        printf('3')
+        print('3')
 
     # Вновь
     # def closeEvent(self):
     #     self.window.setWindowModality(Qt.Qt.NonModal)
     def timerEvent(self, e):
-        printf(self.val, self.timer.isActive())
+        print('timer_event',self.val, self.timer.isActive())
         self.pbar.setValue(self.val)
-        if self.val >= 100:
+        if self.val >= 100 or self.flag_err_work:
             self.timer.stop()
             self.window.close()
             self.window.setWindowModality(Qt.Qt.NonModal)
@@ -101,7 +140,7 @@ class Worker(QThread):
         # self.step = self.step + 1
 
     def doAction(self):
-        printf('doAction', self.timer.isActive())
+        print('doAction', self.timer.isActive())
         if self.timer.isActive():
             self.timer.stop()
             # self.btn.setText('Начать')
@@ -115,6 +154,8 @@ class Worker(QThread):
 class ThreadCalibrator(QtCore.QThread):
     finished2 = pyqtSignal(str)
     mysignal = QtCore.pyqtSignal()
+    flag_err = 0
+    finished_err = pyqtSignal()
 
     def __init__(self, obj,name_obj,mode):
         super().__init__()
@@ -124,57 +165,19 @@ class ThreadCalibrator(QtCore.QThread):
 
     def run(self):
         i = 1
-        printf('Thread start')
-        self.obj.main_data_read(self.mode)
+        print('Thread start')
+        self.flag_err = self.obj.main_data_read(self.mode)
         # while True:
         # for i in range(0,10):
         #     self.sleep(1)
             # self.mysignal.emit('%s'% i)
         # self.obj.rest()
-        self.finished2.emit('%s' % self.name_obj)
+        if self.flag_err=='ERR':
+            self.finished_err.emit()
+        else:
+            self.finished2.emit('%s' % self.name_obj)
         # self.finished2.emit()
 
-
-class Example(QWidget):
-    def __init__(self):
-        super().__init__()
-        self.initUI()
-
-    def initUI(self):
-        app = QApplication(sys.argv)
-        self.lbl = QLabel("Ubuntu", self)
-
-        combo = QComboBox(self)
-        combo.addItems(["Ubuntu", "Mandriva",
-                        "Fedora", "Arch", "Gentoo"])
-
-        combo.move(50, 50)
-        self.lbl.move(50, 150)
-
-        combo.activated[str].connect(self.onActivated)
-
-        self.setGeometry(300, 300, 300, 200)
-        self.setWindowTitle('QComboBox')
-        self.show()
-        sys.exit(app.exec_())
-
-    def onActivated(self, text):
-        self.lbl.setText(text)
-        self.lbl.adjustSize()
-class FirstWindow(QWidget):
-    def __init__(self):
-        super().__init__()
-        self.setWindowTitle("Первое окно")
-        self.setGeometry(100, 100, 300, 200)
-
-        self.open_button = QPushButton("Открыть второе окно", self)
-        self.open_button.clicked.connect(self.open_second_window)
-        self.open_button.move(100, 80)
-
-    def open_second_window(self):
-        self.second_window = Main()
-        # self.second_window.show()
-        self.close() # Закрывает текущее (первое) окно
 
 class ComPort(QWidget):
     def __init__(self):
@@ -194,7 +197,7 @@ class ComPort(QWidget):
         y = desktop.height()
         x_size_desktop = 250
         y_size_desktop = int(y / 14)
-        printf(x_size_desktop,y_size_desktop)
+        print(x_size_desktop,y_size_desktop)
         self.resize(x_size_desktop, y_size_desktop)
         # Вывод окна по центру
         x_ = (desktop.width() - self.frameSize().width()) // 2
@@ -206,6 +209,7 @@ class ComPort(QWidget):
         ports = serial.tools.list_ports.comports()
         for port in ports:
             lst_combo.append(port.name)
+            print(port.hwid,port.name,port.vid,port.pid,port.serial_number,port.location,port.manufacturer,port.product,port.interface)
 
         # layout = QVBoxLayout(self)
 
@@ -253,7 +257,6 @@ class ComPort(QWidget):
 class Main(QWidget):
     def __init__(self,com_port):
         self.com_port = com_port
-        printf(com_port)
         super().__init__()
 
         self.main = QMainWindow()
@@ -269,7 +272,7 @@ class Main(QWidget):
         desktop = QtWidgets.QApplication.desktop()
         x = desktop.width()
         y = desktop.height()
-        printf(x, y)
+        # print(x, y)
         # x_size_desktop = int(x / 2.2);
         x_size_desktop = 885
         y_size_desktop = int(y / 1.3)
@@ -287,10 +290,10 @@ class Main(QWidget):
         self.vbox = QVBoxLayout()
         self.stackedWidget = QtWidgets.QStackedWidget()
         self.stackedWidget.setGeometry(QtCore.QRect(0, 68, stack_size_yy, stack_size_xx))
-        printf(self.stackedWidget.size().height())
+        # print(self.stackedWidget.size().height())
         self.stackedWidget.setObjectName("stackedWidget")
 
-        printf(stack_size_x,stack_size_y,stack_size_yy,stack_size_xx)
+        # print(stack_size_x,stack_size_y,stack_size_yy,stack_size_xx)
         # self.centralwidget.setGeometry(800,800,800,800)
         # self.centralwidget.setGeometry(0,0,768,50)
 
@@ -649,7 +652,7 @@ class Main(QWidget):
 
         # self.button.setEnabled(True) # Включаем кнопку, когда второе окно отображено
     def readData_bu400(self):
-        # printff('readData_bu400',self.buttonUnit1.isChecked())
+        # printf('readData_bu400',self.buttonUnit1.isChecked())
         if not self.buttonUnit2.isChecked() and not self.buttonUnit3.isChecked():
             self.worker = Worker(self.data_dict_bu400)
             self.worker.run1()
@@ -665,13 +668,21 @@ class Main(QWidget):
         self.th =ThreadCalibrator(obj,name_obj,mode)
         self.th.start()
         # self.th.mysignal.connect(self.on_change,QtCore.Qt.QueuedConnection)
+        if self.th.flag_err =='ERR':
+            print()
+            self.th.quit()
+        self.th.finished_err.connect(self.signal_thread_stop)
         if mode =='r':
             self.th.finished2.connect(self.next_main_thread_read)
         else:
             self.th.finished2.connect(self.next_main_thread_write)
 
+    def signal_thread_stop(self):
+        self.worker.flag_err_work=1
+        # sign = Worker(self.data_dict_bu400)
+        self.sign = SignalErr()
     def next_main_thread_read(self,name_obj):
-        printf('next main thread read',name_obj)
+        print('next main thread read',name_obj)
         if name_obj =='BU_400':
             self.count_read_bu400 += 4
             self.obj_cal_bu400 = self.data_dict_bu400
@@ -695,7 +706,7 @@ class Main(QWidget):
         self.worker.time_stop()
 
     def next_main_thread_write(self,name_obj):
-        printf('next main thread write',name_obj)
+        print('next main thread write',name_obj)
         if name_obj =='BU_400':
             self.unit_bu400_preset.writeData(self.read_data_dict_bu400,'preset')
             data_dict = self.unit_bu400_calibr.writeData(self.read_data_dict_bu400,'calibr')
@@ -715,7 +726,7 @@ class Main(QWidget):
     #     self.unit_bu400_calibr.readData(self.read_data_dict_bu400,'calibr')
 
     def readData_bu50(self):
-        # printff('readData_bu50',self.buttonUnit2.isChecked())
+        # printf('readData_bu50',self.buttonUnit2.isChecked())
         if self.buttonUnit2.isChecked():
             self.worker = Worker(self.data_dict_bu50)
             self.worker.run1()
@@ -723,7 +734,7 @@ class Main(QWidget):
             self.readData_bu50_flag = 1
 
     def readData_buses(self):
-        # printff('readData_buses',self.buttonUnit3.isChecked())
+        # printf('readData_buses',self.buttonUnit3.isChecked())
         if self.buttonUnit3.isChecked():
             self.worker = Worker(self.data_dict_buses)
             self.worker.run1()
@@ -759,7 +770,7 @@ class Main(QWidget):
 
     def saveData_bu400(self):
         if not self.buttonUnit2.isChecked() and not self.buttonUnit3.isChecked():
-            printf('saveData_bu400')
+            print('saveData_bu400')
             self.unit_bu400_preset.saveData(self.obj_cal_bu400,'preset','bu400')
             self.unit_bu400_calibr.saveData(self.obj_cal_bu400,'calibr','bu400')
             self.unit_bu400_calibr.saveData(self.obj_cal_bu400,'filter','bu400')
@@ -769,14 +780,14 @@ class Main(QWidget):
 
     def saveData_bu50(self):
         if self.buttonUnit2.isChecked():
-            printf('saveData_bu50')
+            print('saveData_bu50')
             self.unit_bu50_preset.saveData(self.obj_cal_bu50,'preset','bu50')
             self.unit_bu50_calibr.saveData(self.obj_cal_bu50,'calibr','bu50')
             self.unit_bu50_calibr.saveData(self.obj_cal_bu50,'filter','bu50')
 
     def saveData_buses(self):
         if self.buttonUnit3.isChecked():
-            printf('saveData_buses')
+            print('saveData_buses')
             self.unit_buses_preset.saveData(self.obj_cal_buses,'preset','buses')
             self.unit_buses_calibr.saveData(self.obj_cal_buses,'calibr','buses')
             self.unit_buses_calibr.saveData(self.obj_cal_buses,'filter','buses')
@@ -784,7 +795,8 @@ class Main(QWidget):
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     app.setStyle('Fusion')
-    ex = ComPort()
-    ex.show()
+    ex = Main('COM')
+    # ex = ComPort()
+    # ex.show()
     sys.exit(app.exec_())
     # app.exec_()
