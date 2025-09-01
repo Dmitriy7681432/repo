@@ -6,6 +6,11 @@ from lxml import etree
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtCore import QThread, pyqtSignal, pyqtSlot,QTimer,QObject
 import serial.tools.list_ports
+import warning
+from PyQt5.QtCore import QAbstractEventDispatcher
+from PyQt5.QtWidgets import QApplication
+import sys
+
 
 class Connect():
     # ser = serial.Serial()
@@ -27,7 +32,13 @@ class Connect():
                 ports_lst.append(port.name)
     # print(port_dev)
     print(ports_lst)
-    ser = serial.Serial(port=ports_lst[0], baudrate=3000000, timeout=0.01)
+    try:
+        ser = serial.Serial(port=ports_lst[0], baudrate=3000000, timeout=0.01)
+    except IndexError:
+        print('ERROR')
+        warning.SignalErr(True)
+
+
     # ser = serial.Serial()
     def __init__(self,com_port):
         super().__init__()

@@ -17,43 +17,8 @@ import serial.tools.list_ports
 
 from PyQt5.QtWidgets import (QWidget, QLabel,
                              QComboBox, QApplication)
+import warning
 
-class SignalErr():
-    def __init__(self):
-        super().__init__()
-
-        self.widget = QWidget()
-
-        #Шрифт
-        font = QtGui.QFont()
-        font.setFamily("Times New Roman")
-        font.setPointSize(16)
-        font.setBold(True)
-        font.setWeight(75)
-
-
-        # Цветовой фон
-        pal = self.widget.palette()
-        # Если use 1-й аргумент, то цвет будет пропадать при переходе на др окно
-        # pal.setColor(QtGui.QPalette.Window, QtGui.QColor(191, 245, 234))
-        pal.setColor(QtGui.QPalette.Window, QtGui.QColor(220, 254, 225))
-        self.widget.setPalette(pal)
-
-        self.widget.setWindowTitle("Warning")
-        self.widget.setGeometry(100, 100, 300, 50)
-
-        self.center()
-        self.lbl = QLabel("Не нашел com_port!!!",self.widget)
-        self.lbl.move(50,10)
-        self.lbl.setFont(font)
-        self.lbl.setStyleSheet('color: red;')
-        self.widget.show()
-
-    def center(self):
-        qr = self.widget.frameGeometry()
-        cp = QDesktopWidget().availableGeometry().center()
-        qr.moveCenter(cp)
-        self.widget.move(qr.topLeft())
 
 class Worker(QThread):
     finished = pyqtSignal()
@@ -680,7 +645,7 @@ class Main(QWidget):
     def signal_thread_stop(self):
         self.worker.flag_err_work=1
         # sign = Worker(self.data_dict_bu400)
-        self.sign = SignalErr()
+        self.sign = warning.SignalErr()
     def next_main_thread_read(self,name_obj):
         print('next main thread read',name_obj)
         if name_obj =='BU_400':
