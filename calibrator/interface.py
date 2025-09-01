@@ -145,7 +145,7 @@ class ThreadCalibrator(QtCore.QThread):
 
 
 class ComPort(QWidget):
-    def __init__(self):
+    def __init__(self,arg='product'):
         super().__init__()
         self.setWindowTitle("Первое окно")
         self.setGeometry(100, 100, 300, 200)
@@ -170,25 +170,31 @@ class ComPort(QWidget):
         self.move(x_, y_)
 
         combo = QComboBox(self)
-        lst_combo =  []
-        ports = serial.tools.list_ports.comports()
-        for port in ports:
-            lst_combo.append(port.name)
-            print(port.hwid,port.name,port.vid,port.pid,port.serial_number,port.location,port.manufacturer,port.product,port.interface)
+        lst_combo = []
+        if arg =='com':
+            ports = serial.tools.list_ports.comports()
+            for port in ports:
+                lst_combo.append(port.name)
+                print(port.hwid,port.name,port.vid,port.pid,port.serial_number,port.location,port.manufacturer,port.product,port.interface)
+            label = 'Выберите com port:'
+        else:
+            label = 'Выберите изделие:'
+            lst_combo = ['SES200M','SEP30M']
+
 
         # layout = QVBoxLayout(self)
 
-        self.lbl = QLabel("Выберите COM port:", self)
+        self.lbl = QLabel(label, self)
         self.lbl.move(int(x_size_desktop/8.0),10)
         combo.addItems(lst_combo)
         combo.move(int(x_size_desktop/8.0), 30)
 
-        self.move(x_, y_)
+        # self.move(x_, y_)
         combo.activated[str].connect(self.onActivated)
 
         self.open_button = QPushButton("OK", self)
         self.open_button.clicked.connect(self.open_second_window)
-        self.open_button.move(120, 30)
+        self.open_button.move(140, 30)
         self.open_button.setFont(font)
         combo.setFont(font)
         font.setPointSize(12)
@@ -205,23 +211,23 @@ class ComPort(QWidget):
         pal.setColor(QtGui.QPalette.Window, QtGui.QColor(220, 254, 225))
         self.setPalette(pal)
 
-        self.com_port_text = combo.currentText()
+        self.cur_elem = combo.currentText()
 
 
     def onActivated(self, text):
-        self.com_port_text= text
+        self.cur_elem= text
 
         # self.lbl.adjustSize()
 
     def open_second_window(self):
-        self.second_window = Main(self.com_port_text)
+        self.second_window = Main(self.cur_elem)
         # self.second_window.show()
         self.close()  # Закрывает текущее (первое) окно
 
 
 class Main(QWidget):
-    def __init__(self,com_port):
-        self.com_port = com_port
+    def __init__(self,cur_elem):
+        self.cur_elem = cur_elem
         super().__init__()
 
         self.main = QMainWindow()
@@ -447,10 +453,13 @@ class Main(QWidget):
         # self.main = Unit().initUI(self.vbox)
         # self.stackedWidget.addWidget(self.main)
 
-        self.ser = Connect(com_port)
-        self.data_dict_bu400= Calibrator(self.ser, 'SES200M', 'BU_400')
-        self.data_dict_bu50= Calibrator(self.ser, 'SES200M', 'BU_50')
-        self.data_dict_buses= Calibrator(self.ser, 'SES200M', 'BU_SES')
+        self.ser = Connect(cur_elem)
+
+        if self.cur_elem == "SES200M":
+            self.data_dict_bu400= Calibrator(self.ser, cur_elem, 'BU_400')
+            self.data_dict_bu50= Calibrator(self.ser, cur_elem, 'BU_50')
+            self.data_dict_buses= Calibrator(self.ser, cur_elem, 'BU_SES')
+
         # self.testing = Testing(self.ser.ser, 'SES200M', 'BU_400')
 
         self.unit_bu400_preset = Unit(self.data_dict_bu400.data_dict, 'preset', 'BU400',y)
@@ -508,6 +517,7 @@ class Main(QWidget):
         # self.setCentralWidget(self.centralwidget)
         self.main.setObjectName("MainWindow")
         self.main.setWindowTitle('Calibrator')
+        # return self.main
         self.main.show()
 
         # self.open_second_window()
@@ -760,8 +770,8 @@ class Main(QWidget):
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     app.setStyle('Fusion')
-    ex = Main('COM')
-    # ex = ComPort()
-    # ex.show()
+    # ex = Main('COM')
+    ex = ComPort()
+    ex.show()
     sys.exit(app.exec_())
     # app.exec_()
