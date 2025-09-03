@@ -454,33 +454,48 @@ class Main(QWidget):
         # self.stackedWidget.addWidget(self.main)
 
         self.ser = Connect(cur_elem)
+        if self.cur_elem =='SES200M': lst_cb = ['BU_400','BU_50','BU_SES']
+        else: lst_cb = ['BU_SEP','BU_400']
+        self.calibr_obj = []
+        self.unit_obj_preset = []
+        self.unit_obj_calibr = []
+        self.param_obj = []
 
-        if self.cur_elem == "SES200M":
-            self.data_dict_bu400= Calibrator(self.ser, cur_elem, 'BU_400')
-            self.data_dict_bu50= Calibrator(self.ser, cur_elem, 'BU_50')
-            self.data_dict_buses= Calibrator(self.ser, cur_elem, 'BU_SES')
+        # Инициализация объекта Calibrator
+        for i in lst_cb:
+            self.calibr_obj.append(Calibrator(self.ser, cur_elem, i))
 
         # self.testing = Testing(self.ser.ser, 'SES200M', 'BU_400')
 
-        self.unit_bu400_preset = Unit(self.data_dict_bu400.data_dict, 'preset', 'BU400',y)
-        self.unit_bu50_preset = Unit(self.data_dict_bu50.data_dict, 'preset', 'BU50',y)
-        self.unit_buses_preset = Unit(self.data_dict_buses.data_dict, 'preset', 'BUSES',y)
-        self.unit_bu400_calibr = Unit(self.data_dict_bu400.data_dict, 'calibr', 'BU400',y)
-        self.unit_bu50_calibr = Unit(self.data_dict_bu50.data_dict, 'calibr', 'BU50',y)
-        self.unit_buses_calibr = Unit(self.data_dict_buses.data_dict, 'calibr', 'BUSES',y)
-        self.param_bu400 = Param(self.data_dict_bu400.param_dict,'BU_400',int(y/2))
-        self.param_bu50 = Param(self.data_dict_bu50.param_dict,'BU_50',int(y/2))
-        self.param_buses = Param(self.data_dict_buses.param_dict,'BU_SES',int(y/2))
+        # Инициализация объекта Unit, Param
+        for i,v in enumerate(lst_cb):
+            self.unit_obj_preset.append(Unit(self.calibr_obj[i].data_dict, 'preset', v,y))
+            self.unit_obj_calibr.append(Unit(self.calibr_obj[i].data_dict, 'calibr', v,y))
+            self.param_obj.append(Param(self.calibr_obj[i].param_dict, v,int(y/2)))
+            self.stackedWidget.addWidget(self.unit_obj_preset[i])
+            self.stackedWidget.addWidget(self.unit_obj_calibr[i])
+            self.stackedWidget.addWidget(self.param_obj[i])
 
-        self.stackedWidget.addWidget(self.unit_bu400_preset)
-        self.stackedWidget.addWidget(self.unit_bu50_preset)
-        self.stackedWidget.addWidget(self.unit_buses_preset)
-        self.stackedWidget.addWidget(self.unit_bu400_calibr)
-        self.stackedWidget.addWidget(self.unit_bu50_calibr)
-        self.stackedWidget.addWidget(self.unit_buses_calibr)
-        self.stackedWidget.addWidget(self.param_bu400)
-        self.stackedWidget.addWidget(self.param_bu50)
-        self.stackedWidget.addWidget(self.param_buses)
+        # self.unit_bu400_preset = Unit(self.data_dict_bu400.data_dict, 'preset', 'BU400',y)
+        # self.unit_bu50_preset = Unit(self.data_dict_bu50.data_dict, 'preset', 'BU50',y)
+        # self.unit_buses_preset = Unit(self.data_dict_buses.data_dict, 'preset', 'BUSES',y)
+        # self.unit_bu400_calibr = Unit(self.data_dict_bu400.data_dict, 'calibr', 'BU400',y)
+        # self.unit_bu50_calibr = Unit(self.data_dict_bu50.data_dict, 'calibr', 'BU50',y)
+        # self.unit_buses_calibr = Unit(self.data_dict_buses.data_dict, 'calibr', 'BUSES',y)
+        # self.param_bu400 = Param(self.data_dict_bu400.param_dict,'BU_400',int(y/2))
+        # self.param_bu50 = Param(self.data_dict_bu50.param_dict,'BU_50',int(y/2))
+        # self.param_buses = Param(self.data_dict_buses.param_dict,'BU_SES',int(y/2))
+        #
+        # self.stackedWidget.addWidget(self.unit_bu400_preset)
+        # self.stackedWidget.addWidget(self.unit_bu50_preset)
+        # self.stackedWidget.addWidget(self.unit_buses_preset)
+        # self.stackedWidget.addWidget(self.unit_bu400_calibr)
+        # self.stackedWidget.addWidget(self.unit_bu50_calibr)
+        # self.stackedWidget.addWidget(self.unit_buses_calibr)
+        # self.stackedWidget.addWidget(self.param_bu400)
+        # self.stackedWidget.addWidget(self.param_bu50)
+        # self.stackedWidget.addWidget(self.param_buses)
+
         self.stackedWidget.setCurrentIndex(0)
         # self.vbox.addWidget(self.stackedWidget)
 
@@ -629,9 +644,9 @@ class Main(QWidget):
     def readData_bu400(self):
         # printf('readData_bu400',self.buttonUnit1.isChecked())
         if not self.buttonUnit2.isChecked() and not self.buttonUnit3.isChecked():
-            self.worker = Worker(self.data_dict_bu400)
+            self.worker = Worker(self.calibr_obj[0])
             self.worker.run1()
-            self.thread_start(self.data_dict_bu400,"BU_400",'r')
+            self.thread_start(self.calibr_obj[0],"BU_400",'r')
             self.readData_bu400_flag = 1
             # test
             # self.read_data_dict_bu400 = self.data_dict_bu400.test_data_dict('calibr')
@@ -660,22 +675,22 @@ class Main(QWidget):
         print('next main thread read',name_obj)
         if name_obj =='BU_400':
             self.count_read_bu400 += 4
-            self.obj_cal_bu400 = self.data_dict_bu400
-            self.read_data_dict_bu400 = self.data_dict_bu400.data_dict
-            self.unit_bu400_preset.readData(self.read_data_dict_bu400,'preset',self.count_read_bu400)
-            self.unit_bu400_calibr.readData(self.read_data_dict_bu400,'calibr',self.count_read_bu400)
+            self.obj_cal_bu400 = self.calibr_obj[0]
+            self.read_data_dict_bu400 = self.calibr_obj[0].data_dict
+            self.unit_obj_preset[0].readData(self.read_data_dict_bu400,'preset',self.count_read_bu400)
+            self.unit_obj_calibr[0].readData(self.read_data_dict_bu400,'calibr',self.count_read_bu400)
         if name_obj =='BU_50':
             self.count_read_bu50 += 4
-            self.obj_cal_bu50 = self.data_dict_bu50
-            self.read_data_dict_bu50 = self.data_dict_bu50.data_dict
-            self.unit_bu50_preset.readData(self.read_data_dict_bu50,'preset',self.count_read_bu50)
-            self.unit_bu50_calibr.readData(self.read_data_dict_bu50,'calibr',self.count_read_bu50)
+            self.obj_cal_bu50 = self.calibr_obj[1]
+            self.read_data_dict_bu50 = self.calibr_obj[1].data_dict
+            self.unit_obj_preset[1].readData(self.read_data_dict_bu50,'preset',self.count_read_bu50)
+            self.unit_obj_calibr[1].readData(self.read_data_dict_bu50,'calibr',self.count_read_bu50)
         if name_obj =='BU_SES':
             self.count_read_buses += 4
-            self.obj_cal_buses = self.data_dict_buses
-            self.read_data_dict_buses = self.data_dict_buses.data_dict
-            self.unit_buses_preset.readData(self.read_data_dict_buses,'preset',self.count_read_buses)
-            self.unit_buses_calibr.readData(self.read_data_dict_buses,'calibr',self.count_read_buses)
+            self.obj_cal_buses = self.calibr_obj[2]
+            self.read_data_dict_buses = self.calibr_obj[2].data_dict
+            self.unit_obj_preset[2].readData(self.read_data_dict_buses,'preset',self.count_read_buses)
+            self.unit_obj_calibr[2].readData(self.read_data_dict_buses,'calibr',self.count_read_buses)
             # pass
         self.buttonAction2.setEnabled(True)
         self.worker.time_stop()
@@ -683,17 +698,17 @@ class Main(QWidget):
     def next_main_thread_write(self,name_obj):
         print('next main thread write',name_obj)
         if name_obj =='BU_400':
-            self.unit_bu400_preset.writeData(self.read_data_dict_bu400,'preset')
+            self.unit_obj_preset[0].writeData(self.read_data_dict_bu400,'preset')
             data_dict = self.unit_bu400_calibr.writeData(self.read_data_dict_bu400,'calibr')
-            self.data_dict_bu400.update_data_dict(data_dict)
+            self.calibr_obj[0].update_data_dict(data_dict)
         if name_obj =='BU_50':
-            self.unit_bu50_preset.writeData(self.read_data_dict_bu50,'preset')
+            self.unit_obj_preset[1].writeData(self.read_data_dict_bu50,'preset')
             data_dict = self.unit_bu50_calibr.writeData(self.read_data_dict_bu50,'calibr')
-            self.data_dict_bu50.update_data_dict(data_dict)
+            self.calibr_obj[1].update_data_dict(data_dict)
         if name_obj =='BU_SES':
-            self.unit_buses_preset.writeData(self.read_data_dict_buses,'preset')
+            self.unit_obj_preset[2].writeData(self.read_data_dict_buses,'preset')
             data_dict = self.unit_buses_calibr.writeData(self.read_data_dict_buses,'calibr')
-            self.data_dict_buses.update_data_dict(data_dict)
+            self.calibr_obj[2].update_data_dict(data_dict)
         self.buttonAction2.setEnabled(True)
         self.worker.time_stop()
     # def on_change(self,s):
@@ -703,17 +718,17 @@ class Main(QWidget):
     def readData_bu50(self):
         # printf('readData_bu50',self.buttonUnit2.isChecked())
         if self.buttonUnit2.isChecked():
-            self.worker = Worker(self.data_dict_bu50)
+            self.worker = Worker(self.calibr_obj[1])
             self.worker.run1()
-            self.thread_start(self.data_dict_bu50,"BU_50",'r')
+            self.thread_start(self.calibr_obj[1],"BU_50",'r')
             self.readData_bu50_flag = 1
 
     def readData_buses(self):
         # printf('readData_buses',self.buttonUnit3.isChecked())
         if self.buttonUnit3.isChecked():
-            self.worker = Worker(self.data_dict_buses)
+            self.worker = Worker(self.calibr_obj[2])
             self.worker.run1()
-            self.thread_start(self.data_dict_buses,"BU_SES",'r')
+            self.thread_start(self.calibr_obj[2],"BU_SES",'r')
             self.readData_buses_flag = 1
 
     def writeData_bu400(self):
@@ -721,34 +736,34 @@ class Main(QWidget):
             # self.unit_bu400_preset.writeData(self.read_data_dict_bu400,'preset')
             # data_dict = self.unit_bu400_calibr.writeData(self.read_data_dict_bu400,'calibr')
             # self.data_dict_bu400.update_data_dict(data_dict)
-            self.worker = Worker(self.data_dict_bu400)
+            self.worker = Worker(self.calibr_obj[0])
             self.worker.run1()
-            self.thread_start(self.data_dict_bu400,"BU_400",'w')
+            self.thread_start(self.calibr_obj[0],"BU_400",'w')
 
     def writeData_bu50(self):
         if self.buttonUnit2.isChecked():
             # self.unit_bu50_preset.writeData(self.read_data_dict_bu50,'preset')
             # data_dict = self.unit_bu50_calibr.writeData(self.read_data_dict_bu50,'calibr')
             # self.data_dict_bu50.update_data_dict(data_dict)
-            self.worker = Worker(self.data_dict_bu50)
+            self.worker = Worker(self.calibr_obj[1])
             self.worker.run1()
-            self.thread_start(self.data_dict_bu50,"BU_50",'w')
+            self.thread_start(self.calibr_obj[1],"BU_50",'w')
 
     def writeData_buses(self):
         if self.buttonUnit3.isChecked():
             # self.unit_buses_preset.writeData(self.read_data_dict_buses,'preset')
             # data_dict = self.unit_buses_calibr.writeData(self.read_data_dict_buses,'calibr')
             # self.data_dict_buses.update_data_dict(data_dict)
-            self.worker = Worker(self.data_dict_buses)
+            self.worker = Worker(self.calibr_obj[2])
             self.worker.run1()
-            self.thread_start(self.data_dict_buses,"BU_SES",'w')
+            self.thread_start(self.calibr_obj[2],"BU_SES",'w')
 
     def saveData_bu400(self):
         if not self.buttonUnit2.isChecked() and not self.buttonUnit3.isChecked():
             print('saveData_bu400')
-            self.unit_bu400_preset.saveData(self.obj_cal_bu400,'preset','bu400')
-            self.unit_bu400_calibr.saveData(self.obj_cal_bu400,'calibr','bu400')
-            self.unit_bu400_calibr.saveData(self.obj_cal_bu400,'filter','bu400')
+            self.unit_obj_preset[0].saveData(self.obj_cal_bu400,'preset','bu400')
+            self.unit_obj_calibr[0].saveData(self.obj_cal_bu400,'calibr','bu400')
+            self.unit_obj_calibr[0].saveData(self.obj_cal_bu400,'filter','bu400')
             #test
             # self.unit_bu400_preset.saveDatatest('preset','bu400')
             # self.unit_bu400_calibr.saveDatatest('calibr','bu400')
@@ -756,16 +771,16 @@ class Main(QWidget):
     def saveData_bu50(self):
         if self.buttonUnit2.isChecked():
             print('saveData_bu50')
-            self.unit_bu50_preset.saveData(self.obj_cal_bu50,'preset','bu50')
-            self.unit_bu50_calibr.saveData(self.obj_cal_bu50,'calibr','bu50')
-            self.unit_bu50_calibr.saveData(self.obj_cal_bu50,'filter','bu50')
+            self.unit_obj_preset[1].saveData(self.obj_cal_bu50,'preset','bu50')
+            self.unit_obj_calibr[1].saveData(self.obj_cal_bu50,'calibr','bu50')
+            self.unit_obj_calibr[1].saveData(self.obj_cal_bu50,'filter','bu50')
 
     def saveData_buses(self):
         if self.buttonUnit3.isChecked():
             print('saveData_buses')
-            self.unit_buses_preset.saveData(self.obj_cal_buses,'preset','buses')
-            self.unit_buses_calibr.saveData(self.obj_cal_buses,'calibr','buses')
-            self.unit_buses_calibr.saveData(self.obj_cal_buses,'filter','buses')
+            self.unit_obj_preset[2].saveData(self.obj_cal_buses,'preset','buses')
+            self.unit_obj_calibr[2].saveData(self.obj_cal_buses,'calibr','buses')
+            self.unit_obj_calibr[2].saveData(self.obj_cal_buses,'filter','buses')
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

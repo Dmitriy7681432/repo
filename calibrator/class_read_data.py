@@ -34,6 +34,7 @@ class Connect():
     print(ports_lst)
     try:
         ser = serial.Serial(port=ports_lst[0], baudrate=3000000, timeout=0.01)
+        # ser = serial.Serial(port='COM16', baudrate=3000000, timeout=0.01)
     except IndexError:
         print('ERROR')
         warning.SignalErr(True)
@@ -120,7 +121,7 @@ class Calibrator(QObject):
                 self.calibr_designation = 'ADDR_CALIBR_ROM2'
                 self.filter_designation = 'ADDR_FILTR_ROM2'
             elif self.control_block == "BU_400":
-                self.partel_id = b't0348'
+                self.partel_id = b't0328'
                 self.read_id = b't6228'
                 self.data_id = b't654'
                 self.write_id = b't6238'
@@ -129,6 +130,28 @@ class Calibrator(QObject):
                 self.preset_designation = 'ADDR_PRESET_ROM3'
                 self.calibr_designation = 'ADDR_CALIBR_ROM3'
                 self.filter_designation = 'ADDR_FILTR_ROM3'
+        if self.product == "SEP30M":
+            if self.control_block == 'BU_SEP':
+                self.partel_id = b't0328'
+                self.read_id = b't60E8'
+                self.data_id = b't640'
+                self.write_id = b't60F8'
+                self.confirmation_id = b't00B'
+                self.erase_id = b't6108'
+                self.preset_designation = 'ADDR_PRESET_ROM'
+                self.calibr_designation = 'ADDR_CALIBR_ROM'
+                self.filter_designation = 'ADDR_FILTR_ROM'
+            elif self.control_block == 'BU_400':
+                self.partel_id = b't0408'
+                self.read_id = b't6188'
+                self.data_id = b't64A'
+                self.write_id = b't6198'
+                self.confirmation_id = b't00B'
+                self.erase_id = b't61A8'
+                self.preset_designation = 'ADDR_PRESET_ROM2'
+                self.calibr_designation = 'ADDR_CALIBR_ROM2'
+                self.filter_designation = 'ADDR_FILTR_ROM2'
+
         # Главный словарь с уставками, калибровками и фильтрами для интерфейса
         self.data_dict = {'preset': {}, 'calibr': {}, 'filter': {}}
         # Словарь с параметрами для вкладки Параметры для интерфейса
@@ -358,7 +381,7 @@ class Calibrator(QObject):
             tmp_cnt+=1
             read_data = self.ser.ser.read(1024)
             # Костыль
-            if tmp_cnt >=250:
+            if tmp_cnt >=350:
                 cnt_ports+=1
                 if cnt_ports>= len(self.ser.ports_lst):
                     print("END COM PORT")
@@ -366,6 +389,7 @@ class Calibrator(QObject):
 
                 self.ser.ser.port = self.ser.ports_lst[cnt_ports]
                 self.ser.can_open_O(self.ser.ser)
+                print('ports_lst',self.ser.ports_lst[cnt_ports])
                 tmp_cnt=0
             # print(data_can_dict_value)
             # self.ser.port = 'COM15'
