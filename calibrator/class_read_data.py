@@ -121,7 +121,7 @@ class Calibrator(QObject):
                 self.calibr_designation = 'ADDR_CALIBR_ROM2'
                 self.filter_designation = 'ADDR_FILTR_ROM2'
             elif self.control_block == "BU_400":
-                self.partel_id = b't0328'
+                self.partel_id = b't0348'
                 self.read_id = b't6228'
                 self.data_id = b't654'
                 self.write_id = b't6238'
@@ -381,7 +381,7 @@ class Calibrator(QObject):
             tmp_cnt+=1
             read_data = self.ser.ser.read(1024)
             # Костыль
-            if tmp_cnt >=350:
+            if tmp_cnt >=250:
                 cnt_ports+=1
                 if cnt_ports>= len(self.ser.ports_lst):
                     print("END COM PORT")
