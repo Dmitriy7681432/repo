@@ -317,67 +317,32 @@ class Main(QWidget):
         # Кнопки вкладки
         self.buttonUnit1 = QToolButton()
         self.buttonUnit1.setText('БУ400')
-        self.buttonUnit2 = QToolButton()
-        self.buttonUnit2.setText('БУ50')
-        self.buttonUnit3 = QToolButton()
-        self.buttonUnit3.setText('БУСЭС')
         self.buttonUnit1.setDown(True)
         self.buttonUnit1.setCheckable(True)
         self.buttonUnit1.setChecked(False)
         self.buttonUnit1.clicked.connect(self.UnitWidget)
+        self.buttonUnit1.setFont(font)
+        self.buttonUnit1.setStyleSheet('background-color:rgb(153,173,232);')
+        self.buttonUnit1.setMaximumSize(QtCore.QSize(300, 50))
+        self.buttonUnit1.setObjectName("buttonUnit1")
+        self.buttonUnit2 = QToolButton()
+        self.buttonUnit2.setText('БУ50')
         self.buttonUnit2.setCheckable(True)
         self.buttonUnit2.clicked.connect(self.UnitWidget2)
+        self.buttonUnit2.setFont(font)
+        self.buttonUnit2.setStyleSheet('background-color:rgb(153,173,232);')
+        self.buttonUnit2.setMaximumSize(QtCore.QSize(300, 50))
+        self.buttonUnit2.setObjectName("buttonUnit2")
+        self.buttonUnit3 = QToolButton()
+        self.buttonUnit3.setText('БУСЭС')
         self.buttonUnit3.setCheckable(True)
         self.buttonUnit3.setChecked(False)
         self.buttonUnit3.clicked.connect(self.UnitWidget3)
-        self.buttonUnit1.setFont(font)
-        self.buttonUnit2.setFont(font)
         self.buttonUnit3.setFont(font)
-        self.buttonUnit1.setStyleSheet('background-color:rgb(153,173,232);')
-        self.buttonUnit2.setStyleSheet('background-color:rgb(153,173,232);')
         self.buttonUnit3.setStyleSheet('background-color:rgb(153,173,232);')
-        # self.buttonUnit1.setGeometry(100,100,100,100)
-        # self.buttonUnit2.setGeometry(100,100,100,100)
-
-        # sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-        # sizePolicy.setHorizontalStretch(0)
-        # sizePolicy.setVerticalStretch(0)
-        # sizePolicy.setHeightForWidth(buttonUnit1.sizePolicy().hasHeightForWidth())
-        # buttonUnit1.setSizePolicy(sizePolicy)
-        # buttonUnit2.setSizePolicy(sizePolicy)
-        # buttonUnit3.setSizePolicy(sizePolicy)
-        self.buttonUnit1.setMaximumSize(QtCore.QSize(300, 50))
-        self.buttonUnit2.setMaximumSize(QtCore.QSize(300, 50))
         self.buttonUnit3.setMaximumSize(QtCore.QSize(300, 50))
-        self.buttonUnit1.setObjectName("buttonUnit1")
-        self.buttonUnit2.setObjectName("buttonUnit2")
         self.buttonUnit3.setObjectName("buttonUnit3")
-        # buttonUnit1.setToolTip("")
-        # buttonUnit2.setToolTip("")
-        # buttonUnit3.setToolTip("")
-        # buttonUnit1.setLayoutDirection(QtCore.Qt.RightToLeft)
-        # buttonUnit2.setLayoutDirection(QtCore.Qt.RightToLeft)
-        # buttonUnit3.setLayoutDirection(QtCore.Qt.RightToLeft)
-        # buttonUnit1.setAutoFillBackground(False)
-        # buttonUnit2.setAutoFillBackground(False)
-        # buttonUnit3.setAutoFillBackground(False)
-        # buttonUnit1.setInputMethodHints(QtCore.Qt.ImhNone)
-        # buttonUnit2.setInputMethodHints(QtCore.Qt.ImhNone)
-        # buttonUnit3.setInputMethodHints(QtCore.Qt.ImhNone)
-        # buttonUnit1.setAutoRepeat(False)
-        # buttonUnit2.setAutoRepeat(False)
-        # buttonUnit3.setAutoRepeat(False)
-        # buttonUnit1.setAutoExclusive(False)
-        # buttonUnit2.setAutoExclusive(False)
-        # buttonUnit3.setAutoExclusive(False)
-        # buttonUnit1.setPopupMode(QtWidgets.QToolButton.DelayedPopup)
-        # buttonUnit2.setPopupMode(QtWidgets.QToolButton.DelayedPopup)
-        # buttonUnit3.setPopupMode(QtWidgets.QToolButton.DelayedPopup)
-        # buttonUnit1.setToolButtonStyle(QtCore.Qt.ToolButtonIconOnly)
-        # buttonUnit2.setToolButtonStyle(QtCore.Qt.ToolButtonIconOnly)
-        # buttonUnit3.setToolButtonStyle(QtCore.Qt.ToolButtonIconOnly)
-        # buttonUnit1.setGeometry(100,200,300,400)
-        # buttonUnit2.setGeometry(200,100,200,300)
+        # self.buttonUnit3.deleteLater()
 
         # Кнопки действия
         self.buttonAction1 = QToolButton()
@@ -387,9 +352,6 @@ class Main(QWidget):
         self.buttonAction2.setEnabled(False)
         self.buttonAction3 = QToolButton()
         self.buttonAction3.setText('Сохранить')
-        # buttonAction1.clicked.connect()
-        # buttonAction2.clicked.connect()
-        # buttonAction3.clicked.connect()
         self.buttonAction1.setFont(font)
         self.buttonAction2.setFont(font)
         self.buttonAction3.setFont(font)
@@ -404,12 +366,8 @@ class Main(QWidget):
         self.buttonAction3.setStyleSheet('background-color:rgb(255,240,157);')
 
 
-        # self.mainWidget = QWidget(self.centralwidget)
-        # self.mainWidget.setGeometry(QtCore.QRect(20, 100, 711, 122))
-        # self.mainWidget.setObjectName("mainWidget")
         self.vbox.setContentsMargins(0,0,0, 0)
         self.vbox.setSpacing(0)
-        # self.vbox.setGeometry(QtCore.QRect(250,330,200,100))
 
         self.ustcalLayout = QHBoxLayout()
         # self.actionLayout.setSizeConstraint(QtWidgets.QLayout.SetDefaultConstraint)
@@ -449,10 +407,6 @@ class Main(QWidget):
         self.vbox.addLayout(self.stackLayout)
         self.vbox.addLayout(self.actionLayout)
 
-        # Main()
-        # self.main = Unit().initUI(self.vbox)
-        # self.stackedWidget.addWidget(self.main)
-
         self.ser = Connect(cur_elem)
         if self.cur_elem =='SES200M': lst_cb = ['BU_400','BU_50','BU_SES']
         else: lst_cb = ['BU_SEP','BU_400']
@@ -473,37 +427,14 @@ class Main(QWidget):
             self.unit_obj_calibr.append(Unit(self.calibr_obj[i].data_dict, 'calibr', v,y))
             self.param_obj.append(Param(self.calibr_obj[i].param_dict, v,int(y/2)))
             self.stackedWidget.addWidget(self.unit_obj_preset[i])
+
+        for i,v in enumerate(lst_cb):
             self.stackedWidget.addWidget(self.unit_obj_calibr[i])
+        for i, v in enumerate(lst_cb):
             self.stackedWidget.addWidget(self.param_obj[i])
 
-        # self.unit_bu400_preset = Unit(self.data_dict_bu400.data_dict, 'preset', 'BU400',y)
-        # self.unit_bu50_preset = Unit(self.data_dict_bu50.data_dict, 'preset', 'BU50',y)
-        # self.unit_buses_preset = Unit(self.data_dict_buses.data_dict, 'preset', 'BUSES',y)
-        # self.unit_bu400_calibr = Unit(self.data_dict_bu400.data_dict, 'calibr', 'BU400',y)
-        # self.unit_bu50_calibr = Unit(self.data_dict_bu50.data_dict, 'calibr', 'BU50',y)
-        # self.unit_buses_calibr = Unit(self.data_dict_buses.data_dict, 'calibr', 'BUSES',y)
-        # self.param_bu400 = Param(self.data_dict_bu400.param_dict,'BU_400',int(y/2))
-        # self.param_bu50 = Param(self.data_dict_bu50.param_dict,'BU_50',int(y/2))
-        # self.param_buses = Param(self.data_dict_buses.param_dict,'BU_SES',int(y/2))
-        #
-        # self.stackedWidget.addWidget(self.unit_bu400_preset)
-        # self.stackedWidget.addWidget(self.unit_bu50_preset)
-        # self.stackedWidget.addWidget(self.unit_buses_preset)
-        # self.stackedWidget.addWidget(self.unit_bu400_calibr)
-        # self.stackedWidget.addWidget(self.unit_bu50_calibr)
-        # self.stackedWidget.addWidget(self.unit_buses_calibr)
-        # self.stackedWidget.addWidget(self.param_bu400)
-        # self.stackedWidget.addWidget(self.param_bu50)
-        # self.stackedWidget.addWidget(self.param_buses)
-
         self.stackedWidget.setCurrentIndex(0)
-        # self.vbox.addWidget(self.stackedWidget)
 
-        # self.buttonAction1.clicked.connect(lambda: self.readData_bu400(self.data_dict_bu400))
-        # self.buttonAction1.clicked.connect(lambda: self.readData_bu50(self.data_dict_buses))
-        # self.buttonAction1.clicked.connect(lambda: self.readData_buses(self.data_dict_bu50))
-
-        # self.buttonAction1.clicked.connect(self.open_second_window)
         self.buttonAction1.clicked.connect(self.readData_bu400)
         self.buttonAction1.clicked.connect(self.readData_bu50)
         self.buttonAction1.clicked.connect(self.readData_buses)
@@ -513,8 +444,6 @@ class Main(QWidget):
         self.buttonAction3.clicked.connect(self.saveData_bu400)
         self.buttonAction3.clicked.connect(self.saveData_bu50)
         self.buttonAction3.clicked.connect(self.saveData_buses)
-        # self.buttonAction2.clicked.connect(self.readData_bu50)
-        # self.buttonAction2.clicked.connect(self.readData_buses)
 
         self.readData_bu400_flag = 0
         self.readData_bu50_flag = 0
@@ -525,17 +454,13 @@ class Main(QWidget):
         self.count_read_buses =-4
 
         self.centralwidget.setLayout(self.vbox)
-        # self.centralwidget.setLayout(self.actionLayout)
 
         self.main.setCentralWidget(self.centralwidget)
 
-        # self.setCentralWidget(self.centralwidget)
         self.main.setObjectName("MainWindow")
         self.main.setWindowTitle('Calibrator')
-        # return self.main
         self.main.show()
 
-        # self.open_second_window()
 
     def UnitWidget(self):
         if self.buttonCalibr.isChecked():
