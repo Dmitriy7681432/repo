@@ -26828,11 +26828,13 @@
 		</can>
 		<can purpose="CONFIRMATION_CB">
 			<products>
-				<SEP30M cb="BU_400" value="22"/>
-				<SES200M cb="BU_50" value="23"/>
-				<SES200M cb="BU_400" value="24"/>
+				<SEP30M cb="BU_400" value="11"/>
+				<SEP30M cb="BU_SEP" value="11"/>
+				<SES200M cb="BU_SES" value="20"/>
+				<SES200M cb="BU_50" value="21"/>
+				<SES200M cb="BU_400" value="22"/>
 				<!-- Квитанция от БУ 400 на команду БУ 50 -->
-				<SES200M cb="BU_400" value="25"/>
+                <!-- <SES200M cb="BU_400" value="25"/> -->
 			</products>
 		</can>
 		<can purpose="PARAMETER_VALUE_FOR_CONTROL_BLOCK">

@@ -101,10 +101,10 @@ class Calibrator(QObject):
         self.control_block = control_block
         if self.product == "SES200M":
             if self.control_block == 'BU_SES':
-                self.partel_id = b't0328'
-                self.read_id = b't60E8'
-                self.data_id = b't640'
-                self.write_id = b't60F8'
+                self.partel_id = b't0328' #purpose="PARAMETER_VALUE_FOR_OPERATOR">
+                self.read_id = b't60E8'  # READ_DATA
+                self.data_id = b't640'  # DATA_VALUE
+                self.write_id = b't60F8'  #WRITE_DATA
                 self.confirmation_id = b't014'
                 self.erase_id = b't6108'
                 self.preset_designation = 'ADDR_PRESET_ROM'

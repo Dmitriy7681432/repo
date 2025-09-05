@@ -147,7 +147,7 @@ class ThreadCalibrator(QtCore.QThread):
 class ComPort(QWidget):
     def __init__(self,arg='product'):
         super().__init__()
-        self.setWindowTitle("Первое окно")
+        self.setWindowTitle("Выбор изделия")
         self.setGeometry(100, 100, 300, 200)
 
         #Шрифт
@@ -160,7 +160,7 @@ class ComPort(QWidget):
         desktop = QtWidgets.QApplication.desktop()
         x = desktop.width()
         y = desktop.height()
-        x_size_desktop = 250
+        x_size_desktop = 255
         y_size_desktop = int(y / 14)
         print(x_size_desktop,y_size_desktop)
         self.resize(x_size_desktop, y_size_desktop)
@@ -230,8 +230,8 @@ class Main(QWidget):
         self.cur_elem = cur_elem
         super().__init__()
 
-        if self.cur_elem =='SES200M': self.lst_cb = ['BU_400','BU_50','BU_SES']
-        else: self.lst_cb = ['BU_SEP','BU_400']
+        if self.cur_elem =='SES200M': self.lst_cb = ['BU_400','BU_50','BU_SES']; size_button =300
+        else: self.lst_cb = ['BU_SEP','BU_400'];size_button =500
         self.calibr_obj = []
         self.unit_obj_preset = []
         self.unit_obj_calibr = []
@@ -332,14 +332,17 @@ class Main(QWidget):
                 self.button_obj[i].setChecked(False)
             self.button_obj[i].setFont(font)
             self.button_obj[i].setStyleSheet('background-color:rgb(153,173,232);')
-            self.button_obj[i].setMaximumSize(QtCore.QSize(300, 50))
+            self.button_obj[i].setMaximumSize(QtCore.QSize(size_button, 50))
             self.button_obj[i].setObjectName(f"buttonUnit{i+1}")
 
         for i,v in enumerate(self.lst_cb):
-            self.button_obj[i].clicked.connect(lambda: self.UnitWidgetMain(i))
-        # self.button_obj[0].clicked.connect(lambda: self.UnitWidget())
-        # self.button_obj[1].clicked.connect(lambda: self.UnitWidget2())
-        # self.button_obj[2].clicked.connect(lambda: self.UnitWidget3())
+            # self.button_obj[i].clicked.connect(lambda: self.UnitWidgetMain(i))
+            if i ==0:
+                self.button_obj[0].clicked.connect(self.UnitWidget)
+            elif i ==1:
+                self.button_obj[1].clicked.connect(self.UnitWidget2)
+            else:
+                self.button_obj[2].clicked.connect(self.UnitWidget3)
 
         # self.buttonUnit1 = QToolButton()
         # self.buttonUnit1.setText('БУ400')
@@ -459,15 +462,22 @@ class Main(QWidget):
 
         self.stackedWidget.setCurrentIndex(0)
 
-        self.buttonAction1.clicked.connect(self.readData_bu1)
-        self.buttonAction1.clicked.connect(self.readData_bu2)
-        self.buttonAction1.clicked.connect(self.readData_bu3)
-        self.buttonAction2.clicked.connect(self.writeData_bu1)
-        self.buttonAction2.clicked.connect(self.writeData_bu2)
-        self.buttonAction2.clicked.connect(self.writeData_bu3)
-        self.buttonAction3.clicked.connect(self.saveData_bu1)
-        self.buttonAction3.clicked.connect(self.saveData_bu2)
-        self.buttonAction3.clicked.connect(self.saveData_bu3)
+
+        for i, v in enumerate(self.lst_cb):
+            if i ==0:
+                self.buttonAction1.clicked.connect(self.readData_bu1)
+                self.buttonAction2.clicked.connect(self.writeData_bu1)
+                self.buttonAction3.clicked.connect(self.saveData_bu1)
+            elif i ==1:
+                self.buttonAction1.clicked.connect(self.readData_bu2)
+                self.buttonAction2.clicked.connect(self.writeData_bu2)
+                self.buttonAction3.clicked.connect(self.saveData_bu2)
+            else:
+                self.buttonAction1.clicked.connect(self.readData_bu3)
+                self.buttonAction2.clicked.connect(self.writeData_bu3)
+                self.buttonAction3.clicked.connect(self.saveData_bu3)
+
+        self.button_obj[0].animateClick()
 
         self.readData_bu1_flag = 0
         self.readData_bu2_flag = 0
@@ -482,7 +492,7 @@ class Main(QWidget):
         self.main.setCentralWidget(self.centralwidget)
 
         self.main.setObjectName("MainWindow")
-        self.main.setWindowTitle('Calibrator')
+        self.main.setWindowTitle(f'Calibrator {self.cur_elem}')
         self.main.show()
 
     def UnitWidgetMain(self, i):
@@ -498,14 +508,15 @@ class Main(QWidget):
             self.UnitWidget3()
 
     def UnitWidget(self):
-        if self.buttonCalibr.isChecked():
-            self.stackedWidget.setCurrentIndex(3)
-        elif self.buttonPar.isChecked():
-            self.stackedWidget.setCurrentIndex(6)
-        else:
-            self.stackedWidget.setCurrentIndex(0)
 
         for i,v in enumerate(self.lst_cb):
+            if self.buttonCalibr.isChecked():
+                self.stackedWidget.setCurrentIndex(len(self.lst_cb))
+            elif self.buttonPar.isChecked():
+                self.stackedWidget.setCurrentIndex(len(self.lst_cb)+len(self.lst_cb))
+            else:
+                self.stackedWidget.setCurrentIndex(0)
+
             if i==0:
                 self.button_obj[i].setCheckable(True)
                 self.button_obj[i].setDown(True)
@@ -526,14 +537,14 @@ class Main(QWidget):
             self.buttonAction2.setEnabled(True)
 
     def UnitWidget2(self):
-        if self.buttonCalibr.isChecked():
-            self.stackedWidget.setCurrentIndex(4)
-        elif self.buttonPar.isChecked():
-            self.stackedWidget.setCurrentIndex(7)
-        else:
-            self.stackedWidget.setCurrentIndex(1)
-
         for i,v in enumerate(self.lst_cb):
+            if self.buttonCalibr.isChecked():
+                self.stackedWidget.setCurrentIndex(len(self.lst_cb)+1)
+            elif self.buttonPar.isChecked():
+                self.stackedWidget.setCurrentIndex(len(self.lst_cb)+len(self.lst_cb)+1)
+            else:
+                self.stackedWidget.setCurrentIndex(1)
+
             if i==1:
                 self.button_obj[i].setCheckable(True)
                 self.button_obj[i].setDown(True)
@@ -554,14 +565,14 @@ class Main(QWidget):
             self.buttonAction2.setEnabled(True)
 
     def UnitWidget3(self):
-        if self.buttonCalibr.isChecked():
-            self.stackedWidget.setCurrentIndex(5)
-        elif self.buttonPar.isChecked():
-            self.stackedWidget.setCurrentIndex(8)
-        else:
-            self.stackedWidget.setCurrentIndex(2)
-
         for i,v in enumerate(self.lst_cb):
+            if self.buttonCalibr.isChecked():
+                self.stackedWidget.setCurrentIndex(len(self.lst_cb)+2)
+            elif self.buttonPar.isChecked():
+                self.stackedWidget.setCurrentIndex(len(self.lst_cb)+len(self.lst_cb)+2)
+            else:
+                self.stackedWidget.setCurrentIndex(2)
+
             if i==2:
                 self.button_obj[i].setCheckable(True)
                 self.button_obj[i].setDown(True)
@@ -659,8 +670,8 @@ class Main(QWidget):
 
         # self.button.setEnabled(True) # Включаем кнопку, когда второе окно отображено
     def readData_bu1(self):
-        # printf('readData_bu400',self.buttonUnit1.isChecked())
-        if not self.buttonUnit2.isChecked() and not self.buttonUnit3.isChecked():
+        # if not self.button_obj[1].isChecked() and not self.button_obj[2].isChecked():
+        if self.button_obj[0].isChecked():
             self.worker = Worker(self.calibr_obj[0])
             self.worker.run1()
             self.thread_start(self.calibr_obj[0],"BU_400",'r')
@@ -672,7 +683,7 @@ class Main(QWidget):
 
     def readData_bu2(self):
         # printf('readData_bu50',self.buttonUnit2.isChecked())
-        if self.buttonUnit2.isChecked():
+        if self.button_obj[1].isChecked():
             self.worker = Worker(self.calibr_obj[1])
             self.worker.run1()
             self.thread_start(self.calibr_obj[1],"BU_50",'r')
@@ -680,7 +691,7 @@ class Main(QWidget):
 
     def readData_bu3(self):
         # printf('readData_buses',self.buttonUnit3.isChecked())
-        if self.buttonUnit3.isChecked():
+        if self.button_obj[2].isChecked():
             self.worker = Worker(self.calibr_obj[2])
             self.worker.run1()
             self.thread_start(self.calibr_obj[2],"BU_SES",'r')
@@ -749,7 +760,8 @@ class Main(QWidget):
 
 
     def writeData_bu1(self):
-        if not self.buttonUnit2.isChecked() and not self.buttonUnit3.isChecked():
+        # if not self.button_obj[1].isChecked() and not self.button_obj[2].isChecked():
+        if self.button_obj[0].isChecked():
             # self.unit_bu400_preset.writeData(self.read_data_dict_bu400,'preset')
             # data_dict = self.unit_bu400_calibr.writeData(self.read_data_dict_bu400,'calibr')
             # self.data_dict_bu400.update_data_dict(data_dict)
@@ -758,7 +770,7 @@ class Main(QWidget):
             self.thread_start(self.calibr_obj[0],"BU_400",'w')
 
     def writeData_bu2(self):
-        if self.buttonUnit2.isChecked():
+        if self.button_obj[1].isChecked():
             # self.unit_bu50_preset.writeData(self.read_data_dict_bu50,'preset')
             # data_dict = self.unit_bu50_calibr.writeData(self.read_data_dict_bu50,'calibr')
             # self.data_dict_bu50.update_data_dict(data_dict)
@@ -767,7 +779,7 @@ class Main(QWidget):
             self.thread_start(self.calibr_obj[1],"BU_50",'w')
 
     def writeData_bu3(self):
-        if self.buttonUnit3.isChecked():
+        if self.button_obj[2].isChecked():
             # self.unit_buses_preset.writeData(self.read_data_dict_buses,'preset')
             # data_dict = self.unit_buses_calibr.writeData(self.read_data_dict_buses,'calibr')
             # self.data_dict_buses.update_data_dict(data_dict)
@@ -776,7 +788,8 @@ class Main(QWidget):
             self.thread_start(self.calibr_obj[2],"BU_SES",'w')
 
     def saveData_bu1(self):
-        if not self.buttonUnit2.isChecked() and not self.buttonUnit3.isChecked():
+        # if not self.button_obj[1].isChecked() and not self.button_obj[2].isChecked():
+        if self.button_obj[0].isChecked():
             print('saveData_bu1')
             self.unit_obj_preset[0].saveData(self.obj_cal_bu400,'preset','bu400')
             self.unit_obj_calibr[0].saveData(self.obj_cal_bu400,'calibr','bu400')
@@ -786,14 +799,14 @@ class Main(QWidget):
             # self.unit_bu400_calibr.saveDatatest('calibr','bu400')
 
     def saveData_bu2(self):
-        if self.buttonUnit2.isChecked():
+        if self.button_obj[1].isChecked():
             print('saveData_bu2')
             self.unit_obj_preset[1].saveData(self.obj_cal_bu50,'preset','bu50')
             self.unit_obj_calibr[1].saveData(self.obj_cal_bu50,'calibr','bu50')
             self.unit_obj_calibr[1].saveData(self.obj_cal_bu50,'filter','bu50')
 
     def saveData_bu3(self):
-        if self.buttonUnit3.isChecked():
+        if self.button_obj[2].isChecked():
             print('saveData_bu3')
             self.unit_obj_preset[2].saveData(self.obj_cal_buses,'preset','buses')
             self.unit_obj_calibr[2].saveData(self.obj_cal_buses,'calibr','buses')

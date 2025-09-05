@@ -33,7 +33,7 @@ class SignalErr():
         self.widget.setGeometry(100, 100, 300, 50)
 
         self.center()
-        self.lbl = QLabel("Не нашел com_port!!!",self.widget)
+        self.lbl = QLabel("Не найдено устройство!!!",self.widget)
         self.lbl.move(50,10)
         self.lbl.setFont(font)
         self.lbl.setStyleSheet('color: red;')
