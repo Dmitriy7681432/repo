@@ -304,7 +304,7 @@ class Unit(MyWidget,QWidget):
         # printf(data_dict[data].items())
         return data_dict
 
-    def saveData(self,obj_cal,data,name_block):
+    def saveData(self,obj_cal,data,name_block,name_product,list_nmb):
         print('SaveData')
 
         import csv
@@ -312,6 +312,22 @@ class Unit(MyWidget,QWidget):
         folder = 'csv,docx,pdf'
         os.makedirs(folder, exist_ok=True)
         lst_data = []
+
+        name_block_rus = 0
+        if name_product == 'SES200M':
+            if name_block == 'BU_400':
+                name_block_rus = 'БУ400'; name_drawing = "ТАКИ БУ400"
+            elif name_block == 'BU_50':
+                name_block_rus = 'БУ50'; name_drawing = "ТАКИ БУ50"
+            elif name_block == 'BU_SES':
+                name_block_rus = 'БУСЭС'; name_drawing = "ТАКИ БУСЭС"
+        elif name_product == "SEP30M":
+            if name_block == 'BU_400':
+                name_block_rus = 'БУ400'; name_drawing = "ТАКИ БУ400"
+            elif name_block == 'BU_SEP':
+                name_block_rus = 'БУСЭП'; name_drawing = "ТАКИ БУСЭП"
+
+        name_block = name_block.lower()
 
         data_dict_copy = obj_cal.data_dict.copy()
         count =0
@@ -382,8 +398,23 @@ class Unit(MyWidget,QWidget):
                 from docx.enum.text import WD_ALIGN_PARAGRAPH
                 from docx.shared import Pt,Inches
 
+
                 # создание пустого документа
                 doc = Document()
+                # добавление параграфа
+                paragraph1 = doc.add_paragraph()
+                paragraph1.add_run('Изделие: ').bold = True
+                paragraph1.add_run(f'{name_product}, ')
+                paragraph1.add_run('зав.№: ').bold = True
+                paragraph1.add_run(f'{list_nmb[0]}')
+                paragraph1.alignment = WD_ALIGN_PARAGRAPH.CENTER
+                paragraph2 = doc.add_paragraph()
+                paragraph2.add_run('Блок: ').bold = True
+                paragraph2.add_run(f'{name_block_rus}, {name_drawing}, ')
+                paragraph2.add_run('зав.№: ').bold = True
+                paragraph2.add_run(f'{list_nmb[1]}')
+                paragraph2.alignment = WD_ALIGN_PARAGRAPH.CENTER
+
                 # добавляем таблицу с одной строкой
                 # для заполнения названий колонок
                 table = doc.add_table(1, len(lst_data[0]))
@@ -440,11 +471,27 @@ class Unit(MyWidget,QWidget):
         return data_dict_copy
 
     #test записи в csv
-    def saveDatatest(self,data,name_block):
+    def saveDatatest(self,data,name_block,name_product,list_nmb):
+        print('saveDatatest')
         import csv
         import os
         folder = 'csv,docx,pdf'
         os.makedirs(folder, exist_ok=True)
+
+        name_block_rus = 0
+        if name_product == 'SES200M':
+            if name_block == 'BU_400':
+                name_block_rus = 'БУ400'; name_drawing = "ТАКИ БУ400"
+            elif name_block == 'BU_50':
+                name_block_rus = 'БУ50'; name_drawing = "ТАКИ БУ50"
+            elif name_block == 'BU_SES':
+                name_block_rus = 'БУСЭС'; name_drawing = "ТАКИ БУСЭС"
+        elif name_product == "SEP30M":
+            if name_block == 'BU_400':
+                name_block_rus = 'БУ400'; name_drawing = "ТАКИ БУ400"
+            elif name_block == 'BU_SEP':
+                name_block_rus = 'БУСЭП'; name_drawing = "ТАКИ БУСЭП"
+
         lst_data = []
         #Запись в csv
         head_myData = [["Обозначение","Наименование","Значение"]]
@@ -469,6 +516,20 @@ class Unit(MyWidget,QWidget):
 
         # создание пустого документа
         doc = Document()
+
+        # добавление параграфа
+        paragraph1 = doc.add_paragraph()
+        paragraph1.add_run('Изделие: ').bold = True
+        paragraph1.add_run(f'{name_product}, ')
+        paragraph1.add_run('зав.№: ').bold = True
+        paragraph1.add_run(f'{list_nmb[0]}')
+        paragraph1.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        paragraph2 = doc.add_paragraph()
+        paragraph2.add_run('Блок: ').bold = True
+        paragraph2.add_run(f'{name_block_rus}, {name_drawing}, ')
+        paragraph2.add_run('зав.№: ').bold = True
+        paragraph2.add_run(f'{list_nmb[1]}')
+        paragraph2.alignment = WD_ALIGN_PARAGRAPH.CENTER
         # добавляем таблицу с одной строкой
         # для заполнения названий колонок
         table = doc.add_table(1, len(lst_data[0]))

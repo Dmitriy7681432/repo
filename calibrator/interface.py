@@ -17,7 +17,7 @@ import serial.tools.list_ports
 
 from PyQt5.QtWidgets import (QWidget, QLabel,
                              QComboBox, QApplication)
-import warning
+import warning,number_product
 
 
 class Worker(QThread):
@@ -161,7 +161,7 @@ class ComPort(QWidget):
         x = desktop.width()
         y = desktop.height()
         x_size_desktop = 255
-        y_size_desktop = int(y / 14)
+        y_size_desktop = int(y / 12)
         print(x_size_desktop,y_size_desktop)
         self.resize(x_size_desktop, y_size_desktop)
         # Вывод окна по центру
@@ -230,8 +230,15 @@ class Main(QWidget):
         self.cur_elem = cur_elem
         super().__init__()
 
-        if self.cur_elem =='SES200M': self.lst_cb = ['BU_400','BU_50','BU_SES']; size_button =300
-        else: self.lst_cb = ['BU_SEP','BU_400'];size_button =500
+        if self.cur_elem =='SES200M':
+            self.lst_cb = ['BU_400','BU_50','BU_SES']
+            self.lst_cb_rus = ['БУ 400','БУ 50','БУ СЭС']
+            size_button =300
+        elif self.cur_elem =='SEP30M':
+            self.lst_cb = ['BU_SEP','BU_400']
+            self.lst_cb_rus = ['БУ СЭП','БУ 400']
+            size_button =500
+
         self.calibr_obj = []
         self.unit_obj_preset = []
         self.unit_obj_calibr = []
@@ -239,6 +246,11 @@ class Main(QWidget):
         self.button_obj = []
 
         self.main = QMainWindow()
+        #Отключение размера окна на весь экран
+        flags = self.main.windowFlags()  # получаем все флаги которые есть
+        flags &= ~QtCore.Qt.WindowMaximizeButtonHint  # отключаем ненужный нам флаг
+        self.main.setWindowFlags(flags)
+
         self.timer = QTimer()
 
         #Шрифт
@@ -323,7 +335,7 @@ class Main(QWidget):
         # self.buttonPar.setChecked(False)
 
         # Кнопки вкладки
-        for i,v in enumerate(self.lst_cb):
+        for i,v in enumerate(self.lst_cb_rus):
             self.button_obj.append(QToolButton())
             self.button_obj[i].setText(v)
             self.button_obj[i].setCheckable(True)
@@ -374,7 +386,10 @@ class Main(QWidget):
         # self.buttonUnit3.setMaximumSize(QtCore.QSize(300, 50))
         # self.buttonUnit3.setObjectName("buttonUnit3")
         # self.buttonUnit3.deleteLater()
-
+        self.lbl = QLabel(f'<i>{self.cur_elem} version: 1.0.0  </i>')
+        self.lbl.setFont(font)
+        self.lbl.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter )
+        self.lbl.setStyleSheet('color: rgba(105,105,105,0.5)')
         # Кнопки действия
         self.buttonAction1 = QToolButton()
         self.buttonAction1.setText('Считать')
@@ -424,7 +439,14 @@ class Main(QWidget):
 
         self.stackLayout = QHBoxLayout()
         self.stackLayout.addWidget(self.stackedWidget)
-        self.stackLayout.setContentsMargins(0, 0, 0, 25)
+        self.stackLayout.setContentsMargins(0, 0, 0, 10)
+
+        self.lblLayout = QHBoxLayout()
+        # self.lblLayout.setContentsMargins(0, 0, 0, 0)
+        self.lblLayout.setGeometry(QtCore.QRect(20,20,20,20))
+        self.lblLayout.setObjectName("lblLayout")
+        self.lblLayout.addWidget(self.lbl)
+
 
         self.actionLayout = QHBoxLayout()
         # self.actionLayout.setSizeConstraint(QtWidgets.QLayout.SetDefaultConstraint)
@@ -438,6 +460,7 @@ class Main(QWidget):
         self.vbox.addLayout(self.ustcalLayout)
         self.vbox.addLayout(self.mainLayout)
         self.vbox.addLayout(self.stackLayout)
+        self.vbox.addLayout(self.lblLayout)
         self.vbox.addLayout(self.actionLayout)
 
         self.ser = Connect(self.cur_elem)
@@ -677,9 +700,9 @@ class Main(QWidget):
             self.thread_start(self.calibr_obj[0],"BU_400",'r')
             self.readData_bu1_flag = 1
             # test
-            # self.read_data_dict_bu400 = self.data_dict_bu400.test_data_dict('calibr')
-            # self.unit_bu400_preset.readData(self.read_data_dict_bu400, 'preset',1)
-            # self.unit_bu400_calibr.readData(self.read_data_dict_bu400, 'calibr',1)
+            # self.read_data_dict_bu400 = self.calibr_obj[0].test_data_dict('calibr')
+            # self.unit_obj_preset[0].readData(self.read_data_dict_bu400, 'preset',1)
+            # self.unit_obj_calibr[0].readData(self.read_data_dict_bu400, 'calibr',1)
 
     def readData_bu2(self):
         # printf('readData_bu50',self.buttonUnit2.isChecked())
@@ -788,29 +811,44 @@ class Main(QWidget):
             self.thread_start(self.calibr_obj[2],"BU_SES",'w')
 
     def saveData_bu1(self):
-        # if not self.button_obj[1].isChecked() and not self.button_obj[2].isChecked():
+        print('saveData_bu1')
         if self.button_obj[0].isChecked():
-            print('saveData_bu1')
-            self.unit_obj_preset[0].saveData(self.obj_cal_bu400,'preset','bu400')
-            self.unit_obj_calibr[0].saveData(self.obj_cal_bu400,'calibr','bu400')
-            self.unit_obj_calibr[0].saveData(self.obj_cal_bu400,'filter','bu400')
+            self.number_product = number_product.NumberProduct()
+            self.number_product.signal_numb.connect(self.nmb_product_bu1)
+
+
+    def nmb_product_bu1(self,text):
+        print('nmb_product_bu1')
+        if self.button_obj[0].isChecked():
+            print('nmb_product_bu1_1')
+            # self.unit_obj_preset[0].saveData(self.obj_cal_bu400,'preset',self.lst_cb[0],self.cur_elem,text)
+            # self.unit_obj_calibr[0].saveData(self.obj_cal_bu400,'calibr',self.lst_cb[0],self.cur_elem,text)
+            # self.unit_obj_calibr[0].saveData(self.obj_cal_bu400,'filter',self.lst_cb[0],self.cur_elem,text)
             #test
-            # self.unit_bu400_preset.saveDatatest('preset','bu400')
-            # self.unit_bu400_calibr.saveDatatest('calibr','bu400')
+            # self.unit_obj_preset[0].saveDatatest('preset',self.lst_cb[0],self.cur_elem,text)
+            # self.unit_obj_calibr[0].saveDatatest('calibr',self.lst_cb[0],self.cur_elem,text)
+        print('text',text)
 
     def saveData_bu2(self):
         if self.button_obj[1].isChecked():
-            print('saveData_bu2')
-            self.unit_obj_preset[1].saveData(self.obj_cal_bu50,'preset','bu50')
-            self.unit_obj_calibr[1].saveData(self.obj_cal_bu50,'calibr','bu50')
-            self.unit_obj_calibr[1].saveData(self.obj_cal_bu50,'filter','bu50')
+            self.number_product = number_product.NumberProduct()
+            self.number_product.signal_numb.connect(self.nmb_product_bu2)
+
+    def nmb_product_bu2(self,text):
+        if self.button_obj[1].isChecked():
+            self.unit_obj_preset[1].saveData(self.obj_cal_bu50,'preset',self.lst_cb[1],self.cur_elem,text)
+            self.unit_obj_calibr[1].saveData(self.obj_cal_bu50,'calibr',self.lst_cb[1],self.cur_elem,text)
+            self.unit_obj_calibr[1].saveData(self.obj_cal_bu50,'filter',self.lst_cb[1],self.cur_elem,text)
 
     def saveData_bu3(self):
         if self.button_obj[2].isChecked():
-            print('saveData_bu3')
-            self.unit_obj_preset[2].saveData(self.obj_cal_buses,'preset','buses')
-            self.unit_obj_calibr[2].saveData(self.obj_cal_buses,'calibr','buses')
-            self.unit_obj_calibr[2].saveData(self.obj_cal_buses,'filter','buses')
+            self.number_product = number_product.NumberProduct()
+            self.number_product.signal_numb.connect(self.nmb_product_bu3)
+    def nmb_product_bu3(self,text):
+        if self.button_obj[2].isChecked():
+            self.unit_obj_preset[2].saveData(self.obj_cal_buses,'preset',self.lst_cb[2],self.cur_elem,text)
+            self.unit_obj_calibr[2].saveData(self.obj_cal_buses,'calibr',self.lst_cb[2],self.cur_elem,text)
+            self.unit_obj_calibr[2].saveData(self.obj_cal_buses,'filter',self.lst_cb[2],self.cur_elem,text)
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

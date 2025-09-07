@@ -25,7 +25,8 @@ class Connect():
         ports_type_lst = file_ports.readlines()
     for port in ports:
         # port = port.hwid
-        # print(port.hwid,port.name,port.vid,port.pid,port.serial_number,port.location,port.manufacturer,port.product,port.interface)
+        print(port.hwid,port.name,port.vid,port.pid,port.serial_number,port.location,port.manufacturer,port.product,port.interface)
+        print(port.name,port.serial_number)
         for i in ports_type_lst:
             if i[:3] in port.serial_number:
                 port_dev = port.name
@@ -33,8 +34,10 @@ class Connect():
     # print(port_dev)
     print(ports_lst)
     try:
-        ser = serial.Serial(port=ports_lst[0], baudrate=3000000, timeout=0.01)
-        # ser = serial.Serial(port='COM16', baudrate=3000000, timeout=0.01)
+        if 'lin' in sys.platform:
+            ser = serial.Serial(port=f'/dev/{ports_lst[0]}', baudrate=3000000, timeout=0.01)
+        else:
+            ser = serial.Serial(port=ports_lst[0], baudrate=3000000, timeout=0.01)
     except IndexError:
         print('ERROR')
         warning.SignalErr(True)
@@ -387,7 +390,10 @@ class Calibrator(QObject):
                     print("END COM PORT")
                     return 'ERR'
 
-                self.ser.ser.port = self.ser.ports_lst[cnt_ports]
+                if 'lin' in sys.platform:
+                    self.ser.ser.port = f'/dev/{self.ser.ports_lst[cnt_ports]}'
+                else:
+                    self.ser.ser.port = self.ser.ports_lst[cnt_ports]
                 self.ser.can_open_O(self.ser.ser)
                 print('ports_lst',self.ser.ports_lst[cnt_ports])
                 tmp_cnt=0
