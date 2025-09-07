@@ -818,16 +818,14 @@ class Main(QWidget):
 
 
     def nmb_product_bu1(self,text):
-        print('nmb_product_bu1')
         if self.button_obj[0].isChecked():
-            print('nmb_product_bu1_1')
-            # self.unit_obj_preset[0].saveData(self.obj_cal_bu400,'preset',self.lst_cb[0],self.cur_elem,text)
-            # self.unit_obj_calibr[0].saveData(self.obj_cal_bu400,'calibr',self.lst_cb[0],self.cur_elem,text)
-            # self.unit_obj_calibr[0].saveData(self.obj_cal_bu400,'filter',self.lst_cb[0],self.cur_elem,text)
+            self.unit_obj_preset[0].saveData(self.obj_cal_bu400,'preset',self.lst_cb[0],self.cur_elem,text)
+            self.unit_obj_calibr[0].saveData(self.obj_cal_bu400,'calibr',self.lst_cb[0],self.cur_elem,text)
+            self.unit_obj_calibr[0].saveData(self.obj_cal_bu400,'filter',self.lst_cb[0],self.cur_elem,text)
             #test
-            # self.unit_obj_preset[0].saveDatatest('preset',self.lst_cb[0],self.cur_elem,text)
-            # self.unit_obj_calibr[0].saveDatatest('calibr',self.lst_cb[0],self.cur_elem,text)
-        print('text',text)
+        #     self.unit_obj_preset[0].saveDatatest('preset',self.lst_cb[0],self.cur_elem,text)
+        #     self.unit_obj_calibr[0].saveDatatest('calibr',self.lst_cb[0],self.cur_elem,text)
+        # print('text',text)
 
     def saveData_bu2(self):
         if self.button_obj[1].isChecked():

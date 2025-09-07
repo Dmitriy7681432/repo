@@ -314,7 +314,9 @@ class Unit(MyWidget,QWidget):
         lst_data = []
 
         name_block_rus = 0
+        name_product_rus = 0
         if name_product == 'SES200M':
+            name_product_rus = 'СЭС-200М'
             if name_block == 'BU_400':
                 name_block_rus = 'БУ400'; name_drawing = "ТАКИ БУ400"
             elif name_block == 'BU_50':
@@ -322,6 +324,7 @@ class Unit(MyWidget,QWidget):
             elif name_block == 'BU_SES':
                 name_block_rus = 'БУСЭС'; name_drawing = "ТАКИ БУСЭС"
         elif name_product == "SEP30M":
+            name_product_rus = 'СЭП-30М'
             if name_block == 'BU_400':
                 name_block_rus = 'БУ400'; name_drawing = "ТАКИ БУ400"
             elif name_block == 'BU_SEP':
@@ -404,7 +407,7 @@ class Unit(MyWidget,QWidget):
                 # добавление параграфа
                 paragraph1 = doc.add_paragraph()
                 paragraph1.add_run('Изделие: ').bold = True
-                paragraph1.add_run(f'{name_product}, ')
+                paragraph1.add_run(f'{name_product_rus}, ')
                 paragraph1.add_run('зав.№: ').bold = True
                 paragraph1.add_run(f'{list_nmb[0]}')
                 paragraph1.alignment = WD_ALIGN_PARAGRAPH.CENTER
@@ -479,7 +482,9 @@ class Unit(MyWidget,QWidget):
         os.makedirs(folder, exist_ok=True)
 
         name_block_rus = 0
+        name_product_rus = 0
         if name_product == 'SES200M':
+            name_product_rus = 'СЭС-200М'
             if name_block == 'BU_400':
                 name_block_rus = 'БУ400'; name_drawing = "ТАКИ БУ400"
             elif name_block == 'BU_50':
@@ -487,6 +492,7 @@ class Unit(MyWidget,QWidget):
             elif name_block == 'BU_SES':
                 name_block_rus = 'БУСЭС'; name_drawing = "ТАКИ БУСЭС"
         elif name_product == "SEP30M":
+            name_product_rus = 'СЭП-30М'
             if name_block == 'BU_400':
                 name_block_rus = 'БУ400'; name_drawing = "ТАКИ БУ400"
             elif name_block == 'BU_SEP':
@@ -520,7 +526,7 @@ class Unit(MyWidget,QWidget):
         # добавление параграфа
         paragraph1 = doc.add_paragraph()
         paragraph1.add_run('Изделие: ').bold = True
-        paragraph1.add_run(f'{name_product}, ')
+        paragraph1.add_run(f'{name_product_rus}, ')
         paragraph1.add_run('зав.№: ').bold = True
         paragraph1.add_run(f'{list_nmb[0]}')
         paragraph1.alignment = WD_ALIGN_PARAGRAPH.CENTER
@@ -569,13 +575,14 @@ class Unit(MyWidget,QWidget):
 
         # Конвертация в pdf
         print("-" * 50 + "\nКонвертация .docx в .pdf:\n" + "-" * 50)
-        try: import docx2pdf
-        except Exception as e: print(f"Ошибка импорта модуля! Подробнее:\n{e}"); ok = False
-        if ok:
-            input_file = f"./{folder}/{data}_{name_block}.docx"
-            output_file = f"./{folder}/{data}_{name_block}.pdf"
-            if not os.path.exists(input_file): print(f"Файл {input_file} не найден! Выполнение конвертации невозможно!")
-            else: docx2pdf.convert(input_file, output_file)
+        # ok = True
+        # try: import docx2pdf
+        # except Exception as e: print(f"Ошибка импорта модуля! Подробнее:\n{e}"); ok = False
+        # if ok:
+        #     input_file = f"./{folder}/{data}_{name_block}.docx"
+        #     output_file = f"./{folder}/{data}_{name_block}.pdf"
+        #     if not os.path.exists(input_file): print(f"Файл {input_file} не найден! Выполнение конвертации невозможно!")
+        #     else: docx2pdf.convert(input_file, output_file)
 
         print("Writing complete")
 
