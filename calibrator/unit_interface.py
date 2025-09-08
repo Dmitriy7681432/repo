@@ -318,17 +318,17 @@ class Unit(MyWidget,QWidget):
         if name_product == 'SES200M':
             name_product_rus = 'СЭС-200М'
             if name_block == 'BU_400':
-                name_block_rus = 'БУ400'; name_drawing = "ТАКИ БУ400"
+                name_block_rus = 'БУ400'; name_drawing = "ТАКИ.466539.022"
             elif name_block == 'BU_50':
-                name_block_rus = 'БУ50'; name_drawing = "ТАКИ БУ50"
+                name_block_rus = 'БУ50'; name_drawing = "ТАКИ.466539.023"
             elif name_block == 'BU_SES':
-                name_block_rus = 'БУСЭС'; name_drawing = "ТАКИ БУСЭС"
+                name_block_rus = 'БУСЭС'; name_drawing = "ТАКИ.466539.024"
         elif name_product == "SEP30M":
             name_product_rus = 'СЭП-30М'
             if name_block == 'BU_400':
-                name_block_rus = 'БУ400'; name_drawing = "ТАКИ БУ400"
+                name_block_rus = 'БУ400'; name_drawing = "ТАКИ.466539.021"
             elif name_block == 'BU_SEP':
-                name_block_rus = 'БУСЭП'; name_drawing = "ТАКИ БУСЭП"
+                name_block_rus = 'БУСЭП'; name_drawing = "ТАКИ.466539.020"
 
         name_block = name_block.lower()
 

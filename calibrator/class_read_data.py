@@ -149,7 +149,7 @@ class Calibrator(QObject):
                 self.read_id = b't6188'
                 self.data_id = b't64A'
                 self.write_id = b't6198'
-                self.confirmation_id = b't00B'
+                self.confirmation_id = b't015'
                 self.erase_id = b't61A8'
                 self.preset_designation = 'ADDR_PRESET_ROM2'
                 self.calibr_designation = 'ADDR_CALIBR_ROM2'
@@ -169,6 +169,11 @@ class Calibrator(QObject):
 
         self.file_open = open('read_data.txt', 'wb')
         self.flag =0
+
+        with open('wait_receiv.txt','r') as file_wait:
+            self.wait_received = int(file_wait.readlines()[0])
+            # print('wait',type(self.wait_received),self.wait_received)
+
     def transformed_in_value_and_address(self, arg, type,func=None):
         lst_val = []
         value = arg[13:21]
@@ -273,7 +278,8 @@ class Calibrator(QObject):
 
     # Считывание global_id параметра с params.xml
     def parse_xml_designation(self, designation):
-        doc = etree.parse('params.xml')
+        self.product_lower = self.product.lower()
+        doc = etree.parse(f'params_{self.product_lower}.xml')
         for setting in doc.findall('.//parameter'):
             designation_get = setting.attrib.get('designation')
             if designation_get == designation:
@@ -291,7 +297,8 @@ class Calibrator(QObject):
         calibr_dict = {}
         filter_dict = {}
         params_dict = {}
-        doc = etree.parse('params.xml')
+        self.product_lower = self.product.lower()
+        doc = etree.parse(f'params_{self.product_lower}.xml')
         # Уставки
         for setting in doc.findall('.//setting'):
             number = setting.attrib.get('number')
@@ -333,6 +340,7 @@ class Calibrator(QObject):
                                 # unit1 = self.pars_eskd(unit)
                                 params_dict[unit1] = {}
                         params_dict[unit1][designation] = [name,ctype]
+                if cb ==self.control_block:
                     for products2 in products1.findall('.//calibration'):
                         if len(products2.getchildren()) != 0:
                             for i in products2.findall('.//k'):
@@ -362,7 +370,8 @@ class Calibrator(QObject):
         return self.data_dict
 
     def pars_eskd(self):
-        doc = etree.parse('params.xml')
+        self.product_lower = self.product.lower()
+        doc = etree.parse(f'params_{self.product_lower}.xml')
         for eskd in doc.findall('.//system_parts/'):
             product = eskd.getparent().getparent().tag
             units = eskd.tag
@@ -382,9 +391,10 @@ class Calibrator(QObject):
         cnt_ports =0
         while True:
             tmp_cnt+=1
-            read_data = self.ser.ser.read(1024)
+            read_data = self.ser.ser.read(2048)
             # Костыль
-            if tmp_cnt >=250:
+            if tmp_cnt >=self.wait_received:
+                print('tmp_cnt1',tmp_cnt)
                 cnt_ports+=1
                 if cnt_ports>= len(self.ser.ports_lst):
                     print("END COM PORT")

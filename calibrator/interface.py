@@ -758,7 +758,7 @@ class Main(QWidget):
             self.unit_obj_preset[2].readData(self.read_data_dict_buses,'preset',self.count_read_buses)
             self.unit_obj_calibr[2].readData(self.read_data_dict_buses,'calibr',self.count_read_buses)
             # pass
-        self.buttonAction2.setEnabled(True)
+        # self.buttonAction2.setEnabled(True)
         self.worker.time_stop()
 
     def next_main_thread_write(self,name_obj):
