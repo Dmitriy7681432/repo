@@ -9,30 +9,38 @@ import serial.tools.list_ports
 import warning
 from PyQt5.QtCore import QAbstractEventDispatcher
 from PyQt5.QtWidgets import QApplication
-import sys
+import sys,json
 
 
 class Connect():
     # ser = serial.Serial()
     # com_port = ComPort()
+    wait_receiv = 0
+    buffer_receiv_begin = 0
+    buffer_receiv_main = 0
+
+    # Инфа про доступные com_port
     ports = serial.tools.list_ports.comports()
-    # #     ports = serial.tools.list_ports.ListPortInfo
-    # print(ports)
-    # port_dev = 0
-    # zip_port_dev = 0
+    # Открытие configs
+    with open('configs.json','r') as file_configs:
+        configs = json.load(file_configs)
+
+    # Поиск com_port
     ports_lst = []
-    with open('ports_bd.txt','r') as file_ports:
-        ports_type_lst = file_ports.readlines()
     for port in ports:
-        # port = port.hwid
         print(port.hwid,port.name,port.vid,port.pid,port.serial_number,port.location,port.manufacturer,port.product,port.interface)
-        print(port.name,port.serial_number)
-        for i in ports_type_lst:
-            if i[:3] in port.serial_number:
-                port_dev = port.name
+        for i in configs.values():
+            if i in port.serial_number:
                 ports_lst.append(port.name)
-    # print(port_dev)
     print(ports_lst)
+    # Поиск элементов configs, кроме com_port
+    for i in configs.keys():
+        if i == 'wait_receiv':
+            wait_receiv = int(configs.get(i))
+        if i == 'buffer_receiv_begin':
+            buffer_receiv_begin = int(configs.get(i))
+        if i == 'buffer_receiv_main':
+            buffer_receiv_main = int(configs.get(i))
     try:
         if 'lin' in sys.platform:
             ser = serial.Serial(port=f'/dev/{ports_lst[0]}', baudrate=3000000, timeout=0.01)
@@ -92,6 +100,7 @@ class Connect():
 class Calibrator(QObject):
     cal_signal = pyqtSignal(int)
     finish_cal_signal = pyqtSignal()
+    flag_abort = 0
 
     # Инициализация входных данных
     def __init__(self, ser, product, control_block):
@@ -170,9 +179,9 @@ class Calibrator(QObject):
         self.file_open = open('read_data.txt', 'wb')
         self.flag =0
 
-        with open('wait_receiv.txt','r') as file_wait:
-            self.wait_received = int(file_wait.readlines()[0])
-            # print('wait',type(self.wait_received),self.wait_received)
+        print('wait_receiv', self.ser.wait_receiv)
+        print('buffer_beg', self.ser.buffer_receiv_begin)
+        print('buffer_main', self.ser.buffer_receiv_main)
 
     def transformed_in_value_and_address(self, arg, type,func=None):
         lst_val = []
@@ -391,9 +400,9 @@ class Calibrator(QObject):
         cnt_ports =0
         while True:
             tmp_cnt+=1
-            read_data = self.ser.ser.read(2048)
+            read_data = self.ser.ser.read(self.ser.buffer_receiv_begin)
             # Костыль
-            if tmp_cnt >=self.wait_received:
+            if tmp_cnt >=self.ser.wait_receiv:
                 print('tmp_cnt1',tmp_cnt)
                 cnt_ports+=1
                 if cnt_ports>= len(self.ser.ports_lst):
@@ -412,6 +421,8 @@ class Calibrator(QObject):
             # self.ser = serial.Serial(port='COM15', baudrate=3000000, timeout=0.01)
             # self.can_open_O(self.ser)
             # print(read_data)
+            if self.flag_abort ==1:
+                return 'ABORT'
             if data_can_dict_value[:13] in read_data:
                 print('tmp_cnt', tmp_cnt)
                 list_read_data = read_data.split(b'\r')
@@ -439,6 +450,8 @@ class Calibrator(QObject):
 
         if addr =='ERR':
             return 'ERR'
+        elif addr == 'ABORT':
+            return 'ABORT'
 
         # addr = 0
         while True:
@@ -456,8 +469,10 @@ class Calibrator(QObject):
             self.ser.ser.write(msg_bytes)
             cnt_recept=0
             while True:
+                if self.flag_abort == 1:
+                    return 'ABORT'
                 cnt_recept+=1
-                read_data = self.ser.ser.read(1024)
+                read_data = self.ser.ser.read(self.ser.buffer_receiv_main)
                 if cnt_recept >= 10:
                     print('er_recept_head')
                     self.ser.ser.write(msg_bytes)
@@ -530,6 +545,7 @@ class Calibrator(QObject):
                 id = self.data_id
                 print(addr)
             if addr =='ERR': return 'ERR'
+            elif addr =='ABORT': return 'ABORT'
             # Парсер главного словаря с данным
             for data_main in self.data_dict[data_can].items():
                 print(data_main)
@@ -542,6 +558,8 @@ class Calibrator(QObject):
 
                 # Запрос с адресом в can
                 while True:
+                    if self.flag_abort == 1:
+                        return 'ABORT'
                     count += 1
                     count2+=count+1
                     # Если парсятся уставки
@@ -573,7 +591,7 @@ class Calibrator(QObject):
                     # Чтение с can значение и адреса
                     while True:
                         cnt_recept+=1
-                        read_data = self.ser.ser.read(1024)
+                        read_data = self.ser.ser.read(self.ser.buffer_receiv_main)
                         print(id,'---',read_data)
                         if cnt_recept>=10:
                             print('er_recept')

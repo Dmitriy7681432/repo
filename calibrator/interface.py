@@ -22,7 +22,7 @@ import warning,number_product
 
 class Worker(QThread):
     finished = pyqtSignal()
-    window_created = pyqtSignal(QWidget)
+    window_abort = pyqtSignal()
     flag_err_work =0
 
     def __init__(self,obj_main):
@@ -40,9 +40,18 @@ class Worker(QThread):
         # self.window.setWindowTitle("Второе окно")
         # self.window = test_qt1.Example()
 
+        font = QtGui.QFont()
+        font.setFamily("Times New Roman")
+        font.setPointSize(12)
+        # font.setBold(True)
+
         self.window = QWidget()
         self.pbar = QProgressBar(self.window)
-        self.pbar.setGeometry(30, 40, 200, 25)
+        # self.pbar.setGeometry(30, 40, 200, 25)
+        self.button = QPushButton('Прервать',self.window)
+        self.button.setGeometry(90, 60, 80, 25)
+        self.button.setFont(font)
+        self.button.clicked.connect(self.button_clicked)
 
         # self.btn = QPushButton('Начать', self.window)
         # self.btn.move(30, 80)
@@ -51,12 +60,19 @@ class Worker(QThread):
         self.timer = QBasicTimer()
         self.step = 0
 
-        layout = QVBoxLayout()
+        layout = QVBoxLayout(self.window)
         layout.addWidget(self.pbar)
+        layout.setContentsMargins(10,0,10,10)
+        layout.setGeometry(QtCore.QRect(30,40,200,25))
+        layout2 = QVBoxLayout(self.window)
+        layout2.addWidget(self.button)
+        layout2.setContentsMargins(50,0,50,0)
+        layout2.setGeometry(QtCore.QRect(35,60,200,25))
+        # layout.addWidget(self.button)
         # layout.addWidget(self.btn)
         self.window.setLayout(layout)
 
-        self.window.setGeometry(100, 100, 280, 70)
+        self.window.setGeometry(100, 100, 280, 90)
         self.center() # Центрируем окно
         self.window.setWindowTitle('Загрузка')
         # Блокировка главного окна
@@ -67,6 +83,10 @@ class Worker(QThread):
         self.obj_main.cal_signal.connect(self.update_progress_bar)
 
         self.doAction()
+
+    def button_clicked(self):
+        self.window_abort.emit()
+        self.flag_err_work =1
 
     def time_stop(self):
         self.val =100
@@ -129,6 +149,7 @@ class ThreadCalibrator(QtCore.QThread):
         self.mode = mode
 
     def run(self):
+        print('RUN')
         i = 1
         print('Thread start')
         self.flag_err = self.obj.main_data_read(self.mode)
@@ -139,6 +160,8 @@ class ThreadCalibrator(QtCore.QThread):
         # self.obj.rest()
         if self.flag_err=='ERR':
             self.finished_err.emit()
+        elif self.flag_err =='ABORT':
+            print('ABORT')
         else:
             self.finished2.emit('%s' % self.name_obj)
         # self.finished2.emit()
@@ -699,6 +722,7 @@ class Main(QWidget):
             self.worker.run1()
             self.thread_start(self.calibr_obj[0],"BU_400",'r')
             self.readData_bu1_flag = 1
+            self.worker.window_abort.connect(lambda: self.progress_bar_stop('bu1'))
             # test
             # self.read_data_dict_bu400 = self.calibr_obj[0].test_data_dict('calibr')
             # self.unit_obj_preset[0].readData(self.read_data_dict_bu400, 'preset',1)
@@ -711,6 +735,7 @@ class Main(QWidget):
             self.worker.run1()
             self.thread_start(self.calibr_obj[1],"BU_50",'r')
             self.readData_bu2_flag = 1
+            self.worker.window_abort.connect(lambda: self.progress_bar_stop('bu2'))
 
     def readData_bu3(self):
         # printf('readData_buses',self.buttonUnit3.isChecked())
@@ -719,14 +744,16 @@ class Main(QWidget):
             self.worker.run1()
             self.thread_start(self.calibr_obj[2],"BU_SES",'r')
             self.readData_bu3_flag = 1
+            self.worker.window_abort.connect(lambda: self.progress_bar_stop('bu2'))
+
     def thread_start(self,obj, name_obj,mode):
         # self.th =ThreadCalibrator(self.testing)
         self.th =ThreadCalibrator(obj,name_obj,mode)
         self.th.start()
         # self.th.mysignal.connect(self.on_change,QtCore.Qt.QueuedConnection)
-        if self.th.flag_err =='ERR':
-            print()
-            self.th.quit()
+        # if self.th.flag_err =='ERR':
+        #     print()
+        #     self.th.quit()
         self.th.finished_err.connect(self.signal_thread_stop)
         if mode =='r':
             self.th.finished2.connect(self.next_main_thread_read)
@@ -780,6 +807,14 @@ class Main(QWidget):
     # def on_change(self,s):
     #     self.unit_bu400_preset.readData(self.read_data_dict_bu400,'preset')
     #     self.unit_bu400_calibr.readData(self.read_data_dict_bu400,'calibr')
+
+    def progress_bar_stop(self,cb):
+        if cb =='bu1':
+            self.calibr_obj[0].flag_abort =1
+        elif cb =='bu2':
+            self.calibr_obj[1].flag_abort =1
+        elif cb =='bu3':
+            self.calibr_obj[2].flag_abort =1
 
 
     def writeData_bu1(self):

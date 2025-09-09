@@ -72,61 +72,69 @@
 
 
 
-from docx import Document
-from docx.shared import Inches
-from docx.enum.text import WD_ALIGN_PARAGRAPH
+# from docx import Document
+# from docx.shared import Inches
+# from docx.enum.text import WD_ALIGN_PARAGRAPH
+#
+# document = Document()
+#
+#
+# # document.add_heading('Document Title', 1)
+# paragraph1 = document.add_paragraph()
+# paragraph1.add_run('Изделие: ').bold =True
+# paragraph1.add_run('СЭС-200М, ')
+# paragraph1.add_run('зав.№: ').bold =True
+# paragraph1.add_run('Н06001')
+# paragraph1.alignment = WD_ALIGN_PARAGRAPH.CENTER
+# paragraph2 = document.add_paragraph()
+# paragraph2.add_run('Блок: ').bold =True
+# paragraph2.add_run('БУ50, ТАКИ, ')
+# paragraph2.add_run('зав.№: ').bold =True
+# paragraph2.add_run('Н06001')
+# paragraph2.alignment = WD_ALIGN_PARAGRAPH.CENTER
+#
+# p = document.add_paragraph('A plain paragraph having some ')
+# p.add_run('bold').bold = True
+# p.add_run(' and some ')
+# p.add_run('italic.').italic = True
+#
+# document.add_heading('Heading, level 1', level=1)
+# document.add_paragraph('Intense quote', style='Intense Quote')
+#
+# document.add_paragraph(
+#     'first item in unordered list', style='List Bullet'
+# )
+# document.add_paragraph(
+#     'first item in ordered list', style='List Number'
+# )
+#
+# # document.add_picture('monty-truth.png', width=Inches(1.25))
+#
+# records = (
+#     (3, '101', 'Spam'),
+#     (7, '422', 'Eggs'),
+#     (4, '631', 'Spam, spam, eggs, and spam')
+# )
+#
+# table = document.add_table(rows=1, cols=3)
+# hdr_cells = table.rows[0].cells
+# hdr_cells[0].text = 'Qty'
+# hdr_cells[1].text = 'Id'
+# hdr_cells[2].text = 'Desc'
+# for qty, id, desc in records:
+#     row_cells = table.add_row().cells
+#     row_cells[0].text = str(qty)
+#     row_cells[1].text = id
+#     row_cells[2].text = desc
+#
+# document.add_page_break()
+#
+# document.save('demo.docx')
 
-document = Document()
-
-
-# document.add_heading('Document Title', 1)
-paragraph1 = document.add_paragraph()
-paragraph1.add_run('Изделие: ').bold =True
-paragraph1.add_run('СЭС-200М, ')
-paragraph1.add_run('зав.№: ').bold =True
-paragraph1.add_run('Н06001')
-paragraph1.alignment = WD_ALIGN_PARAGRAPH.CENTER
-paragraph2 = document.add_paragraph()
-paragraph2.add_run('Блок: ').bold =True
-paragraph2.add_run('БУ50, ТАКИ, ')
-paragraph2.add_run('зав.№: ').bold =True
-paragraph2.add_run('Н06001')
-paragraph2.alignment = WD_ALIGN_PARAGRAPH.CENTER
-
-p = document.add_paragraph('A plain paragraph having some ')
-p.add_run('bold').bold = True
-p.add_run(' and some ')
-p.add_run('italic.').italic = True
-
-document.add_heading('Heading, level 1', level=1)
-document.add_paragraph('Intense quote', style='Intense Quote')
-
-document.add_paragraph(
-    'first item in unordered list', style='List Bullet'
-)
-document.add_paragraph(
-    'first item in ordered list', style='List Number'
-)
-
-# document.add_picture('monty-truth.png', width=Inches(1.25))
-
-records = (
-    (3, '101', 'Spam'),
-    (7, '422', 'Eggs'),
-    (4, '631', 'Spam, spam, eggs, and spam')
-)
-
-table = document.add_table(rows=1, cols=3)
-hdr_cells = table.rows[0].cells
-hdr_cells[0].text = 'Qty'
-hdr_cells[1].text = 'Id'
-hdr_cells[2].text = 'Desc'
-for qty, id, desc in records:
-    row_cells = table.add_row().cells
-    row_cells[0].text = str(qty)
-    row_cells[1].text = id
-    row_cells[2].text = desc
-
-document.add_page_break()
-
-document.save('demo.docx')
+import json
+with open('configs.json','r') as file_configs:
+    configs = json.load(file_configs)
+    for i in configs.values():
+        if i in 'FT3A213':
+            print(i)
+    # print(configs.values())

@@ -17,7 +17,7 @@ class NumberProduct(QObject):
             app = QApplication(sys.argv)
         super().__init__()
         self.widget = QWidget()
-        self.widget.setWindowTitle("Выбор изделия")
+        self.widget.setWindowTitle("Зав.№ изделия и блока")
         self.widget.setGeometry(100, 100, 400, 200)
 
         #Шрифт
