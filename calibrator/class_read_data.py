@@ -10,6 +10,7 @@ import warning
 from PyQt5.QtCore import QAbstractEventDispatcher
 from PyQt5.QtWidgets import QApplication
 import sys,json
+from debug import *
 
 
 class Connect():
@@ -113,56 +114,58 @@ class Calibrator(QObject):
         self.control_block = control_block
         if self.product == "SES200M":
             if self.control_block == 'BU_SES':
-                self.partel_id = b't0328' #purpose="PARAMETER_VALUE_FOR_OPERATOR">
-                self.read_id = b't60E8'  # READ_DATA
-                self.data_id = b't640'  # DATA_VALUE
-                self.write_id = b't60F8'  #WRITE_DATA
-                self.confirmation_id = b't014'
-                self.erase_id = b't6108'
+                # self.partel_id = b't0328'       # purpose="PARAMETER_VALUE_FOR_OPERATOR">
+                # self.read_id = b't60E8'         # READ_DATA
+                # self.data_id = b't640'          # DATA_VALUE
+                # self.write_id = b't60F8'        # WRITE_DATA
+                # self.confirmation_id = b't014'  # CONFIRMATION_OPERATOR
+                # self.erase_id = b't6108'        # ERASE_SECTOR
                 self.preset_designation = 'ADDR_PRESET_ROM'
                 self.calibr_designation = 'ADDR_CALIBR_ROM'
                 self.filter_designation = 'ADDR_FILTR_ROM'
             elif self.control_block == 'BU_50':
-                self.partel_id = b't0338'
-                self.read_id = b't6188'
-                self.data_id = b't64A'
-                self.write_id = b't6198'
-                self.confirmation_id = b't015'
-                self.erase_id = b't61A8'
+                # self.partel_id = b't0338'
+                # self.read_id = b't6188'
+                # self.data_id = b't64A'
+                # self.write_id = b't6198'
+                # self.confirmation_id = b't015'
+                # self.erase_id = b't61A8'
                 self.preset_designation = 'ADDR_PRESET_ROM2'
                 self.calibr_designation = 'ADDR_CALIBR_ROM2'
                 self.filter_designation = 'ADDR_FILTR_ROM2'
             elif self.control_block == "BU_400":
-                self.partel_id = b't0348'
-                self.read_id = b't6228'
-                self.data_id = b't654'
-                self.write_id = b't6238'
-                self.confirmation_id = b't016'
-                self.erase_id = b't6248'
+                # self.partel_id = b't0348'
+                # self.read_id = b't6228'
+                # self.data_id = b't654'
+                # self.write_id = b't6238'
+                # self.confirmation_id = b't016'
+                # self.erase_id = b't6248'
                 self.preset_designation = 'ADDR_PRESET_ROM3'
                 self.calibr_designation = 'ADDR_CALIBR_ROM3'
                 self.filter_designation = 'ADDR_FILTR_ROM3'
         if self.product == "SEP30M":
             if self.control_block == 'BU_SEP':
-                self.partel_id = b't0328'
-                self.read_id = b't60E8'
-                self.data_id = b't640'
-                self.write_id = b't60F8'
-                self.confirmation_id = b't00B'
-                self.erase_id = b't6108'
+                # self.partel_id = b't0328'
+                # self.read_id = b't60E8'
+                # self.data_id = b't640'
+                # self.write_id = b't60F8'
+                # self.confirmation_id = b't014'
+                # self.erase_id = b't6108'
                 self.preset_designation = 'ADDR_PRESET_ROM'
                 self.calibr_designation = 'ADDR_CALIBR_ROM'
                 self.filter_designation = 'ADDR_FILTR_ROM'
             elif self.control_block == 'BU_400':
-                self.partel_id = b't0408'
-                self.read_id = b't6188'
-                self.data_id = b't64A'
-                self.write_id = b't6198'
-                self.confirmation_id = b't015'
-                self.erase_id = b't61A8'
+                # self.partel_id = b't0408'
+                # self.read_id = b't6188'
+                # self.data_id = b't64A'
+                # self.write_id = b't6198'
+                # self.confirmation_id = b't015'
+                # self.erase_id = b't61A8'
                 self.preset_designation = 'ADDR_PRESET_ROM2'
                 self.calibr_designation = 'ADDR_CALIBR_ROM2'
                 self.filter_designation = 'ADDR_FILTR_ROM2'
+
+        self.parse_xml_can_id(self.product,self.control_block)
 
         # Главный словарь с уставками, калибровками и фильтрами для интерфейса
         self.data_dict = {'preset': {}, 'calibr': {}, 'filter': {}}
@@ -260,9 +263,17 @@ class Calibrator(QObject):
         arg = arg[6:8] + arg[4:6] + arg[2:4] + arg[0:2]
         # print(arg)
         arg = arg.encode('utf-8')
-        # print(arg)
         arg = id + arg + val + b'\r'
         return arg
+
+    def transformed_in_bytes_can_id(self,arg):
+        arg = hex(arg)[2:].upper()
+        arg = arg.encode('utf-8')
+        if len(arg) == 1: arg = b't00' + arg + b'8'
+        elif len(arg) == 2: arg = b't0' + arg + b'8'
+        else: arg = b't' + arg + b'8'
+        return arg
+
 
     # Перевод числа из hex в decimal
     def transformed_hex_to_dec(self, value, type):
@@ -297,8 +308,41 @@ class Calibrator(QObject):
         # Пример возвращаемого значения: b't0338002F000000000000\r'
         return global_id_can_format
 
+    # Считывание can_id с params.xml
+    def parse_xml_can_id(self,name_product,name_cb):
+        lst_can_id = []
+        self.product_lower = self.product.lower()
+        doc = etree.parse(f'params_{self.product_lower}.xml')
+        for setting in doc.findall('.//can'):
+            purpose = setting.attrib.get('purpose')
+            for products1 in setting.findall(f'.//{name_product}'):
+                cb = products1.attrib.get('cb')
+                if cb == name_cb:
+                    if purpose =="PARAMETER_VALUE_FOR_OPERATOR":
+                        self.partel_id = self.transformed_in_bytes_can_id(int(products1.attrib.get('value')))
+                        print('partel_id',self.partel_id)
+                    if purpose == "READ_DATA":
+                        self.read_id = self.transformed_in_bytes_can_id(int(products1.attrib.get('value')))
+                        print('read_id', self.read_id)
+                    if purpose == "DATA_VALUE":
+                        self.data_id = self.transformed_in_bytes_can_id(int(products1.attrib.get('value')))[:-1]
+                        print('data_id', self.data_id)
+                    if purpose == "WRITE_DATA":
+                        self.write_id = self.transformed_in_bytes_can_id(int(products1.attrib.get('value')))
+                        print('write_id', self.write_id)
+                    if name_product =='SES200M' or name_product =='SES150':
+                        if purpose == "CONFIRMATION_OPERATOR":
+                            self.confirmation_id = self.transformed_in_bytes_can_id(int(products1.attrib.get('value')))[:-1]
+                            printf('confirmation_id', self.confirmation_id)
+                    else:
+                        if purpose == "CONFIRMATION":
+                            self.confirmation_id = self.transformed_in_bytes_can_id(int(products1.attrib.get('value')))[:-1]
+                            printf('confirmation_id', self.confirmation_id)
+                    if purpose == "ERASE_SECTOR":
+                        self.erase_id = self.transformed_in_bytes_can_id(int(products1.attrib.get('value')))
+                        printf('erase_id', self.erase_id)
 
-    # Считывание уставок, калибровок, фильтров и сохранение их в списки
+                        # Считывание уставок, калибровок, фильтров и сохранение их в списки
     def parse_data_xml(self):
         start = time.time()
         flag = 0

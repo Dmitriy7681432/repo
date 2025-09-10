@@ -131,10 +131,18 @@
 #
 # document.save('demo.docx')
 
-import json
-with open('configs.json','r') as file_configs:
-    configs = json.load(file_configs)
-    for i in configs.values():
-        if i in 'FT3A213':
-            print(i)
+# import json
+# with open('configs.json','r') as file_configs:
+#     configs = json.load(file_configs)
+#     for i in configs.values():
+#         if i in 'FT3A213':
+#             print(i)
     # print(configs.values())
+
+arg =11
+arg = hex(arg)[2:].upper()
+arg = arg.encode('utf-8')
+if len(arg)==1: arg = b't00' + arg + b'8'
+elif len(arg)==2: arg = b't00' + arg + b'8'
+else: arg = b't' + arg + b'8'
+print(arg[:-1])

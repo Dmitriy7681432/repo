@@ -5,6 +5,7 @@ from PyQt5 import QtGui,QtCore
 from PyQt5 import QtWidgets
 import sys
 from PyQt5.QtCore import QObject, pyqtSignal,Qt
+from debug import *
 
 class NumberProduct(QObject):
     signal_numb = pyqtSignal(list)

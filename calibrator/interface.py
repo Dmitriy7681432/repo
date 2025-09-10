@@ -19,6 +19,11 @@ from PyQt5.QtWidgets import (QWidget, QLabel,
                              QComboBox, QApplication)
 import warning,number_product
 
+from debug import *
+# from unit_interface import *
+# from class_read_data import *
+# from number_product import *
+# from warning import *
 
 class Worker(QThread):
     finished = pyqtSignal()

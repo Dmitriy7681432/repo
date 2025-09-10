@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import (QWidget, QLabel,
 from PyQt5 import QtCore, QtGui, QtWidgets,Qt
 import sys
 from PyQt5.QtCore import QAbstractEventDispatcher
+from debug import *
 
 class SignalErr():
     def __init__(self,app = False):

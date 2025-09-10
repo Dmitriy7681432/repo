@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import (QWidget, QPushButton, QStackedWidget,
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from class_read_data import Connect,Calibrator
-# from debug import print
+from debug import *
 
 
 class MyWidget(QWidget):
