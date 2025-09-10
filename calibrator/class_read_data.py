@@ -588,9 +588,11 @@ class Calibrator(QObject):
                 addr = self._header_data_read(self.data_can_dict[data_can], data_can, 'r')
                 id = self.data_id
                 print(addr)
+
             if addr =='ERR': return 'ERR'
             elif addr =='ABORT': return 'ABORT'
-            # Парсер главного словаря с данным
+
+            # Парсер главного словаря с данными
             for data_main in self.data_dict[data_can].items():
                 print(data_main)
                 print(self.data_dict[data_can].items())
@@ -604,6 +606,7 @@ class Calibrator(QObject):
                 while True:
                     if self.flag_abort == 1:
                         return 'ABORT'
+
                     count += 1
                     count2+=count+1
                     # Если парсятся уставки
