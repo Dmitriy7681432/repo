@@ -146,6 +146,7 @@ class ThreadCalibrator(QtCore.QThread):
     mysignal = QtCore.pyqtSignal()
     flag_err = 0
     finished_err = pyqtSignal()
+    finished_abort = pyqtSignal()
 
     def __init__(self, obj,name_obj,mode):
         super().__init__()
@@ -166,7 +167,7 @@ class ThreadCalibrator(QtCore.QThread):
         if self.flag_err=='ERR':
             self.finished_err.emit()
         elif self.flag_err =='ABORT':
-            print('ABORT')
+            self.finished_abort.emit()
         else:
             self.finished2.emit('%s' % self.name_obj)
         # self.finished2.emit()
@@ -749,7 +750,7 @@ class Main(QWidget):
             self.worker.run1()
             self.thread_start(self.calibr_obj[2],"BU_SES",'r')
             self.readData_bu3_flag = 1
-            self.worker.window_abort.connect(lambda: self.progress_bar_stop('bu2'))
+            self.worker.window_abort.connect(lambda: self.progress_bar_stop('bu3'))
 
     def thread_start(self,obj, name_obj,mode):
         # self.th =ThreadCalibrator(self.testing)
@@ -760,10 +761,16 @@ class Main(QWidget):
         #     print()
         #     self.th.quit()
         self.th.finished_err.connect(self.signal_thread_stop)
+        self.th.finished_abort.connect(self.signal_thread_abort)
         if mode =='r':
             self.th.finished2.connect(self.next_main_thread_read)
         else:
             self.th.finished2.connect(self.next_main_thread_write)
+
+    def signal_thread_abort(self):
+        printf('signal_thread_abort')
+        for i,v in enumerate(self.lst_cb):
+            self.calibr_obj[i].flag_abort =0
 
     def signal_thread_stop(self):
         self.worker.flag_err_work=1

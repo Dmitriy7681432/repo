@@ -250,26 +250,21 @@ class Unit(MyWidget,QWidget):
         preset_indx = 9
         calibr_indx = 2
         self.count_read = count_read
-        print(preset_indx)
         # if self.count_read >=4:
         #     preset_indx+=self.count_read
         #     calibr_indx+=1
         #     print(preset_indx)
         # # for i in self.data_tab.count():
         for i in data_dict[data].items():
-            print(preset_indx)
             item = self.lst_model[num].item(count, 2)
             item.setBackground(QtGui.QBrush(QtGui.QColor(255, 255, 255)))
-            print(preset_indx)
             if data =='preset':
                 #test
                 # self.checkValue = str(i[1][5])
                 self.checkValue = str(i[1][preset_indx])
-                print(preset_indx)
                 #test
                 # item.setChild(count, 2, item.setText(str(i[1][5])))
                 item.setChild(count, 2, item.setText(str(i[1][preset_indx])))
-                print(preset_indx)
             else:
                 self.checkValue = str(i[1][calibr_indx])
                 item.setChild(count, 2, item.setText(str(i[1][calibr_indx])))
