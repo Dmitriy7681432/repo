@@ -10,7 +10,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets,Qt
 from PyQt5.QtCore import QThread, pyqtSignal, pyqtSlot,QTimer
 from unit_interface import Unit,Param
 from class_read_data import Connect,Calibrator
-# from debug import print
+# from debug import printf
 from PyQt5.QtCore import QBasicTimer
 # from debug1.test1 import Testing
 import serial.tools.list_ports
@@ -97,7 +97,7 @@ class Worker(QThread):
         self.val =100
 
     def update_progress_bar(self,val):
-        print('updata_pr')
+        printf('updata_pr')
         self.val = val
         # self.step = self.step +self.val
         self.pbar.setValue(self.val)
@@ -111,13 +111,13 @@ class Worker(QThread):
 
         # self.window_created.emit(self.window)  # Отправляем сигнал о создании окна
         # self.finished.emit()  # Отправляем сигнал об окончании работы
-        print('3')
+        printf('3')
 
     # Вновь
     # def closeEvent(self):
     #     self.window.setWindowModality(Qt.Qt.NonModal)
     def timerEvent(self, e):
-        print('timer_event',self.val, self.timer.isActive())
+        printf('timer_event',self.val, self.timer.isActive())
         self.pbar.setValue(self.val)
         if self.val >= 100 or self.flag_err_work:
             self.timer.stop()
@@ -130,7 +130,7 @@ class Worker(QThread):
         # self.step = self.step + 1
 
     def doAction(self):
-        print('doAction', self.timer.isActive())
+        printf('doAction', self.timer.isActive())
         if self.timer.isActive():
             self.timer.stop()
             # self.btn.setText('Начать')
@@ -142,22 +142,23 @@ class Worker(QThread):
 
 
 class ThreadCalibrator(QtCore.QThread):
-    finished2 = pyqtSignal(str)
+    finished2 = pyqtSignal(str,str)
     mysignal = QtCore.pyqtSignal()
     flag_err = 0
     finished_err = pyqtSignal()
     finished_abort = pyqtSignal()
 
-    def __init__(self, obj,name_obj,mode):
+    def __init__(self, obj,name_product,name_cb,mode):
         super().__init__()
         self.obj = obj
-        self.name_obj = name_obj
+        self.name_product = name_product
+        self.name_cb = name_cb
         self.mode = mode
 
     def run(self):
-        print('RUN')
+        printf('RUN')
         i = 1
-        print('Thread start')
+        printf('Thread start')
         self.flag_err = self.obj.main_data_read(self.mode)
         # while True:
         # for i in range(0,10):
@@ -169,7 +170,7 @@ class ThreadCalibrator(QtCore.QThread):
         elif self.flag_err =='ABORT':
             self.finished_abort.emit()
         else:
-            self.finished2.emit('%s' % self.name_obj)
+            self.finished2.emit('%s' % self.name_product,'%s' % self.name_cb)
         # self.finished2.emit()
 
 
@@ -191,7 +192,7 @@ class ComPort(QWidget):
         y = desktop.height()
         x_size_desktop = 255
         y_size_desktop = int(y / 12)
-        print(x_size_desktop,y_size_desktop)
+        printf(x_size_desktop,y_size_desktop)
         self.resize(x_size_desktop, y_size_desktop)
         # Вывод окна по центру
         x_ = (desktop.width() - self.frameSize().width()) // 2
@@ -204,7 +205,7 @@ class ComPort(QWidget):
             ports = serial.tools.list_ports.comports()
             for port in ports:
                 lst_combo.append(port.name)
-                print(port.hwid,port.name,port.vid,port.pid,port.serial_number,port.location,port.manufacturer,port.product,port.interface)
+                printf(port.hwid,port.name,port.vid,port.pid,port.serial_number,port.location,port.manufacturer,port.product,port.interface)
             label = 'Выберите com port:'
         else:
             label = 'Выберите изделие:'
@@ -292,7 +293,7 @@ class Main(QWidget):
         desktop = QtWidgets.QApplication.desktop()
         x = desktop.width()
         y = desktop.height()
-        # print(x, y)
+        # printf(x, y)
         # x_size_desktop = int(x / 2.2);
         x_size_desktop = 885
         y_size_desktop = int(y / 1.3)
@@ -310,10 +311,10 @@ class Main(QWidget):
         self.vbox = QVBoxLayout()
         self.stackedWidget = QtWidgets.QStackedWidget()
         self.stackedWidget.setGeometry(QtCore.QRect(0, 68, stack_size_yy, stack_size_xx))
-        # print(self.stackedWidget.size().height())
+        # printf(self.stackedWidget.size().height())
         self.stackedWidget.setObjectName("stackedWidget")
 
-        # print(stack_size_x,stack_size_y,stack_size_yy,stack_size_xx)
+        # printf(stack_size_x,stack_size_y,stack_size_yy,stack_size_xx)
         # self.centralwidget.setGeometry(800,800,800,800)
         # self.centralwidget.setGeometry(0,0,768,50)
 
@@ -548,15 +549,15 @@ class Main(QWidget):
         self.main.show()
 
     def UnitWidgetMain(self, i):
-        print('UnitW')
+        printf('UnitW')
         if i ==0:
-            print('UnitW1')
+            printf('UnitW1')
             self.UnitWidget()
         elif i ==1:
-            print('UnitW2')
+            printf('UnitW2')
             self.UnitWidget2()
         else:
-            print('UnitW3')
+            printf('UnitW3')
             self.UnitWidget3()
 
     def UnitWidget(self):
@@ -726,7 +727,7 @@ class Main(QWidget):
         if self.button_obj[0].isChecked():
             self.worker = Worker(self.calibr_obj[0])
             self.worker.run1()
-            self.thread_start(self.calibr_obj[0],"BU_400",'r')
+            self.thread_start(self.calibr_obj[0],self.cur_elem,self.lst_cb[0],'r')
             self.readData_bu1_flag = 1
             self.worker.window_abort.connect(lambda: self.progress_bar_stop('bu1'))
             # test
@@ -735,30 +736,30 @@ class Main(QWidget):
             # self.unit_obj_calibr[0].readData(self.read_data_dict_bu400, 'calibr',1)
 
     def readData_bu2(self):
-        # printf('readData_bu50',self.buttonUnit2.isChecked())
+        # printff('readData_bu50',self.buttonUnit2.isChecked())
         if self.button_obj[1].isChecked():
             self.worker = Worker(self.calibr_obj[1])
             self.worker.run1()
-            self.thread_start(self.calibr_obj[1],"BU_50",'r')
+            self.thread_start(self.calibr_obj[1],self.cur_elem,self.lst_cb[1],'r')
             self.readData_bu2_flag = 1
             self.worker.window_abort.connect(lambda: self.progress_bar_stop('bu2'))
 
     def readData_bu3(self):
-        # printf('readData_buses',self.buttonUnit3.isChecked())
+        # printff('readData_buses',self.buttonUnit3.isChecked())
         if self.button_obj[2].isChecked():
             self.worker = Worker(self.calibr_obj[2])
             self.worker.run1()
-            self.thread_start(self.calibr_obj[2],"BU_SES",'r')
+            self.thread_start(self.calibr_obj[2],self.cur_elem,self.lst_cb[2],'r')
             self.readData_bu3_flag = 1
             self.worker.window_abort.connect(lambda: self.progress_bar_stop('bu3'))
 
-    def thread_start(self,obj, name_obj,mode):
+    def thread_start(self,obj, name_product,name_cb,mode):
         # self.th =ThreadCalibrator(self.testing)
-        self.th =ThreadCalibrator(obj,name_obj,mode)
+        self.th =ThreadCalibrator(obj,name_product,name_cb,mode)
         self.th.start()
         # self.th.mysignal.connect(self.on_change,QtCore.Qt.QueuedConnection)
         # if self.th.flag_err =='ERR':
-        #     print()
+        #     printf()
         #     self.th.quit()
         self.th.finished_err.connect(self.signal_thread_stop)
         self.th.finished_abort.connect(self.signal_thread_abort)
@@ -767,53 +768,60 @@ class Main(QWidget):
         else:
             self.th.finished2.connect(self.next_main_thread_write)
 
+    # Сброс флага кнопки прервать в ноль
     def signal_thread_abort(self):
         printf('signal_thread_abort')
         for i,v in enumerate(self.lst_cb):
             self.calibr_obj[i].flag_abort =0
 
+    # Сообщение об отсутствии com_port
     def signal_thread_stop(self):
         self.worker.flag_err_work=1
         # sign = Worker(self.data_dict_bu400)
         self.sign = warning.SignalErr()
-    def next_main_thread_read(self,name_obj):
-        print('next main thread read',name_obj)
-        if name_obj =='BU_400':
-            self.count_read_bu400 += 4
-            self.obj_cal_bu400 = self.calibr_obj[0]
-            self.read_data_dict_bu400 = self.calibr_obj[0].data_dict
-            self.unit_obj_preset[0].readData(self.read_data_dict_bu400,'preset',self.count_read_bu400)
-            self.unit_obj_calibr[0].readData(self.read_data_dict_bu400,'calibr',self.count_read_bu400)
-        if name_obj =='BU_50':
-            self.count_read_bu50 += 4
-            self.obj_cal_bu50 = self.calibr_obj[1]
-            self.read_data_dict_bu50 = self.calibr_obj[1].data_dict
-            self.unit_obj_preset[1].readData(self.read_data_dict_bu50,'preset',self.count_read_bu50)
-            self.unit_obj_calibr[1].readData(self.read_data_dict_bu50,'calibr',self.count_read_bu50)
-        if name_obj =='BU_SES':
-            self.count_read_buses += 4
-            self.obj_cal_buses = self.calibr_obj[2]
-            self.read_data_dict_buses = self.calibr_obj[2].data_dict
-            self.unit_obj_preset[2].readData(self.read_data_dict_buses,'preset',self.count_read_buses)
-            self.unit_obj_calibr[2].readData(self.read_data_dict_buses,'calibr',self.count_read_buses)
-            # pass
-        # self.buttonAction2.setEnabled(True)
+
+    def next_main_thread_read(self,name_product,name_cb):
+        printf('next main thread read',name_cb)
+        for i,v in enumerate(self.lst_cb):
+            if name_cb ==v:
+                self.count_read_bu400 += 4
+                self.obj_cal_bu400 = self.calibr_obj[i]
+                self.unit_obj_preset[i].readData(self.calibr_obj[i].data_dict,'preset',self.count_read_bu400)
+                self.unit_obj_calibr[i].readData(self.calibr_obj[i].data_dict,'calibr',self.count_read_bu400)
+
+        # if name_obj =='BU_50':
+        #     self.count_read_bu50 += 4
+        #     self.obj_cal_bu50 = self.calibr_obj[1]
+        #     self.read_data_dict_bu50 = self.calibr_obj[1].data_dict
+        #     self.unit_obj_preset[1].readData(self.read_data_dict_bu50,'preset',self.count_read_bu50)
+        #     self.unit_obj_calibr[1].readData(self.read_data_dict_bu50,'calibr',self.count_read_bu50)
+        # if name_obj =='BU_SES':
+        #     self.count_read_buses += 4
+        #     self.obj_cal_buses = self.calibr_obj[2]
+        #     self.read_data_dict_buses = self.calibr_obj[2].data_dict
+        #     self.unit_obj_preset[2].readData(self.read_data_dict_buses,'preset',self.count_read_buses)
+        #     self.unit_obj_calibr[2].readData(self.read_data_dict_buses,'calibr',self.count_read_buses)
+        #     # pass
+        self.buttonAction2.setEnabled(True)
         self.worker.time_stop()
 
-    def next_main_thread_write(self,name_obj):
-        print('next main thread write',name_obj)
-        if name_obj =='BU_400':
-            self.unit_obj_preset[0].writeData(self.read_data_dict_bu400,'preset')
-            data_dict = self.unit_bu400_calibr.writeData(self.read_data_dict_bu400,'calibr')
-            self.calibr_obj[0].update_data_dict(data_dict)
-        if name_obj =='BU_50':
-            self.unit_obj_preset[1].writeData(self.read_data_dict_bu50,'preset')
-            data_dict = self.unit_bu50_calibr.writeData(self.read_data_dict_bu50,'calibr')
-            self.calibr_obj[1].update_data_dict(data_dict)
-        if name_obj =='BU_SES':
-            self.unit_obj_preset[2].writeData(self.read_data_dict_buses,'preset')
-            data_dict = self.unit_buses_calibr.writeData(self.read_data_dict_buses,'calibr')
-            self.calibr_obj[2].update_data_dict(data_dict)
+    def next_main_thread_write(self,name_product,name_cb):
+        printf('next main thread write',name_cb)
+        # if name_product =='SES200M':
+        for i,v in enumerate(self.lst_cb):
+            if name_cb ==v:
+                self.unit_obj_preset[i].writeData(self.calibr_obj[i].data_dict,'preset')
+                data_dict = self.unit_obj_calibr[i].writeData(self.calibr_obj[i].data_dict,'calibr')
+                self.calibr_obj[i].update_data_dict(data_dict)
+
+        # if name_obj =='BU_50':
+        #     self.unit_obj_preset[1].writeData(self.read_data_dict_bu50,'preset')
+        #     data_dict = self.unit_obj_calibr[1].writeData(self.read_data_dict_bu50,'calibr')
+        #     self.calibr_obj[1].update_data_dict(data_dict)
+        # if name_obj =='BU_SES':
+        #     self.unit_obj_preset[2].writeData(self.read_data_dict_buses,'preset')
+        #     data_dict = self.unit_obj_calibr[2].writeData(self.read_data_dict_buses,'calibr')
+        #     self.calibr_obj[2].update_data_dict(data_dict)
         self.buttonAction2.setEnabled(True)
         self.worker.time_stop()
     # def on_change(self,s):
@@ -837,7 +845,7 @@ class Main(QWidget):
             # self.data_dict_bu400.update_data_dict(data_dict)
             self.worker = Worker(self.calibr_obj[0])
             self.worker.run1()
-            self.thread_start(self.calibr_obj[0],"BU_400",'w')
+            self.thread_start(self.calibr_obj[0],self.cur_elem,self.lst_cb[0],'w')
 
     def writeData_bu2(self):
         if self.button_obj[1].isChecked():
@@ -846,7 +854,7 @@ class Main(QWidget):
             # self.data_dict_bu50.update_data_dict(data_dict)
             self.worker = Worker(self.calibr_obj[1])
             self.worker.run1()
-            self.thread_start(self.calibr_obj[1],"BU_50",'w')
+            self.thread_start(self.calibr_obj[1],self.cur_elem,self.lst_cb[1],'w')
 
     def writeData_bu3(self):
         if self.button_obj[2].isChecked():
@@ -855,10 +863,10 @@ class Main(QWidget):
             # self.data_dict_buses.update_data_dict(data_dict)
             self.worker = Worker(self.calibr_obj[2])
             self.worker.run1()
-            self.thread_start(self.calibr_obj[2],"BU_SES",'w')
+            self.thread_start(self.calibr_obj[2],self.cur_elem,self.lst_cb[2],'w')
 
     def saveData_bu1(self):
-        print('saveData_bu1')
+        printf('saveData_bu1')
         if self.button_obj[0].isChecked():
             self.number_product = number_product.NumberProduct()
             self.number_product.signal_numb.connect(self.nmb_product_bu1)
@@ -872,7 +880,7 @@ class Main(QWidget):
             #test
         #     self.unit_obj_preset[0].saveDatatest('preset',self.lst_cb[0],self.cur_elem,text)
         #     self.unit_obj_calibr[0].saveDatatest('calibr',self.lst_cb[0],self.cur_elem,text)
-        # print('text',text)
+        # printf('text',text)
 
     def saveData_bu2(self):
         if self.button_obj[1].isChecked():

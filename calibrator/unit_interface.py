@@ -29,7 +29,7 @@ class TableFocus(QtWidgets.QTableView,Id):
         self.keyPressed.emit(event.key())
     def event(self, e):
         if e.type() == QtCore.QEvent.Shortcut:
-            print('id',self.id)
+            printf('id',self.id)
             if self.id == e.shortcutId():
                 self.id_lst.append(self.id)
                 self.setFocus(QtCore.Qt.ShortcutFocusReason)
@@ -53,15 +53,15 @@ class Unit(MyWidget,QWidget):
     # def on_key(self, e):
     #
     #     # self.table.keyPressEvent = self.keyPressEvent
-    #     printf('keyPressEvent')
+    #     printff('keyPressEvent')
     #     # super(Unit,self).keyPressEvent(e)
     #
     #     if e.key() == PyQt5.Qt.Qt.Key_Up:
-    #         printf('UP',e.text())
+    #         printff('UP',e.text())
     #         # self.table.focusNextChild()
     #
     #     if e.key() == PyQt5.Qt.Qt.Key_Down:
-    #         printf('DOWD',e.text())
+    #         printff('DOWD',e.text())
     def initUI(self,data_dict, data,unit,height_desktop):
         # Шрифт
         font = QtGui.QFont()
@@ -90,7 +90,7 @@ class Unit(MyWidget,QWidget):
 
 
         # for i in data_dict['preset'].items():
-        #     printf(i[1][0])
+        #     printff(i[1][0])
 
         len_data_dict =len(data_dict[data].items())
 
@@ -139,7 +139,7 @@ class Unit(MyWidget,QWidget):
             count2 +=1
             # cnt_elem = round((table.size().height()/table.rowHeight(0))+0.5)
             self.cnt_elem = round((height_desktop/2/self.table.rowHeight(0))+0.5)
-            # printf(cnt_elem)
+            # printff(cnt_elem)
             if count ==self.cnt_elem or count2 == len_data_dict:
                 self.table.setColumnWidth(0, 190)
                 self.table.setColumnWidth(1, 520)
@@ -182,7 +182,7 @@ class Unit(MyWidget,QWidget):
         self.horizontLayout.setAlignment(QtCore.Qt.AlignHCenter)
         # self.horizontLayout.addWidget(table)
         self.setLayout(self.horizontLayout)
-        # print('Unit1')
+        # printf('Unit1')
 
         # return self.page
 
@@ -191,30 +191,30 @@ class Unit(MyWidget,QWidget):
         return re.match('^-?\d+\.?\d*$', data) is not None
 
     def changedValue(self, value):
-        # printf(value.data)
+        # printff(value.data)
         if self.readData_flag ==0:
             item = self.lst_model[self.index_data_tab].item(value.row(), value.column())
             # if not value.text().isalpha() and '.' in self.checkValue and '.' in value.text():
-            # printf(self.checkValue,value.text())
+            # printff(self.checkValue,value.text())
             if (not '.' in self.checkValue) and (not '.' in value.text()) and \
                     self.is_valid_email(value.text()) and self.is_valid_email(self.checkValue):
-                # printf('Data_int', value.text(), value.row())
+                # printff('Data_int', value.text(), value.row())
                 self.checkValue = value.text()
                 item.setBackground(QtGui.QBrush(QtGui.QColor(255, 255, 9)))
             elif '.' in self.checkValue and '.' in value.text() and \
                 self.is_valid_email(self.checkValue) and self.is_valid_email(value.text()):
-                # printf('Data_float', value.text(), value.row())
+                # printff('Data_float', value.text(), value.row())
                 self.checkValue = value.text()
                 item.setBackground(QtGui.QBrush(QtGui.QColor(255, 255, 9)))
             else:
-                # printf('CHANGE',value.row(),value.column(),self.checkValue)
+                # printff('CHANGE',value.row(),value.column(),self.checkValue)
                 item.setChild(value.row(),value.column(), item.setText(self.checkValue))
 
 
     def selectRow1(self, data):
         self.checkValue = data.data()
         self.curr_row = data.row()
-        print('SELECT', data.row(), data.column(), data.data())
+        printf('SELECT', data.row(), data.column(), data.data())
 
 
     # def keyPressEvent(self, e):
@@ -234,13 +234,13 @@ class Unit(MyWidget,QWidget):
         self.index_data_tab = index
 
     def enteredValue(self,value):
-        print('ENTERED',value.data())
+        printf('ENTERED',value.data())
 
     def pressedValue(self,value):
-        print('PRESSED',value.data())
+        printf('PRESSED',value.data())
 
     def activatedValue(self,value):
-        print('ACTIVATED',value.data())
+        printf('ACTIVATED',value.data())
 
     def readData(self,data_dict,data,count_read):
         self.readData_flag =1
@@ -253,7 +253,7 @@ class Unit(MyWidget,QWidget):
         # if self.count_read >=4:
         #     preset_indx+=self.count_read
         #     calibr_indx+=1
-        #     print(preset_indx)
+        #     printf(preset_indx)
         # # for i in self.data_tab.count():
         for i in data_dict[data].items():
             item = self.lst_model[num].item(count, 2)
@@ -276,15 +276,15 @@ class Unit(MyWidget,QWidget):
                 if count1 == self.data_tab.count():
                     self.readData_flag = 0
                     return 0
-                    # printf(num)
+                    # printff(num)
                     # item = self.lst_model[num].item(count, 2)
-                # else: printf(data_dict); return 0
+                # else: printff(data_dict); return 0
         self.readData_flag = 0
-        print(data_dict['preset'].items())
+        printf(data_dict['preset'].items())
 
-        print(data_dict)
+        printf(data_dict)
     def writeData(self,data_dict,data):
-        print('WriteData')
+        printf('WriteData')
         count =0
         lst_data_dict_keys = list(data_dict[data].keys())
         for i in range(0,self.data_tab.count()):
@@ -296,11 +296,11 @@ class Unit(MyWidget,QWidget):
                 else:
                     data_dict[data].get(lst_data_dict_keys[count])[1] = item.text()
                 count+=1
-        # printf(data_dict[data].items())
+        # printff(data_dict[data].items())
         return data_dict
 
     def saveData(self,obj_cal,data,name_block,name_product,list_nmb):
-        print('SaveData')
+        printf('SaveData')
 
         import csv
         import os
@@ -330,22 +330,22 @@ class Unit(MyWidget,QWidget):
         data_dict_copy = obj_cal.data_dict.copy()
         count =0
         lst_data_dict_keys = list(data_dict_copy[data].keys())
-        print(lst_data_dict_keys)
+        printf(lst_data_dict_keys)
         with open(f'./{folder}/{data}_{name_block}.bin','wb') as f:
-            print(obj_cal.header_data_dict[data])
+            printf(obj_cal.header_data_dict[data])
             for i in obj_cal.header_data_dict[data][0:]:
-                print('i',i)
+                printf('i',i)
                 f.write(i)
-            print(data)
+            printf(data)
             if data == 'filter':
-                print(obj_cal.data_dict[data])
+                printf(obj_cal.data_dict[data])
                 for i in obj_cal.data_dict[data]:
-                    print()
+                    printf()
                     f.write(struct.pack('I', int(obj_cal.data_dict[data][i][0])))
-                    print()
+                    printf()
                     f.write(struct.pack('I', int(obj_cal.data_dict[data][i][1])))
             else:
-                print()
+                printf()
                 for i in range(0,self.data_tab.count()):
                     for j in range(0, self.lst_model[i].rowCount()):
                         designation = self.lst_model[i].item(j, 0)
@@ -356,7 +356,7 @@ class Unit(MyWidget,QWidget):
                         lst_data.append(local_lst_data)
                         # item1.setBackground(QtGui.QBrush(QtGui.QColor(255, 255, 255)))
                         dt_dict = data_dict_copy[data].get(lst_data_dict_keys[count])
-                        print(dt_dict,item.text())
+                        printf(dt_dict,item.text())
                         if data == 'preset':
                             if data_dict_copy[data].get(lst_data_dict_keys[count])[1] == 'float':
                                 f.write(struct.pack('f', float(dt_dict[3])))
@@ -374,7 +374,7 @@ class Unit(MyWidget,QWidget):
                                     f.write(struct.pack('i', int(dt_item)))
                                     dt_dict[6] = str(int(float(dt_dict[6])))
                                     f.write(struct.pack('i', int(dt_dict[6])))
-                                    print(dt_dict[3],dt_dict[4],dt_item,dt_dict[6])
+                                    printf(dt_dict[3],dt_dict[4],dt_item,dt_dict[6])
                                 else:
                                     f.write(struct.pack('i', int(dt_dict[3])))
                                     f.write(struct.pack('i', int(dt_dict[4])))
@@ -451,26 +451,26 @@ class Unit(MyWidget,QWidget):
                 doc.save(f'./{folder}/{data}_{name_block}.docx')
 
                 # Конвертация в pdf
-                print("-" * 50 + "\nКонвертация .docx в .pdf:\n" + "-" * 50)
+                printf("-" * 50 + "\nКонвертация .docx в .pdf:\n" + "-" * 50)
                 ok =True
                 try:
                     import docx2pdf
                 except Exception as e:
-                    print(f"Ошибка импорта модуля! Подробнее:\n{e}"); ok = False
+                    printf(f"Ошибка импорта модуля! Подробнее:\n{e}"); ok = False
                 if ok:
                     input_file = f"./{folder}/{data}_{name_block}.docx"
                     output_file = f"./{folder}/{data}_{name_block}.pdf"
                     if not os.path.exists(input_file):
-                        print(f"Файл {input_file} не найден! Выполнение конвертации невозможно!")
+                        printf(f"Файл {input_file} не найден! Выполнение конвертации невозможно!")
                     else:
                         docx2pdf.convert(input_file, output_file)
 
-        print(data_dict_copy)
+        printf(data_dict_copy)
         return data_dict_copy
 
     #test записи в csv
     def saveDatatest(self,data,name_block,name_product,list_nmb):
-        print('saveDatatest')
+        printf('saveDatatest')
         import csv
         import os
         folder = 'csv,docx,pdf'
@@ -569,17 +569,17 @@ class Unit(MyWidget,QWidget):
         doc.save(f'./{folder}/{data}_{name_block}.docx')
 
         # Конвертация в pdf
-        print("-" * 50 + "\nКонвертация .docx в .pdf:\n" + "-" * 50)
+        printf("-" * 50 + "\nКонвертация .docx в .pdf:\n" + "-" * 50)
         # ok = True
         # try: import docx2pdf
-        # except Exception as e: print(f"Ошибка импорта модуля! Подробнее:\n{e}"); ok = False
+        # except Exception as e: printf(f"Ошибка импорта модуля! Подробнее:\n{e}"); ok = False
         # if ok:
         #     input_file = f"./{folder}/{data}_{name_block}.docx"
         #     output_file = f"./{folder}/{data}_{name_block}.pdf"
-        #     if not os.path.exists(input_file): print(f"Файл {input_file} не найден! Выполнение конвертации невозможно!")
+        #     if not os.path.exists(input_file): printf(f"Файл {input_file} не найден! Выполнение конвертации невозможно!")
         #     else: docx2pdf.convert(input_file, output_file)
 
-        print("Writing complete")
+        printf("Writing complete")
 
 
 
@@ -673,7 +673,7 @@ class Param(QWidget):
         # table1.setFont(font)
         # table1.horizontalHeader().hide()
         # table1.verticalHeader().hide()
-        # printf(model1.item(1,0).text())
+        # printff(model1.item(1,0).text())
         # table1.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         # table1.setGridStyle(0)
 
@@ -697,9 +697,9 @@ class Param(QWidget):
 
         # for i in range(0,3):
         #     fon_metric = self.lst_widget[i].fontMetrics().width(text)
-        #     printf(fon_metric)
+        #     printff(fon_metric)
         #     if fon_metric > 268:
-        #         printf('fon_m')
+        #         printff('fon_m')
         #         # self.list_widget.resize(290,35)
         #         self.lst_widget[i].setGeometry(10, 10 + i, 290, 40)
         #         self.lst_widget1[i].setGeometry(300, 10 + i, 100, 40)
@@ -715,10 +715,10 @@ class Param(QWidget):
         # if text1[35] == ' ':
         #     text1[35] = '\n'
         # text1 = ''.join(text1)
-        # printf(text1)
+        # printff(text1)
         # param_dicts = self.count_keys(param_dict[unit])
-        # printf(param_dicts,len(param_dict[unit]))
-        # printf(len(param_dict[unit].items()),param_dict[unit])
+        # printff(param_dicts,len(param_dict[unit]))
+        # printff(len(param_dict[unit].items()),param_dict[unit])
 
         param_obj = []
 
@@ -727,10 +727,10 @@ class Param(QWidget):
             param_obj.append(('head',elem[0]))
             for i in j:
                 param_obj.append(('name',i[0]))
-        print(param_dict[unit])
+        printf(param_dict[unit])
 
         len_for = round(((len(param_obj)*20/self.size_stacked)/2)+0.5)
-        # printf(len_for,len(param_obj),self.size_stacked)
+        # printff(len_for,len(param_obj),self.size_stacked)
         arg =(0,0)
         self.lst_widget = []
         self.lst_widget1 = []
@@ -739,7 +739,7 @@ class Param(QWidget):
             i+=1
             self.widget = QtWidgets.QWidget(self.centr_widget)
             self.data_tab.addTab(self.widget, f"Вкладка {i}")
-            # printf(self.size_stacked)
+            # printff(self.size_stacked)
             self.widget.setGeometry(
             QtCore.QRect(self.size_stacked, self.size_stacked, self.size_stacked, self.size_stacked))
 
@@ -747,7 +747,7 @@ class Param(QWidget):
             self.data_tab.setStyleSheet('background-color:rgb(220,254,225);')
             if arg!=None:
                 arg = self.add_List_half(10, 10, 300, 10, param_obj, arg[0],arg[1])
-                # printf(arg)
+                # printff(arg)
             if arg!=None:
                 arg = self.add_List_half(450, 10, 740, 10, param_obj, arg[0], arg[1])
         # if arg !=None:
@@ -756,7 +756,7 @@ class Param(QWidget):
         #         self.add_List(10, 10, 300, 10, param_obj, arg[0], arg[1])
 
         # arg = self.add_List(10, 10, 300, 10, param_obj, 0,0)
-        # printf(arg)
+        # printff(arg)
         # if arg !=None:
         #     arg = self.add_List(10, 10, 300, 10, param_obj, arg[0],arg[1])
         #     if unit == 'BU_50':
@@ -783,17 +783,17 @@ class Param(QWidget):
         # self.listView.scrollTo(index ,hint=QtWidgets.QAbstractItemView.PositionAtTop)
         # # self.listView.scroll()
         # fon_metric = self.listView.fontMetrics().width(text[0])
-        # printf(fon_metric)
-        # printf(len(text[0]))
+        # printff(fon_metric)
+        # printff(len(text[0]))
 
         self.horizontLayout.addWidget(self.data_tab)
         # table1.clicked.connect(self.selectRow)
         # model1.itemChanged.connect(self.on1_click)
         self.setLayout(self.horizontLayout)
-        # print('Unit2')
+        # printf('Unit2')
 
     def add_List_half(self,x1,y1,x2,y2,param_obj,start_while,text_label):
-        # printf('func add_list_half')
+        # printff('func add_list_half')
 
         k = 0
         z = 0
@@ -811,17 +811,17 @@ class Param(QWidget):
                 size_all_widget += self.label.size().height()
 
             if size_all_widget > self.widget.size().height():
-                # printf(i,text_label)
+                # printff(i,text_label)
                 return i, text_label
 
             if param_obj[i][0] == 'head':
-                # printf(param_obj[i][1], param_obj[i][0])
+                # printff(param_obj[i][1], param_obj[i][0])
                 self.label = QtWidgets.QLabel(self.widget)
                 if fon_metric <= 269:
                     if j == 0:
                         self.label.setGeometry(x1 + 3, y1 + j + k, 390, 20)
                     else:
-                        # printf(j, z, k)
+                        # printff(j, z, k)
                         z += 5
                         self.label.setGeometry(x1 + 3, y1 + j + z + k, 390, 20)
                 else:
@@ -835,7 +835,7 @@ class Param(QWidget):
             elif param_obj[i][0] == 'name':
                 # if flag == 1 and flag2 == 0:
                 #     self.label = QtWidgets.QLabel(self.widget)
-                #     printf()
+                #     printff()
                 #     self.label.setGeometry(x1 + 3, y1 + j + k, 390, 20)
                 #     self.label.setText(text_label)
                 #     self.font.setPointSize(14)
@@ -859,7 +859,7 @@ class Param(QWidget):
                 text1 = self.trans_str(fon_metric, param_obj[i][1])
                 self.listWidgetItem = QtWidgets.QListWidgetItem(text1[0])
                 self.list_widget.addItem(self.listWidgetItem)
-                # printf(fon_metric,text1[0],i)
+                # printff(fon_metric,text1[0],i)
                 # self.list_widget.setFrameShape(QtWidgets.QFrame.NoFrame)
                 # self.list_widget.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
                 # self.list_widget.itemChanged.connect(self.text_changed)
@@ -874,14 +874,14 @@ class Param(QWidget):
                 # self.list_widget1.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
                 self.list_widget1.setStyleSheet('background-color:rgb(255,255,255);')
                 self.list_widget1.setFont(self.font)
-                # printf(self.list_widget1.width())
+                # printff(self.list_widget1.width())
                 self.listWidgetItem1.setTextAlignment(QtCore.Qt.AlignCenter)
                 self.lst_widget.append(self.list_widget)
                 self.lst_widget1.append(self.list_widget1)
                 self.lst_widget_item1.append(self.listWidgetItem1)
-                # printf(fon_metric)
+                # printff(fon_metric)
                 if fon_metric <= 269:
-                    # printf(j, z, k, text1[0])
+                    # printff(j, z, k, text1[0])
                     if flag == 0:
                         self.list_widget.setGeometry(x1, y1 + j + z + k, 290, 20)
                         self.list_widget1.setGeometry(x2, y2 + j + z + k, 100, 20)
@@ -890,10 +890,10 @@ class Param(QWidget):
                         self.list_widget1.setGeometry(x2, y2 + j + z + k, 100, 20)
 
                 else:
-                    # printf(j, z, k, text1[0])
+                    # printff(j, z, k, text1[0])
                     if k == 0:
                         # # if j == 0 and flag == 1:
-                        # #     printf()
+                        # #     printff()
                         # #     self.list_widget.setGeometry(x1, y1 + j + z + 20, 290, 35)
                         # #     self.list_widget1.setGeometry(x2, y2 + j + z + 20, 100, 35)
                         # #     self.listWidgetItem1.setSizeHint(QtCore.QSize(10, 35))
@@ -919,13 +919,13 @@ class Param(QWidget):
             lst_temp.append(i.text())
 
         # self.lst_widget_item1[0].setText('5')
-        print(lst_temp)
+        printf(lst_temp)
 
     def add_List(self,x1,y1,x2,y2,param_obj,start_while,text_label):
-        print('func add_list')
+        printf('func add_list')
 
         self.widget= QtWidgets.QWidget(self.centr_widget)
-        print(self.size_stacked)
+        printf(self.size_stacked)
         self.widget.setGeometry(QtCore.QRect(self.size_stacked,self.size_stacked,self.size_stacked,self.size_stacked))
 
         self.data_tab.addTab(self.widget, "Вкладка 1")
@@ -942,7 +942,7 @@ class Param(QWidget):
 
 
         # for i in range(0,self.count_keys(param_dict)+len(param_dict)):
-        print(len(param_obj))
+        printf(len(param_obj))
         for i in range(start_while,len(param_obj)):
             j = i*20
             if start_while!=0:
@@ -952,11 +952,11 @@ class Param(QWidget):
                 size_all_widget += self.label.size().height()
                 flag2=1
                 # j-=20
-                print(j)
-                print(size_all_widget+20,self.label.size().height(),self.widget.size().height())
+                printf(j)
+                printf(size_all_widget+20,self.label.size().height(),self.widget.size().height())
 
             if size_all_widget >self.widget.size().height() and flag ==0:
-                print(size_all_widget,self.label.size().height(),self.widget.size().height())
+                printf(size_all_widget,self.label.size().height(),self.widget.size().height())
                 tmp = j
                 x1 = 450
                 x2 = 740
@@ -968,18 +968,18 @@ class Param(QWidget):
             elif flag == 1:
                 j-=tmp
                 if size_all_widget >self.widget.size().height():
-                    print(i)
+                    printf(i)
                     return i,text_label
             elif start_while!=0:
                 j+=20
             if param_obj[i][0] == 'head':
-                print(param_obj[i][1],param_obj[i][0])
+                printf(param_obj[i][1],param_obj[i][0])
                 self.label = QtWidgets.QLabel(self.widget)
                 if fon_metric<=269:
                     if j ==0:
                         self.label.setGeometry(x1 + 3, y1 + j+k, 390, 20)
                     else:
-                        print(j,z,k)
+                        printf(j,z,k)
                         z+=5
                         self.label.setGeometry(x1 + 3, y1 + j+z+k, 390, 20)
                 else:
@@ -993,7 +993,7 @@ class Param(QWidget):
             elif param_obj[i][0] =='name':
                 if flag ==1 and flag2 ==0:
                     self.label = QtWidgets.QLabel(self.widget)
-                    print()
+                    printf()
                     self.label.setGeometry(x1 + 3, y1 + j + k, 390, 20)
                     self.label.setText(text_label)
                     self.font.setPointSize(14)
@@ -1003,7 +1003,7 @@ class Param(QWidget):
                     size_all_widget+=self.label.size().height()
                 elif start_while ==i and start_while !=0:
                     self.label = QtWidgets.QLabel(self.widget)
-                    print()
+                    printf()
                     self.label.setGeometry(x1 + 3, y1 + j + k-20, 390, 20)
                     self.label.setText(text_label)
                     self.font.setPointSize(14)
@@ -1017,7 +1017,7 @@ class Param(QWidget):
                 text1 = self.trans_str(fon_metric,param_obj[i][1])
                 self.listWidgetItem = QtWidgets.QListWidgetItem(text1[0])
                 self.list_widget.addItem(self.listWidgetItem)
-                # printf(fon_metric,text1[0],i)
+                # printff(fon_metric,text1[0],i)
                 # self.list_widget.setFrameShape(QtWidgets.QFrame.NoFrame)
                 # self.list_widget.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
                 # self.list_widget.itemChanged.connect(self.text_changed)
@@ -1031,14 +1031,14 @@ class Param(QWidget):
                 # self.list_widget1.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
                 self.list_widget1.setStyleSheet('background-color:rgb(255,255,255);')
                 self.list_widget1.setFont(self.font)
-                # printf(self.list_widget1.width())
+                # printff(self.list_widget1.width())
                 self.listWidgetItem1.setTextAlignment(QtCore.Qt.AlignCenter)
                 self.lst_widget.append(self.list_widget)
                 self.lst_widget1.append(self.list_widget1)
                 self.lst_widget_item1.append(self.listWidgetItem1)
-                # printf(fon_metric)
+                # printff(fon_metric)
                 if fon_metric<=269:
-                    print(j,z,k,text1[0])
+                    printf(j,z,k,text1[0])
                     if flag==0:
                         self.list_widget.setGeometry(x1, y1 + j+z+k, 290, 20)
                         self.list_widget1.setGeometry(x2, y2 + j+z+k, 100, 20)
@@ -1047,7 +1047,7 @@ class Param(QWidget):
                         self.list_widget1.setGeometry(x2, y2 + j+z+k+20, 100, 20)
 
                 else:
-                    print(j,z,k,text1[0])
+                    printf(j,z,k,text1[0])
                     if k==0:
                         if j ==0 and flag ==1:
                             self.list_widget.setGeometry(x1, y1 + j + z+20, 290, 35)
@@ -1077,36 +1077,36 @@ class Param(QWidget):
         return total
     def on1_click(self,value):
         if value.text().isdigit():
-            print('Data',value.text(),value.row())
+            printf('Data',value.text(),value.row())
         else:
             # self.item3.setChild(value.row(),value.column(),self.item3.setText(self.checkValue))
             self.item[2].setChild(value.row(),value.column(),self.item[2].setText(self.checkValue))
 
     def selectRow(self,data):
         self.checkValue = data.data()
-        print('SELECT',data.row(),data.column(),data.data())
+        printf('SELECT',data.row(),data.column(),data.data())
 
     def text_changed(self):
 
-        print('text_changed')
+        printf('text_changed')
         # QTextEdit
         # text = self.list_widget.toPlainText()
-        # printf('text',text)
+        # printff('text',text)
         # metric = QtGui.QFontMetrics(self.list_widget.font())
-        # printf('metric',metric)
+        # printff('metric',metric)
         # size_font = self.list_widget.rect()
-        # printf('size_font',size_font)
+        # printff('size_font',size_font)
         # geom_font = metric.boundingRect(QtCore.QRect(0,0,0,0), QtCore.Qt.TextWordWrap,text)
         # # geom_font = metric.boundingRect(QtCore.QRect(0,0,0,0), QtCore.Qt.WrapAnywhere,text)
         # # geom_font = metric.boundingRect(QtCore.QRect(0,0,0,0), QtGui.QTextOption.WordWrap,text)
-        # printf('geom_font',geom_font)
+        # printff('geom_font',geom_font)
         # x = 10
         # if self.list_widget.fontMetrics().width(text) > size_font.width()-40:
         # # self.list_widget.resize(size_font.width(),geom_font.height()+x)
         #     self.list_widget.resize(size_font.width(),size_font.height()*2)
         # # self.list_widget.resize(size_font.width(), size_font.height())
-        # printf(geom_font.width(),geom_font.height())
-        # printf(self.list_widget.fontMetrics().width(text))
+        # printff(geom_font.width(),geom_font.height())
+        # printff(self.list_widget.fontMetrics().width(text))
 
         # font = self.list_widget.document().defaultFont()
         # fontMetrics = QtGui.QFontMetrics(font)
@@ -1146,7 +1146,7 @@ class Param(QWidget):
             self.listView = QtWidgets.QListView(self.centr_widget)
             self.listView.setFont(self.font)
             fon_metric = self.listView.fontMetrics().width(text[0])
-            print(fon_metric,text)
+            printf(fon_metric,text)
             text1 = self.trans_str(fon_metric,text[0])
             self.model  = QtCore.QStringListModel()
             self.model.setStringList(text1)
@@ -1170,7 +1170,7 @@ class Param(QWidget):
             self.listView1.setItemAlignment(QtCore.Qt.AlignCenter)
 
             if fon_metric > 268:
-                print('fon_m',i)
+                printf('fon_m',i)
                 # self.list_widget.resize(290,35)
                 if i ==0:
                     self.listView.setGeometry(x1, y1 + i+i, 290, 35)
