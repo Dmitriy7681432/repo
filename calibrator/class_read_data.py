@@ -217,9 +217,9 @@ class Calibrator(QObject):
         address = struct.unpack('!I', bytes.fromhex(address))
         return value[0], address[0]
 
-    def func_val_to_hex_can(self,c,ctype,mode ='r'):
+    def func_val_to_hex_can(self,c,ctype,mode ='r',header=None):
         printf(c)
-        if ctype!='float':
+        if ctype!='float' and header is None:
             c = int(c)
         printf(c)
         if ctype =="-int":
@@ -289,8 +289,10 @@ class Calibrator(QObject):
                 printf(val,type(val))
                 val = hex(val)[2:].upper()
                 printf(val)
-                val = val[6:8] + val[4:6] + val[2:4] + val[0:2]
-                val = self.func_val_to_hex_can(val, ctype, mode)
+                if mode =='w':
+                    val = self.func_val_to_hex_can(val, ctype, mode,header=True)
+                else:
+                    val = val[6:8] + val[4:6] + val[2:4] + val[0:2]
                 printf(val)
             elif mode=='r':
                 printf()
