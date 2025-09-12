@@ -217,15 +217,17 @@ class Calibrator(QObject):
         address = struct.unpack('!I', bytes.fromhex(address))
         return value[0], address[0]
 
-    def func_val_to_hex_can(self,c,ctype):
+    def func_val_to_hex_can(self,c,ctype,mode ='r'):
         printf(c)
         if ctype!='float':
             c = int(c)
         printf(c)
         if ctype =="-int":
-            return self.trans_neg_dec_to_hex(int(c))
+            c = self.trans_neg_dec_to_hex(int(c))
+            return self.func_val_to_hex_can_flip(c)
         elif ctype =="float":
-            return self.trans_neg_float_to_hex(c)
+            c = self.trans_neg_float_to_hex(c)
+            return self.func_val_to_hex_can_flip(c)
         else:
             c = hex(c)[2:].upper()
             printf(c)
@@ -236,26 +238,50 @@ class Calibrator(QObject):
             elif len(c) == 2:
                 c = c + "000000"
             elif len(c) ==3:
-                c = c + "00000"
+                if mode =='r': c = c + "00000"
+                else: c = self.func_val_to_hex_can_flip(c)
             elif len(c) == 4:
-                # c = c[len(c) - 2:] + "  " + \
-                #     c[len(c) - 4:len(c) - 2] + "0000"
-                c = c +"0000"
+                if mode =='r': c = c +"0000"
+                else: c = self.func_val_to_hex_can_flip(c)
             elif len(c) == 5:
-                c = c + "000"
+                if mode =='r': c = c + "000"
+                else: c = self.func_val_to_hex_can_flip(c)
             elif len(c) == 6:
-                # c = c[len(c) - 2:] + "  " + \
-                #     c[len(c) - 4:len(c) - 2] + "  " + c[len(c) - 6:len(c) - 4] + "00"
-                c = c + "00"
+                if mode =='r': c = c + "00"
+                else: c = self.func_val_to_hex_can_flip(c)
             elif len(c) == 7:
-                c = c + "0"
-            # elif len(c) == 8:
-            #     c = c[len(c) - 2:] + "  " + \
-            #         c[len(c) - 4:len(c) - 2] + "  " + c[len(c) - 6:len(c) - 4] + "  " + c[len(c) - 8:len(c) - 6]
+                if mode =='r': c = c + "0"
+                else: c = self.func_val_to_hex_can_flip(c)
+            elif len(c) == 8 and mode =='w':
+                c = self.func_val_to_hex_can_flip(c)
             return c
 
+    def func_val_to_hex_can_flip(self,c):
+        if len(c) == 1:
+            c = '0' + c + "000000"
+        elif len(c) == 2:
+            c = c + "000000"
+        elif len(c) == 3:
+            c = c[1:] + '0' + c[:1] + '0000'
+        elif len(c) == 4:
+            c = c[len(c) - 2:] + \
+                c[len(c) - 4:len(c) - 2] + "0000"
+        elif len(c) == 5:
+            # c = c[-1:] + c[2:4] + c[0:2] + '000'
+            c = c[-2:] + c[1:3] + '0' + c[:1] + '00'
+        elif len(c) == 6:
+            c = c[len(c) - 2:] + c[len(c) - 4:len(c) - 2] + \
+                c[len(c) - 6:len(c) - 4] + "00"
+        elif len(c) == 7:
+            # c = c[-1:] + c[4:6] + c[2:4] + c[0:2] +'0'
+            c = c[-2:] + c[3:5] + c[1:3] + '0' + c[:1]
+        elif len(c) == 8:
+            c = c[len(c) - 2:] + c[len(c) - 4:len(c) - 2] + \
+                c[len(c) - 6:len(c) - 4] + c[len(c) - 8:len(c) - 6]
+        return c
+
     # Преобразование целочисленного значения в байтовый тип формата can
-    def transformed_in_bytes(self, arg, id, val=b'000000000000',header =False,ctype=None):
+    def transformed_in_bytes(self, arg, id, val=b'000000000000',header =False,ctype=None,mode = 'r'):
         # read_id = b't' + hex(self.read_id).upper().encode('utf-8')[2:] + b'8'
         if val != b'000000000000':
             if header:
@@ -264,11 +290,14 @@ class Calibrator(QObject):
                 val = hex(val)[2:].upper()
                 printf(val)
                 val = val[6:8] + val[4:6] + val[2:4] + val[0:2]
+                val = self.func_val_to_hex_can(val, ctype, mode)
                 printf(val)
-            else:
+            elif mode=='r':
                 printf()
                 val = self.func_val_to_hex_can(val,ctype)
                 printf(type(val),val)
+            elif mode =='w':
+                val = self.func_val_to_hex_can(val, ctype,mode)
             val = val.encode('utf-8') + b'0000'
             printf(val)
 
@@ -506,10 +535,10 @@ class Calibrator(QObject):
             if data_can_dict_value[:13] in read_data:
                 printf('tmp_cnt', tmp_cnt)
                 list_read_data = read_data.split(b'\r')
-                printf(list_read_data)
+                # printf(list_read_data)
                 for i in list_read_data:
                     if data_can_dict_value[:13] in i and len(i) > 21:
-                        printf(read_data)
+                        # printf(read_data)
                         read_data = i
                         printf(read_data)
                         value, address = self.transformed_in_value_and_address(read_data, 'int')
@@ -537,7 +566,7 @@ class Calibrator(QObject):
         while True:
             if mode == "w":
                 printf(addr,self.write_id,self.header_data_dict[data_can][count])
-                msg_bytes = self.transformed_in_bytes(addr, self.write_id, self.header_data_dict[data_can][count],header=True)
+                msg_bytes = self.transformed_in_bytes(addr, self.write_id, self.header_data_dict[data_can][count],header=True,mode='w')
                 printf()
                 id = self.confirmation_id
             else:
@@ -631,7 +660,7 @@ class Calibrator(QObject):
             # Парсер главного словаря с данными
             for data_main in self.data_dict[data_can].items():
                 printf(data_main)
-                printf(self.data_dict[data_can].items())
+                # printf(self.data_dict[data_can].items())
                 count_elem +=1
                 if count_elem == proc_elem:
                     step +=1
@@ -653,17 +682,17 @@ class Calibrator(QObject):
                             printf(self.data_dict[data_can][data_main[0]][count2])
                             printf(self.data_dict[data_can][data_main[0]])
                             msg_bytes = self.transformed_in_bytes(addr, self.write_id, self.data_dict[data_can] \
-                                [data_main[0]][count2],False,self.data_dict[data_can][data_main[0]][1])
+                                [data_main[0]][count2],False,self.data_dict[data_can][data_main[0]][1],mode='w')
                     elif data_can == 'filter':
                         if count > 2: count = 0; count2 =6; break
                         if mode == 'w':
                             msg_bytes = self.transformed_in_bytes(addr, self.write_id, self.data_dict[data_can] \
-                                [data_main[0]][count-1])
+                                [data_main[0]][count-1],mode='w')
                     elif data_can == 'calibr':
                         if count > 1: count = 0;count2=6; break
                         if mode == 'w':
                             msg_bytes = self.transformed_in_bytes(addr, self.write_id, self.data_dict[data_can] \
-                                [data_main[0]][count+1],False,'float')
+                                [data_main[0]][count+1],False,'float','w')
 
                     # printff(number)
                     if mode == 'r':
@@ -678,7 +707,7 @@ class Calibrator(QObject):
                             return 'ABORT'
                         cnt_recept+=1
                         read_data = self.ser.ser.read(self.ser.buffer_receiv_main)
-                        printf(id,'---',read_data)
+                        # printf(id,'---',read_data)
                         if cnt_recept>=10:
                             printf('er_recept')
                             self.ser.ser.write(msg_bytes)
@@ -738,8 +767,8 @@ class Calibrator(QObject):
                             if flag == 1: flag = 0; break
         # self.file_open.close()
         self.ser.can_close(self.ser.ser)
-        printf(self.data_dict)
-        printf(self.header_data_dict)
+        # printf(self.data_dict)
+        # printf(self.header_data_dict)
         return 'End main_data_read'
 
     def param_read(self,global_id):

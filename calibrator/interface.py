@@ -846,6 +846,7 @@ class Main(QWidget):
             self.worker = Worker(self.calibr_obj[0])
             self.worker.run1()
             self.thread_start(self.calibr_obj[0],self.cur_elem,self.lst_cb[0],'w')
+            self.worker.window_abort.connect(lambda: self.progress_bar_stop('bu1'))
 
     def writeData_bu2(self):
         if self.button_obj[1].isChecked():
@@ -855,6 +856,7 @@ class Main(QWidget):
             self.worker = Worker(self.calibr_obj[1])
             self.worker.run1()
             self.thread_start(self.calibr_obj[1],self.cur_elem,self.lst_cb[1],'w')
+            self.worker.window_abort.connect(lambda: self.progress_bar_stop('bu2'))
 
     def writeData_bu3(self):
         if self.button_obj[2].isChecked():
@@ -864,6 +866,7 @@ class Main(QWidget):
             self.worker = Worker(self.calibr_obj[2])
             self.worker.run1()
             self.thread_start(self.calibr_obj[2],self.cur_elem,self.lst_cb[2],'w')
+            self.worker.window_abort.connect(lambda: self.progress_bar_stop('bu3'))
 
     def saveData_bu1(self):
         printf('saveData_bu1')
@@ -874,9 +877,9 @@ class Main(QWidget):
 
     def nmb_product_bu1(self,text):
         if self.button_obj[0].isChecked():
-            self.unit_obj_preset[0].saveData(self.obj_cal_bu400,'preset',self.lst_cb[0],self.cur_elem,text)
-            self.unit_obj_calibr[0].saveData(self.obj_cal_bu400,'calibr',self.lst_cb[0],self.cur_elem,text)
-            self.unit_obj_calibr[0].saveData(self.obj_cal_bu400,'filter',self.lst_cb[0],self.cur_elem,text)
+            self.unit_obj_preset[0].saveData(self.calibr_obj[0],'preset',self.lst_cb[0],self.cur_elem,text)
+            self.unit_obj_calibr[0].saveData(self.calibr_obj[0],'calibr',self.lst_cb[0],self.cur_elem,text)
+            self.unit_obj_calibr[0].saveData(self.calibr_obj[0],'filter',self.lst_cb[0],self.cur_elem,text)
             #test
         #     self.unit_obj_preset[0].saveDatatest('preset',self.lst_cb[0],self.cur_elem,text)
         #     self.unit_obj_calibr[0].saveDatatest('calibr',self.lst_cb[0],self.cur_elem,text)
@@ -889,9 +892,9 @@ class Main(QWidget):
 
     def nmb_product_bu2(self,text):
         if self.button_obj[1].isChecked():
-            self.unit_obj_preset[1].saveData(self.obj_cal_bu50,'preset',self.lst_cb[1],self.cur_elem,text)
-            self.unit_obj_calibr[1].saveData(self.obj_cal_bu50,'calibr',self.lst_cb[1],self.cur_elem,text)
-            self.unit_obj_calibr[1].saveData(self.obj_cal_bu50,'filter',self.lst_cb[1],self.cur_elem,text)
+            self.unit_obj_preset[1].saveData(self.calibr_obj[1],'preset',self.lst_cb[1],self.cur_elem,text)
+            self.unit_obj_calibr[1].saveData(self.calibr_obj[1],'calibr',self.lst_cb[1],self.cur_elem,text)
+            self.unit_obj_calibr[1].saveData(self.calibr_obj[1],'filter',self.lst_cb[1],self.cur_elem,text)
 
     def saveData_bu3(self):
         if self.button_obj[2].isChecked():
@@ -899,9 +902,9 @@ class Main(QWidget):
             self.number_product.signal_numb.connect(self.nmb_product_bu3)
     def nmb_product_bu3(self,text):
         if self.button_obj[2].isChecked():
-            self.unit_obj_preset[2].saveData(self.obj_cal_buses,'preset',self.lst_cb[2],self.cur_elem,text)
-            self.unit_obj_calibr[2].saveData(self.obj_cal_buses,'calibr',self.lst_cb[2],self.cur_elem,text)
-            self.unit_obj_calibr[2].saveData(self.obj_cal_buses,'filter',self.lst_cb[2],self.cur_elem,text)
+            self.unit_obj_preset[2].saveData(self.calibr_obj[2],'preset',self.lst_cb[2],self.cur_elem,text)
+            self.unit_obj_calibr[2].saveData(self.calibr_obj[2],'calibr',self.lst_cb[2],self.cur_elem,text)
+            self.unit_obj_calibr[2].saveData(self.calibr_obj[2],'filter',self.lst_cb[2],self.cur_elem,text)
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

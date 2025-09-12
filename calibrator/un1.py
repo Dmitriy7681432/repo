@@ -139,122 +139,293 @@
 #             print(i)
     # print(configs.values())
 
-flag_abort =0
-count = 0
-count2 =0
-data_can ='preset'
-mode = 'w'
-addr =0
-id = 1
-flag = 0
-data_dict = [10,20,30]
+# flag_abort =0
+# count = 0
+# count2 =0
+# data_can ='preset'
+# mode = 'w'
+# addr =0
+# id = 1
+# flag = 0
+# data_dict = [10,20,30]
+#
+#
+# for data_main in data_dict:
+#     print('data_main',data_main)
+#     # Запрос с адресом в can
+#     while True:
+#         if flag_abort == 1:
+#             print('ABORT')
+#         print('while_main')
+#         count += 1
+#         count2+=count+1
+#         # Если парсятся уставки
+#         if data_can == 'preset':
+#             if count > 4: count = 0; break
+#             if mode == 'w':
+#                 print('mode1')
+#                 # print(self.data_dict[data_can][data_main[0]][count2+1])
+#                 # print(self.data_dict[data_can][data_main[0]])
+#                 # msg_bytes = self.transformed_in_bytes(addr, self.write_id, self.data_dict[data_can] \
+#                 #     [data_main[0]][count2 + 1])
+#         elif data_can == 'filter':
+#             if count > 2: count = 0; break
+#             if mode == 'w':
+#                 print('mode1')
+#                 # msg_bytes = self.transformed_in_bytes(addr, self.write_id, self.data_dict[data_can] \
+#                 #     [data_main[0]][count-1])
+#         elif data_can == 'calibr':
+#             if count > 1: count = 0; break
+#             if mode == 'w':
+#                 print('mode2')
+#                 # msg_bytes = self.transformed_in_bytes(addr, self.write_id, self.data_dict[data_can] \
+#                 #     [data_main[0]][count])
+#
+#         # printf(number)
+#         if mode == 'r':
+#             # msg_bytes = self.transformed_in_bytes(addr, self.read_id)
+#             print('rrrr')
+#         addr += 4
+#         # print(msg_bytes)
+#         # self.ser.ser.write(msg_bytes)
+#         cnt_recept =0
+#         # Чтение с can значение и адреса
+#         while True:
+#             cnt_recept+=1
+#             # read_data = self.ser.ser.read(self.ser.buffer_receiv_main)
+#             print(id,'---')
+#             if cnt_recept>=10:
+#                 print('er_recept')
+#                 # self.ser.ser.write(msg_bytes)
+#                 cnt_recept =0
+#             if id ==1:
+#             # if id in read_data and msg_bytes[5:13] in read_data:
+#             #     list_read_data = read_data.split(b'\r')
+#                 list_read_data = [1]
+#                 for i in list_read_data:
+#                     if i==id:
+#                     # if i[:4] == id and len(i) > 21 and msg_bytes[5:13] in i:
+#                         read_data = i
+#                         print('read_data',read_data)
+#
+#                         # Конвертируем значения hex в dec
+#                         if data_can == 'preset':
+#                             # value_dec = self.transformed_hex_to_dec(value, data_main[1][1])
+#                             # value, address = self.transformed_in_value_and_address(read_data,
+#                             #                                                        data_main[1][1])
+#                             print('preset_convert')
+#                             if mode == 'w':
+#                                 # value_write, address_write = self.transformed_in_value_and_address \
+#                                 #     (msg_bytes, data_main[1][1])
+#                                 print('mode_convert')
+#                             else:
+#                                 # Добавление вычитаных значений в главный словарь
+#                                 self.data_dict[data_can][data_main[0]].append(value)
+#                         elif data_can == 'calibr':
+#                             # value_dec = self.transformed_hex_to_dec(value, 'float')
+#                             # value, address = self.transformed_in_value_and_address(read_data, 'float')
+#                             pass
+#
+#                             if mode == 'w':
+#                                 # value_write, address_write = self.transformed_in_value_and_address \
+#                                 #     (msg_bytes, 'float')
+#                                 pass
+#                             else:
+#                                 # Добавление вычитаных значений в главный словарь
+#                                 # self.data_dict[data_can][data_main[0]].append(value)
+#                                 pass
+#                         else:
+#                             # value_dec = self.transformed_hex_to_dec(value, 'int')
+#                             # value, address = self.transformed_in_value_and_address(read_data, 'int')
+#                             pass
+#                             if mode == 'w':
+#                                 # value_write, address_write = self.transformed_in_value_and_address \
+#                                 #     (msg_bytes, 'int')
+#                                 pass
+#                             else:
+#                                 # Добавление вычитаных значений в главный словарь
+#                                 # self.data_dict[data_can][data_main[0]].append(value)
+#                                 pass
+#                         # Если отправленное значение отличается от значения в квитанции, то
+#                         # повторяем отправку
+#                         # if value_write != value and count < 20: addr -= 4; count -= 1; count1 += 1
+#
+#                         print('mode_val',mode)
+#                         # self.file_open.write(hex(address).encode('utf-8') + b'\t')
+#                         # self.file_open.write(hex(value).encode('utf-8') + b'\n')
+#
+#                         # self.file_open.write(hex(value_dec).encode('utf-8') + b'\n')
+#                         flag = 1
+#                         break
+#                 if flag == 1: flag = 0; break
 
 
-for data_main in data_dict:
-    print('data_main',data_main)
-    # Запрос с адресом в can
-    while True:
-        if flag_abort == 1:
-            print('ABORT')
-        print('while_main')
-        count += 1
-        count2+=count+1
-        # Если парсятся уставки
-        if data_can == 'preset':
-            if count > 4: count = 0; break
-            if mode == 'w':
-                print('mode1')
-                # print(self.data_dict[data_can][data_main[0]][count2+1])
-                # print(self.data_dict[data_can][data_main[0]])
-                # msg_bytes = self.transformed_in_bytes(addr, self.write_id, self.data_dict[data_can] \
-                #     [data_main[0]][count2 + 1])
-        elif data_can == 'filter':
-            if count > 2: count = 0; break
-            if mode == 'w':
-                print('mode1')
-                # msg_bytes = self.transformed_in_bytes(addr, self.write_id, self.data_dict[data_can] \
-                #     [data_main[0]][count-1])
-        elif data_can == 'calibr':
-            if count > 1: count = 0; break
-            if mode == 'w':
-                print('mode2')
-                # msg_bytes = self.transformed_in_bytes(addr, self.write_id, self.data_dict[data_can] \
-                #     [data_main[0]][count])
 
-        # printf(number)
-        if mode == 'r':
-            # msg_bytes = self.transformed_in_bytes(addr, self.read_id)
-            print('rrrr')
-        addr += 4
-        # print(msg_bytes)
-        # self.ser.ser.write(msg_bytes)
-        cnt_recept =0
-        # Чтение с can значение и адреса
-        while True:
-            cnt_recept+=1
-            # read_data = self.ser.ser.read(self.ser.buffer_receiv_main)
-            print(id,'---')
-            if cnt_recept>=10:
-                print('er_recept')
-                # self.ser.ser.write(msg_bytes)
-                cnt_recept =0
-            if id ==1:
-            # if id in read_data and msg_bytes[5:13] in read_data:
-            #     list_read_data = read_data.split(b'\r')
-                list_read_data = [1]
-                for i in list_read_data:
-                    if i==id:
-                    # if i[:4] == id and len(i) > 21 and msg_bytes[5:13] in i:
-                        read_data = i
-                        print('read_data',read_data)
+from debug import *
 
-                        # Конвертируем значения hex в dec
-                        if data_can == 'preset':
-                            # value_dec = self.transformed_hex_to_dec(value, data_main[1][1])
-                            # value, address = self.transformed_in_value_and_address(read_data,
-                            #                                                        data_main[1][1])
-                            print('preset_convert')
-                            if mode == 'w':
-                                # value_write, address_write = self.transformed_in_value_and_address \
-                                #     (msg_bytes, data_main[1][1])
-                                print('mode_convert')
-                            else:
-                                # Добавление вычитаных значений в главный словарь
-                                self.data_dict[data_can][data_main[0]].append(value)
-                        elif data_can == 'calibr':
-                            # value_dec = self.transformed_hex_to_dec(value, 'float')
-                            # value, address = self.transformed_in_value_and_address(read_data, 'float')
-                            pass
+def func_val_to_hex_can(c):
+    printf(c)
+    c = int(c)
+    printf(c)
+    c = hex(c)[2:].upper()
+    printf(c)
+    if len(c) == 1:
+        printf(type(c),c)
+        c = '0' + c + "000000"
+        printf(c)
+    elif len(c) == 2:
+        c = c + "000000"
+    elif len(c) == 3:
+        c = c + "00000"
+    elif len(c) == 4:
+        c = c[len(c) - 2:] + "  " + \
+            c[len(c) - 4:len(c) - 2] + "0000"
+    elif len(c) == 6:
+        c = c[len(c) - 2:] + "  " + \
+            c[len(c) - 4:len(c) - 2] + "  " + c[len(c) - 6:len(c) - 4] + "00"
+    elif len(c) == 8:
+        c = c[len(c) - 2:] + "  " + \
+            c[len(c) - 4:len(c) - 2] + "  " + c[len(c) - 6:len(c) - 4] + "  " + c[len(c) - 8:len(c) - 6]
+    return c
 
-                            if mode == 'w':
-                                # value_write, address_write = self.transformed_in_value_and_address \
-                                #     (msg_bytes, 'float')
-                                pass
-                            else:
-                                # Добавление вычитаных значений в главный словарь
-                                # self.data_dict[data_can][data_main[0]].append(value)
-                                pass
-                        else:
-                            # value_dec = self.transformed_hex_to_dec(value, 'int')
-                            # value, address = self.transformed_in_value_and_address(read_data, 'int')
-                            pass
-                            if mode == 'w':
-                                # value_write, address_write = self.transformed_in_value_and_address \
-                                #     (msg_bytes, 'int')
-                                pass
-                            else:
-                                # Добавление вычитаных значений в главный словарь
-                                # self.data_dict[data_can][data_main[0]].append(value)
-                                pass
-                        # Если отправленное значение отличается от значения в квитанции, то
-                        # повторяем отправку
-                        # if value_write != value and count < 20: addr -= 4; count -= 1; count1 += 1
+a = func_val_to_hex_can('800')
+print(a)
 
-                        print('mode_val',mode)
-                        # self.file_open.write(hex(address).encode('utf-8') + b'\t')
-                        # self.file_open.write(hex(value).encode('utf-8') + b'\n')
+c = 1000
+c = hex(c)[2:].upper()
+printf(c)
 
-                        # self.file_open.write(hex(value_dec).encode('utf-8') + b'\n')
-                        flag = 1
-                        break
-                if flag == 1: flag = 0; break
+
+def trans_neg_hex_to_dec(arg):
+    arg = '0x' + arg
+    arg = int(arg, 16)
+    t = bin(arg)
+    s = str.maketrans('01', '10')
+    s1 = t[2:].translate(s)
+    s2 = (int(s1, 2) + 1) * -1
+    # printf(s2+1)
+    return s2
+# d = trans_neg_hex_to_dec('-25')
+# s2 = (int(d,2)+1)* -1
+# print(int(d))
+
+
+def to_twos_complement_hex(n, bits=32):
+    if n >= 0:
+        return hex(n)
+    else:
+        # Вычисляем дополнительный код
+        return hex((1 << bits) + n)
+
+val = -255
+val_32 = to_twos_complement_hex(val, 32)
+print(f"-255 в 32-битном доп. коде: {val_32}")
+# Вывод: -255 в 32-битном доп. коде: -0xff
+
+# d = '-41.875099'
+d = '0.0209'
+print(float(d))
+
+import struct
+
+number = -12.375
+
+packed = struct.pack('>f', float(d))
+# Преобразование байтов в целое число
+integer_representation = int.from_bytes(packed, byteorder='big') # byteorder должен соответствовать порядку байтов в packed
+# print(f"Целочисленное представление: {integer_representation}")
+# Преобразование целого числа в шестнадцатеричную строку
+hex_string = hex(integer_representation)
+print(f"Шестнадцатеричная строка: {hex_string}")
+
+#05 32 00 00
+c = '30251235'
+# arg = hex(arg)[2:].upper()
+# arg = arg[6:8] + arg[4:6] + arg[2:4] + arg[0:2]
+# c = c[len(c) - 2:] + "  " + \
+#     c[len(c) - 4:len(c) - 2] + "  " + c[len(c) - 6:len(c) - 4] + "  " + c[len(c) - 8:len(c) - 6]
+# c = c[len(c) - 2:] + \
+#     c[len(c) - 3:len(c) - 2] + "00000"
+c = '4'
+#51 40 0D 03
+#1
+c = '0' + c + "000000"
+#2
+# c = c + "000000"
+#3
+# c = c[1:]+ '0'+c[:1] +'0000'
+#4
+# c = c[len(c) - 2:] +\
+#     c[len(c) - 4:len(c) - 2] + "0000"
+#5
+# c = c[-2:] +c[1:3]+'0'+c[:1] +'00'
+#6
+# c = c[len(c) - 2:] +c[len(c) - 4:len(c) - 2] +\
+#            c[len(c) - 6:len(c) - 4] + "00"
+#7
+# c = c[-2:] +c[3:5] +c[1:3]+'0'+ c[:1]
+#8
+# c = c[len(c) - 2:] + c[len(c) - 4:len(c) - 2] + \
+#     c[len(c) - 6:len(c) - 4] + c[len(c) - 8:len(c) - 6]
+printf(c)
+# arg = b't01488C00D4BF0D4300000D82'
+# value = arg[13:21]
+# printf(value)
+# value = value[6:8] + value[4:6] + value[2:4] + value[0:2]
+# printf(value)
+
+import binascii
+def transformed_in_value_and_address(arg, type, func=None):
+    lst_val = []
+    value = arg[13:21]
+    printf(value)
+    value = value[6:8] + value[4:6] + value[2:4] + value[0:2]
+    printf('val', value)
+    value = value.decode('utf-8')
+    printf(value)
+    if type == 'int' and func == 'header':
+        printf(value)
+        value = binascii.unhexlify(value)
+        printf(value)
+        value = int.from_bytes(value, 'big', signed=True)
+        printf(value)
+        # value = struct.unpack('!I', bytes.fromhex(value))
+        value = [bytearray(value.to_bytes(length=4, byteorder="little", signed=True))]
+    elif type == 'int':
+        printf(value)
+        value = struct.unpack('!I', bytes.fromhex(value))
+    elif type == '-int':
+        value = [trans_neg_hex_to_dec(value)]
+        printf('val1', value)
+        # value = struct.unpack('!I', bytes.fromhex(value))
+    else:
+        value = struct.unpack('!f', bytes.fromhex(value))
+        lst_val.append(round(value[0], 6))
+        value = lst_val.copy()
+    address = arg[5:13]
+    address = address[6:8] + address[4:6] + address[2:4] + address[0:2]
+    address = address.decode('utf-8')
+    address = struct.unpack('!I', bytes.fromhex(address))
+    return value[0], address[0]
+
+arg = b't01488C00D4BF00D430000E38'
+arg = transformed_in_value_and_address(arg,'int')
+print(arg)
+# value =b't01488C00D4BF00D430000E38'
+# value = arg[13:21]
+# value = value[6:8] + value[4:6] + value[2:4] + value[0:2]
+
+
+val= bytearray(b'\x04\x00\x00\x00')
+val = int.from_bytes(val, 'little', signed=False)
+printf(val, type(val))
+val = hex(val)[2:].upper()
+printf(val)
+val = val[6:8] + val[4:6] + val[2:4] + val[0:2]
+val = int(val)
+val = hex(val)[2:].upper()
+val = '0' + val + "000000"
+val = val.encode('utf-8') + b'0000'
+printf(val)
+
+a = '5A5AA5A5'
