@@ -728,6 +728,7 @@ class Param(QWidget):
             for i in j:
                 param_obj.append(('name',i[0]))
         printf(param_dict[unit])
+        printf(param_obj)
 
         len_for = round(((len(param_obj)*20/self.size_stacked)/2)+0.5)
         # printff(len_for,len(param_obj),self.size_stacked)
@@ -904,6 +905,7 @@ class Param(QWidget):
                         self.listWidgetItem1.setSizeHint(QtCore.QSize(10, 35))
                         k = +15
                     else:
+                        printf(self.list_widget.item(0).text())
                         self.list_widget.setGeometry(x1, y1 + j + z + k, 290, 35)
                         self.list_widget1.setGeometry(x2, y2 + j + z + k, 100, 35)
                         self.listWidgetItem1.setSizeHint(QtCore.QSize(10, 35))
@@ -1116,10 +1118,11 @@ class Param(QWidget):
 
     def trans_str(self,metric,text):
         flag = 0
-        if metric >258:
+        printf(text,metric)
+        if metric >269:
             text = list(text)
             for i in range(0,len(text)):
-                if i*7>258:
+                if i*7>269:
                     if text[i] != ' ':
                         if flag==0:
                             j = i
@@ -1133,6 +1136,7 @@ class Param(QWidget):
                         text[i] = '\n'
                         break
             text = ''.join(text)
+            printf(text)
             return [text]
         else: return [text]
 

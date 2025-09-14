@@ -440,9 +440,36 @@ printf(val)
 
 a = '5A5AA5A5'
 
+def trans_str(metric,text):
+    flag = 0
+    printf(text,metric)
+    if metric >269:
+        text = list(text)
+        for i in range(0,len(text)):
+            printf(i)
+            if i*7>228:
+                if text[i] != ' ':
+                    if flag==0:
+                        j = i
+                        flag=1
+                    if flag==1:
+                        j-=1
+                        if text[j]==' ':
+                            text[j] = '\n'
+                            break
+                elif text[i] == ' ':
+                    text[i] = '\n'
+                    break
+        text = ''.join(text)
+        printf(text)
+        return [text]
+    else: return [text]
 
-def func2(arg,header=None):
-    if header is None:
-        printf('YES')
+text = 'Время, оставшееся до технич. обслуживания ЭА, с'
+metric = 326
+trans_str(metric,text)
 
-func2('2')
+# import PyQt5.QtWidgets
+# listView = PyQt5.QtWidgets.QListView()
+# fon_metric = listView.fontMetrics().width(text)
+# printf(fon_metric)
