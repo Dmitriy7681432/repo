@@ -298,11 +298,8 @@ class Main(QWidget):
         x_size_desktop = 885
         y_size_desktop = int(y / 1.3)
 
-
-
         stack_size_y = int(y / 35)
         stack_size_x = int(x / 75)
-
         stack_size_yy = int(y/1.35)
         stack_size_xx = int(x / 2.65)
 
@@ -531,6 +528,7 @@ class Main(QWidget):
                 self.buttonAction3.clicked.connect(self.saveData_bu3)
 
         self.button_obj[0].animateClick()
+        self.buttonUst.animateClick()
 
         self.readData_bu1_flag = 0
         self.readData_bu2_flag = 0

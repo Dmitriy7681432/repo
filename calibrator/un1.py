@@ -416,16 +416,33 @@ print(arg)
 # value = value[6:8] + value[4:6] + value[2:4] + value[0:2]
 
 
-val= bytearray(b'\x04\x00\x00\x00')
+# val= bytearray(b'\x04\x00\x00\x00')
+val = bytearray(b'ZZ\xa5\xa5')
 val = int.from_bytes(val, 'little', signed=False)
 printf(val, type(val))
 val = hex(val)[2:].upper()
+# val = 'A5A55A5A'
+# val = val[6:8] + val[4:6] + val[2:4] + val[0:2]
 printf(val)
-val = val[6:8] + val[4:6] + val[2:4] + val[0:2]
-val = int(val)
-val = hex(val)[2:].upper()
-val = '0' + val + "000000"
+# val = int(val)
+# val = hex(val)[2:].upper()
+#1
+# val = '0' + val + "000000"
+#2
+# val = val + "000000"
+#3
+# val = val[1:]+ '0'+val[:1] +'0000'
+#8
+val = val[len(val) - 2:] + val[len(val) - 4:len(val) - 2] + \
+    val[len(val) - 6:len(val) - 4] + val[len(val) - 8:len(val) - 6]
 val = val.encode('utf-8') + b'0000'
 printf(val)
 
 a = '5A5AA5A5'
+
+
+def func2(arg,header=None):
+    if header is None:
+        printf('YES')
+
+func2('2')
