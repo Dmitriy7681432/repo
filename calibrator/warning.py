@@ -35,7 +35,7 @@ class SignalErr():
 
         self.center()
         self.lbl = QLabel("Не найдено устройство!!!",self.widget)
-        self.lbl.move(50,10)
+        self.lbl.move(30,10)
         self.lbl.setFont(font)
         self.lbl.setStyleSheet('color: red;')
         self.widget.show()

@@ -25,6 +25,7 @@ from debug import *
 # from number_product import *
 # from warning import *
 
+
 class Worker(QThread):
     finished = pyqtSignal()
     window_abort = pyqtSignal()
@@ -37,7 +38,7 @@ class Worker(QThread):
 
     def run1(self):
         # Здесь создается второе окно
-        # self.window = QWidget()
+        self.main_window = QWidget()
         # layout = QVBoxLayout()
         # label = QLabel("Второе окно")
         # layout.addWidget(label)
@@ -50,10 +51,13 @@ class Worker(QThread):
         font.setPointSize(12)
         # font.setBold(True)
 
-        self.window = QWidget()
+        self.window = QWidget(self.main_window)
+        self.window.setGeometry(20, 10, 240, 55)
         self.pbar = QProgressBar(self.window)
-        # self.pbar.setGeometry(30, 40, 200, 25)
-        self.button = QPushButton('Прервать',self.window)
+        self.pbar.setGeometry(20, 40, 200, 55)
+        self.window2 = QWidget(self.main_window)
+        self.window2.setGeometry(65, 50, 140, 45)
+        self.button = QPushButton('Прервать',self.window2)
         self.button.setGeometry(90, 60, 80, 25)
         self.button.setFont(font)
         self.button.clicked.connect(self.button_clicked)
@@ -67,24 +71,27 @@ class Worker(QThread):
 
         layout = QVBoxLayout(self.window)
         layout.addWidget(self.pbar)
-        layout.setContentsMargins(10,0,10,10)
-        layout.setGeometry(QtCore.QRect(30,40,200,25))
-        layout2 = QVBoxLayout(self.window)
+        # layout.setContentsMargins(10,0,10,10)
+        layout.setContentsMargins(0,0,0,0)
+        layout.setGeometry(QtCore.QRect(30,40,200,55))
+        layout.addWidget(self.pbar)
+        layout2 = QVBoxLayout(self.window2)
+        # layout2.setContentsMargins(50,0,50,0)
+        layout2.setContentsMargins(0,0,0,0)
         layout2.addWidget(self.button)
-        layout2.setContentsMargins(50,0,50,0)
-        layout2.setGeometry(QtCore.QRect(35,60,200,25))
-        # layout.addWidget(self.button)
+        # layout2.setGeometry(QtCore.QRect(35,60,200,25))
+        # # layout.addWidget(self.button)
         # layout.addWidget(self.btn)
-        self.window.setLayout(layout)
+        # self.window.setLayout(layout2)
 
-        self.window.setGeometry(100, 100, 280, 90)
+        self.main_window.setGeometry(100, 100, 280, 90)
         self.center() # Центрируем окно
-        self.window.setWindowTitle('Загрузка')
+        self.main_window.setWindowTitle('Загрузка')
         # Блокировка главного окна
-        self.window.setWindowModality(Qt.Qt.ApplicationModal)
+        self.main_window.setWindowModality(Qt.Qt.ApplicationModal)
         # Убрать значок закрытия окна
-        self.window.setWindowFlags(Qt.Qt.CustomizeWindowHint | Qt.Qt.WindowTitleHint)
-        self.window.show()
+        self.main_window.setWindowFlags(Qt.Qt.CustomizeWindowHint | Qt.Qt.WindowTitleHint)
+        self.main_window.show()
         self.obj_main.cal_signal.connect(self.update_progress_bar)
 
         self.doAction()
@@ -103,10 +110,10 @@ class Worker(QThread):
         self.pbar.setValue(self.val)
 
     def center(self):
-        qr = self.window.frameGeometry()
+        qr = self.main_window.frameGeometry()
         cp = QDesktopWidget().availableGeometry().center()
         qr.moveCenter(cp)
-        self.window.move(qr.topLeft())
+        self.main_window.move(qr.topLeft())
 
 
         # self.window_created.emit(self.window)  # Отправляем сигнал о создании окна
@@ -121,8 +128,8 @@ class Worker(QThread):
         self.pbar.setValue(self.val)
         if self.val >= 100 or self.flag_err_work:
             self.timer.stop()
-            self.window.close()
-            self.window.setWindowModality(Qt.Qt.NonModal)
+            self.main_window.close()
+            self.main_window.setWindowModality(Qt.Qt.NonModal)
             # self.btn.setText('Закончено')
             return
 
