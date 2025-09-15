@@ -4,5 +4,6 @@
     "wait_receiv": "300",
     "buffer_receiv_begin": "2048",
     "buffer_receiv_main": "1024",
-    "count_write_json": "2"
+    "count_write_json": "2",
+    "default_product": "SES200M"
 }

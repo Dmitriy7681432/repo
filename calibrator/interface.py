@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import sys,serial,struct
-import time
+import time,json
 
 from PyQt5.QtWidgets import (QWidget, QPushButton, QStackedWidget, QToolBar, QToolButton,
                              QHBoxLayout, QVBoxLayout, QApplication, QAction, QMainWindow,QDialog,QLabel,QProgressBar,
@@ -226,7 +226,15 @@ class ComPort(QWidget):
             label = 'Выберите com port:'
         else:
             label = 'Выберите изделие:'
-            lst_combo = ['SES200M','SEP30M']
+            # Чтение данных с configs
+            with open('configs.json', 'r') as file_configs:
+                self.configs = json.load(file_configs)
+                self.product = self.configs.get('default_product')
+                if self.product=='SES200M':
+                    lst_combo = ['SES200M','SEP30M']
+                else:
+                    lst_combo = ['SEP30M','SES200M']
+
 
 
         # layout = QVBoxLayout(self)
@@ -263,10 +271,14 @@ class ComPort(QWidget):
 
     def onActivated(self, text):
         self.cur_elem= text
+        self.configs['default_product'] = text
 
         # self.lbl.adjustSize()
 
     def open_second_window(self):
+        if self.product!=self.cur_elem:
+            with open('configs.json', 'w') as file_configs:
+                json.dump(self.configs, file_configs, ensure_ascii=False, indent=4)
         self.second_window = Main(self.cur_elem)
         # self.second_window.show()
         self.close()  # Закрывает текущее (первое) окно
