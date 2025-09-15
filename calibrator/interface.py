@@ -31,10 +31,11 @@ class Worker(QThread):
     window_abort = pyqtSignal()
     flag_err_work =0
 
-    def __init__(self,obj_main):
+    def __init__(self,obj_main,action):
         super().__init__()
         self.window = None
         self.obj_main = obj_main
+        self.action = action
 
     def run1(self):
         # Здесь создается второе окно
@@ -51,17 +52,22 @@ class Worker(QThread):
         font.setPointSize(12)
         # font.setBold(True)
 
+        self.window0 = QWidget(self.main_window)
+        self.window0.setGeometry(110, -10, 240, 55)
+        self.lbl = QLabel(f'<i>{self.action}</i>', self.window0)
         self.window = QWidget(self.main_window)
-        self.window.setGeometry(20, 10, 240, 55)
+        self.window.setGeometry(20, 20, 240, 55)
         self.pbar = QProgressBar(self.window)
         self.pbar.setGeometry(20, 40, 200, 55)
         self.window2 = QWidget(self.main_window)
-        self.window2.setGeometry(65, 50, 140, 45)
+        self.window2.setGeometry(65, 60, 140, 45)
         self.button = QPushButton('Прервать',self.window2)
         self.button.setGeometry(90, 60, 80, 25)
         self.button.setFont(font)
         self.button.clicked.connect(self.button_clicked)
-
+        # font.setBold(True)
+        self.lbl.setStyleSheet('color: rgba(8,8,8,0.7)')
+        self.lbl.setFont(font)
         # self.btn = QPushButton('Начать', self.window)
         # self.btn.move(30, 80)
         # self.btn.clicked.connect(self.doAction)
@@ -69,6 +75,10 @@ class Worker(QThread):
         self.timer = QBasicTimer()
         self.step = 0
 
+        layout0 = QVBoxLayout(self.window0)
+        layout0.addWidget(self.lbl)
+        layout0.setContentsMargins(0,0,0,0)
+        # layout0.setGeometry(QtCore.QRect(30,40,200,55))
         layout = QVBoxLayout(self.window)
         layout.addWidget(self.pbar)
         # layout.setContentsMargins(10,0,10,10)
@@ -84,7 +94,7 @@ class Worker(QThread):
         # layout.addWidget(self.btn)
         # self.window.setLayout(layout2)
 
-        self.main_window.setGeometry(100, 100, 280, 90)
+        self.main_window.setGeometry(100, 100, 280, 100)
         self.center() # Центрируем окно
         self.main_window.setWindowTitle('Загрузка')
         # Блокировка главного окна
@@ -730,7 +740,7 @@ class Main(QWidget):
     def readData_bu1(self):
         # if not self.button_obj[1].isChecked() and not self.button_obj[2].isChecked():
         if self.button_obj[0].isChecked():
-            self.worker = Worker(self.calibr_obj[0])
+            self.worker = Worker(self.calibr_obj[0],'Чтение')
             self.worker.run1()
             self.thread_start(self.calibr_obj[0],self.cur_elem,self.lst_cb[0],'r')
             self.readData_bu1_flag = 1
@@ -743,7 +753,7 @@ class Main(QWidget):
     def readData_bu2(self):
         # printff('readData_bu50',self.buttonUnit2.isChecked())
         if self.button_obj[1].isChecked():
-            self.worker = Worker(self.calibr_obj[1])
+            self.worker = Worker(self.calibr_obj[1],'Чтение')
             self.worker.run1()
             self.thread_start(self.calibr_obj[1],self.cur_elem,self.lst_cb[1],'r')
             self.readData_bu2_flag = 1
@@ -752,7 +762,7 @@ class Main(QWidget):
     def readData_bu3(self):
         # printff('readData_buses',self.buttonUnit3.isChecked())
         if self.button_obj[2].isChecked():
-            self.worker = Worker(self.calibr_obj[2])
+            self.worker = Worker(self.calibr_obj[2],'Чтение')
             self.worker.run1()
             self.thread_start(self.calibr_obj[2],self.cur_elem,self.lst_cb[2],'r')
             self.readData_bu3_flag = 1
@@ -845,10 +855,10 @@ class Main(QWidget):
     def writeData_bu1(self):
         # if not self.button_obj[1].isChecked() and not self.button_obj[2].isChecked():
         if self.button_obj[0].isChecked():
-            # self.unit_bu400_preset.writeData(self.read_data_dict_bu400,'preset')
-            # data_dict = self.unit_bu400_calibr.writeData(self.read_data_dict_bu400,'calibr')
-            # self.data_dict_bu400.update_data_dict(data_dict)
-            self.worker = Worker(self.calibr_obj[0])
+            self.unit_obj_preset[0].writeData(self.calibr_obj[0].data_dict,'preset')
+            data_dict = self.unit_obj_calibr[0].writeData(self.calibr_obj[0].data_dict,'calibr')
+            self.calibr_obj[0].update_data_dict(data_dict)
+            self.worker = Worker(self.calibr_obj[0],'Запись')
             self.worker.run1()
             self.thread_start(self.calibr_obj[0],self.cur_elem,self.lst_cb[0],'w')
             self.worker.window_abort.connect(lambda: self.progress_bar_stop('bu1'))
@@ -858,7 +868,10 @@ class Main(QWidget):
             # self.unit_bu50_preset.writeData(self.read_data_dict_bu50,'preset')
             # data_dict = self.unit_bu50_calibr.writeData(self.read_data_dict_bu50,'calibr')
             # self.data_dict_bu50.update_data_dict(data_dict)
-            self.worker = Worker(self.calibr_obj[1])
+            self.unit_obj_preset[1].writeData(self.calibr_obj[1].data_dict,'preset')
+            data_dict = self.unit_obj_calibr[1].writeData(self.calibr_obj[1].data_dict,'calibr')
+            self.calibr_obj[1].update_data_dict(data_dict)
+            self.worker = Worker(self.calibr_obj[1],'Запись')
             self.worker.run1()
             self.thread_start(self.calibr_obj[1],self.cur_elem,self.lst_cb[1],'w')
             self.worker.window_abort.connect(lambda: self.progress_bar_stop('bu2'))
@@ -868,7 +881,10 @@ class Main(QWidget):
             # self.unit_buses_preset.writeData(self.read_data_dict_buses,'preset')
             # data_dict = self.unit_buses_calibr.writeData(self.read_data_dict_buses,'calibr')
             # self.data_dict_buses.update_data_dict(data_dict)
-            self.worker = Worker(self.calibr_obj[2])
+            self.unit_obj_preset[2].writeData(self.calibr_obj[2].data_dict,'preset')
+            data_dict = self.unit_obj_calibr[2].writeData(self.calibr_obj[2].data_dict,'calibr')
+            self.calibr_obj[2].update_data_dict(data_dict)
+            self.worker = Worker(self.calibr_obj[2],'Запись')
             self.worker.run1()
             self.thread_start(self.calibr_obj[2],self.cur_elem,self.lst_cb[2],'w')
             self.worker.window_abort.connect(lambda: self.progress_bar_stop('bu3'))

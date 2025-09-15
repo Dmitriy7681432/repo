@@ -447,16 +447,18 @@ def trans_str(metric,text):
         text = list(text)
         for i in range(0,len(text)):
             printf(i)
-            if i*7>228:
+            if i*7>269:
                 if text[i] != ' ':
                     if flag==0:
                         j = i
                         flag=1
                     if flag==1:
-                        j-=1
-                        if text[j]==' ':
-                            text[j] = '\n'
-                            break
+                        while(True):
+                            j-=1
+                            if text[j]==' ':
+                                text[j] = '\n'
+                                break
+                        break
                 elif text[i] == ' ':
                     text[i] = '\n'
                     break

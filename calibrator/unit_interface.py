@@ -292,11 +292,12 @@ class Unit(MyWidget,QWidget):
                 item = self.lst_model[i].item(j, 2)
                 # item1.setBackground(QtGui.QBrush(QtGui.QColor(255, 255, 255)))
                 if data =='preset':
-                    data_dict[data].get(lst_data_dict_keys[count])[5] = item.text()
+                    data_dict[data].get(lst_data_dict_keys[count])[9] = item.text()
                 else:
-                    data_dict[data].get(lst_data_dict_keys[count])[1] = item.text()
+                    data_dict[data].get(lst_data_dict_keys[count])[2] = item.text()
                 count+=1
-        # printff(data_dict[data].items())
+        # printf(data_dict[data].items())
+        printf(data_dict)
         return data_dict
 
     def saveData(self,obj_cal,data,name_block,name_product,list_nmb):
@@ -881,7 +882,8 @@ class Param(QWidget):
                 self.lst_widget1.append(self.list_widget1)
                 self.lst_widget_item1.append(self.listWidgetItem1)
                 # printff(fon_metric)
-                if fon_metric <= 269:
+                # printf(self.list_widget.item(0).text(),fon_metric)
+                if fon_metric <= 279:
                     # printff(j, z, k, text1[0])
                     if flag == 0:
                         self.list_widget.setGeometry(x1, y1 + j + z + k, 290, 20)
@@ -905,7 +907,6 @@ class Param(QWidget):
                         self.listWidgetItem1.setSizeHint(QtCore.QSize(10, 35))
                         k = +15
                     else:
-                        printf(self.list_widget.item(0).text())
                         self.list_widget.setGeometry(x1, y1 + j + z + k, 290, 35)
                         self.list_widget1.setGeometry(x2, y2 + j + z + k, 100, 35)
                         self.listWidgetItem1.setSizeHint(QtCore.QSize(10, 35))
@@ -1038,8 +1039,7 @@ class Param(QWidget):
                 self.lst_widget.append(self.list_widget)
                 self.lst_widget1.append(self.list_widget1)
                 self.lst_widget_item1.append(self.listWidgetItem1)
-                # printff(fon_metric)
-                if fon_metric<=269:
+                if fon_metric<=299:
                     printf(j,z,k,text1[0])
                     if flag==0:
                         self.list_widget.setGeometry(x1, y1 + j+z+k, 290, 20)
@@ -1118,25 +1118,27 @@ class Param(QWidget):
 
     def trans_str(self,metric,text):
         flag = 0
-        printf(text,metric)
-        if metric >269:
+        # printf(text,metric)
+        if metric >279:
             text = list(text)
             for i in range(0,len(text)):
-                if i*7>269:
+                if i*7>279:
                     if text[i] != ' ':
                         if flag==0:
                             j = i
                             flag=1
                         if flag==1:
-                            j-=1
-                            if text[j]==' ':
-                                text[j] = '\n'
-                                break
+                            while(True):
+                                j-=1
+                                if text[j]==' ':
+                                    text[j] = '\n'
+                                    break
+                            break
                     elif text[i] == ' ':
                         text[i] = '\n'
                         break
             text = ''.join(text)
-            printf(text)
+            # printf(text)
             return [text]
         else: return [text]
 

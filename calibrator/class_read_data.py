@@ -229,7 +229,8 @@ class Calibrator(QObject):
             c = self.trans_neg_float_to_hex(c)
             return self.func_val_to_hex_can_flip(c)
         else:
-            c = hex(c)[2:].upper()
+            if header is None:
+                c = hex(c)[2:].upper()
             printf(c)
             if len(c) == 1:
                 printf(type(c),c)
@@ -487,6 +488,7 @@ class Calibrator(QObject):
         end = time.time()
         # printf(end - start)
         flag = 0
+        # printf(self.data_dict)
         return self.data_dict
 
     def pars_eskd(self):
@@ -769,7 +771,7 @@ class Calibrator(QObject):
                             if flag == 1: flag = 0; break
         # self.file_open.close()
         self.ser.can_close(self.ser.ser)
-        # printf(self.data_dict)
+        printf(self.data_dict)
         # printf(self.header_data_dict)
         return 'End main_data_read'
 
@@ -796,7 +798,6 @@ class Calibrator(QObject):
         # self.flag +=1
         return self.data_dict
     def update_data_dict(self,data_dict):
-        self.data_dict = data_dict
         self.data_dict = data_dict
 
 
