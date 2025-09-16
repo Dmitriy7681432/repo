@@ -471,7 +471,122 @@ text = 'Время, оставшееся до технич. обслуживан
 metric = 326
 trans_str(metric,text)
 
-# import PyQt5.QtWidgets
-# listView = PyQt5.QtWidgets.QListView()
-# fon_metric = listView.fontMetrics().width(text)
-# printf(fon_metric)
+
+from pathlib import Path
+from borb.pdf import Document, Page, PageLayout, SingleColumnLayout, Paragraph, PDF
+
+# Create an empty Document
+d: Document = Document()
+
+# Create an empty Page
+p: Page = Page()
+d.append_page(p)
+
+# Create a PageLayout
+l: PageLayout = SingleColumnLayout(p)
+
+# Add a Paragraph
+l.append_layout_element(Paragraph('Hello World!'))
+
+# Write the PDF
+PDF.write(what=d, where_to="assets/output.pdf")
+
+
+
+from reportlab.pdfgen.canvas import Canvas
+canvas = Canvas("hello.pdf")
+canvas.drawString(72, 72, "Hello, World")
+canvas.save()
+
+# canvas = Canvas("hello.pdf", pagesize=(612.0, 792.0))
+# from reportlab.lib.units import inch, cm
+from reportlab.lib.pagesizes import A4
+canvas = Canvas("hello.pdf", pagesize=A4)
+
+
+from reportlab.lib.units import inch, cm
+canvas = Canvas("font-example.pdf", pagesize=A4)
+canvas.setFont("Times-Roman", 12)
+canvas.drawString(1 * inch, 10 * inch, "Times New Roman (12 pt)")
+canvas.save()
+
+
+from reportlab.platypus import SimpleDocTemplate, Table, Paragraph
+from reportlab.lib.styles import getSampleStyleSheet
+
+# 1. Подготовьте данные в виде списка списков
+data = [
+    ['Заголовок 1', 'Заголовок 2', 'Заголовок 3'],
+    ['Строка 1, столбец 1', 'Строка 1, столбец 2', 'Строка 1, столбец 3'],
+    ['Строка 2, столбец 1', 'Строка 2, столбец 2', 'Строка 2, столбец 3'],
+]
+
+# 2. Создайте объект таблицы
+table = Table(data)
+
+# 3. Создайте объект для хранения элементов документа (Story)
+story = []
+
+# 4. Добавьте таблицу в Story (опционально, можно добавить стиль)
+story.append(table)
+
+# 5. Создайте объект документа PDF
+doc = SimpleDocTemplate("table_example.pdf")
+
+# 6. Постройте PDF-документ
+doc.build(story)
+
+print("PDF-документ 'table_example.pdf' создан успешно.")
+
+from reportlab.lib import colors
+from reportlab.lib.pagesizes import letter, inch
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
+doc = SimpleDocTemplate("simple_table_grid.pdf", pagesize=letter)
+# container for the 'Flowable' objects
+elements = []
+data= [['000000', '01', '02', '03', '04'],
+       ['10', '11', '12', '13', '14'],
+       ['20', '21', '22', '23', '24'],
+       ['30', '31', '32', '33', '34']]
+t=Table(data,5*[0.5*inch], 4*[0.3*inch])
+t.setStyle(TableStyle([('ALIGN',(1,1),(-1,-2),'RIGHT'),
+                       ('TEXTCOLOR',(1,1),(-2,-2),colors.red),
+                       ('VALIGN',(0,0),(0,-1),'TOP'),
+                       ('TEXTCOLOR',(0,0),(0,-1),colors.blue),
+                       ('ALIGN',(0,-1),(-1,-1),'CENTER'),
+                       ('VALIGN',(0,-1),(-1,-1),'MIDDLE'),
+                       ('TEXTCOLOR',(0,-1),(-1,-1),colors.green),
+                       ('INNERGRID', (0,0), (-1,-1), 0.25, colors.black),
+                       ('BOX', (0,0), (-1,-1), 0.25, colors.black),
+                       ]))
+elements.append(t)
+# write the document to disk
+doc.build(elements)
+
+
+
+from reportlab.platypus import SimpleDocTemplate, TableStyle, Table
+
+# Creating a simple pdfdoc = SimpleDocTemplate(aa)
+story = []
+
+doc = SimpleDocTemplate("test1.pdf", pagesize=letter)
+# Set a table style
+table_style = TableStyle(
+    [
+        ('INNERGRID', (0,0), (-1,-1), 0.25, colors.black),
+        ('BOX', (0,0), (-1,-1), 0.25, colors.black),
+    ]
+)
+
+# Creating mock data and cols to add a new table inside the third a row
+data_table = [
+    ['Col1', 'Col2'],
+    ['aaa', 'bbb'],
+    [Table([['data to add as third row', 'a']], style=table_style)]
+]
+
+
+final_table = Table(data_table, style=table_style)
+story.append(final_table)
+doc.build(story)

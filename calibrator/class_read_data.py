@@ -179,7 +179,7 @@ class Calibrator(QObject):
         # Заполение главного словаря данными
         self.parse_data_xml()
 
-        self.file_open = open('read_data.txt', 'wb')
+        # self.file_open = open('read_data.txt', 'wb')
         self.flag =0
 
         printf('wait_receiv', self.ser.wait_receiv)
@@ -607,9 +607,9 @@ class Calibrator(QObject):
                                 # if value_write != value and count < 20: addr -= 4; count -= 1; count1 += 1
                             else:
                                 self.header_data_dict[data_can].append(value)
-                                self.file_open.write(hex(address).encode('utf-8') + b'\t')
+                                # self.file_open.write(hex(address).encode('utf-8') + b'\t')
                                 # self.file_open.write(hex(value).encode('utf-8') + b'\n')
-                                self.file_open.write(value)
+                                # self.file_open.write(value)
                             flag = 1
                             break
                     if flag == 1: flag = 0;break

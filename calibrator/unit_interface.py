@@ -260,11 +260,11 @@ class Unit(MyWidget,QWidget):
             item.setBackground(QtGui.QBrush(QtGui.QColor(255, 255, 255)))
             if data =='preset':
                 #test
-                # self.checkValue = str(i[1][5])
-                self.checkValue = str(i[1][preset_indx])
+                self.checkValue = str(i[1][5])
+                # self.checkValue = str(i[1][preset_indx])
                 #test
-                # item.setChild(count, 2, item.setText(str(i[1][5])))
-                item.setChild(count, 2, item.setText(str(i[1][preset_indx])))
+                item.setChild(count, 2, item.setText(str(i[1][5])))
+                # item.setChild(count, 2, item.setText(str(i[1][preset_indx])))
             else:
                 self.checkValue = str(i[1][calibr_indx])
                 item.setChild(count, 2, item.setText(str(i[1][calibr_indx])))
@@ -569,18 +569,46 @@ class Unit(MyWidget,QWidget):
 
         doc.save(f'./{folder}/{data}_{name_block}.docx')
 
-        # Конвертация в pdf
-        printf("-" * 50 + "\nКонвертация .docx в .pdf:\n" + "-" * 50)
-        # ok = True
-        # try: import docx2pdf
-        # except Exception as e: printf(f"Ошибка импорта модуля! Подробнее:\n{e}"); ok = False
+        # Конвертация в pdf 1-й способ нужен установленный Word
+        # printf("-" * 50 + "\nКонвертация .docx в .pdf:\n" + "-" * 50)
+        # ok =True
+        # try:
+        #     import docx2pdf
+        # except Exception as e:
+        #     printf(f"Ошибка импорта модуля! Подробнее:\n{e}"); ok = False
         # if ok:
         #     input_file = f"./{folder}/{data}_{name_block}.docx"
         #     output_file = f"./{folder}/{data}_{name_block}.pdf"
-        #     if not os.path.exists(input_file): printf(f"Файл {input_file} не найден! Выполнение конвертации невозможно!")
-        #     else: docx2pdf.convert(input_file, output_file)
+        #     if not os.path.exists(input_file):
+        #         printf(f"Файл {input_file} не найден! Выполнение конвертации невозможно!")
+        #     else:
+        #         docx2pdf.convert(input_file, output_file)assets
 
-        printf("Writing complete")
+        # Конвертация в pdf 1-й способ нужен установленный Word
+        # import sys
+        # import os, os.path
+        # import comtypes.client
+        #
+        # wdFormatPDF = 17
+        #
+        # # input_dir = f"./{folder}/{data}_{name_block}.docx"
+        # input_dir = f'D:\\repo\\calibrator\\csv,docx,pdf\\{data}_{name_block}.docx'
+        # output_dir = f'D:\\repo\\calibrator\\csv,docx,pdf\\{data}_{name_block}.pdf'
+        # # output_dir = f"./{folder}/{data}_{name_block}.pdf"
+        #
+        # # for subdir, dirs, files in os.walk(input_dir):
+        # #     printf(subdir,dirs,files)
+        # #     for file in files:
+        # #         in_file = os.path.join(subdir, file)
+        # # output_file = file.split('.')[0]
+        # # out_file = output_dir + output_file +'.pdf'
+        # word = comtypes.client.CreateObject('Word.Application')
+        #
+        # doc = word.Documents.Open(input_dir)
+        # doc.SaveAs(output_dir, FileFormat=wdFormatPDF)
+        # doc.Close()
+        # word.Quit()
+
 
 
 
