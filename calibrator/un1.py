@@ -548,7 +548,8 @@ data= [['000000', '01', '02', '03', '04'],
        ['10', '11', '12', '13', '14'],
        ['20', '21', '22', '23', '24'],
        ['30', '31', '32', '33', '34']]
-t=Table(data,5*[0.5*inch], 4*[0.3*inch])
+# t=Table(data,5*[0.5*inch], 4*[0.3*inch])
+t=Table(data)
 t.setStyle(TableStyle([('ALIGN',(1,1),(-1,-2),'RIGHT'),
                        ('TEXTCOLOR',(1,1),(-2,-2),colors.red),
                        ('VALIGN',(0,0),(0,-1),'TOP'),
@@ -559,6 +560,7 @@ t.setStyle(TableStyle([('ALIGN',(1,1),(-1,-2),'RIGHT'),
                        ('INNERGRID', (0,0), (-1,-1), 0.25, colors.black),
                        ('BOX', (0,0), (-1,-1), 0.25, colors.black),
                        ]))
+
 elements.append(t)
 # write the document to disk
 doc.build(elements)
@@ -590,3 +592,7 @@ data_table = [
 final_table = Table(data_table, style=table_style)
 story.append(final_table)
 doc.build(story)
+
+
+ad = 5*[10*2.0]
+print(ad)
