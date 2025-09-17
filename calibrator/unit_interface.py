@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
 import sys,re,struct,PyQt5.Qt
+import time
+
 from PyQt5.QtWidgets import (QWidget, QPushButton, QStackedWidget,
                              QHBoxLayout, QVBoxLayout, QApplication, QAction, QMainWindow)
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from class_read_data import Connect,Calibrator
 from debug import *
+from PyQt5.QtCore import pyqtSignal
 
 
 class MyWidget(QWidget):
@@ -40,6 +43,7 @@ class TableFocus(QtWidgets.QTableView,Id):
 
 class Unit(MyWidget,QWidget):
     # keyPressed = QtCore.pyqtSignal(int)
+    cal_signal = pyqtSignal(int)
 
     def __init__(self, data_dict,data, unit, height_desktop):
         super().__init__()
@@ -144,7 +148,7 @@ class Unit(MyWidget,QWidget):
                 self.table.setColumnWidth(0, 190)
                 self.table.setColumnWidth(1, 520)
                 self.table.setColumnWidth(2, 154)
-                self.table.setRowHeight(0,30)
+                self.table.setRowHeight(0,20)
                 self.model.setHorizontalHeaderLabels(['Обозначение', 'Наименование', 'Значение'])
                 self.table.setFont(font)
                 self.table.verticalHeader().setVisible(False)
@@ -309,8 +313,9 @@ class Unit(MyWidget,QWidget):
         os.makedirs(folder, exist_ok=True)
         lst_data = []
 
-        name_block_rus = 0
-        name_product_rus = 0
+        name_block_rus = '0'
+        name_product_rus = '0'
+        name_drawing = '0'
         if name_product == 'SES200M':
             name_product_rus = 'СЭС-200М'
             if name_block == 'BU_400':
@@ -328,11 +333,13 @@ class Unit(MyWidget,QWidget):
 
         name_block = name_block.lower()
 
+        output_file = name_product_rus+'_'+list_nmb[0]+'_'+name_block_rus+'_' +list_nmb[1]+'_'+ name_drawing[:4]+'_'+name_drawing[-3:] +'_'+data
+
         data_dict_copy = obj_cal.data_dict.copy()
         count =0
         lst_data_dict_keys = list(data_dict_copy[data].keys())
         printf(lst_data_dict_keys)
-        with open(f'./{folder}/{data}_{name_block}.bin','wb') as f:
+        with open(f'./{folder}/{output_file}.bin','wb') as f:
             printf(obj_cal.header_data_dict[data])
             for i in obj_cal.header_data_dict[data][0:]:
                 printf('i',i)
@@ -386,7 +393,7 @@ class Unit(MyWidget,QWidget):
                         count+=1
                 #Запись в csv
                 head_myData = [["Обозначение","Наименование","Значение"]]
-                myFile = open(f'./{folder}/{data}_{name_block}.csv', 'w', encoding='utf-32', newline='')
+                myFile = open(f'./{folder}/{output_file}.csv', 'w', encoding='utf-32', newline='')
                 with myFile:
                     writer = csv.writer(myFile, delimiter='\t')
                     writer.writerows(head_myData)
@@ -449,7 +456,7 @@ class Unit(MyWidget,QWidget):
                         if i ==0 or i ==2:
                             cells[i].paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.CENTER
 
-                doc.save(f'./{folder}/{data}_{name_block}.docx')
+                doc.save(f'./{folder}/{output_file}.docx')
 
                 # Конвертация в pdf
                 printf("-" * 50 + "\nКонвертация .docx в .pdf:\n" + "-" * 50)
@@ -459,8 +466,8 @@ class Unit(MyWidget,QWidget):
                 except Exception as e:
                     printf(f"Ошибка импорта модуля! Подробнее:\n{e}"); ok = False
                 if ok:
-                    input_file = f"./{folder}/{data}_{name_block}.docx"
-                    output_file = f"./{folder}/{data}_{name_block}.pdf"
+                    input_file = f"./{folder}/{output_file}.docx"
+                    output_file = f"./{folder}/{output_file}.pdf"
                     if not os.path.exists(input_file):
                         printf(f"Файл {input_file} не найден! Выполнение конвертации невозможно!")
                     else:
@@ -471,28 +478,44 @@ class Unit(MyWidget,QWidget):
 
     #test записи в csv
     def saveDatatest(self,data,name_block,name_product,list_nmb):
+        # count_elem += 1
+        # if count_elem == proc_elem:
+        step = 0
+        step += 10
+        self.cal_signal.emit(step)
+        count_elem = 0
+        time.sleep(1)
+        step += 10
+        self.cal_signal.emit(step)
+
         printf('saveDatatest')
         import csv
         import os
         folder = 'csv,docx,pdf'
         os.makedirs(folder, exist_ok=True)
 
-        name_block_rus = 0
-        name_product_rus = 0
+        name_block_rus = '0'
+        name_product_rus = '0'
+        name_drawing = '0'
         if name_product == 'SES200M':
             name_product_rus = 'СЭС-200М'
             if name_block == 'BU_400':
-                name_block_rus = 'БУ400'; name_drawing = "ТАКИ БУ400"
+                name_block_rus = 'БУ400'; name_drawing = "ТАКИ.466539.022"
             elif name_block == 'BU_50':
-                name_block_rus = 'БУ50'; name_drawing = "ТАКИ БУ50"
+                name_block_rus = 'БУ50'; name_drawing = "ТАКИ.466539.023"
             elif name_block == 'BU_SES':
-                name_block_rus = 'БУСЭС'; name_drawing = "ТАКИ БУСЭС"
+                name_block_rus = 'БУСЭС'; name_drawing = "ТАКИ.466539.024"
         elif name_product == "SEP30M":
             name_product_rus = 'СЭП-30М'
             if name_block == 'BU_400':
-                name_block_rus = 'БУ400'; name_drawing = "ТАКИ БУ400"
+                name_block_rus = 'БУ400'; name_drawing = "ТАКИ.466539.021"
             elif name_block == 'BU_SEP':
-                name_block_rus = 'БУСЭП'; name_drawing = "ТАКИ БУСЭП"
+                name_block_rus = 'БУСЭП'; name_drawing = "ТАКИ.466539.020"
+
+        output_file = name_product_rus+'_'+list_nmb[0]+'_'+name_block_rus+'_' +list_nmb[1]+'_'+ name_drawing[:4]+'_'+name_drawing[-3:] +'_'+data
+
+        step += 10
+        self.cal_signal.emit(step)
 
         lst_data = []
         #Запись в csv
@@ -504,12 +527,15 @@ class Unit(MyWidget,QWidget):
                 value = self.lst_model[i].item(j, 2)
                 local_lst_data =[designation.text(),name.text(),value.text()]
                 lst_data.append(local_lst_data)
-        myFile = open(f'./{folder}/{data}_{name_block}.csv', 'w', encoding='utf-32', newline='')
+        myFile = open(f'./{folder}/{output_file}.csv', 'w', encoding='utf-32', newline='')
         with myFile:
             writer = csv.writer(myFile, delimiter='\t')
             writer.writerows(head_myData)
             writer.writerows(lst_data)
             # writer.writerows(params_xml_list)
+
+        step += 10
+        self.cal_signal.emit(step)
 
         # Запись в docx
         from docx import Document
@@ -567,22 +593,27 @@ class Unit(MyWidget,QWidget):
                 if i ==0 or i ==2:
                     cells[i].paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.CENTER
 
-        doc.save(f'./{folder}/{data}_{name_block}.docx')
+        doc.save(f'./{folder}/{output_file}.docx')
+
+        step += 10
+        self.cal_signal.emit(step)
 
         # Конвертация в pdf 1-й способ нужен установленный Word
-        # printf("-" * 50 + "\nКонвертация .docx в .pdf:\n" + "-" * 50)
-        # ok =True
-        # try:
-        #     import docx2pdf
-        # except Exception as e:
-        #     printf(f"Ошибка импорта модуля! Подробнее:\n{e}"); ok = False
-        # if ok:
-        #     input_file = f"./{folder}/{data}_{name_block}.docx"
-        #     output_file = f"./{folder}/{data}_{name_block}.pdf"
-        #     if not os.path.exists(input_file):
-        #         printf(f"Файл {input_file} не найден! Выполнение конвертации невозможно!")
-        #     else:
-        #         docx2pdf.convert(input_file, output_file)assets
+        printf("-" * 50 + "\nКонвертация .docx в .pdf:\n" + "-" * 50)
+        ok =True
+        try:
+            import docx2pdf
+        except Exception as e:
+            printf(f"Ошибка импорта модуля! Подробнее:\n{e}"); ok = False
+        if ok:
+            input_file = f"./{folder}/{output_file}.docx"
+            output_file = f"./{folder}/{output_file}.pdf"
+            if not os.path.exists(input_file):
+                printf(f"Файл {input_file} не найден! Выполнение конвертации невозможно!")
+            else:
+                docx2pdf.convert(input_file, output_file)
+        step = 100
+        self.cal_signal.emit(step)
 
         # Конвертация в pdf 1-й способ нужен установленный Word
         # import sys

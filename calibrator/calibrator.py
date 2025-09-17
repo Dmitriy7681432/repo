@@ -558,6 +558,8 @@ class Main(QWidget):
 
         self.button_obj[0].animateClick()
         self.buttonUst.animateClick()
+        self.button_obj[0].setStyleSheet('background-color:rgb(153,186,168);')
+        self.buttonUst.setStyleSheet('background-color:rgb(153,186,168);')
 
         self.readData_bu1_flag = 0
         self.readData_bu2_flag = 0
@@ -600,9 +602,11 @@ class Main(QWidget):
             if i==0:
                 self.button_obj[i].setCheckable(True)
                 self.button_obj[i].setDown(True)
+                self.button_obj[i].setStyleSheet('background-color:rgb(145,250,192);')
             else:
                 self.button_obj[i].setChecked(False)
                 self.button_obj[i].setDown(False)
+                self.button_obj[i].setStyleSheet('background-color:rgb(153,173,232);')
 
         # self.buttonUnit1.setCheckable(True)
         # self.buttonUnit1.setDown(True)
@@ -613,8 +617,10 @@ class Main(QWidget):
 
         if self.readData_bu1_flag ==0:
             self.buttonAction2.setEnabled(False)
+            self.buttonAction3.setEnabled(False)
         else:
             self.buttonAction2.setEnabled(True)
+            self.buttonAction3.setEnabled(True)
 
     def UnitWidget2(self):
         for i,v in enumerate(self.lst_cb):
@@ -628,9 +634,11 @@ class Main(QWidget):
             if i==1:
                 self.button_obj[i].setCheckable(True)
                 self.button_obj[i].setDown(True)
+                self.button_obj[i].setStyleSheet('background-color:rgb(145,250,192);')
             else:
                 self.button_obj[i].setChecked(False)
                 self.button_obj[i].setDown(False)
+                self.button_obj[i].setStyleSheet('background-color:rgb(153,173,232);')
 
         # self.buttonUnit1.setChecked(False)
         # self.buttonUnit1.setDown(False)
@@ -641,8 +649,10 @@ class Main(QWidget):
 
         if self.readData_bu2_flag ==0:
             self.buttonAction2.setEnabled(False)
+            self.buttonAction3.setEnabled(False)
         else:
             self.buttonAction2.setEnabled(True)
+            self.buttonAction3.setEnabled(True)
 
     def UnitWidget3(self):
         for i,v in enumerate(self.lst_cb):
@@ -656,9 +666,11 @@ class Main(QWidget):
             if i==2:
                 self.button_obj[i].setCheckable(True)
                 self.button_obj[i].setDown(True)
+                self.button_obj[i].setStyleSheet('background-color:rgb(145,250,192);')
             else:
                 self.button_obj[i].setChecked(False)
                 self.button_obj[i].setDown(False)
+                self.button_obj[i].setStyleSheet('background-color:rgb(153,173,232);')
 
         # self.buttonUnit1.setChecked(False)
         # self.buttonUnit1.setDown(False)
@@ -669,8 +681,10 @@ class Main(QWidget):
 
         if self.readData_bu3_flag ==0:
             self.buttonAction2.setEnabled(False)
+            self.buttonAction3.setEnabled(False)
         else:
             self.buttonAction2.setEnabled(True)
+            self.buttonAction3.setEnabled(True)
 
     def UstWidget(self):
         flag =0
@@ -692,10 +706,13 @@ class Main(QWidget):
 
         self.buttonUst.setCheckable(True)
         self.buttonUst.setDown(True)
+        self.buttonUst.setStyleSheet('background-color:rgb(145,250,192);')
         self.buttonCalibr.setChecked(False)
         self.buttonCalibr.setDown(False)
+        self.buttonCalibr.setStyleSheet('background-color:rgb(153,173,232);')
         self.buttonPar.setChecked(False)
         self.buttonPar.setDown(False)
+        self.buttonPar.setStyleSheet('background-color:rgb(153,173,232);')
 
     def CalibrWidget(self):
         flag =0
@@ -718,10 +735,13 @@ class Main(QWidget):
 
         self.buttonUst.setChecked(False)
         self.buttonUst.setDown(False)
+        self.buttonUst.setStyleSheet('background-color:rgb(153,173,232);')
         self.buttonCalibr.setCheckable(True)
         self.buttonCalibr.setDown(True)
+        self.buttonCalibr.setStyleSheet('background-color:rgb(145,250,192);')
         self.buttonPar.setChecked(False)
         self.buttonPar.setDown(False)
+        self.buttonPar.setStyleSheet('background-color:rgb(153,173,232);')
 
     def ParWidget(self):
         flag =0
@@ -743,10 +763,13 @@ class Main(QWidget):
 
         self.buttonUst.setChecked(False)
         self.buttonUst.setDown(False)
+        self.buttonUst.setStyleSheet('background-color:rgb(153,173,232);')
         self.buttonCalibr.setChecked(False)
         self.buttonCalibr.setDown(False)
+        self.buttonCalibr.setStyleSheet('background-color:rgb(153,173,232);')
         self.buttonPar.setCheckable(True)
         self.buttonPar.setDown(True)
+        self.buttonPar.setStyleSheet('background-color:rgb(145,250,192);')
 
         # self.button.setEnabled(True) # Включаем кнопку, когда второе окно отображено
     def readData_bu1(self):
@@ -761,6 +784,7 @@ class Main(QWidget):
             self.read_data_dict_bu400 = self.calibr_obj[0].test_data_dict('calibr')
             self.unit_obj_preset[0].readData(self.read_data_dict_bu400, 'preset',1)
             self.unit_obj_calibr[0].readData(self.read_data_dict_bu400, 'calibr',1)
+            self.buttonAction3.setEnabled(True)
 
     def readData_bu2(self):
         # printff('readData_bu50',self.buttonUnit2.isChecked())
@@ -830,6 +854,7 @@ class Main(QWidget):
         #     self.unit_obj_calibr[2].readData(self.read_data_dict_buses,'calibr',self.count_read_buses)
         #     # pass
         self.buttonAction2.setEnabled(True)
+        self.buttonAction3.setEnabled(True)
         self.worker.time_stop()
 
     def next_main_thread_write(self,name_product,name_cb):
@@ -849,7 +874,8 @@ class Main(QWidget):
         #     self.unit_obj_preset[2].writeData(self.read_data_dict_buses,'preset')
         #     data_dict = self.unit_obj_calibr[2].writeData(self.read_data_dict_buses,'calibr')
         #     self.calibr_obj[2].update_data_dict(data_dict)
-        self.buttonAction2.setEnabled(True)
+        # self.buttonAction2.setEnabled(True)
+        # self.buttonAction3.setEnabled(True)
         self.worker.time_stop()
     # def on_change(self,s):
     #     self.unit_bu400_preset.readData(self.read_data_dict_bu400,'preset')
@@ -895,7 +921,6 @@ class Main(QWidget):
             # self.data_dict_buses.update_data_dict(data_dict)
             self.unit_obj_preset[2].writeData(self.calibr_obj[2].data_dict,'preset')
             data_dict = self.unit_obj_calibr[2].writeData(self.calibr_obj[2].data_dict,'calibr')
-            self.calibr_obj[2].update_data_dict(data_dict)
             self.worker = Worker(self.calibr_obj[2],'Запись')
             self.worker.run1()
             self.thread_start(self.calibr_obj[2],self.cur_elem,self.lst_cb[2],'w')
@@ -914,6 +939,8 @@ class Main(QWidget):
             # self.unit_obj_calibr[0].saveData(self.calibr_obj[0],'calibr',self.lst_cb[0],self.cur_elem,text)
             # self.unit_obj_calibr[0].saveData(self.calibr_obj[0],'filter',self.lst_cb[0],self.cur_elem,text)
             #test
+            self.worker = Worker(self.unit_obj_preset[0],'Сохранение')
+            self.worker.run1()
             self.unit_obj_preset[0].saveDatatest('preset',self.lst_cb[0],self.cur_elem,text)
             self.unit_obj_calibr[0].saveDatatest('calibr',self.lst_cb[0],self.cur_elem,text)
         # printf('text',text)
@@ -946,4 +973,5 @@ if __name__ == '__main__':
     ex = ComPort()
     ex.show()
     sys.exit(app.exec_())
+    # sys.exit(0)
     # app.exec_()

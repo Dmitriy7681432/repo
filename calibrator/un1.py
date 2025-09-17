@@ -594,5 +594,6 @@ story.append(final_table)
 doc.build(story)
 
 
-ad = 5*[10*2.0]
-print(ad)
+
+ra = 'ТАКИ.466539.022'
+print(ra[-3:])

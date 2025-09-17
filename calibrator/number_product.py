@@ -10,8 +10,8 @@ from debug import *
 class NumberProduct(QObject):
     signal_numb = pyqtSignal(list)
     cur_elem = 0
-    nmb_product =0
-    nmb_cb = 0
+    nmb_product =''
+    nmb_cb = ''
 
     def __init__(self,app = False):
         if app:
@@ -37,29 +37,29 @@ class NumberProduct(QObject):
         self.lbl.move(20, 10)
         self.lbl.setFont(font_lbl)
 
-        line_product = QLineEdit(self.widget)
+        self.line_product = QLineEdit(self.widget)
         # line.addItems(lst_combo)
-        line_product.move(20,30)
-        line_product.setFont(font_line)
-        line_product.resize(350,30)
-        line_product.setPlaceholderText('Пример: Н06001')
+        self.line_product.move(20,30)
+        self.line_product.setFont(font_line)
+        self.line_product.resize(350,30)
+        self.line_product.setPlaceholderText('Пример: Н06001')
 
         label_cb = 'Введите заводской номер блока'
         self.lbl = QLabel(label_cb, self.widget)
         self.lbl.move(20,70)
         self.lbl.setFont(font_lbl)
 
-        line_cb = QLineEdit(self.widget)
-        line_cb.move(20,90)
-        line_cb.setFont(font_line)
-        line_cb.resize(350,30)
-        line_cb.setPlaceholderText('Пример: Н06001')
+        self.line_cb = QLineEdit(self.widget)
+        self.line_cb.move(20,90)
+        self.line_cb.setFont(font_line)
+        self.line_cb.resize(350,30)
+        self.line_cb.setPlaceholderText('Пример: Н06001')
 
         self.center()
 
         # self.move(x_, y_)
-        line_product.textChanged[str].connect(self.onActivated_product)
-        line_cb.textChanged[str].connect(self.onActivated_cb)
+        self.line_product.textChanged[str].connect(self.onActivated_product)
+        self.line_cb.textChanged[str].connect(self.onActivated_cb)
 
         self.open_button = QPushButton("OK", self.widget)
         self.open_button.clicked.connect(self.closeOk)
@@ -86,6 +86,7 @@ class NumberProduct(QObject):
         qr.moveCenter(cp)
         self.widget.move(qr.topLeft())
     def onActivated_product(self, text):
+        printf(type(text))
         self.nmb_product= text
 
     def onActivated_cb(self, text):
@@ -93,10 +94,18 @@ class NumberProduct(QObject):
         # self.lbl.adjustSize()
 
     def closeOk(self):
-        # self.second_window = Main(self.cur_elem)
-        # self.second_window.show()
-        lst_nmb = []
-        lst_nmb.append(self.nmb_product)
-        lst_nmb.append(self.nmb_cb)
-        self.signal_numb.emit(lst_nmb)
-        self.widget.close()  # Закрывает текущее (первое) окно
+        if self.nmb_product == '' or self.nmb_cb =='':
+            self.line_product.setPlaceholderText('Введите значение')
+            self.line_cb.setPlaceholderText('Введите значение')
+        # if self.nmb_cb =='':
+        #     self.line_cb.setPlaceholderText('Введите значение')
+        else:
+            # self.second_window = Main(self.cur_elem)
+            # self.second_window.show()
+            self.widget.close()  # Закрывает текущее (первое) окно
+            # self.widget.deleteLater()
+            # self.widget.destroy()
+            lst_nmb = []
+            lst_nmb.append(self.nmb_product)
+            lst_nmb.append(self.nmb_cb)
+            self.signal_numb.emit(lst_nmb)
