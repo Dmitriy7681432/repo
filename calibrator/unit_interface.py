@@ -484,7 +484,6 @@ class Unit(MyWidget,QWidget):
         step += 10
         self.cal_signal.emit(step)
         count_elem = 0
-        time.sleep(1)
         step += 10
         self.cal_signal.emit(step)
 
@@ -599,21 +598,21 @@ class Unit(MyWidget,QWidget):
         self.cal_signal.emit(step)
 
         # Конвертация в pdf 1-й способ нужен установленный Word
-        printf("-" * 50 + "\nКонвертация .docx в .pdf:\n" + "-" * 50)
-        ok =True
-        try:
-            import docx2pdf
-        except Exception as e:
-            printf(f"Ошибка импорта модуля! Подробнее:\n{e}"); ok = False
-        if ok:
-            input_file = f"./{folder}/{output_file}.docx"
-            output_file = f"./{folder}/{output_file}.pdf"
-            if not os.path.exists(input_file):
-                printf(f"Файл {input_file} не найден! Выполнение конвертации невозможно!")
-            else:
-                docx2pdf.convert(input_file, output_file)
-        step = 100
-        self.cal_signal.emit(step)
+        # printf("-" * 50 + "\nКонвертация .docx в .pdf:\n" + "-" * 50)
+        # ok =True
+        # try:
+        #     import docx2pdf
+        # except Exception as e:
+        #     printf(f"Ошибка импорта модуля! Подробнее:\n{e}"); ok = False
+        # if ok:
+        #     input_file = f"./{folder}/{output_file}.docx"
+        #     output_file = f"./{folder}/{output_file}.pdf"
+        #     if not os.path.exists(input_file):
+        #         printf(f"Файл {input_file} не найден! Выполнение конвертации невозможно!")
+        #     else:
+        #         docx2pdf.convert(input_file, output_file)
+        # step = 100
+        # self.cal_signal.emit(step)
 
         # Конвертация в pdf 1-й способ нужен установленный Word
         # import sys
@@ -641,8 +640,33 @@ class Unit(MyWidget,QWidget):
         # word.Quit()
 
 
+        import subprocess
 
+        input_docx= f"./{folder}/{output_file}.docx"
+        output_pdf= f"./{folder}/{output_file}.pdf"
 
+        # Команда для конвертации с помощью LibreOffice
+        command = [
+            "soffice",
+            "--headless",  # Работа в режиме "без головы" (без графического интерфейса)
+            "--convert-to",
+            "pdf",
+            "--outdir",
+            ".",  # Каталог, куда будет сохранен PDF
+            input_docx
+        ]
+
+        try:
+            subprocess.run(command, check=True, capture_output=True)
+            print(f"Файл '{input_docx}' успешно конвертирован в '{output_pdf}'")
+        except FileNotFoundError:
+            print("Ошибка: LibreOffice (soffice) не найден. Убедитесь, что он установлен.")
+        except subprocess.CalledProcessError as e:
+            print(f"Ошибка при конвертации: {e}")
+            print(f"Stderr: {e.stderr.decode()}")
+
+        step = 100
+        self.cal_signal.emit(step)
 
 class Param(QWidget):
 
