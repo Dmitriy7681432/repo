@@ -47,7 +47,7 @@ class Connect():
             ser = serial.Serial(port=f'/dev/{ports_lst[0]}', baudrate=3000000, timeout=0.01)
         else:
             ser = serial.Serial(port=ports_lst[0], baudrate=3000000, timeout=0.01)
-    except IndexError:
+    except (IndexError,serial.serialutil.SerialException):
         printf('ERROR')
         warning.SignalErr(True)
 

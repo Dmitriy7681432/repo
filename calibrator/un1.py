@@ -593,7 +593,75 @@ final_table = Table(data_table, style=table_style)
 story.append(final_table)
 doc.build(story)
 
+import os,sys
+dir_name = os.path.dirname(__file__)
+printf(dir_name)
+dirs = sys.exec_prefix
+dirs_all = sys.executable
+
+folder = 'dif'
+printf(dirs_all)
+# dirs_all +=f"\{folder}"
+# printf(dirs_all)
+# dirs_all +=folder
+printf(dirs_all)
+
+out_file = 'test2.docx'
+input_dir = 'D:\repo\calibrator\prj2\csv,docx,pdf'
+def trans_path(dir,out_file,folder):
+    inp = ''
+    cnt =0
+    printf(dir.count('\\'))
+    for i in dir:
+        # print(i)
+        if cnt==dir.count('\\'):break
+        if i =='\r':
+            i ='\/\\r'
+        inp +=i
+        if i =='\\':
+            inp +='\\'
+            cnt+=1
+    printf(inp)
+    # inp += f'\/\\{out_file}'
+    # inp = inp.replace('/','')
+    inp +=f'{folder}\\\{out_file}'
+    return inp
+
+temp =trans_path(dirs_all,out_file,folder)
+printf(temp)
+
+import os
+
+current_file = os.path.realpath(__file__)
+current_directory = os.path.dirname(current_file)
+printf(current_file)
+printf(current_directory)
+printf(os.path.abspath(__file__))
+printf(dirs_all)
+
+printf(dirs_all.count('\\'))
 
 
-ra = 'ТАКИ.466539.022'
-print(ra[-3:])
+
+a = 'Hello'
+print(a[:-1])
+
+
+
+
+import subprocess
+
+try:
+    # Запускаем команду `where soffice.exe`
+    # capture_output=True захватывает вывод команды
+    # text=True декодирует вывод в строку
+    result = subprocess.run(['where', 'soffice.exe'], capture_output=True, text=True, check=True)
+    # Вывод `where` может содержать несколько путей, разделенных переносом строки.
+    # Берем первый путь, обычно это основной путь к исполняемому файлу.
+    soffice_path = result.stdout.strip().split('\n')[0]
+    print(f"Путь к soffice.exe: {soffice_path}")
+except FileNotFoundError:
+    print("Команда 'where' не найдена. Убедитесь, что система Windows доступна для запуска команды.")
+except subprocess.CalledProcessError as e:
+    print(f"Ошибка при поиске soffice.exe: {e.stderr}")
+    print("Возможно, soffice.exe отсутствует в переменной PATH или не установлен.")
