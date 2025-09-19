@@ -264,11 +264,11 @@ class Unit(MyWidget,QWidget):
             item.setBackground(QtGui.QBrush(QtGui.QColor(255, 255, 255)))
             if data =='preset':
                 #test
-                self.checkValue = str(i[1][5])
-                # self.checkValue = str(i[1][preset_indx])
+                # self.checkValue = str(i[1][5])
+                self.checkValue = str(i[1][preset_indx])
                 #test
-                item.setChild(count, 2, item.setText(str(i[1][5])))
-                # item.setChild(count, 2, item.setText(str(i[1][preset_indx])))
+                # item.setChild(count, 2, item.setText(str(i[1][5])))
+                item.setChild(count, 2, item.setText(str(i[1][preset_indx])))
             else:
                 self.checkValue = str(i[1][calibr_indx])
                 item.setChild(count, 2, item.setText(str(i[1][calibr_indx])))
@@ -305,6 +305,9 @@ class Unit(MyWidget,QWidget):
         return data_dict
 
     def saveData(self,obj_cal,data,name_block,name_product,list_nmb):
+        step = 0
+        step += 10
+        self.cal_signal.emit(step)
         printf('SaveData')
 
         import csv
@@ -334,6 +337,9 @@ class Unit(MyWidget,QWidget):
         name_block = name_block.lower()
 
         output_file = name_product_rus+'_'+list_nmb[0]+'_'+name_block_rus+'_' +list_nmb[1]+'_'+ name_drawing[:4]+'_'+name_drawing[-3:] +'_'+data
+
+        step += 10
+        self.cal_signal.emit(step)
 
         data_dict_copy = obj_cal.data_dict.copy()
         count =0
@@ -391,6 +397,8 @@ class Unit(MyWidget,QWidget):
                         else:
                             f.write(struct.pack('f', float(item.text())))
                         count+=1
+                step += 10
+                self.cal_signal.emit(step)
                 #Запись в csv
                 head_myData = [["Обозначение","Наименование","Значение"]]
                 myFile = open(f'./{folder}/{output_file}.csv', 'w', encoding='utf-32', newline='')
@@ -399,6 +407,8 @@ class Unit(MyWidget,QWidget):
                     writer.writerows(head_myData)
                     writer.writerows(lst_data)
 
+                step += 10
+                self.cal_signal.emit(step)
                 # Запись в docx
                 from docx import Document
                 from docx.enum.text import WD_ALIGN_PARAGRAPH
@@ -458,20 +468,71 @@ class Unit(MyWidget,QWidget):
 
                 doc.save(f'./{folder}/{output_file}.docx')
 
-                # Конвертация в pdf
-                printf("-" * 50 + "\nКонвертация .docx в .pdf:\n" + "-" * 50)
-                ok =True
+                step += 10
+                self.cal_signal.emit(step)
+                # Для LibreOffice на Windows
+                import subprocess
+                docx_path = f"./{folder}/{output_file}.docx"
+                output_dir = f"./{folder}/{output_file}.pdf"
+                libreoffice_path = r"C:\Program Files\LibreOffice\program\soffice.exe"
+                if not os.path.exists(libreoffice_path):
+                    libreoffice_path = r"C:\Program Files (x86)\LibreOffice\program\soffice.exe"
+                    if not os.path.exists(libreoffice_path):
+                        import sys
+                        import comtypes.client
+                        dirs = sys.executable
+                        wdFormatPDF = 17
+                        out_file = self.trans_path(dirs, output_file, folder)
+                        # for subdir, dirs, files in os.walk(input_dir):
+                        #     printf(subdir,dirs,files)
+                        #     for file in files:
+                        #         in_file = os.path.join(subdir, file)
+                        # output_file = file.split('.')[0]
+                        # out_file = output_dir + output_file +'.pdf'
+                        word = comtypes.client.CreateObject('Word.Application')
+                        doc = word.Documents.Open(out_file + '.docx')
+                        doc.SaveAs(out_file + '.pdf', FileFormat=wdFormatPDF)
+                        doc.Close()
+                        word.Quit()
+                        # raise FileNotFoundError(f"LibreOffice executable not found at: {libreoffice_path}")
+
+                # Создает директорию
+                # if not os.path.exists(output_dir):
+                #     os.makedirs(output_dir)
+                command = [
+                    libreoffice_path,
+                    "--headless",  # Run LibreOffice without a graphical interface
+                    "--convert-to", "pdf",
+                    "--outdir", folder,
+                    docx_path
+                ]
+
                 try:
-                    import docx2pdf
-                except Exception as e:
-                    printf(f"Ошибка импорта модуля! Подробнее:\n{e}"); ok = False
-                if ok:
-                    input_file = f"./{folder}/{output_file}.docx"
-                    output_file = f"./{folder}/{output_file}.pdf"
-                    if not os.path.exists(input_file):
-                        printf(f"Файл {input_file} не найден! Выполнение конвертации невозможно!")
-                    else:
-                        docx2pdf.convert(input_file, output_file)
+                    subprocess.run(command, check=True, capture_output=True, text=True)
+                    print(f"Successfully converted '{docx_path}' to PDF in '{output_dir}'.")
+                except subprocess.CalledProcessError as e:
+                    print(f"Error during conversion: {e}")
+                    print(f"Stdout: {e.stdout}")
+                    print(f"Stderr: {e.stderr}")
+                except FileNotFoundError:
+                    print(f"Error: LibreOffice executable not found at {libreoffice_path}.")
+
+                step = 100
+                self.cal_signal.emit(step)
+                # # Конвертация в pdf
+                # printf("-" * 50 + "\nКонвертация .docx в .pdf:\n" + "-" * 50)
+                # ok =True
+                # try:
+                #     import docx2pdf
+                # except Exception as e:
+                #     printf(f"Ошибка импорта модуля! Подробнее:\n{e}"); ok = False
+                # if ok:
+                #     input_file = f"./{folder}/{output_file}.docx"
+                #     output_file = f"./{folder}/{output_file}.pdf"
+                #     if not os.path.exists(input_file):
+                #         printf(f"Файл {input_file} не найден! Выполнение конвертации невозможно!")
+                #     else:
+                #         docx2pdf.convert(input_file, output_file)
 
         printf(data_dict_copy)
         return data_dict_copy
@@ -481,9 +542,6 @@ class Unit(MyWidget,QWidget):
         # count_elem += 1
         # if count_elem == proc_elem:
         step = 0
-        step += 10
-        self.cal_signal.emit(step)
-        count_elem = 0
         step += 10
         self.cal_signal.emit(step)
 
@@ -536,166 +594,182 @@ class Unit(MyWidget,QWidget):
         step += 10
         self.cal_signal.emit(step)
 
-        with open('read_data.txt', 'w') as self.file_open:
-            self.file_open.write('hi1')
-            # Запись в docx
-            from docx import Document
-            from docx.enum.text import WD_ALIGN_PARAGRAPH
-            from docx.shared import Pt,Inches
+        # with open('read_data.txt', 'w') as self.file_open:
+        # self.file_open.write('hi1')
+        # Запись в docx
+        from docx import Document
+        from docx.enum.text import WD_ALIGN_PARAGRAPH
+        from docx.shared import Pt,Inches
+        from docx.enum.table import WD_TABLE_ALIGNMENT
 
-            # создание пустого документа
-            doc = Document()
+        # создание пустого документа
+        doc = Document()
 
-            # добавление параграфа
-            paragraph1 = doc.add_paragraph()
-            paragraph1.add_run('Изделие: ').bold = True
-            paragraph1.add_run(f'{name_product_rus}, ')
-            paragraph1.add_run('зав.№: ').bold = True
-            paragraph1.add_run(f'{list_nmb[0]}')
-            paragraph1.alignment = WD_ALIGN_PARAGRAPH.CENTER
-            paragraph2 = doc.add_paragraph()
-            paragraph2.add_run('Блок: ').bold = True
-            paragraph2.add_run(f'{name_block_rus}, {name_drawing}, ')
-            paragraph2.add_run('зав.№: ').bold = True
-            paragraph2.add_run(f'{list_nmb[1]}')
-            paragraph2.alignment = WD_ALIGN_PARAGRAPH.CENTER
-            # добавляем таблицу с одной строкой
-            # для заполнения названий колонок
-            table = doc.add_table(1, len(lst_data[0]))
-            # определяем стиль таблицы
-            # table.style = 'Light Shading Accent 1'
-            table.style = 'Table Grid'
-            # Устанавливаем размер второго столбца
-            table.columns[1].width = Inches(15)
-            # Получаем строку с колонками из добавленной таблицы
-            head_cells = table.rows[0].cells
-            # добавляем названия колонок
-            for i, item in enumerate(head_myData[0]):
-                p = head_cells[i].paragraphs[0]
-                # p.runs[0].font.name = 'Times New Roman'
-                # название колонки
-                p.add_run(item).bold = True
-                # выравниваем посередине
-                p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-            for i in table.rows:
-                for cell in i.cells:
-                    cell.paragraphs[0].runs[0].font.name = 'Times New Roman'
-                    cell.paragraphs[0].runs[0].font.size = Pt(12)
-            # добавляем данные к существующей таблице
-            for row in lst_data:
-                # добавляем строку с ячейками к объекту таблицы
-                cells = table.add_row().cells
-                for i, item in enumerate(row):
-                    # вставляем данные в ячейки
-                    cells[i].text = str(item)
-                    # если последняя ячейка
-                    cells[i].paragraphs[0].runs[0].font.name = 'Times New Roman'
-                    cells[i].paragraphs[0].runs[0].font.size = Pt(12)
-                    if i ==0 or i ==2:
-                        cells[i].paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.CENTER
+        # добавление параграфа
+        paragraph1 = doc.add_paragraph()
+        paragraph1.add_run('Изделие: ').bold = True
+        paragraph1.add_run(f'{name_product_rus}, ')
+        paragraph1.add_run('зав.№: ').bold = True
+        paragraph1.add_run(f'{list_nmb[0]}')
+        paragraph1.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        paragraph2 = doc.add_paragraph()
+        paragraph2.add_run('Блок: ').bold = True
+        paragraph2.add_run(f'{name_block_rus}, {name_drawing}, ')
+        paragraph2.add_run('зав.№: ').bold = True
+        paragraph2.add_run(f'{list_nmb[1]}')
+        paragraph2.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        # добавляем таблицу с одной строкой
+        # для заполнения названий колонок
+        table = doc.add_table(1, len(lst_data[0]))
+        # определяем стиль таблицы
+        # table.style = 'Light Shading Accent 1'
+        table.style = 'Table Grid'
+        table.alignment = WD_TABLE_ALIGNMENT.LEFT
+        # Устанавливаем размер второго столбца
+        table.columns[1].width = Inches(15)
+        # Получаем строку с колонками из добавленной таблицы
+        head_cells = table.rows[0].cells
+        # добавляем названия колонок
+        for i, item in enumerate(head_myData[0]):
+            p = head_cells[i].paragraphs[0]
+            # p.runs[0].font.name = 'Times New Roman'
+            # название колонки
+            p.add_run(item).bold = True
+            # выравниваем посередине
+            p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        for i in table.rows:
+            for cell in i.cells:
+                cell.paragraphs[0].runs[0].font.name = 'Times New Roman'
+                cell.paragraphs[0].runs[0].font.size = Pt(12)
+        # добавляем данные к существующей таблице
+        for row in lst_data:
+            # добавляем строку с ячейками к объекту таблицы
+            cells = table.add_row().cells
+            for i, item in enumerate(row):
+                # вставляем данные в ячейки
+                cells[i].text = str(item)
+                # если последняя ячейка
+                cells[i].paragraphs[0].runs[0].font.name = 'Times New Roman'
+                cells[i].paragraphs[0].runs[0].font.size = Pt(12)
+                if i ==0 or i ==2:
+                    cells[i].paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.CENTER
 
-            doc.save(f'./{folder}/{output_file}.docx')
-            # doc.save('test.docx')
+        doc.save(f'./{folder}/{output_file}.docx')
+        # doc.save('test.docx')
 
-            self.file_open.write('hi2')
-            step += 10
-            self.cal_signal.emit(step)
+        # self.file_open.write('hi2')
+        step += 10
+        self.cal_signal.emit(step)
 
-            # Конвертация в pdf 1-й способ нужен установленный Word
-            # printf("-" * 50 + "\nКонвертация .docx в .pdf:\n" + "-" * 50)
-            # ok =True
-            # import docx2pdf
-            # self.file_open.write('hi3')
-            # # try:
-            # #     import docx2pdf
-            # # except Exception as e:
-            # #     printf(f"Ошибка импорта модуля! Подробнее:\n{e}"); ok = False
-            # # if ok:
-            # input_file = f"./{folder}/{output_file}.docx"
-            # output_file1 = f"./{folder}/{output_file}.pdf"
-            # self.file_open.write('hi4')
-            # # input_file = 'test.docx'
-            # # output_file = 'test.pdf'
-            # # if not os.path.exists(input_file):
-            #     #     printf(f"Файл {input_file} не найден! Выполнение конвертации невозможно!")
-            #     # else:
-            #     #     docx2pdf.convert(input_file, output_file)
-            # self.file_open.write('hi5')
-            # try:
-            #     docx2pdf.convert(input_file, output_file1)
-            # except Exception as e:
-            #     import traceback
-            #     a = str(traceback.print_exc())
-            #     self.file_open.write('hi6')
-            #     self.file_open.write(str(e))
-            # step = 100
-            # self.cal_signal.emit(step)
-
-
-        # Конвертация в pdf 2-й способ нужен установленный Word
-        # import sys
-        # import os, os.path
-        # import comtypes.client
-        #
-        # dirs = sys.executable
-        #
-        # wdFormatPDF = 17
-        #
-        # printf(dirs)
-        # out_file = self.trans_path(dirs,output_file,folder)
-        # # input_dir = f"./{folder}/{data}_{name_block}.docx"
-        # # input_dir = f'D:\\repo\\calibrator\\prj2\\csv,docx,pdf\\{output_file}.docx'
-        # # output_dir = f'D:\\repo\\calibrator\\prj2\\csv,docx,pdf\\{output_file}.pdf'
-        # # input_dir = f'D:\repo\calibrator\prj2\csv,docx,pdf\' + f'{output_file}.docx'
-        # # output_dir = f'D:\repo\calibrator\prj2\csv,docx,pdf\\{output_file}.pdf'
-        # # output_dir = f"./{folder}/{data}_{name_block}.pdf"
-        #
-        # # for subdir, dirs, files in os.walk(input_dir):
-        # #     printf(subdir,dirs,files)
-        # #     for file in files:
-        # #         in_file = os.path.join(subdir, file)
-        # # output_file = file.split('.')[0]
-        # # out_file = output_dir + output_file +'.pdf'
-        # printf(out_file)
-        # word = comtypes.client.CreateObject('Word.Application')
-        #
-        # doc = word.Documents.Open(out_file+'.docx')
-        # doc.SaveAs(out_file+'.pdf', FileFormat=wdFormatPDF)
-        # doc.Close()
-        # word.Quit()
+        # Конвертация в pdf 1-й способ нужен установленный Word
+        # printf("-" * 50 + "\nКонвертация .docx в .pdf:\n" + "-" * 50)
+        # ok =True
+        # import docx2pdf
+        # self.file_open.write('hi3')
+        # # try:
+        # #     import docx2pdf
+        # # except Exception as e:
+        # #     printf(f"Ошибка импорта модуля! Подробнее:\n{e}"); ok = False
+        # # if ok:
+        # input_file = f"./{folder}/{output_file}.docx"
+        # output_file1 = f"./{folder}/{output_file}.pdf"
+        # self.file_open.write('hi4')
+        # # input_file = 'test.docx'
+        # # output_file = 'test.pdf'
+        # # if not os.path.exists(input_file):
+        #     #     printf(f"Файл {input_file} не найден! Выполнение конвертации невозможно!")
+        #     # else:
+        #     #     docx2pdf.convert(input_file, output_file)
+        # self.file_open.write('hi5')
+        # try:
+        #     docx2pdf.convert(input_file, output_file1)
+        # except Exception as e:
+        #     import traceback
+        #     a = str(traceback.print_exc())
+        #     self.file_open.write('hi6')
+        #     self.file_open.write(str(e))
         # step = 100
         # self.cal_signal.emit(step)
 
-        # Для LibrOffice где установлен Linux
+        #Для LibreOffice на Windows
         import subprocess
+        docx_path= f"./{folder}/{output_file}.docx"
+        output_dir= f"./{folder}/{output_file}.pdf"
+        libreoffice_path = r"C:\Program Files\LibreOffice\program\soffice.exe"
+        if not os.path.exists(libreoffice_path):
+            libreoffice_path = r"C:\Program Files (x86)\LibreOffice\program\soffice.exe"
+            if not os.path.exists(libreoffice_path):
+                import sys
+                import comtypes.client
+                dirs = sys.executable
+                wdFormatPDF = 17
+                out_file = self.trans_path(dirs, output_file, folder)
+                # for subdir, dirs, files in os.walk(input_dir):
+                #     printf(subdir,dirs,files)
+                #     for file in files:
+                #         in_file = os.path.join(subdir, file)
+                # output_file = file.split('.')[0]
+                # out_file = output_dir + output_file +'.pdf'
+                word = comtypes.client.CreateObject('Word.Application')
+                doc = word.Documents.Open(out_file + '.docx')
+                doc.SaveAs(out_file + '.pdf', FileFormat=wdFormatPDF)
+                doc.Close()
+                word.Quit()
+                # raise FileNotFoundError(f"LibreOffice executable not found at: {libreoffice_path}")
 
-        input_docx= f"./{folder}/{output_file}.docx"
-        output_pdf= f"./{folder}/{output_file}.pdf"
-
-        # Команда для конвертации с помощью LibreOffice
+        # Создает директорию
+        # if not os.path.exists(output_dir):
+        #     os.makedirs(output_dir)
         command = [
-            "soffice",
-            "--headless",  # Работа в режиме "без головы" (без графического интерфейса)
-            "--convert-to",
-            "pdf",
-            "--outdir",
-            ".",  # Каталог, куда будет сохранен PDF
-            input_docx
+            libreoffice_path,
+            "--headless",  # Run LibreOffice without a graphical interface
+            "--convert-to", "pdf",
+            "--outdir", folder,
+            docx_path
         ]
 
-        # try:
-        subprocess.run(command, check=True, capture_output=True)
-        print(f"Файл '{input_docx}' успешно конвертирован в '{output_pdf}'")
-        # except FileNotFoundError:
-        #     print("Ошибка: LibreOffice (soffice) не найден. Убедитесь, что он установлен.")
-        # except subprocess.CalledProcessError as e:
-        #     print(f"Ошибка при конвертации: {e}")
-        #     print(f"Stderr: {e.stderr.decode()}")
+        try:
+            subprocess.run(command, check=True, capture_output=True, text=True)
+            print(f"Successfully converted '{docx_path}' to PDF in '{output_dir}'.")
+        except subprocess.CalledProcessError as e:
+            print(f"Error during conversion: {e}")
+            print(f"Stdout: {e.stdout}")
+            print(f"Stderr: {e.stderr}")
+        except FileNotFoundError:
+            print(f"Error: LibreOffice executable not found at {libreoffice_path}.")
 
         step = 100
         self.cal_signal.emit(step)
+        # Конвертация в pdf 2-й способ нужен установленный Word
+
+        # Для LibrOffice где установлен Linux
+        # import subprocess
+        #
+        # input_docx= f"./{folder}/{output_file}.docx"
+        # output_pdf= f"./{folder}/{output_file}.pdf"
+        #
+        # # Команда для конвертации с помощью LibreOffice
+        # command = [
+        #     "soffice",
+        #     "--headless",  # Работа в режиме "без головы" (без графического интерфейса)
+        #     "--convert-to",
+        #     "pdf",
+        #     "--outdir",
+        #     ".",  # Каталог, куда будет сохранен PDF
+        #     input_docx
+        # ]
+        #
+        # # try:
+        # subprocess.run(command, check=True, capture_output=True)
+        # print(f"Файл '{input_docx}' успешно конвертирован в '{output_pdf}'")
+        # # except FileNotFoundError:
+        # #     print("Ошибка: LibreOffice (soffice) не найден. Убедитесь, что он установлен.")
+        # # except subprocess.CalledProcessError as e:
+        # #     print(f"Ошибка при конвертации: {e}")
+        # #     print(f"Stderr: {e.stderr.decode()}")
 
 
+    # Из пути делает абсолютный путь, т.е. добавляет еще один '\'
     def trans_path(self,dir,out_file,folder):
         inp = ''
         cnt =0
