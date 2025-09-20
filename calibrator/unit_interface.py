@@ -264,11 +264,11 @@ class Unit(MyWidget,QWidget):
             item.setBackground(QtGui.QBrush(QtGui.QColor(255, 255, 255)))
             if data =='preset':
                 #test
-                # self.checkValue = str(i[1][5])
-                self.checkValue = str(i[1][preset_indx])
+                self.checkValue = str(i[1][5])
+                # self.checkValue = str(i[1][preset_indx])
                 #test
-                # item.setChild(count, 2, item.setText(str(i[1][5])))
-                item.setChild(count, 2, item.setText(str(i[1][preset_indx])))
+                item.setChild(count, 2, item.setText(str(i[1][5])))
+                # item.setChild(count, 2, item.setText(str(i[1][preset_indx])))
             else:
                 self.checkValue = str(i[1][calibr_indx])
                 item.setChild(count, 2, item.setText(str(i[1][calibr_indx])))
@@ -312,6 +312,8 @@ class Unit(MyWidget,QWidget):
 
         import csv
         import os
+        from docx.enum.table import WD_TABLE_ALIGNMENT
+
         folder = 'csv,docx,pdf'
         os.makedirs(folder, exist_ok=True)
         lst_data = []
@@ -437,8 +439,15 @@ class Unit(MyWidget,QWidget):
                 # определяем стиль таблицы
                 # table.style = 'Light Shading Accent 1'
                 table.style = 'Table Grid'
+                table.alignment = WD_TABLE_ALIGNMENT.CENTER
                 # Устанавливаем размер второго столбца
-                table.columns[1].width = Inches(15)
+                if data =='preset':
+                    table.columns[0].width = Inches(1.5)
+                    table.columns[1].width = Inches(5)
+                else:
+                    table.columns[0].width = Inches(2.4)
+                    table.columns[1].width = Inches(4.2)
+                table.columns[2].width = Inches(1)
                 # Получаем строку с колонками из добавленной таблицы
                 head_cells = table.rows[0].cells
                 # добавляем названия колонок
@@ -478,6 +487,7 @@ class Unit(MyWidget,QWidget):
                 if not os.path.exists(libreoffice_path):
                     libreoffice_path = r"C:\Program Files (x86)\LibreOffice\program\soffice.exe"
                     if not os.path.exists(libreoffice_path):
+                        # Конвертация в pdf 2-й способ нужен установленный Word
                         import sys
                         import comtypes.client
                         dirs = sys.executable
@@ -624,9 +634,15 @@ class Unit(MyWidget,QWidget):
         # определяем стиль таблицы
         # table.style = 'Light Shading Accent 1'
         table.style = 'Table Grid'
-        table.alignment = WD_TABLE_ALIGNMENT.LEFT
+        table.alignment = WD_TABLE_ALIGNMENT.CENTER
         # Устанавливаем размер второго столбца
-        table.columns[1].width = Inches(15)
+        if data =='preset':
+            table.columns[0].width = Inches(1.5)
+            table.columns[1].width = Inches(5)
+        else:
+            table.columns[0].width = Inches(2.4)
+            table.columns[1].width = Inches(4.2)
+        table.columns[2].width = Inches(1)
         # Получаем строку с колонками из добавленной таблицы
         head_cells = table.rows[0].cells
         # добавляем названия колонок
@@ -654,7 +670,8 @@ class Unit(MyWidget,QWidget):
                 if i ==0 or i ==2:
                     cells[i].paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.CENTER
 
-        doc.save(f'./{folder}/{output_file}.docx')
+        doc.save(f'./{folder}/{output_file}.odt')
+        paragraph3 = doc.add_paragraph()
         # doc.save('test.docx')
 
         # self.file_open.write('hi2')
@@ -692,81 +709,83 @@ class Unit(MyWidget,QWidget):
         # self.cal_signal.emit(step)
 
         #Для LibreOffice на Windows
-        import subprocess
-        docx_path= f"./{folder}/{output_file}.docx"
-        output_dir= f"./{folder}/{output_file}.pdf"
-        libreoffice_path = r"C:\Program Files\LibreOffice\program\soffice.exe"
-        if not os.path.exists(libreoffice_path):
-            libreoffice_path = r"C:\Program Files (x86)\LibreOffice\program\soffice.exe"
-            if not os.path.exists(libreoffice_path):
-                import sys
-                import comtypes.client
-                dirs = sys.executable
-                wdFormatPDF = 17
-                out_file = self.trans_path(dirs, output_file, folder)
-                # for subdir, dirs, files in os.walk(input_dir):
-                #     printf(subdir,dirs,files)
-                #     for file in files:
-                #         in_file = os.path.join(subdir, file)
-                # output_file = file.split('.')[0]
-                # out_file = output_dir + output_file +'.pdf'
-                word = comtypes.client.CreateObject('Word.Application')
-                doc = word.Documents.Open(out_file + '.docx')
-                doc.SaveAs(out_file + '.pdf', FileFormat=wdFormatPDF)
-                doc.Close()
-                word.Quit()
-                # raise FileNotFoundError(f"LibreOffice executable not found at: {libreoffice_path}")
-
-        # Создает директорию
-        # if not os.path.exists(output_dir):
-        #     os.makedirs(output_dir)
-        command = [
-            libreoffice_path,
-            "--headless",  # Run LibreOffice without a graphical interface
-            "--convert-to", "pdf",
-            "--outdir", folder,
-            docx_path
-        ]
-
-        try:
-            subprocess.run(command, check=True, capture_output=True, text=True)
-            print(f"Successfully converted '{docx_path}' to PDF in '{output_dir}'.")
-        except subprocess.CalledProcessError as e:
-            print(f"Error during conversion: {e}")
-            print(f"Stdout: {e.stdout}")
-            print(f"Stderr: {e.stderr}")
-        except FileNotFoundError:
-            print(f"Error: LibreOffice executable not found at {libreoffice_path}.")
-
-        step = 100
-        self.cal_signal.emit(step)
-        # Конвертация в pdf 2-й способ нужен установленный Word
-
-        # Для LibrOffice где установлен Linux
         # import subprocess
+        # docx_path= f"./{folder}/{output_file}.docx"
+        # output_dir= f"./{folder}/{output_file}.pdf"
+        # libreoffice_path = r"C:\Program Files\LibreOffice\program\soffice.exe"
+        # if not os.path.exists(libreoffice_path):
+        #     libreoffice_path = r"C:\Program Files (x86)\LibreOffice\program\soffice.exe"
+        #     if not os.path.exists(libreoffice_path):
+        #         # Конвертация в pdf 2-й способ нужен установленный Word
+        #         import sys
+        #         import comtypes.client
+        #         dirs = sys.executable
+        #         wdFormatPDF = 17
+        #         out_file = self.trans_path(dirs, output_file, folder)
+        #         # for subdir, dirs, files in os.walk(input_dir):
+        #         #     printf(subdir,dirs,files)
+        #         #     for file in files:
+        #         #         in_file = os.path.join(subdir, file)
+        #         # output_file = file.split('.')[0]
+        #         # out_file = output_dir + output_file +'.pdf'
+        #         word = comtypes.client.CreateObject('Word.Application')
+        #         doc = word.Documents.Open(out_file + '.docx')
+        #         doc.SaveAs(out_file + '.pdf', FileFormat=wdFormatPDF)
+        #         doc.Close()
+        #         word.Quit()
+        #         # raise FileNotFoundError(f"LibreOffice executable not found at: {libreoffice_path}")
         #
-        # input_docx= f"./{folder}/{output_file}.docx"
-        # output_pdf= f"./{folder}/{output_file}.pdf"
-        #
-        # # Команда для конвертации с помощью LibreOffice
+        # # Создает директорию
+        # # if not os.path.exists(output_dir):
+        # #     os.makedirs(output_dir)
         # command = [
-        #     "soffice",
-        #     "--headless",  # Работа в режиме "без головы" (без графического интерфейса)
-        #     "--convert-to",
-        #     "pdf",
-        #     "--outdir",
-        #     ".",  # Каталог, куда будет сохранен PDF
-        #     input_docx
+        #     libreoffice_path,
+        #     "--headless",  # Run LibreOffice without a graphical interface
+        #     "--convert-to", "pdf",
+        #     "--outdir", folder,
+        #     docx_path
         # ]
         #
-        # # try:
-        # subprocess.run(command, check=True, capture_output=True)
-        # print(f"Файл '{input_docx}' успешно конвертирован в '{output_pdf}'")
-        # # except FileNotFoundError:
-        # #     print("Ошибка: LibreOffice (soffice) не найден. Убедитесь, что он установлен.")
-        # # except subprocess.CalledProcessError as e:
-        # #     print(f"Ошибка при конвертации: {e}")
-        # #     print(f"Stderr: {e.stderr.decode()}")
+        # try:
+        #     subprocess.run(command, check=True, capture_output=True, text=True)
+        #     print(f"Successfully converted '{docx_path}' to PDF in '{output_dir}'.")
+        # except subprocess.CalledProcessError as e:
+        #     print(f"Error during conversion: {e}")
+        #     print(f"Stdout: {e.stdout}")
+        #     print(f"Stderr: {e.stderr}")
+        # except FileNotFoundError:
+        #     print(f"Error: LibreOffice executable not found at {libreoffice_path}.")
+        #
+        # step = 100
+        # self.cal_signal.emit(step)
+
+        # Для LibrOffice где установлен Linux
+        import subprocess
+
+        input_docx= f"./{folder}/{output_file}.odt"
+        output_pdf= f"./{folder}/{output_file}.pdf"
+
+        # Команда для конвертации с помощью LibreOffice
+        command = [
+            "soffice",
+            "--headless",  # Работа в режиме "без головы" (без графического интерфейса)
+            "--convert-to",
+            "pdf",
+            "--outdir",
+            ".",  # Каталог, куда будет сохранен PDF
+            input_docx
+        ]
+
+        # try:
+        subprocess.run(command, check=True, capture_output=True)
+        print(f"Файл '{input_docx}' успешно конвертирован в '{output_pdf}'")
+        # except FileNotFoundError:
+        #     print("Ошибка: LibreOffice (soffice) не найден. Убедитесь, что он установлен.")
+        # except subprocess.CalledProcessError as e:
+        #     print(f"Ошибка при конвертации: {e}")
+        #     print(f"Stderr: {e.stderr.decode()}")
+        step = 100
+        self.cal_signal.emit(step)
 
 
     # Из пути делает абсолютный путь, т.е. добавляет еще один '\'
