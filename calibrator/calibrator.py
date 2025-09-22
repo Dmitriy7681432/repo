@@ -775,16 +775,16 @@ class Main(QWidget):
     def readData_bu1(self):
         # if not self.button_obj[1].isChecked() and not self.button_obj[2].isChecked():
         if self.button_obj[0].isChecked():
-            # self.worker = Worker(self.calibr_obj[0],'Чтение')
-            # self.worker.run1()
-            # self.thread_start(self.calibr_obj[0],self.cur_elem,self.lst_cb[0],'r')
-            # self.readData_bu1_flag = 1
-            # self.worker.window_abort.connect(lambda: self.progress_bar_stop('bu1'))
+            self.worker = Worker(self.calibr_obj[0],'Чтение')
+            self.worker.run1()
+            self.thread_start(self.calibr_obj[0],self.cur_elem,self.lst_cb[0],'r')
+            self.readData_bu1_flag = 1
+            self.worker.window_abort.connect(lambda: self.progress_bar_stop('bu1'))
             # test
-            self.read_data_dict_bu400 = self.calibr_obj[0].test_data_dict('calibr')
-            self.unit_obj_preset[0].readData(self.read_data_dict_bu400, 'preset',1)
-            self.unit_obj_calibr[0].readData(self.read_data_dict_bu400, 'calibr',1)
-            self.buttonAction3.setEnabled(True)
+            # self.read_data_dict_bu400 = self.calibr_obj[0].test_data_dict('calibr')
+            # self.unit_obj_preset[0].readData(self.read_data_dict_bu400, 'preset',1)
+            # self.unit_obj_calibr[0].readData(self.read_data_dict_bu400, 'calibr',1)
+            # self.buttonAction3.setEnabled(True)
 
     def readData_bu2(self):
         # printff('readData_bu50',self.buttonUnit2.isChecked())
@@ -935,16 +935,16 @@ class Main(QWidget):
 
     def nmb_product_bu1(self,text):
         if self.button_obj[0].isChecked():
-            # self.worker = Worker(self.unit_obj_preset[0],'Сохранение')
-            # self.worker.run1()
-            # self.unit_obj_preset[0].saveData(self.calibr_obj[0],'preset',self.lst_cb[0],self.cur_elem,text)
-            # self.unit_obj_calibr[0].saveData(self.calibr_obj[0],'calibr',self.lst_cb[0],self.cur_elem,text)
-            # self.unit_obj_calibr[0].saveData(self.calibr_obj[0],'filter',self.lst_cb[0],self.cur_elem,text)
-            #test
             self.worker = Worker(self.unit_obj_preset[0],'Сохранение')
             self.worker.run1()
-            self.unit_obj_preset[0].saveDatatest('preset',self.lst_cb[0],self.cur_elem,text)
-            self.unit_obj_calibr[0].saveDatatest('calibr',self.lst_cb[0],self.cur_elem,text)
+            self.unit_obj_preset[0].saveData(self.calibr_obj[0],'preset',self.lst_cb[0],self.cur_elem,text)
+            self.unit_obj_calibr[0].saveData(self.calibr_obj[0],'calibr',self.lst_cb[0],self.cur_elem,text)
+            self.unit_obj_calibr[0].saveData(self.calibr_obj[0],'filter',self.lst_cb[0],self.cur_elem,text)
+            #test
+            # self.worker = Worker(self.unit_obj_preset[0],'Сохранение')
+            # self.worker.run1()
+            # self.unit_obj_preset[0].saveDatatest('preset',self.lst_cb[0],self.cur_elem,text)
+            # self.unit_obj_calibr[0].saveDatatest('calibr',self.lst_cb[0],self.cur_elem,text)
         # printf('text',text)
 
     def saveData_bu2(self):
