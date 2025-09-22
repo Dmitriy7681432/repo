@@ -28,12 +28,15 @@ class Connect():
 
     # Поиск com_port
     ports_lst = []
-    for port in ports:
-        printf(port.hwid,port.name,port.vid,port.pid,port.serial_number,port.location,port.manufacturer,port.product,port.interface)
-        for i in configs.values():
-            if i in port.serial_number:
-                ports_lst.append(port.name)
-    printf(ports_lst)
+    try:
+        for port in ports:
+            printf(port.hwid,port.name,port.vid,port.pid,port.serial_number,port.location,port.manufacturer,port.product,port.interface)
+            for i in configs.values():
+                if i in port.serial_number:
+                    ports_lst.append(port.name)
+        printf(ports_lst)
+    except TypeError:
+        warning.SignalErr(True)
     # Поиск элементов configs, кроме com_port
     for i in configs.keys():
         if i == 'wait_receiv':

@@ -264,11 +264,11 @@ class Unit(MyWidget,QWidget):
             item.setBackground(QtGui.QBrush(QtGui.QColor(255, 255, 255)))
             if data =='preset':
                 #test
-                # self.checkValue = str(i[1][5])
-                self.checkValue = str(i[1][preset_indx])
+                self.checkValue = str(i[1][5])
+                # self.checkValue = str(i[1][preset_indx])
                 #test
-                # item.setChild(count, 2, item.setText(str(i[1][5])))
-                item.setChild(count, 2, item.setText(str(i[1][preset_indx])))
+                item.setChild(count, 2, item.setText(str(i[1][5])))
+                # item.setChild(count, 2, item.setText(str(i[1][preset_indx])))
             else:
                 self.checkValue = str(i[1][calibr_indx])
                 item.setChild(count, 2, item.setText(str(i[1][calibr_indx])))
@@ -574,7 +574,7 @@ class Unit(MyWidget,QWidget):
         # if count_elem == proc_elem:
         step = 0
         step += 10
-        # self.cal_signal.emit(step)
+        self.cal_signal.emit(step)
 
         printf('saveDatatest')
         import csv
@@ -603,7 +603,7 @@ class Unit(MyWidget,QWidget):
         output_file = name_product_rus+'_'+list_nmb[0]+'_'+name_block_rus+'_' +list_nmb[1]+'_'+ name_drawing[:4]+'_'+name_drawing[-3:] +'_'+data
 
         step += 10
-        # self.cal_signal.emit(step)
+        self.cal_signal.emit(step)
 
         lst_data = []
         #Запись в csv
@@ -623,7 +623,7 @@ class Unit(MyWidget,QWidget):
             # writer.writerows(params_xml_list)
 
         step += 10
-        # self.cal_signal.emit(step)
+        self.cal_signal.emit(step)
 
         # with open('read_data.txt', 'w') as self.file_open:
         # self.file_open.write('hi1')
@@ -717,7 +717,7 @@ class Unit(MyWidget,QWidget):
 
         # self.file_open.write('hi2')
         step += 10
-        # self.cal_signal.emit(step)
+        self.cal_signal.emit(step)
 
         # Конвертация в pdf 1-й способ нужен установленный Word
         # printf("-" * 50 + "\nКонвертация .docx в .pdf:\n" + "-" * 50)
@@ -798,7 +798,7 @@ class Unit(MyWidget,QWidget):
             print(f"Error: LibreOffice executable not found at {libreoffice_path}.")
 
         step = 100
-        # self.cal_signal.emit(step)
+        self.cal_signal.emit(step)
 
         # Для LibrOffice где установлен Linux
         # import subprocess

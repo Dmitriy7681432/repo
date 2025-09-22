@@ -868,38 +868,38 @@ class Line(QWidget):
 #     ex = Example()
 #     sys.exit(app.exec_())
 
-import sys, interface
-from PyQt5.QtWidgets import (QWidget, QLabel,
-    QComboBox, QApplication)
-class Example(QWidget):
-
-    def __init__(self):
-        super().__init__()
-        # line = Line()
-        interface.Main()
-        self.initUI()
-
-    def initUI(self):
-        app = QApplication(sys.argv)
-        self.lbl = QLabel("Ubuntu", self)
-
-        combo = QComboBox(self)
-        combo.addItems(["Ubuntu", "Mandriva",
-                        "Fedora", "Arch", "Gentoo"])
-
-        combo.move(50, 50)
-        self.lbl.move(50, 150)
-
-        combo.activated[str].connect(self.onActivated)
-
-        self.setGeometry(300, 300, 300, 200)
-        self.setWindowTitle('QComboBox')
-        self.show()
-        sys.exit(app.exec_())
-
-    def onActivated(self, text):
-        self.lbl.setText(text)
-        self.lbl.adjustSize()
+# import sys, interface
+# from PyQt5.QtWidgets import (QWidget, QLabel,
+#     QComboBox, QApplication)
+# class Example(QWidget):
+#
+#     def __init__(self):
+#         super().__init__()
+#         # line = Line()
+#         interface.Main()
+#         self.initUI()
+#
+#     def initUI(self):
+#         app = QApplication(sys.argv)
+#         self.lbl = QLabel("Ubuntu", self)
+#
+#         combo = QComboBox(self)
+#         combo.addItems(["Ubuntu", "Mandriva",
+#                         "Fedora", "Arch", "Gentoo"])
+#
+#         combo.move(50, 50)
+#         self.lbl.move(50, 150)
+#
+#         combo.activated[str].connect(self.onActivated)
+#
+#         self.setGeometry(300, 300, 300, 200)
+#         self.setWindowTitle('QComboBox')
+#         self.show()
+#         sys.exit(app.exec_())
+#
+#     def onActivated(self, text):
+#         self.lbl.setText(text)
+#         self.lbl.adjustSize()
 
 
 # if __name__ == '__main__':
@@ -907,31 +907,87 @@ class Example(QWidget):
 #     ex = Example()
 #     sys.exit(app.exec_())
 
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton
+# from PyQt5.QtWidgets import QApplication, QWidget, QPushButton
+#
+# class FirstWindow(QWidget):
+#     def __init__(self):
+#         super().__init__()
+#         self.setWindowTitle("Первое окно")
+#         self.setGeometry(100, 100, 300, 200)
+#
+#         self.open_button = QPushButton("Открыть второе окно", self)
+#         self.open_button.clicked.connect(self.open_second_window)
+#         self.open_button.move(100, 80)
+#
+#     def open_second_window(self):
+#         self.second_window = interface.Main()
+#         self.second_window.show()
+#         self.close() # Закрывает текущее (первое) окно
+#
+# class SecondWindow(QWidget):
+#     def __init__(self):
+#         super().__init__()
+#         self.setWindowTitle("Второе окно")
+#         self.setGeometry(400, 100, 300, 200)
+#
+# if __name__ == '__main__':
+#     app = QApplication([])
+#     first_window = FirstWindow()
+#     first_window.show()
+#     app.exec_()
 
-class FirstWindow(QWidget):
-    def __init__(self):
-        super().__init__()
-        self.setWindowTitle("Первое окно")
-        self.setGeometry(100, 100, 300, 200)
-
-        self.open_button = QPushButton("Открыть второе окно", self)
-        self.open_button.clicked.connect(self.open_second_window)
-        self.open_button.move(100, 80)
-
-    def open_second_window(self):
-        self.second_window = interface.Main()
-        self.second_window.show()
-        self.close() # Закрывает текущее (первое) окно
-
+import sys
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QPushButton, QVBoxLayout, QLabel
 class SecondWindow(QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Второе окно")
-        self.setGeometry(400, 100, 300, 200)
+        self.label = QLabel("Это второе окно", self)
+        self.label.adjustSize()
+        self.layout = QVBoxLayout()
+        self.layout.addWidget(self.label)
+        self.setLayout(self.layout)
+        self.closed = False # Флаг состояния закрытия
+        self.show()
+
+    def closeEvent(self, event):
+        # Этот слот вызывается при попытке закрыть окно
+        self.closed = True
+        print("Второе окно было закрыто!")
+        event.accept() # Принять событие закрытия
+
+class MainWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("Главное окно")
+        self.second_window = None # Изначально второе окно не создано
+
+        self.button = QPushButton("Открыть второе окно", self)
+        self.button.clicked.connect(self.open_second_window)
+
+        layout = QVBoxLayout()
+        layout.addWidget(self.button)
+
+        central_widget = QWidget()
+        central_widget.setLayout(layout)
+        self.setCentralWidget(central_widget)
+
+    def open_second_window(self):
+        if self.second_window is None:
+            self.second_window = SecondWindow()
+            # self.second_window.show()
+        # else:
+        #     # Показать, если оно уже было создано, но скрыто
+        #     self.second_window.show()
+
+    # Метод, который будет использоваться для проверки состояния второго окна
+    def check_second_window_closed(self):
+        if self.second_window and self.second_window.closed:
+            print("Проверка подтвердила: второе окно закрыто.")
+            # Здесь можно выполнить какие-то действия после закрытия второго окна
 
 if __name__ == '__main__':
-    app = QApplication([])
-    first_window = FirstWindow()
-    first_window.show()
-    app.exec_()
+    app = QApplication(sys.argv)
+    main_window = MainWindow()
+    main_window.show()
+    sys.exit(app.exec_())

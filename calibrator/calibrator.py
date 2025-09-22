@@ -20,6 +20,7 @@ from PyQt5.QtWidgets import (QWidget, QLabel,
 import warning,number_product
 
 from debug import *
+import typing
 # from unit_interface import *
 # from class_read_data import *
 # from number_product import *
@@ -130,11 +131,8 @@ class Worker(QThread):
         # self.finished.emit()  # Отправляем сигнал об окончании работы
         printf('3')
 
-    # Вновь
-    # def closeEvent(self):
-    #     self.window.setWindowModality(Qt.Qt.NonModal)
     def timerEvent(self, e):
-        printf('timer_event',self.val, self.timer.isActive())
+        # printf('timer_event',self.val, self.timer.isActive())
         self.pbar.setValue(self.val)
         if self.val >= 100 or self.flag_err_work:
             self.timer.stop()
@@ -155,8 +153,6 @@ class Worker(QThread):
             self.val = 0
             self.timer.start(1000, self)
             # self.btn.setText('Стоп')
-
-
 
 class ThreadCalibrator(QtCore.QThread):
     finished2 = pyqtSignal(str,str)
@@ -189,6 +185,27 @@ class ThreadCalibrator(QtCore.QThread):
         else:
             self.finished2.emit('%s' % self.name_product,'%s' % self.name_cb)
         # self.finished2.emit()
+
+class ThreadUnit(QtCore.QThread):
+    finished_th_unit = pyqtSignal()
+
+    def __init__(self,obj_preset, obj_calibr, preset,calibr,filter,lst_cb,cur_elem,text):
+        super().__init__()
+        self.obj_preset = obj_preset
+        self.obj_calibr = obj_calibr
+        self.preset = preset
+        self.calibr = calibr
+        self.filter = filter
+        self.lst_cb = lst_cb
+        self.cur_elem = cur_elem
+        self.text = text
+
+    def run(self):
+        printf('ThreadUnit start')
+        # self.flag_err = self.obj.main_data_read(self.mode)
+        self.obj_preset.saveDatatest(self.preset,self.lst_cb,self.cur_elem,self.text)
+        self.obj_calibr.saveDatatest(self.calibr,self.lst_cb,self.cur_elem,self.text)
+        self.finished_th_unit.emit()
 
 
 class ComPort(QWidget):
@@ -283,12 +300,15 @@ class ComPort(QWidget):
         # self.second_window.show()
         self.close()  # Закрывает текущее (первое) окно
 
-
-class Main(QWidget):
+# class MyWin(QWidget,)
+class Main(QMainWindow):
     def __init__(self,cur_elem):
         self.cur_elem = cur_elem
         super().__init__()
+        self.th_unit =0
 
+        # self.com = ComPort()
+        # self.com.show()
         if self.cur_elem =='SES200M':
             self.lst_cb = ['BU_400','BU_50','BU_SES']
             self.lst_cb_rus = ['БУ 400','БУ 50','БУ СЭС']
@@ -304,11 +324,11 @@ class Main(QWidget):
         self.param_obj = []
         self.button_obj = []
 
-        self.main = QMainWindow()
+        # self.main = QMainWindow()
         #Отключение размера окна на весь экран
-        flags = self.main.windowFlags()  # получаем все флаги которые есть
+        flags = self.windowFlags()  # получаем все флаги которые есть
         flags &= ~QtCore.Qt.WindowMaximizeButtonHint  # отключаем ненужный нам флаг
-        self.main.setWindowFlags(flags)
+        self.setWindowFlags(flags)
 
         self.timer = QTimer()
 
@@ -345,18 +365,18 @@ class Main(QWidget):
         # self.centralwidget.setGeometry(0,0,768,50)
 
         # Вычисляем размер экрана
-        self.main.resize(x_size_desktop, y_size_desktop)
+        self.resize(x_size_desktop, y_size_desktop)
         # Вывод окна по центру
-        x_ = (desktop.width() - self.main.frameSize().width()) // 2
-        y_ = (desktop.height() - self.main.frameSize().height()) // 2
-        self.main.move(x_, y_)
+        x_ = (desktop.width() - self.frameSize().width()) // 2
+        y_ = (desktop.height() - self.frameSize().height()) // 2
+        self.move(x_, y_)
 
         # Цветовой фон
-        pal = self.main.palette()
+        pal = self.palette()
         # Если use 1-й аргумент, то цвет будет пропадать при переходе на др окно
         # pal.setColor(QtGui.QPalette.Window, QtGui.QColor(191, 245, 234))
         pal.setColor(QtGui.QPalette.Window, QtGui.QColor(220, 254, 225))
-        self.main.setPalette(pal)
+        self.setPalette(pal)
 
         # Кнопки Уставки и Калибровки
         self.buttonUst = QToolButton()
@@ -571,11 +591,23 @@ class Main(QWidget):
 
         self.centralwidget.setLayout(self.vbox)
 
-        self.main.setCentralWidget(self.centralwidget)
+        self.setCentralWidget(self.centralwidget)
 
-        self.main.setObjectName("MainWindow")
-        self.main.setWindowTitle(f'Calibrator {self.cur_elem}')
-        self.main.show()
+        self.setObjectName("MainWindow")
+        self.setWindowTitle(f'Calibrator {self.cur_elem}')
+        self.show()
+        # self.main.hide()
+
+    def closeEvent(self,event):
+        printf('closeEvent1')
+        if self.th_unit:
+            # self.th_unit.quit()
+            # self.th_unit.wait(1)
+            self.th_unit.setTerminationEnabled(True)
+            self.th_unit.terminate()
+            self.th_unit.wait(1)
+        # del self.th_unit
+        super().closeEvent(event)
 
     def UnitWidgetMain(self, i):
         printf('UnitW')
@@ -775,16 +807,16 @@ class Main(QWidget):
     def readData_bu1(self):
         # if not self.button_obj[1].isChecked() and not self.button_obj[2].isChecked():
         if self.button_obj[0].isChecked():
-            self.worker = Worker(self.calibr_obj[0],'Чтение')
-            self.worker.run1()
-            self.thread_start(self.calibr_obj[0],self.cur_elem,self.lst_cb[0],'r')
-            self.readData_bu1_flag = 1
-            self.worker.window_abort.connect(lambda: self.progress_bar_stop('bu1'))
+            # self.worker = Worker(self.calibr_obj[0],'Чтение')
+            # self.worker.run1()
+            # self.thread_start(self.calibr_obj[0],self.cur_elem,self.lst_cb[0],'r')
+            # self.readData_bu1_flag = 1
+            # self.worker.window_abort.connect(lambda: self.progress_bar_stop('bu1'))
             # test
-            # self.read_data_dict_bu400 = self.calibr_obj[0].test_data_dict('calibr')
-            # self.unit_obj_preset[0].readData(self.read_data_dict_bu400, 'preset',1)
-            # self.unit_obj_calibr[0].readData(self.read_data_dict_bu400, 'calibr',1)
-            # self.buttonAction3.setEnabled(True)
+            self.read_data_dict_bu400 = self.calibr_obj[0].test_data_dict('calibr')
+            self.unit_obj_preset[0].readData(self.read_data_dict_bu400, 'preset',1)
+            self.unit_obj_calibr[0].readData(self.read_data_dict_bu400, 'calibr',1)
+            self.buttonAction3.setEnabled(True)
 
     def readData_bu2(self):
         # printff('readData_bu50',self.buttonUnit2.isChecked())
@@ -932,17 +964,20 @@ class Main(QWidget):
             self.number_product = number_product.NumberProduct()
             self.number_product.signal_numb.connect(self.nmb_product_bu1)
 
-
     def nmb_product_bu1(self,text):
         if self.button_obj[0].isChecked():
-            self.worker = Worker(self.unit_obj_preset[0],'Сохранение')
-            self.worker.run1()
-            self.unit_obj_preset[0].saveData(self.calibr_obj[0],'preset',self.lst_cb[0],self.cur_elem,text)
-            self.unit_obj_calibr[0].saveData(self.calibr_obj[0],'calibr',self.lst_cb[0],self.cur_elem,text)
-            self.unit_obj_calibr[0].saveData(self.calibr_obj[0],'filter',self.lst_cb[0],self.cur_elem,text)
-            #test
             # self.worker = Worker(self.unit_obj_preset[0],'Сохранение')
             # self.worker.run1()
+            # self.unit_obj_preset[0].saveData(self.calibr_obj[0],'preset',self.lst_cb[0],self.cur_elem,text)
+            # self.unit_obj_calibr[0].saveData(self.calibr_obj[0],'calibr',self.lst_cb[0],self.cur_elem,text)
+            # self.unit_obj_calibr[0].saveData(self.calibr_obj[0],'filter',self.lst_cb[0],self.cur_elem,text)
+            #test
+            self.worker = Worker(self.unit_obj_preset[0],'Сохранение')
+            self.worker.run1()
+            self.th_unit  = ThreadUnit(self.unit_obj_preset[0],self.unit_obj_calibr[0],'preset','calibr',\
+                                       'filter',self.lst_cb[0],self.cur_elem,text)
+            self.th_unit.start()
+            # self.th_unit.finished_th_unit.connect(self.signal_thread_unit_stop)
             # self.unit_obj_preset[0].saveDatatest('preset',self.lst_cb[0],self.cur_elem,text)
             # self.unit_obj_calibr[0].saveDatatest('calibr',self.lst_cb[0],self.cur_elem,text)
         # printf('text',text)
@@ -972,10 +1007,15 @@ class Main(QWidget):
             self.unit_obj_calibr[2].saveData(self.calibr_obj[2],'calibr',self.lst_cb[2],self.cur_elem,text)
             self.unit_obj_calibr[2].saveData(self.calibr_obj[2],'filter',self.lst_cb[2],self.cur_elem,text)
 
+    def signal_thread_unit_stop(self):
+        printf('signa_unit_stop')
+        # self.th_unit.quit()
+        # self.th_unit.wait(1000)
+
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     app.setStyle('Fusion')
-    # ex = Main('COM')
+    # ex = Main('SES200M')
     ex = ComPort()
     ex.show()
     sys.exit(app.exec_())
