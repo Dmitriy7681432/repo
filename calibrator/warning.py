@@ -6,8 +6,8 @@ import sys
 from PyQt5.QtCore import QAbstractEventDispatcher
 from debug import *
 
-class SignalErr():
-    def __init__(self,app = False):
+class SignalErr:
+    def __init__(self,msg,app = False):
         super().__init__()
 
         if app:
@@ -30,14 +30,14 @@ class SignalErr():
         pal.setColor(QtGui.QPalette.Window, QtGui.QColor(220, 254, 225))
         self.widget.setPalette(pal)
 
-        self.widget.setWindowTitle("Warning")
+        self.widget.setWindowTitle("Предупреждение")
         self.widget.setGeometry(100, 100, 300, 50)
 
         self.center()
-        self.lbl = QLabel("Не найдено устройство!!!",self.widget)
+        self.lbl = QLabel(msg,self.widget)
         self.lbl.move(30,10)
         self.lbl.setFont(font)
-        self.lbl.setStyleSheet('color: red;')
+        self.lbl.setStyleSheet('color: rgb(219,18,18);')
         self.widget.show()
 
         if app:

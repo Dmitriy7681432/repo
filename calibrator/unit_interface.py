@@ -627,92 +627,203 @@ class Unit(MyWidget,QWidget):
 
         # with open('read_data.txt', 'w') as self.file_open:
         # self.file_open.write('hi1')
-        # Запись в docx
-        from docx import Document
-        from docx.enum.text import WD_ALIGN_PARAGRAPH
-        from docx.shared import Pt,Inches
-        from docx.enum.table import WD_TABLE_ALIGNMENT
 
-        libreoffice_path = r"C:\Program Files\LibreOffice\program\soffice.exe"
-        # создание пустого документа
-        doc = Document()
+        from reportlab.lib import colors
+        from reportlab.lib.pagesizes import letter, inch, A4
+        from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph
+        from reportlab.pdfbase import pdfmetrics
+        from reportlab.pdfbase.ttfonts import TTFont
+        from reportlab.lib.styles import ParagraphStyle,getSampleStyleSheet
+        from reportlab.lib.enums import TA_CENTER, TA_LEFT
 
-        # добавление параграфа
-        paragraph1 = doc.add_paragraph()
-        paragraph1.add_run('Изделие: ').bold = True
-        paragraph1.add_run(f'{name_product_rus}, ')
-        paragraph1.add_run('зав.№: ').bold = True
-        paragraph1.add_run(f'{list_nmb[0]}')
-        paragraph1.alignment = WD_ALIGN_PARAGRAPH.CENTER
-        paragraph2 = doc.add_paragraph()
-        paragraph2.add_run('Блок: ').bold = True
-        paragraph2.add_run(f'{name_block_rus}, {name_drawing}, ')
-        paragraph2.add_run('зав.№: ').bold = True
-        paragraph2.add_run(f'{list_nmb[1]}')
-        paragraph2.alignment = WD_ALIGN_PARAGRAPH.CENTER
-        # добавляем таблицу с одной строкой
-        # для заполнения названий колонок
-        table = doc.add_table(1, len(lst_data[0]))
-        # определяем стиль таблицы
-        # table.style = 'Light Shading Accent 1'
-        table.style = 'Table Grid'
-        table.alignment = WD_TABLE_ALIGNMENT.CENTER
-        # Устанавливаем размер второго столбца
-        if not os.path.exists(libreoffice_path):
-            libreoffice_path = r"C:\Program Files (x86)\LibreOffice\program\soffice.exe"
-            if not os.path.exists(libreoffice_path):
-                if data =='preset':
-                    table.columns[0].width = Inches(0.5)
-                    table.columns[1].width = Inches(20)
-                else:
-                    table.columns[0].width = Inches(1)
-                    table.columns[1].width = Inches(20)
-                table.columns[2].width = Inches(0.5)
-            else:
-                if data =='preset':
-                    table.columns[0].width = Inches(1.5)
-                    table.columns[1].width = Inches(5)
-                else:
-                    table.columns[0].width = Inches(2.4)
-                    table.columns[1].width = Inches(4.2)
-                table.columns[2].width = Inches(1)
-        else:
-            if data == 'preset':
-                table.columns[0].width = Inches(1.5)
-                table.columns[1].width = Inches(5)
-            else:
-                table.columns[0].width = Inches(2.4)
-                table.columns[1].width = Inches(4.2)
-            table.columns[2].width = Inches(1)
-        # Получаем строку с колонками из добавленной таблицы
-        head_cells = table.rows[0].cells
-        # добавляем названия колонок
-        for i, item in enumerate(head_myData[0]):
-            p = head_cells[i].paragraphs[0]
-            # p.runs[0].font.name = 'Times New Roman'
-            # название колонки
-            p.add_run(item).bold = True
-            # выравниваем посередине
-            p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-        for i in table.rows:
-            for cell in i.cells:
-                cell.paragraphs[0].runs[0].font.name = 'Times New Roman'
-                cell.paragraphs[0].runs[0].font.size = Pt(12)
-        # добавляем данные к существующей таблице
+        # printf(head_myData)
+        lst_data.insert(0,head_myData[0])
+        # printf(lst_data)
+        # lst_data = [['Обозначение', 'Наименование', 'Значение'], ['AIR_TEMP_k', 'T воздуха в отсеке, °C', '1.0']]
+        doc = SimpleDocTemplate("testing.pdf", pagesize=letter)
+
+        styles = getSampleStyleSheet()
+        story = []
+
+        elements = []
+
+        # pdfmetrics.registerFont(TTFont('DejaVuSans', 'DejaVuSans.ttf'))
+        pdfmetrics.registerFont(TTFont('TimesNewRomanCyrillic', 'timesnrcyrmt.ttf'))
+        pdfmetrics.registerFont(TTFont('TimesNewRomanCyrillicBold', 'timesnrcyrmt_bold.ttf'))
+        style_cyrillic_bold = ParagraphStyle(
+            name='CyrillicStyle',
+            # fontName='DejaVuSans',
+            fontName='TimesNewRomanCyrillicBold',
+            fontSize=12,
+            leading=11,
+            alignment=TA_CENTER
+        )
+        style_cyrillic_left = ParagraphStyle(
+            name='CyrillicStyle',
+            # fontName='DejaVuSans',
+            fontName='TimesNewRomanCyrillic',
+            fontSize=11,
+            leading=11
+        )
+        style_cyrillic = ParagraphStyle(
+            name='CyrillicStyle',
+            # fontName='DejaVuSans',
+            fontName='TimesNewRomanCyrillic',
+            fontSize=11,
+            leading=11,
+            alignment=TA_CENTER
+        )
+        style_cyrillic_head = ParagraphStyle(
+            name='Normal',
+            # fontName='DejaVuSans',
+            fontName='TimesNewRomanCyrillic',
+            fontSize=12,
+            leading=11,
+            alignment=TA_CENTER,
+            spaceAfter=12
+
+        )
+        # 2. Создаем текст заголовка
+        title_text = f'<b>Изделие</b>: {name_product_rus},'
+        title_paragraph = Paragraph(title_text, style_cyrillic_head)
+        story.append(title_paragraph)
+        title_text = f'зав.№: {list_nmb[0]}'
+        title_paragraph = Paragraph(title_text, style_cyrillic_head)
+        story.append(title_paragraph)
+
+        table_data = []
+        # for row in lst_data:
+        #     for text in row:
+        #         printf(text)
+        #         table_row = [Paragraph(text, style_cyrillic) for text in row]
+        #     table_data.append(table_row)
+
+        # for row in lst_data:
+        #     table_row = [Paragraph(text, style_cyrillic) for text in row]
+        #     table_data.append(table_row)
+        table_row = []
+        cnt2 = 0
         for row in lst_data:
-            # добавляем строку с ячейками к объекту таблицы
-            cells = table.add_row().cells
-            for i, item in enumerate(row):
-                # вставляем данные в ячейки
-                cells[i].text = str(item)
-                # если последняя ячейка
-                cells[i].paragraphs[0].runs[0].font.name = 'Times New Roman'
-                cells[i].paragraphs[0].runs[0].font.size = Pt(12)
-                if i ==0 or i ==2:
-                    cells[i].paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.CENTER
+            cnt =0
+            for text in row:
+                if cnt2<3:
+                    table_row.append(Paragraph(text, style_cyrillic_bold))
+                elif cnt ==1 and cnt2 !=1:
+                    table_row.append(Paragraph(text, style_cyrillic_left))
+                else:
+                    table_row.append(Paragraph(text, style_cyrillic))
+                cnt+=1
+                cnt2+=1
+            table_data.append(table_row)
+            table_row = []
+        # t=Table(table_data,5*[0.5*inch], 4*[0.3*inch])
+        # t = Table(table_data)
+        # printf(table_data)
+        t = Table(table_data,colWidths=[2.4*72, 4*72, 0.9*72])
+        t.setStyle(TableStyle([
+        #                        ('ALIGN', (1, 1), (-1, -2), 'RIGHT'),
+        #                        ('TEXTCOLOR', (1, 1), (-2, -2), colors.red),
+        #                        ('VALIGN', (0, 0), (0, -1), 'TOP'),
+        #                        ('TEXTCOLOR', (0, 0), (0, -1), colors.blue),
+        #                        ('ALIGN', (0, -1), (-1, -1), 'CENTER'),
+        #                        ('VALIGN', (0, -1), (-1, -1), 'MIDDLE'),
+        #                        ('TEXTCOLOR', (0, -1), (-1, -1), colors.green),
+                               ('ALIGN', (0, 1), (-1, -1), 'CENTER'),
+                               ('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black),
+                               ('BOX', (0, 0), (-1, -1), 0.25, colors.black),
+                               ]))
 
-        doc.save(f'./{folder}/{output_file}.docx')
-        paragraph3 = doc.add_paragraph()
+        elements.append(t)
+        # write the document to disk
+        story.append(t)
+        doc.build(story)
+
+        # Запись в docx
+        # from docx import Document
+        # from docx.enum.text import WD_ALIGN_PARAGRAPH
+        # from docx.shared import Pt,Inches
+        # from docx.enum.table import WD_TABLE_ALIGNMENT
+        #
+        # libreoffice_path = r"C:\Program Files\LibreOffice\program\soffice.exe"
+        # # создание пустого документа
+        # doc = Document()
+        #
+        # # добавление параграфа
+        # paragraph1 = doc.add_paragraph()
+        # paragraph1.add_run('Изделие: ').bold = True
+        # paragraph1.add_run(f'{name_product_rus}, ')
+        # paragraph1.add_run('зав.№: ').bold = True
+        # paragraph1.add_run(f'{list_nmb[0]}')
+        # paragraph1.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        # paragraph2 = doc.add_paragraph()
+        # paragraph2.add_run('Блок: ').bold = True
+        # paragraph2.add_run(f'{name_block_rus}, {name_drawing}, ')
+        # paragraph2.add_run('зав.№: ').bold = True
+        # paragraph2.add_run(f'{list_nmb[1]}')
+        # paragraph2.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        # # добавляем таблицу с одной строкой
+        # # для заполнения названий колонок
+        # table = doc.add_table(1, len(lst_data[0]))
+        # # определяем стиль таблицы
+        # # table.style = 'Light Shading Accent 1'
+        # table.style = 'Table Grid'
+        # table.alignment = WD_TABLE_ALIGNMENT.CENTER
+        # # Устанавливаем размер второго столбца
+        # if not os.path.exists(libreoffice_path):
+        #     libreoffice_path = r"C:\Program Files (x86)\LibreOffice\program\soffice.exe"
+        #     if not os.path.exists(libreoffice_path):
+        #         if data =='preset':
+        #             table.columns[0].width = Inches(0.5)
+        #             table.columns[1].width = Inches(20)
+        #         else:
+        #             table.columns[0].width = Inches(1)
+        #             table.columns[1].width = Inches(20)
+        #         table.columns[2].width = Inches(0.5)
+        #     else:
+        #         if data =='preset':
+        #             table.columns[0].width = Inches(1.5)
+        #             table.columns[1].width = Inches(5)
+        #         else:
+        #             table.columns[0].width = Inches(2.4)
+        #             table.columns[1].width = Inches(4.2)
+        #         table.columns[2].width = Inches(1)
+        # else:
+        #     if data == 'preset':
+        #         table.columns[0].width = Inches(1.5)
+        #         table.columns[1].width = Inches(5)
+        #     else:
+        #         table.columns[0].width = Inches(2.4)
+        #         table.columns[1].width = Inches(4.2)
+        #     table.columns[2].width = Inches(1)
+        # # Получаем строку с колонками из добавленной таблицы
+        # head_cells = table.rows[0].cells
+        # # добавляем названия колонок
+        # for i, item in enumerate(head_myData[0]):
+        #     p = head_cells[i].paragraphs[0]
+        #     # p.runs[0].font.name = 'Times New Roman'
+        #     # название колонки
+        #     p.add_run(item).bold = True
+        #     # выравниваем посередине
+        #     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        # for i in table.rows:
+        #     for cell in i.cells:
+        #         cell.paragraphs[0].runs[0].font.name = 'Times New Roman'
+        #         cell.paragraphs[0].runs[0].font.size = Pt(12)
+        # # добавляем данные к существующей таблице
+        # for row in lst_data:
+        #     # добавляем строку с ячейками к объекту таблицы
+        #     cells = table.add_row().cells
+        #     for i, item in enumerate(row):
+        #         # вставляем данные в ячейки
+        #         cells[i].text = str(item)
+        #         # если последняя ячейка
+        #         cells[i].paragraphs[0].runs[0].font.name = 'Times New Roman'
+        #         cells[i].paragraphs[0].runs[0].font.size = Pt(12)
+        #         if i ==0 or i ==2:
+        #             cells[i].paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.CENTER
+        #
+        # doc.save(f'./{folder}/{output_file}.docx')
+        # paragraph3 = doc.add_paragraph()
         # doc.save('test.docx')
 
         # self.file_open.write('hi2')
@@ -750,52 +861,52 @@ class Unit(MyWidget,QWidget):
         # self.cal_signal.emit(step)
 
         #Для LibreOffice на Windows
-        import subprocess
-        docx_path= f"./{folder}/{output_file}.docx"
-        output_dir= f"./{folder}/{output_file}.pdf"
-        if not os.path.exists(libreoffice_path):
-            libreoffice_path = r"C:\Program Files (x86)\LibreOffice\program\soffice.exe"
-            if not os.path.exists(libreoffice_path):
-                # Конвертация в pdf 2-й способ нужен установленный Word
-                import sys
-                import comtypes.client
-                dirs = sys.executable
-                wdFormatPDF = 17
-                # out_file = self.trans_path(dirs, output_file, folder)
-                out_file = 'D:\\repo\\calibrator\\prj2\csv,docx,pdf\\' + output_file
-                # for subdir, dirs, files in os.walk(input_dir):
-                #     printf(subdir,dirs,files)
-                #     for file in files:
-                #         in_file = os.path.join(subdir, file)
-                # output_file = file.split('.')[0]
-                # out_file = output_dir + output_file +'.pdf'
-                word = comtypes.client.CreateObject('Word.Application')
-                doc = word.Documents.Open(out_file + '.docx')
-                doc.SaveAs(out_file + '.pdf', FileFormat=wdFormatPDF)
-                doc.Close()
-                word.Quit()
-                # raise FileNotFoundError(f"LibreOffice executable not found at: {libreoffice_path}")
-
-        # Создает директорию
-        # if not os.path.exists(output_dir):
-        #     os.makedirs(output_dir)
-        command = [
-            libreoffice_path,
-            "--headless",  # Run LibreOffice without a graphical interface
-            "--convert-to", "pdf",
-            "--outdir", folder,
-            docx_path
-        ]
-
-        try:
-            subprocess.run(command, check=True, capture_output=True, text=True)
-            print(f"Successfully converted '{docx_path}' to PDF in '{output_dir}'.")
-        except subprocess.CalledProcessError as e:
-            print(f"Error during conversion: {e}")
-            print(f"Stdout: {e.stdout}")
-            print(f"Stderr: {e.stderr}")
-        except FileNotFoundError:
-            print(f"Error: LibreOffice executable not found at {libreoffice_path}.")
+        # import subprocess
+        # docx_path= f"./{folder}/{output_file}.docx"
+        # output_dir= f"./{folder}/{output_file}.pdf"
+        # if not os.path.exists(libreoffice_path):
+        #     libreoffice_path = r"C:\Program Files (x86)\LibreOffice\program\soffice.exe"
+        #     if not os.path.exists(libreoffice_path):
+        #         # Конвертация в pdf 2-й способ нужен установленный Word
+        #         import sys
+        #         import comtypes.client
+        #         dirs = sys.executable
+        #         wdFormatPDF = 17
+        #         # out_file = self.trans_path(dirs, output_file, folder)
+        #         out_file = 'D:\\repo\\calibrator\\prj2\csv,docx,pdf\\' + output_file
+        #         # for subdir, dirs, files in os.walk(input_dir):
+        #         #     printf(subdir,dirs,files)
+        #         #     for file in files:
+        #         #         in_file = os.path.join(subdir, file)
+        #         # output_file = file.split('.')[0]
+        #         # out_file = output_dir + output_file +'.pdf'
+        #         word = comtypes.client.CreateObject('Word.Application')
+        #         doc = word.Documents.Open(out_file + '.docx')
+        #         doc.SaveAs(out_file + '.pdf', FileFormat=wdFormatPDF)
+        #         doc.Close()
+        #         word.Quit()
+        #         # raise FileNotFoundError(f"LibreOffice executable not found at: {libreoffice_path}")
+        #
+        # # Создает директорию
+        # # if not os.path.exists(output_dir):
+        # #     os.makedirs(output_dir)
+        # command = [
+        #     libreoffice_path,
+        #     "--headless",  # Run LibreOffice without a graphical interface
+        #     "--convert-to", "pdf",
+        #     "--outdir", folder,
+        #     docx_path
+        # ]
+        #
+        # try:
+        #     subprocess.run(command, check=True, capture_output=True, text=True)
+        #     print(f"Successfully converted '{docx_path}' to PDF in '{output_dir}'.")
+        # except subprocess.CalledProcessError as e:
+        #     print(f"Error during conversion: {e}")
+        #     print(f"Stdout: {e.stdout}")
+        #     print(f"Stderr: {e.stderr}")
+        # except FileNotFoundError:
+        #     print(f"Error: LibreOffice executable not found at {libreoffice_path}.")
 
         step = 100
         self.cal_signal.emit(step)

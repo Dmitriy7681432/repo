@@ -594,7 +594,7 @@ class Main(QMainWindow):
         self.setCentralWidget(self.centralwidget)
 
         self.setObjectName("MainWindow")
-        self.setWindowTitle(f'Calibrator {self.cur_elem}')
+        self.setWindowTitle(f'Калибратор {self.cur_elem}')
         self.show()
         # self.main.hide()
 
@@ -861,7 +861,7 @@ class Main(QMainWindow):
     def signal_thread_stop(self):
         self.worker.flag_err_work=1
         # sign = Worker(self.data_dict_bu400)
-        self.sign = warning.SignalErr()
+        self.sign = warning.SignalErr('Нет связи с can!!!')
 
     def next_main_thread_read(self,name_product,name_cb):
         printf('next main thread read',name_cb)
