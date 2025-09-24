@@ -793,3 +793,67 @@ story = []
 story.append(paragraph)
 # 6. Создаем PDF-документ
 doc.build(story)
+
+
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
+from reportlab.platypus import SimpleDocTemplate, Paragraph
+from reportlab.lib.styles import getSampleStyleSheet
+
+# Зарегистрируйте свой собственный шрифт
+pdfmetrics.registerFont(TTFont('MyCustomFont', 'timesnrcyrmt.ttf'))
+doc = SimpleDocTemplate("report_with_custom_font.pdf")
+styles = getSampleStyleSheet()
+# Создайте стиль, используя ваш собственный шрифт
+custom_style = styles['Normal']
+custom_style.fontName = 'MyCustomFont'
+# Используйте теги внутри параграфа
+text = '<font name="MyCustomFont">Этот текст будет использовать<br/> <b>мой шрифт</b>.</font>'
+p = Paragraph(text, custom_style)
+story = [p]
+doc.build(story)
+
+from reportlab.pdfgen import canvas
+pdfmetrics.registerFont(TTFont('MyCustomFont', 'timesnrcyrmt.ttf'))
+pdfmetrics.registerFont(TTFont('MyCustomFontBold', 'timesnrcyrmt_bold.ttf'))
+# Создаем объект canvas
+c = canvas.Canvas("new_line_example.pdf")
+c.setFont('MyCustomFont',12)
+# Добавляем первый текст
+text1 = "Это первая строка"
+c.drawString(100, 750, text1)
+c.setFont('MyCustomFontBold',12)
+# Добавляем перенос строки и второй текст
+text2 = "Это вторая строка, добавленная с помощью \\n"
+c.drawString(200, 750, text2)
+# Сохраняем PDF
+c.save()
+
+
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer,BaseDocTemplate
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.platypus.doctemplate import PageTemplate
+from reportlab.pdfgen import canvas as pdfcanvas
+
+pdfmetrics.registerFont(TTFont('MyCustomFont', 'timesnrcyrmt.ttf'))
+def footer(canvas, doc):
+    canvas.saveState()
+    canvas.setFont('MyCustomFont', 9)
+    canvas.drawString(100, 60, "Это мой нижний колонтитул")
+    canvas.restoreState()
+
+# Предположим, у нас уже есть объект doc, созданный из SimpleDocTemplate
+doc = BaseDocTemplate("document_with_canvas.pdf")
+
+# Создаем стандартный template (вместо добавления к нему canvas)
+story = []
+styles = getSampleStyleSheet()
+story.append(Paragraph("Пример документа", styles['h1']))
+story.append(Spacer(1, 0.2*72)) # 0.2 дюйма
+for i in range(20):
+    story.append(Paragraph("Пример строки текста", styles['Normal']))
+    story.append(Spacer(1, 0.1*72))
+
+# Создаем новую страницу и добавляем колонтитул
+doc.addPageTemplates([PageTemplate(id='OneCol', frames=[doc.frame], onPage=footer)])
+doc.build(story)
