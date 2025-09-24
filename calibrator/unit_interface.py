@@ -634,7 +634,7 @@ class Unit(MyWidget,QWidget):
         from reportlab.pdfbase import pdfmetrics
         from reportlab.pdfbase.ttfonts import TTFont
         from reportlab.lib.styles import ParagraphStyle,getSampleStyleSheet
-        from reportlab.lib.enums import TA_CENTER, TA_LEFT
+        from reportlab.lib.enums import TA_CENTER, TA_LEFT,TA_RIGHT
 
         # printf(head_myData)
         lst_data.insert(0,head_myData[0])
@@ -679,7 +679,7 @@ class Unit(MyWidget,QWidget):
             fontName='TimesNewRomanCyrillic',
             fontSize=12,
             leading=11,
-            alignment=TA_CENTER,
+            alignment=TA_LEFT,
             spaceAfter=-12,
             spaceBefore=10
             # parent=styles['Normal']
@@ -690,46 +690,51 @@ class Unit(MyWidget,QWidget):
             fontName='TimesNewRomanCyrillicBold',
             fontSize=12,
             leading=11,
-            alignment=TA_CENTER,
+            alignment=TA_RIGHT,
             spaceAfter=22,
             spaceBefore=10
             # parent=styles['Normal']
         )
         # 2. Создаем текст заголовка
-        product_text = 'Изделие: '
+        product_text = 'Изделие:'
         product_paragraph = Paragraph(product_text, style_cyrillic_head_bold)
         name_product_text = name_product_rus
         name_product_paragraph = Paragraph(name_product_text, style_cyrillic_head)
-        product_nmb_text = 'зав№: '
+        product_nmb_text = 'зав№:'
         product_nmb_paragraph = Paragraph(product_nmb_text, style_cyrillic_head_bold)
         product_nmb_val_text = list_nmb[0]
         product_nmb_val_paragraph = Paragraph(product_nmb_val_text, style_cyrillic_head)
 
-        cb_text = 'Блок: '
+        cb_text = 'Блок:'
         cb_paragraph = Paragraph(cb_text, style_cyrillic_head_bold)
         name_cb_text = name_block_rus+', ' + name_drawing
         name_cb_paragraph = Paragraph(name_cb_text, style_cyrillic_head)
-        cb_nmb_text = 'зав№: '
+        cb_nmb_text = 'зав№:'
         cb_nmb_paragraph = Paragraph(cb_nmb_text, style_cyrillic_head_bold)
         cb_nmb_val_text = list_nmb[1]
         name_cb_val_paragraph = Paragraph(cb_nmb_val_text, style_cyrillic_head)
 
-        table_paragraph = [[product_paragraph,name_product_paragraph,product_nmb_paragraph,product_nmb_val_paragraph],
-                           [],
-                           [cb_paragraph,name_cb_paragraph,cb_nmb_paragraph,name_cb_val_paragraph]]
-        table_data_paragraph = Table(table_paragraph)
+        table_paragraph = [[product_paragraph,name_product_paragraph,product_nmb_paragraph,product_nmb_val_paragraph],[]]
 
+        table_data_paragraph = Table(table_paragraph,colWidths=[0.9*72, 1.1*72, 0.7*72, 0.8*72])
+        # table_data_paragraph = Table(table_paragraph)
+        table_data_paragraph.setStyle(TableStyle([
+            # ('INNERGRID', (0, 0), (2, -1), 0.25, colors.black),
+            ('LINEBELOW', (0, 0), (-1, 0), 0.25, colors.black),
+            # ('BOX', (0, 0), (-1, -1), 0.25, colors.black),
+        ]))
 
+        table_paragraph2 = [
+            [cb_paragraph, name_cb_paragraph, cb_nmb_paragraph, name_cb_val_paragraph],[],[] ]
+        table_data_paragraph2 = Table(table_paragraph2, colWidths=[0.7 * 72, 2.2 * 72, 0.7 * 72, 0.8*72])
+        # table_data_paragraph2 = Table(table_paragraph2)
+
+        table_data_paragraph2.setStyle(TableStyle([
+            # ('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black),
+            ('LINEBELOW', (0, 0), (-1, 0), 0.25, colors.black),
+            # ('BOX', (0, 0), (-1, -1), 0.25, colors.black),
+        ]))
         table_data = []
-        # for row in lst_data:
-        #     for text in row:
-        #         printf(text)
-        #         table_row = [Paragraph(text, style_cyrillic) for text in row]
-        #     table_data.append(table_row)
-
-        # for row in lst_data:
-        #     table_row = [Paragraph(text, style_cyrillic) for text in row]
-        #     table_data.append(table_row)
         table_row = []
         cnt2 = 0
         for row in lst_data:
@@ -748,7 +753,7 @@ class Unit(MyWidget,QWidget):
         # t=Table(table_data,5*[0.5*inch], 4*[0.3*inch])
         # t = Table(table_data)
         # printf(table_data)
-        t = Table(table_data,colWidths=[2.4*72, 4*72, 0.9*72],splitByRow=4,repeatRows=1)
+        t = Table(table_data,colWidths=[2.4*72, 4*72, 0.9*72],repeatRows=1)
         t.setStyle(TableStyle([
         #                        ('ALIGN', (1, 1), (-1, -2), 'RIGHT'),
         #                        ('TEXTCOLOR', (1, 1), (-2, -2), colors.red),
@@ -765,6 +770,7 @@ class Unit(MyWidget,QWidget):
         elements.append(t)
         # write the document to disk
         story.append(table_data_paragraph)
+        story.append(table_data_paragraph2)
         story.append(t)
         doc.build(story)
 

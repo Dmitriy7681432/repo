@@ -472,147 +472,147 @@ metric = 326
 # trans_str(metric,text)
 
 
-from pathlib import Path
-from borb.pdf import Document, Page, PageLayout, SingleColumnLayout, Paragraph, PDF
-
-# Create an empty Document
-d: Document = Document()
-
-# Create an empty Page
-p: Page = Page()
-d.append_page(p)
-
-# Create a PageLayout
-l: PageLayout = SingleColumnLayout(p)
-
-# Add a Paragraph
-l.append_layout_element(Paragraph('Hello World!'))
-
-# Write the PDF
-PDF.write(what=d, where_to="assets/output.pdf")
-
-
-from reportlab.pdfgen.canvas import Canvas
-from reportlab.lib.pagesizes import A4
-from reportlab.pdfbase import pdfmetrics
-from reportlab.pdfbase.ttfonts import TTFont
-from reportlab.pdfgen.canvas import Canvas
-canvas = Canvas("hello.pdf",pagesize=A4)
-pdfmetrics.registerFont(TTFont('DejaVuSerif','DejaVuSerif.ttf'))
-canvas.setFont('DejaVuSerif', 32)
-canvas.drawString(72, 72, "Привет, World")
-canvas.save()
-
-# canvas = Canvas("hello.pdf", pagesize=(612.0, 792.0))
+# from pathlib import Path
+# from borb.pdf import Document, Page, PageLayout, SingleColumnLayout, Paragraph, PDF
+#
+# # Create an empty Document
+# d: Document = Document()
+#
+# # Create an empty Page
+# p: Page = Page()
+# d.append_page(p)
+#
+# # Create a PageLayout
+# l: PageLayout = SingleColumnLayout(p)
+#
+# # Add a Paragraph
+# l.append_layout_element(Paragraph('Hello World!'))
+#
+# # Write the PDF
+# PDF.write(what=d, where_to="assets/output.pdf")
+#
+#
+# from reportlab.pdfgen.canvas import Canvas
+# from reportlab.lib.pagesizes import A4
+# from reportlab.pdfbase import pdfmetrics
+# from reportlab.pdfbase.ttfonts import TTFont
+# from reportlab.pdfgen.canvas import Canvas
+# canvas = Canvas("hello.pdf",pagesize=A4)
+# pdfmetrics.registerFont(TTFont('DejaVuSerif','DejaVuSerif.ttf'))
+# canvas.setFont('DejaVuSerif', 32)
+# canvas.drawString(72, 72, "Привет, World")
+# canvas.save()
+#
+# # canvas = Canvas("hello.pdf", pagesize=(612.0, 792.0))
+# # from reportlab.lib.units import inch, cm
+# from reportlab.lib.pagesizes import A4
+# canvas = Canvas("hello.pdf", pagesize=A4)
+#
+#
 # from reportlab.lib.units import inch, cm
-from reportlab.lib.pagesizes import A4
-canvas = Canvas("hello.pdf", pagesize=A4)
-
-
-from reportlab.lib.units import inch, cm
-canvas = Canvas("font-example.pdf", pagesize=A4)
-canvas.setFont("Times-Roman", 12)
-canvas.drawString(1 * inch, 10 * inch, "Times New Roman (12 pt)")
-canvas.save()
-
-
-from reportlab.platypus import SimpleDocTemplate, Table, Paragraph
-from reportlab.lib.styles import getSampleStyleSheet
-
-# 1. Подготовьте данные в виде списка списков
-data = [
-    ['Заголовок 1', 'Заголовок 2', 'Заголовок 3'],
-    ['Строка 1, столбец 1', 'Строка 1, столбец 2', 'Строка 1, столбец 3'],
-    ['Строка 2, столбец 1', 'Строка 2, столбец 2', 'Строка 2, столбец 3'],
-]
-
-# 2. Создайте объект таблицы
-table = Table(data)
-
-# 3. Создайте объект для хранения элементов документа (Story)
-story = []
-
-# 4. Добавьте таблицу в Story (опционально, можно добавить стиль)
-story.append(table)
-
-# 5. Создайте объект документа PDF
-doc = SimpleDocTemplate("table_example.pdf")
-
-# 6. Постройте PDF-документ
-doc.build(story)
-
-print("PDF-документ 'table_example.pdf' создан успешно.")
-
-from reportlab.lib import colors
-from reportlab.lib.pagesizes import letter, inch,A4
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph
-from reportlab.pdfbase import pdfmetrics
-from reportlab.pdfbase.ttfonts import TTFont
-from reportlab.lib.styles import ParagraphStyle
-
-doc = SimpleDocTemplate("simple_table_grid.pdf", pagesize=letter)
-# container for the 'Flowable' objects
-elements = []
-pdfmetrics.registerFont(TTFont('DejaVuSans','DejaVuSans.ttf'))
-style_cyrillic = ParagraphStyle(
-    name='CyrillicStyle',
-    fontName='DejaVuSans',
-    fontSize=12,
-    leading=14
-)
-data = [['Desig', 'Наименование', 'Значение'], ['AIR_TEMP_k', 'T воздуха в отсеке, °C', '1.0']]
-# data= [['000000', '01', '02', '03', '04'],
-#        ['10', '11', '12', '13', '14'],
-#        ['20', '21', '22', '23', '24'],
-#        ['30', '31', '32', '33', '34']]
-# t=Table(data,5*[0.5*inch], 4*[0.3*inch])
-table_data = []
-for row in data:
-    table_row = [Paragraph(text, style_cyrillic) for text in row]
-    table_data.append(table_row)
-t=Table(table_data)
-t.setStyle(TableStyle([('ALIGN',(1,1),(-1,-2),'RIGHT'),
-                       ('TEXTCOLOR',(1,1),(-2,-2),colors.red),
-                       ('VALIGN',(0,0),(0,-1),'TOP'),
-                       ('TEXTCOLOR',(0,0),(0,-1),colors.blue),
-                       ('ALIGN',(0,-1),(-1,-1),'CENTER'),
-                       ('VALIGN',(0,-1),(-1,-1),'MIDDLE'),
-                       ('TEXTCOLOR',(0,-1),(-1,-1),colors.green),
-                       ('INNERGRID', (0,0), (-1,-1), 0.25, colors.black),
-                       ('BOX', (0,0), (-1,-1), 0.25, colors.black),
-                       ]))
-
-elements.append(t)
-# write the document to disk
-doc.build(elements)
-
-
-
-from reportlab.platypus import SimpleDocTemplate, TableStyle, Table
-
-# Creating a simple pdfdoc = SimpleDocTemplate(aa)
-story = []
-
-doc = SimpleDocTemplate("test1.pdf", pagesize=letter)
-# Set a table style
-table_style = TableStyle(
-    [
-        ('INNERGRID', (0,0), (-1,-1), 0.25, colors.black),
-        ('BOX', (0,0), (-1,-1), 0.25, colors.black),
-    ]
-)
-
-# Creating mock data and cols to add a new table inside the third a row
-data_table = [
-    ['Col1', 'Col2'],
-    ['aaa', 'bbb'],
-    [Table([['data to add as third row', 'a']], style=table_style)]
-]
-
-
-final_table = Table(data_table, style=table_style)
-story.append(final_table)
-doc.build(story)
+# canvas = Canvas("font-example.pdf", pagesize=A4)
+# canvas.setFont("Times-Roman", 12)
+# canvas.drawString(1 * inch, 10 * inch, "Times New Roman (12 pt)")
+# canvas.save()
+#
+#
+# from reportlab.platypus import SimpleDocTemplate, Table, Paragraph
+# from reportlab.lib.styles import getSampleStyleSheet
+#
+# # 1. Подготовьте данные в виде списка списков
+# data = [
+#     ['Заголовок 1', 'Заголовок 2', 'Заголовок 3'],
+#     ['Строка 1, столбец 1', 'Строка 1, столбец 2', 'Строка 1, столбец 3'],
+#     ['Строка 2, столбец 1', 'Строка 2, столбец 2', 'Строка 2, столбец 3'],
+# ]
+#
+# # 2. Создайте объект таблицы
+# table = Table(data)
+#
+# # 3. Создайте объект для хранения элементов документа (Story)
+# story = []
+#
+# # 4. Добавьте таблицу в Story (опционально, можно добавить стиль)
+# story.append(table)
+#
+# # 5. Создайте объект документа PDF
+# doc = SimpleDocTemplate("table_example.pdf")
+#
+# # 6. Постройте PDF-документ
+# doc.build(story)
+#
+# print("PDF-документ 'table_example.pdf' создан успешно.")
+#
+# from reportlab.lib import colors
+# from reportlab.lib.pagesizes import letter, inch,A4
+# from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph
+# from reportlab.pdfbase import pdfmetrics
+# from reportlab.pdfbase.ttfonts import TTFont
+# from reportlab.lib.styles import ParagraphStyle
+#
+# doc = SimpleDocTemplate("simple_table_grid.pdf", pagesize=letter)
+# # container for the 'Flowable' objects
+# elements = []
+# pdfmetrics.registerFont(TTFont('DejaVuSans','DejaVuSans.ttf'))
+# style_cyrillic = ParagraphStyle(
+#     name='CyrillicStyle',
+#     fontName='DejaVuSans',
+#     fontSize=12,
+#     leading=14
+# )
+# data = [['Desig', 'Наименование', 'Значение'], ['AIR_TEMP_k', 'T воздуха в отсеке, °C', '1.0']]
+# # data= [['000000', '01', '02', '03', '04'],
+# #        ['10', '11', '12', '13', '14'],
+# #        ['20', '21', '22', '23', '24'],
+# #        ['30', '31', '32', '33', '34']]
+# # t=Table(data,5*[0.5*inch], 4*[0.3*inch])
+# table_data = []
+# for row in data:
+#     table_row = [Paragraph(text, style_cyrillic) for text in row]
+#     table_data.append(table_row)
+# t=Table(table_data)
+# t.setStyle(TableStyle([('ALIGN',(1,1),(-1,-2),'RIGHT'),
+#                        ('TEXTCOLOR',(1,1),(-2,-2),colors.red),
+#                        ('VALIGN',(0,0),(0,-1),'TOP'),
+#                        ('TEXTCOLOR',(0,0),(0,-1),colors.blue),
+#                        ('ALIGN',(0,-1),(-1,-1),'CENTER'),
+#                        ('VALIGN',(0,-1),(-1,-1),'MIDDLE'),
+#                        ('TEXTCOLOR',(0,-1),(-1,-1),colors.green),
+#                        ('INNERGRID', (0,0), (-1,-1), 0.25, colors.black),
+#                        ('BOX', (0,0), (-1,-1), 0.25, colors.black),
+#                        ]))
+#
+# elements.append(t)
+# # write the document to disk
+# doc.build(elements)
+#
+#
+#
+# from reportlab.platypus import SimpleDocTemplate, TableStyle, Table
+#
+# # Creating a simple pdfdoc = SimpleDocTemplate(aa)
+# story = []
+#
+# doc = SimpleDocTemplate("test1.pdf", pagesize=letter)
+# # Set a table style
+# table_style = TableStyle(
+#     [
+#         ('INNERGRID', (0,0), (-1,-1), 0.25, colors.black),
+#         ('BOX', (0,0), (-1,-1), 0.25, colors.black),
+#     ]
+# )
+#
+# # Creating mock data and cols to add a new table inside the third a row
+# data_table = [
+#     ['Col1', 'Col2'],
+#     ['aaa', 'bbb'],
+#     [Table([['data to add as third row', 'a']], style=table_style)]
+# ]
+#
+#
+# final_table = Table(data_table, style=table_style)
+# story.append(final_table)
+# doc.build(story)
 
 import os,sys
 dir_name = os.path.dirname(__file__)
@@ -662,14 +662,6 @@ printf(dirs_all)
 
 printf(dirs_all.count('\\'))
 
-
-
-a = 'Hello'
-print(a[:-1])
-
-
-
-
 # import subprocess
 #
 # try:
@@ -687,173 +679,179 @@ print(a[:-1])
 #     print(f"Ошибка при поиске soffice.exe: {e.stderr}")
 #     print("Возможно, soffice.exe отсутствует в переменной PATH или не установлен.")
 
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Table, TableStyle
-from reportlab.lib.styles import getSampleStyleSheet
-from reportlab.lib import colors
+# from reportlab.platypus import SimpleDocTemplate, Paragraph, Table, TableStyle
+# from reportlab.lib.styles import getSampleStyleSheet
+# from reportlab.lib import colors
+#
+# # 1. Создаем документ и стили
+# doc = SimpleDocTemplate("table_with_title.pdf")
+# styles = getSampleStyleSheet()
+# story = []
+#
+# # 2. Создаем текст заголовка
+# title_text = "Hello"
+# title_style = styles['h1'] # Или любой другой стиль
+# title_paragraph = Paragraph(title_text, title_style)
+# story.append(title_paragraph)
+#
+# # 3. Подготавливаем данные для таблицы
+# data = [
+#     ["Столбец 1", "Столбец 2", "Столбец 3"],
+#     ["Ячейка A1", "Ячейка B1", "Ячейка C1"],
+#     ["Ячейка A2", "Ячейка B2", "Ячейка C2"]
+# ]
+#
+# # 4. Создаем саму таблицу
+# table = Table(data)
+#
+# # 5. Добавляем стили к таблице (например, цвета фона для заголовка)
+# style = TableStyle([
+#     ('BACKGROUND', (0, 0), (-1, 0), colors.grey), # Цвет фона для заголовка
+#     ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+#     ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+#     ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+#     ('FONTSIZE', (0, 0), (-1, 0), 14),
+#     ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+#     ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+#     ('GRID', (0, 0), (-1, -1), 1, colors.black)
+# ])
+# table.setStyle(style)
+# story.append(table)
+#
+# # 6. Собираем документ (сохраняем PDF)
+# doc.build(story)
+#
+#
+# from reportlab.platypus import SimpleDocTemplate, Paragraph
+# from reportlab.lib.styles import getSampleStyleSheet
+# doc = SimpleDocTemplate("bold_example.pdf") # Создаем PDF-документ
+# styles = getSampleStyleSheet() # Получаем стандартные стили
+# pdfmetrics.registerFont(TTFont('TimesNewRomanCyrillic', 'timesnrcyrmt.ttf'))
+# # СоздаемParagraph, в тексте которого есть тег <b>
+# # <b> - это стандартный HTML-тег для жирного текста.
+# text_with_bold = Paragraph("Hello <b>World</b>.", styles['Normal'])
+# # Добавляем наш Paragraph в список элементов для документа
+# story = [text_with_bold]
+# # Собираем документ
+# doc.build(story)
+#
+#
+# from reportlab.platypus import SimpleDocTemplate, Paragraph
+# from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+# from reportlab.pdfbase import pdfmetrics
+# from reportlab.pdfbase.ttfonts import TTFont
+# import os
+#
+# pdfmetrics.registerFont(TTFont('Times-Bold-Cyrillic', 'timesnrcyrmt.ttf')) # Регистрируем шрифт
+# doc = SimpleDocTemplate("bold_cyrillic_example.pdf")
+# styles = getSampleStyleSheet()
+# # Создаем стиль с жирным кириллическим шрифтом
+# bold_cyrillic_style = ParagraphStyle(
+#     name='BoldCyrillic',
+#     fontName='Times-Bold-Cyrillic',
+#     fontSize=14,
+#     leading=16
+# )
+# story = []
+# # Используем жирный шрифт для всего текста параграфа
+# story.append(Paragraph('<b>Этот текст будет</b> жирным', bold_cyrillic_style))
+# story.append(Paragraph('<b><font name="Times-Bold-Cyrillic">Этот тоже будет жирным</font></b>', bold_cyrillic_style))
+#
+#
+# doc.build(story)
+#
+# from reportlab.platypus import SimpleDocTemplate, Paragraph
+# from reportlab.lib.styles import getSampleStyleSheet
+# from reportlab.lib.units import inch
+# from reportlab.pdfbase import pdfmetrics
+#
+# pdfmetrics.registerFont(TTFont('Times-Bold-Cyrillic', 'timesnrcyrmt_bold.ttf')) # Регистрируем шрифт
+# # 1. Создаем объект документа
+# doc = SimpleDocTemplate("styled_text_example.pdf")
+# # 2. Получаем стандартные стили
+# styles = getSampleStyleSheet()
+# # 3. Определяем текст с RML-тегами для форматирования
+# text_with_styles = """
+# Это <b>жирный</b> текст.
+# Это <i>курсивный</i> текст.
+# Это текст с другим <font name="Times-Bold-Cyrillic" size="14" ><b>шрифтом</b></font>.
+# Можно также комбинировать стили: <b><i>жирный и курсивный</i></b>.
+# """
+# # 4. Создаем объект Paragraph с применением стилей
+# # styles['Normal'] - это базовый стиль, в который встраиваются RML-теги
+# paragraph = Paragraph(text_with_styles, styles['Normal'])
+# # 5. Собираем элементы документа
+# story = []
+# story.append(paragraph)
+# # 6. Создаем PDF-документ
+# doc.build(story)
+#
+#
+# from reportlab.pdfbase import pdfmetrics
+# from reportlab.pdfbase.ttfonts import TTFont
+# from reportlab.platypus import SimpleDocTemplate, Paragraph
+# from reportlab.lib.styles import getSampleStyleSheet
+#
+# # Зарегистрируйте свой собственный шрифт
+# pdfmetrics.registerFont(TTFont('MyCustomFont', 'timesnrcyrmt.ttf'))
+# doc = SimpleDocTemplate("report_with_custom_font.pdf")
+# styles = getSampleStyleSheet()
+# # Создайте стиль, используя ваш собственный шрифт
+# custom_style = styles['Normal']
+# custom_style.fontName = 'MyCustomFont'
+# # Используйте теги внутри параграфа
+# text = '<font name="MyCustomFont">Этот текст будет использовать<br/> <b>мой шрифт</b>.</font>'
+# p = Paragraph(text, custom_style)
+# story = [p]
+# doc.build(story)
+#
+# from reportlab.pdfgen import canvas
+# pdfmetrics.registerFont(TTFont('MyCustomFont', 'timesnrcyrmt.ttf'))
+# pdfmetrics.registerFont(TTFont('MyCustomFontBold', 'timesnrcyrmt_bold.ttf'))
+# # Создаем объект canvas
+# c = canvas.Canvas("new_line_example.pdf")
+# c.setFont('MyCustomFont',12)
+# # Добавляем первый текст
+# text1 = "Это первая строка"
+# c.drawString(100, 750, text1)
+# c.setFont('MyCustomFontBold',12)
+# # Добавляем перенос строки и второй текст
+# text2 = "Это вторая строка, добавленная с помощью \\n"
+# c.drawString(200, 750, text2)
+# # Сохраняем PDF
+# c.save()
+#
+#
+# from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer,BaseDocTemplate
+# from reportlab.lib.styles import getSampleStyleSheet
+# from reportlab.platypus.doctemplate import PageTemplate
+# from reportlab.pdfgen import canvas as pdfcanvas
+#
+# pdfmetrics.registerFont(TTFont('MyCustomFont', 'timesnrcyrmt.ttf'))
+# def footer(canvas, doc):
+#     canvas.saveState()
+#     canvas.setFont('MyCustomFont', 9)
+#     canvas.drawString(100, 60, "Это мой нижний колонтитул")
+#     canvas.restoreState()
+#
+# # Предположим, у нас уже есть объект doc, созданный из SimpleDocTemplate
+# doc = BaseDocTemplate("document_with_canvas.pdf")
+#
+# # Создаем стандартный template (вместо добавления к нему canvas)
+# story = []
+# styles = getSampleStyleSheet()
+# story.append(Paragraph("Пример документа", styles['h1']))
+# story.append(Spacer(1, 0.2*72)) # 0.2 дюйма
+# for i in range(20):
+#     story.append(Paragraph("Пример строки текста", styles['Normal']))
+#     story.append(Spacer(1, 0.1*72))
+#
+# # Создаем новую страницу и добавляем колонтитул
+# doc.addPageTemplates([PageTemplate(id='OneCol', frames=[doc.frame], onPage=footer)])
+# doc.build(story)
 
-# 1. Создаем документ и стили
-doc = SimpleDocTemplate("table_with_title.pdf")
-styles = getSampleStyleSheet()
-story = []
-
-# 2. Создаем текст заголовка
-title_text = "Hello"
-title_style = styles['h1'] # Или любой другой стиль
-title_paragraph = Paragraph(title_text, title_style)
-story.append(title_paragraph)
-
-# 3. Подготавливаем данные для таблицы
-data = [
-    ["Столбец 1", "Столбец 2", "Столбец 3"],
-    ["Ячейка A1", "Ячейка B1", "Ячейка C1"],
-    ["Ячейка A2", "Ячейка B2", "Ячейка C2"]
-]
-
-# 4. Создаем саму таблицу
-table = Table(data)
-
-# 5. Добавляем стили к таблице (например, цвета фона для заголовка)
-style = TableStyle([
-    ('BACKGROUND', (0, 0), (-1, 0), colors.grey), # Цвет фона для заголовка
-    ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
-    ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-    ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-    ('FONTSIZE', (0, 0), (-1, 0), 14),
-    ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-    ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
-    ('GRID', (0, 0), (-1, -1), 1, colors.black)
-])
-table.setStyle(style)
-story.append(table)
-
-# 6. Собираем документ (сохраняем PDF)
-doc.build(story)
-
-
-from reportlab.platypus import SimpleDocTemplate, Paragraph
-from reportlab.lib.styles import getSampleStyleSheet
-doc = SimpleDocTemplate("bold_example.pdf") # Создаем PDF-документ
-styles = getSampleStyleSheet() # Получаем стандартные стили
-pdfmetrics.registerFont(TTFont('TimesNewRomanCyrillic', 'timesnrcyrmt.ttf'))
-# СоздаемParagraph, в тексте которого есть тег <b>
-# <b> - это стандартный HTML-тег для жирного текста.
-text_with_bold = Paragraph("Hello <b>World</b>.", styles['Normal'])
-# Добавляем наш Paragraph в список элементов для документа
-story = [text_with_bold]
-# Собираем документ
-doc.build(story)
-
-
-from reportlab.platypus import SimpleDocTemplate, Paragraph
-from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-from reportlab.pdfbase import pdfmetrics
-from reportlab.pdfbase.ttfonts import TTFont
-import os
-
-pdfmetrics.registerFont(TTFont('Times-Bold-Cyrillic', 'timesnrcyrmt.ttf')) # Регистрируем шрифт
-doc = SimpleDocTemplate("bold_cyrillic_example.pdf")
-styles = getSampleStyleSheet()
-# Создаем стиль с жирным кириллическим шрифтом
-bold_cyrillic_style = ParagraphStyle(
-    name='BoldCyrillic',
-    fontName='Times-Bold-Cyrillic',
-    fontSize=14,
-    leading=16
-)
-story = []
-# Используем жирный шрифт для всего текста параграфа
-story.append(Paragraph('<b>Этот текст будет</b> жирным', bold_cyrillic_style))
-story.append(Paragraph('<b><font name="Times-Bold-Cyrillic">Этот тоже будет жирным</font></b>', bold_cyrillic_style))
-
-
-doc.build(story)
-
-from reportlab.platypus import SimpleDocTemplate, Paragraph
-from reportlab.lib.styles import getSampleStyleSheet
-from reportlab.lib.units import inch
-from reportlab.pdfbase import pdfmetrics
-
-pdfmetrics.registerFont(TTFont('Times-Bold-Cyrillic', 'timesnrcyrmt_bold.ttf')) # Регистрируем шрифт
-# 1. Создаем объект документа
-doc = SimpleDocTemplate("styled_text_example.pdf")
-# 2. Получаем стандартные стили
-styles = getSampleStyleSheet()
-# 3. Определяем текст с RML-тегами для форматирования
-text_with_styles = """
-Это <b>жирный</b> текст.
-Это <i>курсивный</i> текст.
-Это текст с другим <font name="Times-Bold-Cyrillic" size="14" ><b>шрифтом</b></font>.
-Можно также комбинировать стили: <b><i>жирный и курсивный</i></b>.
-"""
-# 4. Создаем объект Paragraph с применением стилей
-# styles['Normal'] - это базовый стиль, в который встраиваются RML-теги
-paragraph = Paragraph(text_with_styles, styles['Normal'])
-# 5. Собираем элементы документа
-story = []
-story.append(paragraph)
-# 6. Создаем PDF-документ
-doc.build(story)
-
-
-from reportlab.pdfbase import pdfmetrics
-from reportlab.pdfbase.ttfonts import TTFont
-from reportlab.platypus import SimpleDocTemplate, Paragraph
-from reportlab.lib.styles import getSampleStyleSheet
-
-# Зарегистрируйте свой собственный шрифт
-pdfmetrics.registerFont(TTFont('MyCustomFont', 'timesnrcyrmt.ttf'))
-doc = SimpleDocTemplate("report_with_custom_font.pdf")
-styles = getSampleStyleSheet()
-# Создайте стиль, используя ваш собственный шрифт
-custom_style = styles['Normal']
-custom_style.fontName = 'MyCustomFont'
-# Используйте теги внутри параграфа
-text = '<font name="MyCustomFont">Этот текст будет использовать<br/> <b>мой шрифт</b>.</font>'
-p = Paragraph(text, custom_style)
-story = [p]
-doc.build(story)
-
-from reportlab.pdfgen import canvas
-pdfmetrics.registerFont(TTFont('MyCustomFont', 'timesnrcyrmt.ttf'))
-pdfmetrics.registerFont(TTFont('MyCustomFontBold', 'timesnrcyrmt_bold.ttf'))
-# Создаем объект canvas
-c = canvas.Canvas("new_line_example.pdf")
-c.setFont('MyCustomFont',12)
-# Добавляем первый текст
-text1 = "Это первая строка"
-c.drawString(100, 750, text1)
-c.setFont('MyCustomFontBold',12)
-# Добавляем перенос строки и второй текст
-text2 = "Это вторая строка, добавленная с помощью \\n"
-c.drawString(200, 750, text2)
-# Сохраняем PDF
-c.save()
-
-
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer,BaseDocTemplate
-from reportlab.lib.styles import getSampleStyleSheet
-from reportlab.platypus.doctemplate import PageTemplate
-from reportlab.pdfgen import canvas as pdfcanvas
-
-pdfmetrics.registerFont(TTFont('MyCustomFont', 'timesnrcyrmt.ttf'))
-def footer(canvas, doc):
-    canvas.saveState()
-    canvas.setFont('MyCustomFont', 9)
-    canvas.drawString(100, 60, "Это мой нижний колонтитул")
-    canvas.restoreState()
-
-# Предположим, у нас уже есть объект doc, созданный из SimpleDocTemplate
-doc = BaseDocTemplate("document_with_canvas.pdf")
-
-# Создаем стандартный template (вместо добавления к нему canvas)
-story = []
-styles = getSampleStyleSheet()
-story.append(Paragraph("Пример документа", styles['h1']))
-story.append(Spacer(1, 0.2*72)) # 0.2 дюйма
-for i in range(20):
-    story.append(Paragraph("Пример строки текста", styles['Normal']))
-    story.append(Spacer(1, 0.1*72))
-
-# Создаем новую страницу и добавляем колонтитул
-doc.addPageTemplates([PageTemplate(id='OneCol', frames=[doc.frame], onPage=footer)])
-doc.build(story)
+#
+# import subprocess
+#
+# user = subprocess.run(['whoami'], capture_output=True, text=True)
+# subprocess.run(['chown', '-R', user, ':users', '/dev'], capture_output=True, text=True)

@@ -31,7 +31,7 @@ class SignalErr:
         self.widget.setPalette(pal)
 
         self.widget.setWindowTitle("Предупреждение")
-        self.widget.setGeometry(100, 100, 300, 50)
+        self.widget.setGeometry(100, 100, 400, 50)
 
         self.center()
         self.lbl = QLabel(msg,self.widget)

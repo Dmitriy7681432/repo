@@ -86,7 +86,6 @@ class NumberProduct(QObject):
         qr.moveCenter(cp)
         self.widget.move(qr.topLeft())
     def onActivated_product(self, text):
-        printf(type(text))
         self.nmb_product= text
 
     def onActivated_cb(self, text):
