@@ -855,3 +855,65 @@ printf(dirs_all.count('\\'))
 #
 # user = subprocess.run(['whoami'], capture_output=True, text=True)
 # subprocess.run(['chown', '-R', user, ':users', '/dev'], capture_output=True, text=True)
+
+from PyQt5.QtSerialPort import QSerialPort,QSerialPortInfo
+from PyQt5.QtCore import QIODevice
+for port_info in QSerialPortInfo.availablePorts():
+    # print(f"Port Name: {port_info.portName()}, Description: {port_info.description()}")
+    print(port_info.manufacturer(),port_info.hasProductIdentifier(),port_info.hasVendorIdentifier(),port_info.productIdentifier(),\
+          port_info.systemLocation(),port_info.serialNumber(),port_info.vendorIdentifier())
+
+import serial.tools.list_ports
+import serial
+
+# print(serial.serialwin32.SerialBase.port.fget())
+ports = serial.tools.list_ports.comports()
+for port in ports:
+    printf(port.hwid, port.name, port.vid, port.pid, port.serial_number, port.location, port.manufacturer, port.product,
+           port.interface)
+
+import winreg
+import itertools
+
+def serial_ports() -> list:
+    path = 'HARDWARE\\DEVICEMAP\\SERIALCOMM'
+    key = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, path)
+
+    ports = []
+    for i in itertools.count():
+        try:
+            ports.append(winreg.EnumValue(key, i)[1])
+        except EnvironmentError:
+            break
+
+    return ports
+
+printf(serial_ports())
+
+
+def get_serial_number_from_registry(key_path, param_name):
+    try:
+        # Открываем ключ реестра
+        key = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, key_path, 0, winreg.KEY_READ)
+
+        # Получаем значение параметра
+        value, reg_type = winreg.QueryValueEx(key, param_name)
+        printf(reg_type)
+
+        # Закрываем ключ
+        winreg.CloseKey(key)
+
+        return value
+    except FileNotFoundError:
+        print(f"Ключ или параметр не найден: {key_path}\\{param_name}")
+        return None
+    except Exception as e:
+        print(f"Ошибка при чтении реестра: {e}")
+        return None
+
+# Пример использования (замените путь и имя параметра на реальные)
+key_path = r"SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion"
+param_name = "ProductID"
+serial = get_serial_number_from_registry(key_path, param_name)
+if serial:
+    print(f"Серийный номер: {serial}")

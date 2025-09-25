@@ -189,8 +189,9 @@ class ThreadCalibrator(QtCore.QThread):
 class ThreadUnit(QtCore.QThread):
     finished_th_unit = pyqtSignal()
 
-    def __init__(self,obj_preset, obj_calibr, preset,calibr,filter,lst_cb,cur_elem,text):
+    def __init__(self,calibr_obj,obj_preset, obj_calibr, preset,calibr,filter,lst_cb,cur_elem,text):
         super().__init__()
+        self.calibr_obj = calibr_obj
         self.obj_preset = obj_preset
         self.obj_calibr = obj_calibr
         self.preset = preset
@@ -203,8 +204,9 @@ class ThreadUnit(QtCore.QThread):
     def run(self):
         printf('ThreadUnit start')
         # self.flag_err = self.obj.main_data_read(self.mode)
-        self.obj_preset.saveDatatest(self.preset,self.lst_cb,self.cur_elem,self.text)
-        self.obj_calibr.saveDatatest(self.calibr,self.lst_cb,self.cur_elem,self.text)
+        self.obj_preset.saveData(self.calibr_obj,self.preset,self.lst_cb,self.cur_elem,self.text)
+        self.obj_calibr.saveData(self.calibr_obj,self.calibr,self.lst_cb,self.cur_elem,self.text)
+        self.obj_calibr.saveData(self.calibr_obj,self.filter,self.lst_cb,self.cur_elem,self.text)
         self.finished_th_unit.emit()
 
 
@@ -462,7 +464,7 @@ class Main(QMainWindow):
         # self.buttonUnit3.setMaximumSize(QtCore.QSize(300, 50))
         # self.buttonUnit3.setObjectName("buttonUnit3")
         # self.buttonUnit3.deleteLater()
-        self.lbl = QLabel(f'<i>{self.cur_elem} version: 1.0.0  </i>')
+        self.lbl = QLabel(f'<i>{self.cur_elem} version: 1.0.1  </i>')
         self.lbl.setFont(font)
         self.lbl.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter )
         self.lbl.setStyleSheet('color: rgba(105,105,105,0.5)')
@@ -807,16 +809,16 @@ class Main(QMainWindow):
     def readData_bu1(self):
         # if not self.button_obj[1].isChecked() and not self.button_obj[2].isChecked():
         if self.button_obj[0].isChecked():
-            # self.worker = Worker(self.calibr_obj[0],'Чтение')
-            # self.worker.run1()
-            # self.thread_start(self.calibr_obj[0],self.cur_elem,self.lst_cb[0],'r')
-            # self.readData_bu1_flag = 1
-            # self.worker.window_abort.connect(lambda: self.progress_bar_stop('bu1'))
+            self.worker = Worker(self.calibr_obj[0],'Чтение')
+            self.worker.run1()
+            self.thread_start(self.calibr_obj[0],self.cur_elem,self.lst_cb[0],'r')
+            self.readData_bu1_flag = 1
+            self.worker.window_abort.connect(lambda: self.progress_bar_stop('bu1'))
             # test
-            self.read_data_dict_bu400 = self.calibr_obj[0].test_data_dict('calibr')
-            self.unit_obj_preset[0].readData(self.read_data_dict_bu400, 'preset',1)
-            self.unit_obj_calibr[0].readData(self.read_data_dict_bu400, 'calibr',1)
-            self.buttonAction3.setEnabled(True)
+            # self.read_data_dict_bu400 = self.calibr_obj[0].test_data_dict('calibr')
+            # self.unit_obj_preset[0].readData(self.read_data_dict_bu400, 'preset',1)
+            # self.unit_obj_calibr[0].readData(self.read_data_dict_bu400, 'calibr',1)
+            # self.buttonAction3.setEnabled(True)
 
     def readData_bu2(self):
         # printff('readData_bu50',self.buttonUnit2.isChecked())
@@ -966,17 +968,21 @@ class Main(QMainWindow):
 
     def nmb_product_bu1(self,text):
         if self.button_obj[0].isChecked():
-            # self.worker = Worker(self.unit_obj_preset[0],'Сохранение')
-            # self.worker.run1()
+            self.worker = Worker(self.unit_obj_preset[0],'Сохранение')
+            self.worker.run1()
+            self.th_unit  = ThreadUnit(self.calibr_obj[0],self.unit_obj_preset[0],self.unit_obj_calibr[0],\
+                                       'preset','calibr', 'filter',self.lst_cb[0],self.cur_elem,text)
+
+            self.th_unit.start()
             # self.unit_obj_preset[0].saveData(self.calibr_obj[0],'preset',self.lst_cb[0],self.cur_elem,text)
             # self.unit_obj_calibr[0].saveData(self.calibr_obj[0],'calibr',self.lst_cb[0],self.cur_elem,text)
             # self.unit_obj_calibr[0].saveData(self.calibr_obj[0],'filter',self.lst_cb[0],self.cur_elem,text)
             #test
-            self.worker = Worker(self.unit_obj_preset[0],'Сохранение')
-            self.worker.run1()
-            self.th_unit  = ThreadUnit(self.unit_obj_preset[0],self.unit_obj_calibr[0],'preset','calibr',\
-                                       'filter',self.lst_cb[0],self.cur_elem,text)
-            self.th_unit.start()
+            # self.worker = Worker(self.unit_obj_preset[0],'Сохранение')
+            # self.worker.run1()
+            # self.th_unit  = ThreadUnit(self.unit_obj_preset[0],self.unit_obj_calibr[0],'preset','calibr',\
+            #                            'filter',self.lst_cb[0],self.cur_elem,text)
+            # self.th_unit.start()
             # self.th_unit.finished_th_unit.connect(self.signal_thread_unit_stop)
             # self.unit_obj_preset[0].saveDatatest('preset',self.lst_cb[0],self.cur_elem,text)
             # self.unit_obj_calibr[0].saveDatatest('calibr',self.lst_cb[0],self.cur_elem,text)
@@ -989,11 +995,16 @@ class Main(QMainWindow):
 
     def nmb_product_bu2(self,text):
         if self.button_obj[1].isChecked():
+
             self.worker = Worker(self.unit_obj_preset[1],'Сохранение')
             self.worker.run1()
-            self.unit_obj_preset[1].saveData(self.calibr_obj[1],'preset',self.lst_cb[1],self.cur_elem,text)
-            self.unit_obj_calibr[1].saveData(self.calibr_obj[1],'calibr',self.lst_cb[1],self.cur_elem,text)
-            self.unit_obj_calibr[1].saveData(self.calibr_obj[1],'filter',self.lst_cb[1],self.cur_elem,text)
+            self.th_unit  = ThreadUnit(self.calibr_obj[1],self.unit_obj_preset[1],self.unit_obj_calibr[1],\
+                                       'preset','calibr', 'filter',self.lst_cb[1],self.cur_elem,text)
+
+            self.th_unit.start()
+            # self.unit_obj_preset[1].saveData(self.calibr_obj[1],'preset',self.lst_cb[1],self.cur_elem,text)
+            # self.unit_obj_calibr[1].saveData(self.calibr_obj[1],'calibr',self.lst_cb[1],self.cur_elem,text)
+            # self.unit_obj_calibr[1].saveData(self.calibr_obj[1],'filter',self.lst_cb[1],self.cur_elem,text)
 
     def saveData_bu3(self):
         if self.button_obj[2].isChecked():
@@ -1003,9 +1014,13 @@ class Main(QMainWindow):
         if self.button_obj[2].isChecked():
             self.worker = Worker(self.unit_obj_preset[2],'Сохранение')
             self.worker.run1()
-            self.unit_obj_preset[2].saveData(self.calibr_obj[2],'preset',self.lst_cb[2],self.cur_elem,text)
-            self.unit_obj_calibr[2].saveData(self.calibr_obj[2],'calibr',self.lst_cb[2],self.cur_elem,text)
-            self.unit_obj_calibr[2].saveData(self.calibr_obj[2],'filter',self.lst_cb[2],self.cur_elem,text)
+            self.th_unit  = ThreadUnit(self.calibr_obj[2],self.unit_obj_preset[2],self.unit_obj_calibr[2],\
+                                       'preset','calibr','filter',self.lst_cb[2],self.cur_elem,text)
+
+            self.th_unit.start()
+            # self.unit_obj_preset[2].saveData(self.calibr_obj[2],'preset',self.lst_cb[2],self.cur_elem,text)
+            # self.unit_obj_calibr[2].saveData(self.calibr_obj[2],'calibr',self.lst_cb[2],self.cur_elem,text)
+            # self.unit_obj_calibr[2].saveData(self.calibr_obj[2],'filter',self.lst_cb[2],self.cur_elem,text)
 
     def signal_thread_unit_stop(self):
         printf('signa_unit_stop')

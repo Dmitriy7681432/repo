@@ -36,7 +36,7 @@ class Connect():
                     ports_lst.append(port.name)
         printf(ports_lst)
     except TypeError:
-        warning.SignalErr('Нет доступа к com port!!!',True)
+        warning.SignalErr('Нет доступа к COM port!!!',True)
     # Поиск элементов configs, кроме com_port
     for i in configs.keys():
         if i == 'wait_receiv':
@@ -53,7 +53,7 @@ class Connect():
     except IndexError:
         warning.SignalErr('Не найдено устройство!!!',True)
     except serial.serialutil.SerialException:
-        warning.SignalErr('Com port занят другой программой!!!',True)
+        warning.SignalErr('COM port занят другой программой!!!',True)
 
         # ser = serial.Serial()
     def __init__(self,com_port):
