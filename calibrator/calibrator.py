@@ -209,6 +209,18 @@ class ThreadUnit(QtCore.QThread):
         self.obj_calibr.saveData(self.calibr_obj,self.filter,self.lst_cb,self.cur_elem,self.text)
         self.finished_th_unit.emit()
 
+class ThreadParam(QtCore.QThread):
+    finished_th_param = pyqtSignal()
+
+    def __init__(self):
+        super().__init__()
+
+    def run(self):
+        printf('ThreadParam start')
+        # self.flag_err = self.obj.main_data_read(self.mode)
+
+        self.finished_th_unit.emit()
+
 
 class ComPort(QWidget):
     def __init__(self,arg='product'):
@@ -308,6 +320,7 @@ class Main(QMainWindow):
         self.cur_elem = cur_elem
         super().__init__()
         self.th_unit =0
+        self.th_param =0
 
         # self.com = ComPort()
         # self.com.show()
@@ -608,6 +621,8 @@ class Main(QMainWindow):
             self.th_unit.setTerminationEnabled(True)
             self.th_unit.terminate()
             self.th_unit.wait(1)
+        if self.th_param:
+            self.th_param.terminate()
         # del self.th_unit
         super().closeEvent(event)
 
@@ -785,7 +800,20 @@ class Main(QMainWindow):
                 flag = 1
             if flag==0:
                 self.stackedWidget.setCurrentIndex(len(self.lst_cb)+len(self.lst_cb))
+        #test
+        # self.param_obj[0].test_param()
+        # self.readParam()
 
+        for i,v in enumerate(self.lst_cb):
+            if i ==0:
+                if self.button_obj[0].isChecked():
+                    printf("БУ400")
+            elif i ==1:
+                if self.button_obj[1].isChecked():
+                    printf("БУ50")
+            elif i ==2:
+                if self.button_obj[2].isChecked():
+                    printf("БУСЭС")
         # if self.buttonUnit1.isChecked():
         #     self.stackedWidget.setCurrentIndex(6)
         # elif self.buttonUnit2.isChecked():
@@ -1026,6 +1054,14 @@ class Main(QMainWindow):
         printf('signa_unit_stop')
         # self.th_unit.quit()
         # self.th_unit.wait(1000)
+
+    def readParam(self):
+        if self.th_param ==0:
+            self.th_param = ThreadParam()
+        if self.th_param.isRunning():
+            printf('Поток param уже запущен')
+        else:
+            self.th_param.start()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

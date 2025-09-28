@@ -11,6 +11,7 @@ from PyQt5.QtCore import QAbstractEventDispatcher
 from PyQt5.QtWidgets import QApplication
 import sys,json
 from debug import *
+from pars_data_key import DataKey
 
 
 class Connect():
@@ -28,15 +29,15 @@ class Connect():
 
     # Поиск com_port
     ports_lst = []
-    try:
-        for port in ports:
-            printf(port.hwid,port.name,port.vid,port.pid,port.serial_number,port.location,port.manufacturer,port.product,port.interface)
-            for i in configs.values():
-                if i in port.serial_number:
-                    ports_lst.append(port.name)
-        printf(ports_lst)
-    except TypeError:
-        warning.SignalErr('Нет доступа к COM port!!!',True)
+    # try:
+    #     for port in ports:
+    #         printf(port.hwid,port.name,port.vid,port.pid,port.serial_number,port.location,port.manufacturer,port.product,port.interface)
+    #         for i in configs.values():
+    #             if i in port.serial_number:
+    #                 ports_lst.append(port.name)
+    #     printf(ports_lst)
+    # except TypeError:
+    #     warning.SignalErr('Нет доступа к COM port!!!',True)
     # Поиск элементов configs, кроме com_port
     for i in configs.keys():
         if i == 'wait_receiv':
@@ -47,7 +48,8 @@ class Connect():
             buffer_receiv_main = int(configs.get(i))
     try:
         if 'lin' in sys.platform:
-            ser = serial.Serial(port=f'/dev/{ports_lst[0]}', baudrate=3000000, timeout=0.01)
+            # ser = serial.Serial(port=f'/dev/{ports_lst[0]}', baudrate=3000000, timeout=0.01)
+            ser = serial.Serial()
         else:
             ser = serial.Serial(port=ports_lst[0], baudrate=3000000, timeout=0.01)
     except IndexError:
@@ -179,9 +181,12 @@ class Calibrator(QObject):
         self.data_can_dict['preset'] = self.parse_xml_designation(self.preset_designation)
         self.data_can_dict['calibr'] = self.parse_xml_designation(self.calibr_designation)
         self.data_can_dict['filter'] = self.parse_xml_designation(self.filter_designation)
+        # Создание data_key
+        # main(f'params_{self.product_lower}.xml')
+        data_key = DataKey(f'params_{self.product_lower}.xml',self.product)
+        data_key.main_pars()
         # Заполение главного словаря данными
         self.parse_data_xml()
-
         # self.file_open = open('read_data.txt', 'wb')
         self.flag =0
 
@@ -463,7 +468,16 @@ class Calibrator(QObject):
                                 unit1 = unit
                                 # unit1 = self.pars_eskd(unit)
                                 params_dict[unit1] = {}
-                        params_dict[unit1][designation] = [name,ctype]
+                        # Добавление hex_flip
+                        with open('data_key2.txt') as f_data_key:
+                            read = f_data_key.readlines()
+                            printf(designation)
+                            printf(read)
+                            for i in read:
+                                if 'KEY_' + designation + ' ' in i:
+                                    lst_i = i.split(' ')
+                                    printf(lst_i)
+                        params_dict[unit1][designation] = [name,ctype,lst_i[5]]
                 if cb ==self.control_block:
                     for products2 in products1.findall('.//calibration'):
                         if len(products2.getchildren()) != 0:

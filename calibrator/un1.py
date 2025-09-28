@@ -262,213 +262,213 @@
 
 
 from debug import *
-
-def func_val_to_hex_can(c):
-    printf(c)
-    c = int(c)
-    printf(c)
-    c = hex(c)[2:].upper()
-    printf(c)
-    if len(c) == 1:
-        printf(type(c),c)
-        c = '0' + c + "000000"
-        printf(c)
-    elif len(c) == 2:
-        c = c + "000000"
-    elif len(c) == 3:
-        c = c + "00000"
-    elif len(c) == 4:
-        c = c[len(c) - 2:] + "  " + \
-            c[len(c) - 4:len(c) - 2] + "0000"
-    elif len(c) == 6:
-        c = c[len(c) - 2:] + "  " + \
-            c[len(c) - 4:len(c) - 2] + "  " + c[len(c) - 6:len(c) - 4] + "00"
-    elif len(c) == 8:
-        c = c[len(c) - 2:] + "  " + \
-            c[len(c) - 4:len(c) - 2] + "  " + c[len(c) - 6:len(c) - 4] + "  " + c[len(c) - 8:len(c) - 6]
-    return c
-
-a = func_val_to_hex_can('800')
-print(a)
-
-c = 1000
-c = hex(c)[2:].upper()
-printf(c)
-
-
-def trans_neg_hex_to_dec(arg):
-    arg = '0x' + arg
-    arg = int(arg, 16)
-    t = bin(arg)
-    s = str.maketrans('01', '10')
-    s1 = t[2:].translate(s)
-    s2 = (int(s1, 2) + 1) * -1
-    # printf(s2+1)
-    return s2
-# d = trans_neg_hex_to_dec('-25')
-# s2 = (int(d,2)+1)* -1
-# print(int(d))
-
-
-def to_twos_complement_hex(n, bits=32):
-    if n >= 0:
-        return hex(n)
-    else:
-        # Вычисляем дополнительный код
-        return hex((1 << bits) + n)
-
-val = -255
-val_32 = to_twos_complement_hex(val, 32)
-print(f"-255 в 32-битном доп. коде: {val_32}")
-# Вывод: -255 в 32-битном доп. коде: -0xff
-
-# d = '-41.875099'
-d = '0.0209'
-print(float(d))
-
-import struct
-
-number = -12.375
-
-packed = struct.pack('>f', float(d))
-# Преобразование байтов в целое число
-integer_representation = int.from_bytes(packed, byteorder='big') # byteorder должен соответствовать порядку байтов в packed
-# print(f"Целочисленное представление: {integer_representation}")
-# Преобразование целого числа в шестнадцатеричную строку
-hex_string = hex(integer_representation)
-print(f"Шестнадцатеричная строка: {hex_string}")
-
-#05 32 00 00
-c = '30251235'
-# arg = hex(arg)[2:].upper()
-# arg = arg[6:8] + arg[4:6] + arg[2:4] + arg[0:2]
-# c = c[len(c) - 2:] + "  " + \
-#     c[len(c) - 4:len(c) - 2] + "  " + c[len(c) - 6:len(c) - 4] + "  " + c[len(c) - 8:len(c) - 6]
-# c = c[len(c) - 2:] + \
-#     c[len(c) - 3:len(c) - 2] + "00000"
-c = '4'
-#51 40 0D 03
-#1
-c = '0' + c + "000000"
-#2
-# c = c + "000000"
-#3
-# c = c[1:]+ '0'+c[:1] +'0000'
-#4
-# c = c[len(c) - 2:] +\
-#     c[len(c) - 4:len(c) - 2] + "0000"
-#5
-# c = c[-2:] +c[1:3]+'0'+c[:1] +'00'
-#6
-# c = c[len(c) - 2:] +c[len(c) - 4:len(c) - 2] +\
-#            c[len(c) - 6:len(c) - 4] + "00"
-#7
-# c = c[-2:] +c[3:5] +c[1:3]+'0'+ c[:1]
-#8
-# c = c[len(c) - 2:] + c[len(c) - 4:len(c) - 2] + \
-#     c[len(c) - 6:len(c) - 4] + c[len(c) - 8:len(c) - 6]
-printf(c)
-# arg = b't01488C00D4BF0D4300000D82'
-# value = arg[13:21]
-# printf(value)
-# value = value[6:8] + value[4:6] + value[2:4] + value[0:2]
-# printf(value)
-
-import binascii
-def transformed_in_value_and_address(arg, type, func=None):
-    lst_val = []
-    value = arg[13:21]
-    printf(value)
-    value = value[6:8] + value[4:6] + value[2:4] + value[0:2]
-    printf('val', value)
-    value = value.decode('utf-8')
-    printf(value)
-    if type == 'int' and func == 'header':
-        printf(value)
-        value = binascii.unhexlify(value)
-        printf(value)
-        value = int.from_bytes(value, 'big', signed=True)
-        printf(value)
-        # value = struct.unpack('!I', bytes.fromhex(value))
-        value = [bytearray(value.to_bytes(length=4, byteorder="little", signed=True))]
-    elif type == 'int':
-        printf(value)
-        value = struct.unpack('!I', bytes.fromhex(value))
-    elif type == '-int':
-        value = [trans_neg_hex_to_dec(value)]
-        printf('val1', value)
-        # value = struct.unpack('!I', bytes.fromhex(value))
-    else:
-        value = struct.unpack('!f', bytes.fromhex(value))
-        lst_val.append(round(value[0], 6))
-        value = lst_val.copy()
-    address = arg[5:13]
-    address = address[6:8] + address[4:6] + address[2:4] + address[0:2]
-    address = address.decode('utf-8')
-    address = struct.unpack('!I', bytes.fromhex(address))
-    return value[0], address[0]
-
-arg = b't01488C00D4BF00D430000E38'
-# arg = transformed_in_value_and_address(arg,'int')
-print(arg)
-# value =b't01488C00D4BF00D430000E38'
-# value = arg[13:21]
-# value = value[6:8] + value[4:6] + value[2:4] + value[0:2]
-
-
-# val= bytearray(b'\x04\x00\x00\x00')
-val = bytearray(b'ZZ\xa5\xa5')
-val = int.from_bytes(val, 'little', signed=False)
-printf(val, type(val))
-val = hex(val)[2:].upper()
-# val = 'A5A55A5A'
-# val = val[6:8] + val[4:6] + val[2:4] + val[0:2]
-printf(val)
-# val = int(val)
+#
+# def func_val_to_hex_can(c):
+#     printf(c)
+#     c = int(c)
+#     printf(c)
+#     c = hex(c)[2:].upper()
+#     printf(c)
+#     if len(c) == 1:
+#         printf(type(c),c)
+#         c = '0' + c + "000000"
+#         printf(c)
+#     elif len(c) == 2:
+#         c = c + "000000"
+#     elif len(c) == 3:
+#         c = c + "00000"
+#     elif len(c) == 4:
+#         c = c[len(c) - 2:] + "  " + \
+#             c[len(c) - 4:len(c) - 2] + "0000"
+#     elif len(c) == 6:
+#         c = c[len(c) - 2:] + "  " + \
+#             c[len(c) - 4:len(c) - 2] + "  " + c[len(c) - 6:len(c) - 4] + "00"
+#     elif len(c) == 8:
+#         c = c[len(c) - 2:] + "  " + \
+#             c[len(c) - 4:len(c) - 2] + "  " + c[len(c) - 6:len(c) - 4] + "  " + c[len(c) - 8:len(c) - 6]
+#     return c
+#
+# a = func_val_to_hex_can('800')
+# print(a)
+#
+# c = 1000
+# c = hex(c)[2:].upper()
+# printf(c)
+#
+#
+# def trans_neg_hex_to_dec(arg):
+#     arg = '0x' + arg
+#     arg = int(arg, 16)
+#     t = bin(arg)
+#     s = str.maketrans('01', '10')
+#     s1 = t[2:].translate(s)
+#     s2 = (int(s1, 2) + 1) * -1
+#     # printf(s2+1)
+#     return s2
+# # d = trans_neg_hex_to_dec('-25')
+# # s2 = (int(d,2)+1)* -1
+# # print(int(d))
+#
+#
+# def to_twos_complement_hex(n, bits=32):
+#     if n >= 0:
+#         return hex(n)
+#     else:
+#         # Вычисляем дополнительный код
+#         return hex((1 << bits) + n)
+#
+# val = -255
+# val_32 = to_twos_complement_hex(val, 32)
+# print(f"-255 в 32-битном доп. коде: {val_32}")
+# # Вывод: -255 в 32-битном доп. коде: -0xff
+#
+# # d = '-41.875099'
+# d = '0.0209'
+# print(float(d))
+#
+# import struct
+#
+# number = -12.375
+#
+# packed = struct.pack('>f', float(d))
+# # Преобразование байтов в целое число
+# integer_representation = int.from_bytes(packed, byteorder='big') # byteorder должен соответствовать порядку байтов в packed
+# # print(f"Целочисленное представление: {integer_representation}")
+# # Преобразование целого числа в шестнадцатеричную строку
+# hex_string = hex(integer_representation)
+# print(f"Шестнадцатеричная строка: {hex_string}")
+#
+# #05 32 00 00
+# c = '30251235'
+# # arg = hex(arg)[2:].upper()
+# # arg = arg[6:8] + arg[4:6] + arg[2:4] + arg[0:2]
+# # c = c[len(c) - 2:] + "  " + \
+# #     c[len(c) - 4:len(c) - 2] + "  " + c[len(c) - 6:len(c) - 4] + "  " + c[len(c) - 8:len(c) - 6]
+# # c = c[len(c) - 2:] + \
+# #     c[len(c) - 3:len(c) - 2] + "00000"
+# c = '4'
+# #51 40 0D 03
+# #1
+# c = '0' + c + "000000"
+# #2
+# # c = c + "000000"
+# #3
+# # c = c[1:]+ '0'+c[:1] +'0000'
+# #4
+# # c = c[len(c) - 2:] +\
+# #     c[len(c) - 4:len(c) - 2] + "0000"
+# #5
+# # c = c[-2:] +c[1:3]+'0'+c[:1] +'00'
+# #6
+# # c = c[len(c) - 2:] +c[len(c) - 4:len(c) - 2] +\
+# #            c[len(c) - 6:len(c) - 4] + "00"
+# #7
+# # c = c[-2:] +c[3:5] +c[1:3]+'0'+ c[:1]
+# #8
+# # c = c[len(c) - 2:] + c[len(c) - 4:len(c) - 2] + \
+# #     c[len(c) - 6:len(c) - 4] + c[len(c) - 8:len(c) - 6]
+# printf(c)
+# # arg = b't01488C00D4BF0D4300000D82'
+# # value = arg[13:21]
+# # printf(value)
+# # value = value[6:8] + value[4:6] + value[2:4] + value[0:2]
+# # printf(value)
+#
+# import binascii
+# def transformed_in_value_and_address(arg, type, func=None):
+#     lst_val = []
+#     value = arg[13:21]
+#     printf(value)
+#     value = value[6:8] + value[4:6] + value[2:4] + value[0:2]
+#     printf('val', value)
+#     value = value.decode('utf-8')
+#     printf(value)
+#     if type == 'int' and func == 'header':
+#         printf(value)
+#         value = binascii.unhexlify(value)
+#         printf(value)
+#         value = int.from_bytes(value, 'big', signed=True)
+#         printf(value)
+#         # value = struct.unpack('!I', bytes.fromhex(value))
+#         value = [bytearray(value.to_bytes(length=4, byteorder="little", signed=True))]
+#     elif type == 'int':
+#         printf(value)
+#         value = struct.unpack('!I', bytes.fromhex(value))
+#     elif type == '-int':
+#         value = [trans_neg_hex_to_dec(value)]
+#         printf('val1', value)
+#         # value = struct.unpack('!I', bytes.fromhex(value))
+#     else:
+#         value = struct.unpack('!f', bytes.fromhex(value))
+#         lst_val.append(round(value[0], 6))
+#         value = lst_val.copy()
+#     address = arg[5:13]
+#     address = address[6:8] + address[4:6] + address[2:4] + address[0:2]
+#     address = address.decode('utf-8')
+#     address = struct.unpack('!I', bytes.fromhex(address))
+#     return value[0], address[0]
+#
+# arg = b't01488C00D4BF00D430000E38'
+# # arg = transformed_in_value_and_address(arg,'int')
+# print(arg)
+# # value =b't01488C00D4BF00D430000E38'
+# # value = arg[13:21]
+# # value = value[6:8] + value[4:6] + value[2:4] + value[0:2]
+#
+#
+# # val= bytearray(b'\x04\x00\x00\x00')
+# val = bytearray(b'ZZ\xa5\xa5')
+# val = int.from_bytes(val, 'little', signed=False)
+# printf(val, type(val))
 # val = hex(val)[2:].upper()
-#1
-# val = '0' + val + "000000"
-#2
-# val = val + "000000"
-#3
-# val = val[1:]+ '0'+val[:1] +'0000'
-#8
-val = val[len(val) - 2:] + val[len(val) - 4:len(val) - 2] + \
-    val[len(val) - 6:len(val) - 4] + val[len(val) - 8:len(val) - 6]
-val = val.encode('utf-8') + b'0000'
-printf(val)
-
-a = '5A5AA5A5'
-
-def trans_str(metric,text):
-    flag = 0
-    printf(text,metric)
-    if metric >269:
-        text = list(text)
-        for i in range(0,len(text)):
-            printf(i)
-            if i*7>269:
-                if text[i] != ' ':
-                    if flag==0:
-                        j = i
-                        flag=1
-                    if flag==1:
-                        while(True):
-                            j-=1
-                            if text[j]==' ':
-                                text[j] = '\n'
-                                break
-                        break
-                elif text[i] == ' ':
-                    text[i] = '\n'
-                    break
-        text = ''.join(text)
-        printf(text)
-        return [text]
-    else: return [text]
-
-text = 'Время, оставшееся до технич. обслуживания ЭА, с'
-metric = 326
+# # val = 'A5A55A5A'
+# # val = val[6:8] + val[4:6] + val[2:4] + val[0:2]
+# printf(val)
+# # val = int(val)
+# # val = hex(val)[2:].upper()
+# #1
+# # val = '0' + val + "000000"
+# #2
+# # val = val + "000000"
+# #3
+# # val = val[1:]+ '0'+val[:1] +'0000'
+# #8
+# val = val[len(val) - 2:] + val[len(val) - 4:len(val) - 2] + \
+#     val[len(val) - 6:len(val) - 4] + val[len(val) - 8:len(val) - 6]
+# val = val.encode('utf-8') + b'0000'
+# printf(val)
+#
+# a = '5A5AA5A5'
+#
+# def trans_str(metric,text):
+#     flag = 0
+#     printf(text,metric)
+#     if metric >269:
+#         text = list(text)
+#         for i in range(0,len(text)):
+#             printf(i)
+#             if i*7>269:
+#                 if text[i] != ' ':
+#                     if flag==0:
+#                         j = i
+#                         flag=1
+#                     if flag==1:
+#                         while(True):
+#                             j-=1
+#                             if text[j]==' ':
+#                                 text[j] = '\n'
+#                                 break
+#                         break
+#                 elif text[i] == ' ':
+#                     text[i] = '\n'
+#                     break
+#         text = ''.join(text)
+#         printf(text)
+#         return [text]
+#     else: return [text]
+#
+# text = 'Время, оставшееся до технич. обслуживания ЭА, с'
+# metric = 326
 # trans_str(metric,text)
 
 
@@ -614,53 +614,53 @@ metric = 326
 # story.append(final_table)
 # doc.build(story)
 
-import os,sys
-dir_name = os.path.dirname(__file__)
-printf(dir_name)
-dirs = sys.exec_prefix
-dirs_all = sys.executable
-
-folder = 'dif'
-printf(dirs_all)
-# dirs_all +=f"\{folder}"
+# import os,sys
+# dir_name = os.path.dirname(__file__)
+# printf(dir_name)
+# dirs = sys.exec_prefix
+# dirs_all = sys.executable
+#
+# folder = 'dif'
 # printf(dirs_all)
-# dirs_all +=folder
-printf(dirs_all)
-
-out_file = 'test2.docx'
-input_dir = 'D:\repo\calibrator\prj2\csv,docx,pdf'
-def trans_path(dir,out_file,folder):
-    inp = ''
-    cnt =0
-    printf(dir.count('\\'))
-    for i in dir:
-        # print(i)
-        if cnt==dir.count('\\'):break
-        if i =='\r':
-            i ='\/\\r'
-        inp +=i
-        if i =='\\':
-            inp +='\\'
-            cnt+=1
-    printf(inp)
-    # inp += f'\/\\{out_file}'
-    # inp = inp.replace('/','')
-    inp +=f'{folder}\\\{out_file}'
-    return inp
-
-# temp =trans_path(dirs_all,out_file,folder)
-# printf(temp)
-
-import os
-
-current_file = os.path.realpath(__file__)
-current_directory = os.path.dirname(current_file)
-printf(current_file)
-printf(current_directory)
-printf(os.path.abspath(__file__))
-printf(dirs_all)
-
-printf(dirs_all.count('\\'))
+# # dirs_all +=f"\{folder}"
+# # printf(dirs_all)
+# # dirs_all +=folder
+# printf(dirs_all)
+#
+# out_file = 'test2.docx'
+# input_dir = 'D:\repo\calibrator\prj2\csv,docx,pdf'
+# def trans_path(dir,out_file,folder):
+#     inp = ''
+#     cnt =0
+#     printf(dir.count('\\'))
+#     for i in dir:
+#         # print(i)
+#         if cnt==dir.count('\\'):break
+#         if i =='\r':
+#             i ='\/\\r'
+#         inp +=i
+#         if i =='\\':
+#             inp +='\\'
+#             cnt+=1
+#     printf(inp)
+#     # inp += f'\/\\{out_file}'
+#     # inp = inp.replace('/','')
+#     inp +=f'{folder}\\\{out_file}'
+#     return inp
+#
+# # temp =trans_path(dirs_all,out_file,folder)
+# # printf(temp)
+#
+# import os
+#
+# current_file = os.path.realpath(__file__)
+# current_directory = os.path.dirname(current_file)
+# printf(current_file)
+# printf(current_directory)
+# printf(os.path.abspath(__file__))
+# printf(dirs_all)
+#
+# printf(dirs_all.count('\\'))
 
 # import subprocess
 #
@@ -856,64 +856,112 @@ printf(dirs_all.count('\\'))
 # user = subprocess.run(['whoami'], capture_output=True, text=True)
 # subprocess.run(['chown', '-R', user, ':users', '/dev'], capture_output=True, text=True)
 
-from PyQt5.QtSerialPort import QSerialPort,QSerialPortInfo
-from PyQt5.QtCore import QIODevice
-for port_info in QSerialPortInfo.availablePorts():
-    # print(f"Port Name: {port_info.portName()}, Description: {port_info.description()}")
-    print(port_info.manufacturer(),port_info.hasProductIdentifier(),port_info.hasVendorIdentifier(),port_info.productIdentifier(),\
-          port_info.systemLocation(),port_info.serialNumber(),port_info.vendorIdentifier())
+# from PyQt5.QtSerialPort import QSerialPort,QSerialPortInfo
+# from PyQt5.QtCore import QIODevice
+# for port_info in QSerialPortInfo.availablePorts():
+#     # print(f"Port Name: {port_info.portName()}, Description: {port_info.description()}")
+#     print(port_info.manufacturer(),port_info.hasProductIdentifier(),port_info.hasVendorIdentifier(),port_info.productIdentifier(),\
+#           port_info.systemLocation(),port_info.serialNumber(),port_info.vendorIdentifier())
+#
+# import serial.tools.list_ports
+# import serial
+#
+# # print(serial.serialwin32.SerialBase.port.fget())
+# ports = serial.tools.list_ports.comports()
+# for port in ports:
+#     printf(port.hwid, port.name, port.vid, port.pid, port.serial_number, port.location, port.manufacturer, port.product,
+#            port.interface)
+#
+# import winreg
+# import itertools
+#
+# def serial_ports() -> list:
+#     path = 'HARDWARE\\DEVICEMAP\\SERIALCOMM'
+#     key = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, path)
+#
+#     ports = []
+#     for i in itertools.count():
+#         try:
+#             ports.append(winreg.EnumValue(key, i)[1])
+#         except EnvironmentError:
+#             break
+#
+#     return ports
+#
+# printf(serial_ports())
+#
+#
+# def get_serial_number_from_registry(key_path, param_name):
+#     try:
+#         # Открываем ключ реестра
+#         key = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, key_path, 0, winreg.KEY_READ)
+#
+#         # Получаем значение параметра
+#         value, reg_type = winreg.QueryValueEx(key, param_name)
+#         printf(reg_type)
+#
+#         # Закрываем ключ
+#         winreg.CloseKey(key)
+#
+#         return value
+#     except FileNotFoundError:
+#         print(f"Ключ или параметр не найден: {key_path}\\{param_name}")
+#         return None
+#     except Exception as e:
+#         print(f"Ошибка при чтении реестра: {e}")
+#         return None
+#
+# # Пример использования (замените путь и имя параметра на реальные)
+# key_path = r"SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion"
+# param_name = "ProductID"
+# serial = get_serial_number_from_registry(key_path, param_name)
+# if serial:
+#     print(f"Серийный номер: {serial}")
 
-import serial.tools.list_ports
-import serial
+# from class_read_data import Calibrator
+lst_read = [
+            [b't64081C40D4BF00000DA060D8\rt0348647D00000000E00360E3\rt03484C8100000000000060E4\rt03484C8100000000000060E4\rt03184C8100000000000060E5\rt0318647D00000000E00360E5\rt0318982F0000020000EA60E6\rt0328936E0000480A000060EE\rt03289D2F00000000000060EE\rt03288C2F00000000000060EF\rt02F84B2F00000000100060EF\rt02F82F0100000100000060F0\rt02F8902F00000000000060F0\rt02F8330000000000000060F1\rt02F84A2F0000A4AA8E0060F1\rt02F88C2F00000000000060F2\rt03C829460F000000000060FE\r'],
+            [b't0338DD07000000000000610F\rz\rt0338DE07000000000000610F\rt03388C130000000000006110\rt03388D130000000000006110\rt033895130000000000006111\rt0338DF070000000000006111\rt03388E130000000000006112\rt03D8114A0F0002ABD6416112\rt64082040D4BF040000006118\r'],
+            [b't0348647D00000000E003614A\rt03484C81000000000000614A\rt03484C81000000000000614B\rt03184C81000000000000614B\rt0318647D00000000E003614C\rt0318982F0000020000EA614C\rz\rt0328936E0000480A00006152\rt03289D2F0000000000006152\r'],
+            [b't033896130000000000006173\rt033897130000000000006174\rt0338C7D80100080100006174\rt033836230000000000006175\rt033855240000000000006175\rt033857240000000000006176\rt03384C2F0000030025096176\rt0308C7D80100080100006177\rt030801810000000000006177\rt033835230000000000006178\rt033837230000000000006178\rt033856240000000000006179\rt0338E22E0000ECCEAD006179\rt0308197D000000000000617A\rt0308EE2E000002000000617A\r'],
+            [b't0348647D00000000E00361AC\rt03484C8100000000000061AC\rt03484C8100000000000061AC\rt03184C8100000000000061AD\rt0318647D00000000E00361AD\rt0318982F0000020000EA61AE\rt03288C2F00000000000061B6\rt02F8330000000000000061B6\rt02F84A2F0000A4AA8E0061B7\rt02F88C2F00000000000061B7\rt64082840D4BF0400000061B8\rt02F84B2F00000000100061B8\rt02F82F0100000100000061B9\rt02F8902F00000000000061B9\r'],
+            [b't0348647D00000000E0030A8C\rt03484C810000000000000A8D\rt03484C810000000000000A8D\rt03184C810000000000000A8E\rt0318647D00000000E0030A8E\rt0318982F0000020000EA0A8F\rt0328E12E0000887700000A96\rt0328F22E00000000D0BF0A97\rt0328EF2E00004C7304A00A97\rt03289D2F0000000000000A98\rt02F833000000000000000A98\rt02F84A2F0000A4AA8E000A99\rt02F88C2F0000000000000A99\rt0328936E0000480A00000A9A\rt03288C2F0000000000000A9A\rt02F84B2F0000000010000A9B\rt02F82F010000010000000A9B\rt02F8902F0000000000000A9C\r'],
+            [b't0338027D0000000000000AB9\rt0338037D0000000000000AB9\rt0338047D0000000000000ABA\rt0338067D0000000000000ABA\rt03383D7E0000000000000ABB\rt0338EA800000000000000ABB\rt0338EC800000000000000ABC\rt0338EE800000000000000ABC\rt033820820000000000000ABD\rt03385C760000010000000ABD\rt033839230000000000000ABE\rt0308A2130000020000000ABE\rt0308C7D80100080100000ABF\rt0338057D0000000000000ABF\rt03383B7E0000000000000AC0\rt03383C7E0000000000000AC0\rt0338E9800000000000000AC1\rt0338EB800000000000000AC1\rt0338ED800000000000000AC2\rt03381F820000000000000AC2\rt033821820000000000000AC3\rt0338447A0000010000000AC3\rt0308A5130000B401B5410AC4\rt03084D2F00000800000C0AC4\rt0308197D0000000000000AC5\r'],
+            [b't03484C810000000000000B54\rt03484C810000000000000B55\rt0318647D00000000E0030B55\rt0318982F0000020000EA0B56\rt03184C810000000000000B56\rt03281F300000AC0000000B5F\rt032820300000AD0000000B5F\rt0328E12E0000507800000B60\rt032830300000B10000000B60\rt032832300000B30000000B61\rt032834300000B50000000B61\rt032842300000B70000000B61\rt032844300000B90000000B62\rt032846300000BB0000000B62\rt03281252000001C0BB410B63\rt032833000000000000000B63\rt032854300000000000000B64\rt0328114A0F005F87D5410B64\rt032822300000AF0000000B65\rt03282F300000B00000000B65\rt032831300000B20000000B66\rt032833300000B40000000B66\rt032841300000B60000000B67\rt032843300000B80000000B67\rt032845300000BA0000000B68\rt03280A5200003600BC410B68\rt032834530000000000000B69\rt032853300000000000000B69\rt0328936E0000480A00000B6A\rt0328104A0F00000000000B6A\r'],
+            [b't0338D40700009C18CD430B80\rt0338D507000033A8CD430B81\rt0338D6070000AAC2CD430B81\rt0338D8070000333348420B81\rt0338E3070000000000000B82\rt0338E5070000000000000B82\rt0338DE070000000000000B83\rt0338DA070000C10000000B83\rt0338DC070000480000000B84\rt0338D7070000333348420B84\rt0338D9070000CDCC47420B85\rt0338E4070000000000000B85\rt0338DD070000000000000B86\rt0338DF070000000000000B86\rt0338DB070000380100000B87\rt0338E60700000000803F0B87\r'],
+            [b't0348647D00000000E0030BB9\rt03484C810000000000000BB9\rt03484C810000000000000BBA\rt03184C810000000000000BBA\rt0318647D00000000E0030BBB\rt0318982F0000020000EA0BBB\rt0328EC5E0000010000000BC2\rt0328D4620000010000000BC3\rt0328BC660000010000000BC3\rt032810520000000000000BC4\rt0328455300004B0C00000BC4\rt02F833000000000000000BC5\rt03288C2F0000000000000BC5\rt02F82F010000010000000BC6\rt02F8902F0000000000000BC6\rt01481C00D4BF010000000BC7\rt0328A46A0000010000000BC7\rt03289D2F0000000000000BC7\rt032846530000490C00000BC8\rt03285B300000000000EA0BC8\rt02F84B2F0000000010000BC9\rt02F84A2F0000A4AA8E000BC9\rt02F88C2F0000000000000BCA\rt02F85B300000000000EA0BCA\r'],
+            [b't0338E8070000000000000BE6\rt0338E9070000000000000BE6\rt0338BF0B0000000000000BE7\rt03388D130000000000000BE7\rt03388F130000000000000BE8\rt033895130000000000000BE8\rt033897130000000000000BE9\rt0338E22E00003CE3AD000BE9\rt03384C2F0000030025090BEA\rt033838230000000000000BEA\rt0308197D0000000000000BEB\rt0308EE2E0000020000000BEB\rt03388C130000000000000BEC\rt03388E130000000000000BEC\rt0338A6130000000000000BED\rt033896130000000000000BED\rt0338C7D80100080100000BEE\rt0308C7D80100080100000BEE\rt030801810000000000000BEF\r'],
+            [b't03480B2F0000C8D305A00C1D\rt0348472F00000040D4BF0C1E\rt0348F32E00000000D0BF0C1E\rt0348647D00000000E0030C1F\rt03484C810000000000000C1F\rt0318647D00000000E0030C20\rt0318982F0000020000EA0C20\rt0348152F00000020D4BF0C20\rt03483D2F0000D0D405A00C21\rt0348F02E0000B83705A00C21\rt03484C810000000000000C22\rt03184C810000000000000C22\rt0328936E0000480A00000C27\rt03289D2F0000000000000C28\rt03288C2F0000000000000C28\rt02F84B2F0000000010000C29\rt02F82F010000010000000C29\rt02F833000000000000000C2A\rt02F84A2F0000A4AA8E000C2A\rt03C829460F00000000000C37\r'],
+            ]
 
-# print(serial.serialwin32.SerialBase.port.fget())
-ports = serial.tools.list_ports.comports()
-for port in ports:
-    printf(port.hwid, port.name, port.vid, port.pid, port.serial_number, port.location, port.manufacturer, port.product,
-           port.interface)
-
-import winreg
-import itertools
-
-def serial_ports() -> list:
-    path = 'HARDWARE\\DEVICEMAP\\SERIALCOMM'
-    key = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, path)
-
-    ports = []
-    for i in itertools.count():
-        try:
-            ports.append(winreg.EnumValue(key, i)[1])
-        except EnvironmentError:
-            break
-
-    return ports
-
-printf(serial_ports())
+# for i in lst_read:
+#     if b'647D0000' in i:
+#         list_read_data = i.split(b'\r')
+#         for j in list_read_data:
+#             if b'647D0000' in j:
+#                 printf(j)
+#                 val,adr = Calibrator.transformed_in_value_and_address(Calibrator,j,'int')
+#                 printf(val)
 
 
-def get_serial_number_from_registry(key_path, param_name):
-    try:
-        # Открываем ключ реестра
-        key = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, key_path, 0, winreg.KEY_READ)
 
-        # Получаем значение параметра
-        value, reg_type = winreg.QueryValueEx(key, param_name)
-        printf(reg_type)
-
-        # Закрываем ключ
-        winreg.CloseKey(key)
-
-        return value
-    except FileNotFoundError:
-        print(f"Ключ или параметр не найден: {key_path}\\{param_name}")
-        return None
-    except Exception as e:
-        print(f"Ошибка при чтении реестра: {e}")
-        return None
-
-# Пример использования (замените путь и имя параметра на реальные)
-key_path = r"SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion"
-param_name = "ProductID"
-serial = get_serial_number_from_registry(key_path, param_name)
-if serial:
-    print(f"Серийный номер: {serial}")
+# from data_key2 import func_val_to_hex_can_flip
+# val = 32100
+# val = 40000012
+# # val = hex(val)[2:].upper()
+# # printf(val)
+# val = func_val_to_hex_can_flip(val)
+# printf(val)
+#
+# text = 'AIR_TEMP '
+# if 'AIR_TEMP ' in text:
+#     printf('YES')
+#
+# with open('data_key2.txt') as f_data_key:
+#     read = f_data_key.readlines()
+#     for i in read:
+#         if 'KEY_'+"AIR_TEMP " in i:
+#             lst_i = i.split(' ')
+#     printf(lst_i)
+#     # for i in read:
+#     #     printf(i)

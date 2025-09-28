@@ -1143,15 +1143,47 @@ class Unit(MyWidget,QWidget):
         return inp
 
 
+class ThreadParam(QtCore.QThread):
+    finished_th_unit = pyqtSignal()
+
+    def __init__(self, list_obj):
+        super().__init__()
+        self.list_obj = list_obj
+
+    def run(self):
+        printf('ThreadParam start')
+        # while(True):
+        for i in range(0, 10000000):
+            self.list_obj[0].item(0).setText(str(i))
+            self.list_obj[1].item(0).setText(str(i))
+            self.list_obj[2].item(0).setText(str(i))
+            self.list_obj[3].item(0).setText(str(i))
+            self.list_obj[4].item(0).setText(str(i))
+            self.list_obj[5].item(0).setText(str(i))
+            self.list_obj[6].item(0).setText(str(i))
+            self.list_obj[7].item(0).setText(str(i))
+            self.list_obj[8].item(0).setText(str(i))
+            self.list_obj[9].item(0).setText(str(i))
+            self.list_obj[10].item(0).setText(str(i))
+            self.list_obj[11].item(0).setText(str(i))
+            self.list_obj[12].item(0).setText(str(i))
+            self.list_obj[13].item(0).setText(str(i))
+            self.list_obj[14].item(0).setText(str(i))
+            self.list_obj[15].item(0).setText(str(i))
+            self.list_obj[16].item(0).setText(str(i))
+            self.list_obj[17].item(0).setText(str(i))
+            self.msleep(100)
 class Param(QWidget):
 
     def __init__(self,param_dict,unit,size_stacked):
         super().__init__()
 
         self.initUI(param_dict,unit,size_stacked)
+        printf(param_dict)
 
     def initUI(self,param_dict,unit,size_stacked):
         self.cnt_elem = 0
+        self.th_param = 0
         self.size_stacked = size_stacked
         # Шрифт
         self.font = QtGui.QFont()
@@ -1482,6 +1514,17 @@ class Param(QWidget):
         # self.lst_widget_item1[0].setText('5')
         printf(lst_temp)
 
+    def test_param(self):
+        if self.th_param ==0:
+            self.th_param = ThreadParam(self.lst_widget1)
+        if self.th_param.isRunning():
+            printf('Поток param уже запущен')
+        else:
+            self.th_param.start()
+
+    def thread_param_exit(self):
+        printf('th_par_exit')
+        self.th_param.terminate()
     def add_List(self,x1,y1,x2,y2,param_obj,start_while,text_label):
         printf('func add_list')
 

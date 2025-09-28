@@ -1,10 +1,30 @@
 import xml.etree.ElementTree as ET
 
+def func_val_to_hex_can_flip(c):
+    c = hex(c)[2:].upper()
+    if len(c) == 1:
+        c = '0' + c + "000000"
+    elif len(c) == 2:
+        c = c + "000000"
+    elif len(c) == 3:
+        c = c[1:] + '0' + c[:1] + '0000'
+    elif len(c) == 4:
+        c = c[len(c) - 2:] + \
+            c[len(c) - 4:len(c) - 2] + "0000"
+    elif len(c) == 5:
+        c = c[-2:] + c[1:3] + '0' + c[:1] + '00'
+    elif len(c) == 6:
+        c = c[len(c) - 2:] + c[len(c) - 4:len(c) - 2] + \
+            c[len(c) - 6:len(c) - 4] + "00"
+    elif len(c) == 7:
+        c = c[-2:] + c[3:5] + c[1:3] + '0' + c[:1]
+    elif len(c) == 8:
+        c = c[len(c) - 2:] + c[len(c) - 4:len(c) - 2] + \
+            c[len(c) - 6:len(c) - 4] + c[len(c) - 8:len(c) - 6]
+    return c
 
 
 class DataKey():
-    tree = ET.parse('params.xml')
-    root = tree.getroot()
     units = 0
     count = 0
     count1 = 0
@@ -13,18 +33,28 @@ class DataKey():
     flag_2 = 0
     flag_4 = 0
 
+    def __init__(self,file_xml,prodeuct):
+        tree = ET.parse(file_xml)
+        self.root = tree.getroot()
+        self.product = prodeuct
+
     def main_pars(self):
         self.file = open('data_key2.txt', 'w+', encoding='utf-8')
 
-        lst_elem = ['parameter','event','limit']
+        if self.product =='SES200M':
+            self.cb = ['BU_50','BU_SES',"BU_400"]
+        elif self.product =='SEP30M':
+            self.cb = ['BU_SEP', 'BU_SEP', "BU_400"]
+        # lst_elem = ['parameter','event','limit']
+        lst_elem = ['parameter']
         for i in lst_elem:
-            self.pars_unit(i)
+            self.pars_unit(i,self.product,self.cb)
         for i in lst_elem:
-            self.pars_device(i)
+            self.pars_device(i,self.product,self.cb)
 
         self.file.close()
 
-    def pars_unit(self,arg):
+    def pars_unit(self,arg,prod,cb):
         for unit in self.root.findall('.//unit'):
             unit_range = unit.attrib.get('range')
             unit_name = unit.attrib.get('name')
@@ -48,18 +78,17 @@ class DataKey():
                 for products in elem.findall('products/'):
                     product = products.tag
                     # print('for3')
-                    if product =='SES200M' and flag_3==0:
+                    if product == prod and flag_3==0:
                         self.units = products.attrib.get('cb')
                         if self.flag_4 ==0 and arg == 'parameter':
                             self.file.write('\n' + '// Агрегат '+unit_name + '\n'+'\n')
                             self.flag_4=1
                         # print('for4')
                         # if arg == 'parameter':
-                        if ((self.units == 'BU_50') or (self.units == 'BU_SES')or (self.units == 'BU_400')):
+                        if ((self.units == cb[0]) or (self.units == cb[1]) or (self.units == cb[2])):
                         # and ((type =='Измеряемый') or (type =='Вычисляемый')or
                         # (type =='Внешний') or (type =='Дискретный')or
                         # (type =='Сводный') or (type =='Команда')):
-                            print(designation,arg)
                             if common_id == None:
                                 if flag ==1:
                                     common_id = self.count1 + 1
@@ -101,7 +130,12 @@ class DataKey():
                             # file.write(parameter_designation + parameter_common_id + "\n")
                            # file.write(parameter_designation +" "+ "KEY("+ str(parameter_common_id)+ ")"+ " " + \
                            #            str(count1) + " p " + str(count) + "\n")
-                            self.file.write('// '+ name + '\n'+ designation +" "+ "KEY("+ str(common_id)+ ")"+ " " + "\n")
+                            hex_common_id = 'hex=' + hex(int(common_id))[2:].upper() + ' '
+                            hex_flip_common_id = 'hex_flip= ' + func_val_to_hex_can_flip(int(common_id))
+                            self.file.write('// ' + name + '\n' + '#define KEY_' + designation + \
+                                       ' ((uint32_t)(' + str(
+                                common_id) + ")) " + hex_common_id + hex_flip_common_id + " " + "\n")
+                            # self.file.write('// '+ name + '\n'+ "#define KEY_" + designation + " ((uint32_t)(" +str(common_id)+"))" + "\n")
 
                             # print(lst_com_id)
                             # file.write(parameter_designation + ", 0 - " + parameter_name+ "\n")
@@ -226,7 +260,7 @@ class DataKey():
             #                 self.file.write('// '+ limit_name + '\n'+ limit_designation +" "+ "KEY("+ str(limit_common_id)+ ")"+ " " + "\n")
             #
             #                 # print(lst_com_id)
-    def pars_device(self,arg):
+    def pars_device(self,arg,prod,cb):
         for unit in self.root.findall('.//device'):
             unit_range = unit.attrib.get('range')
             unit_name = unit.attrib.get('name')
@@ -249,13 +283,13 @@ class DataKey():
                 for products in elem.findall('products/'):
                     product = products.tag
                     # print('for3')
-                    if product =='SES200M' and flag_3==0:
+                    if product == prod and flag_3==0:
                         self.units = products.attrib.get('cb')
                         if self.flag_4 ==0 and arg =='parameter':
                             self.file.write('\n' + '// Устройство '+unit_name + '\n'+'\n')
                             self.flag_4=1
                         # print('for4')
-                        if ((self.units == 'BU_50') or (self.units == 'BU_SES')or (self.units == 'BU_400')):
+                        if ((self.units == cb[0]) or (self.units == cb[1])or (self.units == cb[2])):
                         # and ((type =='Измеряемый') or (type =='Вычисляемый')or
                         # (type =='Внешний') or (type =='Дискретный')or
                         # (type =='Сводный') or (type =='Команда')):
@@ -287,9 +321,15 @@ class DataKey():
                             # file.write(parameter_designation + parameter_common_id + "\n")
                            # file.write(parameter_designation +" "+ "KEY("+ str(parameter_common_id)+ ")"+ " " + \
                            #            str(count1) + " p " + str(count) + "\n")
-                            self.file.write('// '+ name + '\n'+ designation +" "+ "KEY("+ str(common_id)+ ")"+ " " + "\n")
+                            hex_common_id = 'hex=' + hex(int(common_id))[2:].upper() + ' '
+                            hex_flip_common_id = 'hex_flip= ' + func_val_to_hex_can_flip(int(common_id))
+                            self.file.write('// ' + name + '\n' + '#define KEY_' + designation + \
+                                            ' ((uint32_t)(' + str(
+                                common_id) + ")) " + hex_common_id + hex_flip_common_id + " " + "\n")
+                            # self.file.write(
+                            # '// ' + name + '\n' + "#define KEY_" + designation + " ((uint32_t)(" + str(common_id) + "))" + "\n")
 
-                            # print(lst_com_id)
+                        # print(lst_com_id)
                             # file.write(parameter_designation + ", 0 - " + parameter_name+ "\n")
 
             # for event in unit.findall('event'):
@@ -390,5 +430,5 @@ class DataKey():
 
 
 if __name__ == '__main__':
-    pars_data_key = DataKey()
+    pars_data_key = DataKey('params_sep30m.xml','SEP30M')
     pars_data_key.main_pars()
