@@ -12,6 +12,7 @@ from PyQt5.QtWidgets import QApplication
 import sys,json
 from debug import *
 from pars_data_key import DataKey
+from un1 import lst_read
 
 
 class Connect():
@@ -793,9 +794,11 @@ class Calibrator(QObject):
         return 'End main_data_read'
 
     def param_read(self,global_id):
-        while True:
-            read_data = self.ser.ser.read(1024)
-
+        for i in lst_read:
+            if self.partel_id in i[0]:
+                list_read = i[0].split(b'\r')
+                for j in list_read:
+                    pass
 
     def test_data_dict(self,data):
         printf(self.data_dict)

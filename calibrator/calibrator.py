@@ -211,15 +211,21 @@ class ThreadUnit(QtCore.QThread):
 
 class ThreadParam(QtCore.QThread):
     finished_th_param = pyqtSignal()
+    f_return = 0
 
-    def __init__(self):
+    def __init__(self,calibr_obj):
         super().__init__()
+        self.calibr_obj = calibr_obj
 
     def run(self):
         printf('ThreadParam start')
-        # self.flag_err = self.obj.main_data_read(self.mode)
+        while True:
+            self.f_return = self.calibr_obj.param_read()
+            if self.f_return =='end':
+                self.finished_th_param.emit()
+                break
 
-        self.finished_th_unit.emit()
+
 
 
 class ComPort(QWidget):
@@ -320,7 +326,9 @@ class Main(QMainWindow):
         self.cur_elem = cur_elem
         super().__init__()
         self.th_unit =0
-        self.th_param =0
+        self.th_param_bu1 =0
+        self.th_param_bu2 =0
+        self.th_param_bu3 =0
 
         # self.com = ComPort()
         # self.com.show()
@@ -1055,13 +1063,28 @@ class Main(QMainWindow):
         # self.th_unit.quit()
         # self.th_unit.wait(1000)
 
-    def readParam(self):
-        if self.th_param ==0:
-            self.th_param = ThreadParam()
-        if self.th_param.isRunning():
+    def readParam_bu1(self):
+        if self.th_param_bu1 ==0:
+            self.th_param_bu1 = ThreadParam(self.calibr_obj[0])
+        if self.th_param_bu1.isRunning():
             printf('Поток param уже запущен')
         else:
-            self.th_param.start()
+            self.th_param_bu1.start()
+    def readParam_bu2(self):
+        if self.th_param_bu2 ==0:
+            self.th_param_bu2 = ThreadParam(self.calibr_obj[1])
+        if self.th_param_bu2.isRunning():
+            printf('Поток param уже запущен')
+        else:
+            self.th_param_bu2.start()
+    def readParam_bu3(self):
+        if self.th_param_bu3 == 0:
+            self.th_param_bu3 = ThreadParam(self.calibr_obj[2])
+        if self.th_param_bu3.isRunning():
+            printf('Поток param уже запущен')
+        else:
+            self.th_param_bu3.start()
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

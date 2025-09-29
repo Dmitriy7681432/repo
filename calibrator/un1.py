@@ -934,6 +934,11 @@ lst_read = [
             [b't03480B2F0000C8D305A00C1D\rt0348472F00000040D4BF0C1E\rt0348F32E00000000D0BF0C1E\rt0348647D00000000E0030C1F\rt03484C810000000000000C1F\rt0318647D00000000E0030C20\rt0318982F0000020000EA0C20\rt0348152F00000020D4BF0C20\rt03483D2F0000D0D405A00C21\rt0348F02E0000B83705A00C21\rt03484C810000000000000C22\rt03184C810000000000000C22\rt0328936E0000480A00000C27\rt03289D2F0000000000000C28\rt03288C2F0000000000000C28\rt02F84B2F0000000010000C29\rt02F82F010000010000000C29\rt02F833000000000000000C2A\rt02F84A2F0000A4AA8E000C2A\rt03C829460F00000000000C37\r'],
             ]
 
+for i in lst_read:
+    if b't0348' in i[0]:
+        list_read = i[0].split(b'\r')
+        for j in list_read:
+            printf(j)
 # for i in lst_read:
 #     if b'647D0000' in i:
 #         list_read_data = i.split(b'\r')
@@ -943,7 +948,12 @@ lst_read = [
 #                 val,adr = Calibrator.transformed_in_value_and_address(Calibrator,j,'int')
 #                 printf(val)
 
-
+with open('lst.txt') as f_lst:
+    a = f_lst.readlines()
+    printf(a)
+    # a=a.split(',')
+    # if '32' in a:
+    #     printf(a)
 
 # from data_key2 import func_val_to_hex_can_flip
 # val = 32100

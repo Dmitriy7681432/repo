@@ -32,6 +32,7 @@ class DataKey():
     flag_1 = 0
     flag_2 = 0
     flag_4 = 0
+    hex_flip_all =''
 
     def __init__(self,file_xml,prodeuct):
         tree = ET.parse(file_xml)
@@ -51,7 +52,7 @@ class DataKey():
             self.pars_unit(i,self.product,self.cb)
         for i in lst_elem:
             self.pars_device(i,self.product,self.cb)
-
+        self.file.write(self.hex_flip_all)
         self.file.close()
 
     def pars_unit(self,arg,prod,cb):
@@ -132,6 +133,7 @@ class DataKey():
                            #            str(count1) + " p " + str(count) + "\n")
                             hex_common_id = 'hex=' + hex(int(common_id))[2:].upper() + ' '
                             hex_flip_common_id = 'hex_flip= ' + func_val_to_hex_can_flip(int(common_id))
+                            self.hex_flip_all +=f'{hex_flip_common_id[9:]},'
                             self.file.write('// ' + name + '\n' + '#define KEY_' + designation + \
                                        ' ((uint32_t)(' + str(
                                 common_id) + ")) " + hex_common_id + hex_flip_common_id + " " + "\n")
@@ -323,6 +325,7 @@ class DataKey():
                            #            str(count1) + " p " + str(count) + "\n")
                             hex_common_id = 'hex=' + hex(int(common_id))[2:].upper() + ' '
                             hex_flip_common_id = 'hex_flip= ' + func_val_to_hex_can_flip(int(common_id))
+                            self.hex_flip_all +=f'{hex_flip_common_id[9:]},'
                             self.file.write('// ' + name + '\n' + '#define KEY_' + designation + \
                                             ' ((uint32_t)(' + str(
                                 common_id) + ")) " + hex_common_id + hex_flip_common_id + " " + "\n")
@@ -331,6 +334,7 @@ class DataKey():
 
                         # print(lst_com_id)
                             # file.write(parameter_designation + ", 0 - " + parameter_name+ "\n")
+
 
             # for event in unit.findall('event'):
             #     event_designation = event.attrib.get('designation')
