@@ -472,12 +472,9 @@ class Calibrator(QObject):
                         # Добавление hex_flip
                         with open('data_key2.txt') as f_data_key:
                             read = f_data_key.readlines()
-                            printf(designation)
-                            printf(read)
                             for i in read:
                                 if 'KEY_' + designation + ' ' in i:
                                     lst_i = i.split(' ')
-                                    printf(lst_i)
                         params_dict[unit1][designation] = [name,ctype,lst_i[5]]
                 if cb ==self.control_block:
                     for products2 in products1.findall('.//calibration'):
@@ -798,7 +795,9 @@ class Calibrator(QObject):
             if self.partel_id in i[0]:
                 list_read = i[0].split(b'\r')
                 for j in list_read:
-                    pass
+                    if self.partel_id in j:
+
+
 
     def test_data_dict(self,data):
         printf(self.data_dict)

@@ -629,7 +629,7 @@ class Main(QMainWindow):
             self.th_unit.setTerminationEnabled(True)
             self.th_unit.terminate()
             self.th_unit.wait(1)
-        if self.th_param:
+        if self.th_param_bu1:
             self.th_param.terminate()
         # del self.th_unit
         super().closeEvent(event)
