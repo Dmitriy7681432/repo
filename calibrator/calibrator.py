@@ -213,14 +213,15 @@ class ThreadParam(QtCore.QThread):
     finished_th_param = pyqtSignal()
     f_return = 0
 
-    def __init__(self,calibr_obj):
+    def __init__(self,calibr_obj,param_obj):
         super().__init__()
         self.calibr_obj = calibr_obj
+        self.param_obj = param_obj
 
     def run(self):
         printf('ThreadParam start')
         while True:
-            self.f_return = self.calibr_obj.param_read()
+            self.f_return = self.calibr_obj.param_read(self.param_obj)
             if self.f_return =='end':
                 self.finished_th_param.emit()
                 break
@@ -1065,21 +1066,21 @@ class Main(QMainWindow):
 
     def readParam_bu1(self):
         if self.th_param_bu1 ==0:
-            self.th_param_bu1 = ThreadParam(self.calibr_obj[0])
+            self.th_param_bu1 = ThreadParam(self.calibr_obj[0],self.param_obj[0])
         if self.th_param_bu1.isRunning():
             printf('Поток param уже запущен')
         else:
             self.th_param_bu1.start()
     def readParam_bu2(self):
         if self.th_param_bu2 ==0:
-            self.th_param_bu2 = ThreadParam(self.calibr_obj[1])
+            self.th_param_bu2 = ThreadParam(self.calibr_obj[1],self.param_obj[1])
         if self.th_param_bu2.isRunning():
             printf('Поток param уже запущен')
         else:
             self.th_param_bu2.start()
     def readParam_bu3(self):
         if self.th_param_bu3 == 0:
-            self.th_param_bu3 = ThreadParam(self.calibr_obj[2])
+            self.th_param_bu3 = ThreadParam(self.calibr_obj[2],self.param_obj[2])
         if self.th_param_bu3.isRunning():
             printf('Поток param уже запущен')
         else:

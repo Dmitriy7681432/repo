@@ -790,12 +790,14 @@ class Calibrator(QObject):
         # printf(self.header_data_dict)
         return 'End main_data_read'
 
-    def param_read(self,global_id):
+    def param_read(self,param_obj):
         for i in lst_read:
             if self.partel_id in i[0]:
                 list_read = i[0].split(b'\r')
                 for j in list_read:
                     if self.partel_id in j:
+                        val, addr = self.transformed_in_value_and_address(j)
+                        # param_obj.
 
 
 

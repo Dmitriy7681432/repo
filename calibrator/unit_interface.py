@@ -1330,6 +1330,9 @@ class Param(QWidget):
         else:
             self.th_param.start()
 
+    def param_set_val(self,can_id,val):
+        pass
+
     def thread_param_exit(self):
         printf('th_par_exit')
         self.th_param.terminate()
