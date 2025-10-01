@@ -1289,8 +1289,8 @@ class Param(QWidget):
                 self.list_widget.addItem(self.listWidgetItem)
 
                 self.list_widget1 = QtWidgets.QListWidget(self.widget)
-                # self.listWidgetItem1 = QtWidgets.QListWidgetItem("0")
-                self.listWidgetItem1 = QtWidgets.QListWidgetItem(str(self.cnt_elem))
+                self.listWidgetItem1 = QtWidgets.QListWidgetItem("0")
+                # self.listWidgetItem1 = QtWidgets.QListWidgetItem(str(self.cnt_elem))
                 self.list_widget1.addItem(self.listWidgetItem1)
                 # self.list_widget1.setFrameShape(QtWidgets.QFrame.NoFrame)
                 # self.list_widget1.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
@@ -1330,8 +1330,10 @@ class Param(QWidget):
         else:
             self.th_param.start()
 
-    def param_set_val(self,can_id,val):
-        pass
+    def param_set_val(self,val,indx):
+        printf(val,indx)
+        self.lst_widget1[indx].item(0).setText(str(val))
+
 
     def thread_param_exit(self):
         printf('th_par_exit')

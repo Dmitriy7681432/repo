@@ -631,7 +631,7 @@ class Main(QMainWindow):
             self.th_unit.terminate()
             self.th_unit.wait(1)
         if self.th_param_bu1:
-            self.th_param.terminate()
+            self.th_param_bu1.terminate()
         # del self.th_unit
         super().closeEvent(event)
 
@@ -817,6 +817,7 @@ class Main(QMainWindow):
             if i ==0:
                 if self.button_obj[0].isChecked():
                     printf("БУ400")
+                    self.readParam_bu1()
             elif i ==1:
                 if self.button_obj[1].isChecked():
                     printf("БУ50")
