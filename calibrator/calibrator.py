@@ -632,6 +632,10 @@ class Main(QMainWindow):
             self.th_unit.wait(1)
         if self.th_param_bu1:
             self.th_param_bu1.terminate()
+        if self.th_param_bu2:
+            self.th_param_bu2.terminate()
+        if self.th_param_bu3:
+            self.th_param_bu3.terminate()
         # del self.th_unit
         super().closeEvent(event)
 
@@ -813,17 +817,21 @@ class Main(QMainWindow):
         # self.param_obj[0].test_param()
         # self.readParam()
 
-        for i,v in enumerate(self.lst_cb):
-            if i ==0:
-                if self.button_obj[0].isChecked():
-                    printf("БУ400")
-                    self.readParam_bu1()
-            elif i ==1:
-                if self.button_obj[1].isChecked():
-                    printf("БУ50")
-            elif i ==2:
-                if self.button_obj[2].isChecked():
-                    printf("БУСЭС")
+        self.ser.can_open_L()
+        self.readParam_bu1()
+        self.readParam_bu2()
+        self.readParam_bu3()
+        # for i,v in enumerate(self.lst_cb):
+        #     if i ==0:
+        #         if self.button_obj[0].isChecked():
+        #             self.readParam_bu1()
+        #     elif i ==1:
+        #         if self.button_obj[1].isChecked():
+        #             self.readParam_bu2()
+        #     elif i ==2:
+        #         if self.button_obj[2].isChecked():
+        #             self.readParam_bu3()
+
         # if self.buttonUnit1.isChecked():
         #     self.stackedWidget.setCurrentIndex(6)
         # elif self.buttonUnit2.isChecked():

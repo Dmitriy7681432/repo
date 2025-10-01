@@ -1331,8 +1331,9 @@ class Param(QWidget):
             self.th_param.start()
 
     def param_set_val(self,val,indx):
-        printf(val,indx)
+        # printf(val,indx)
         self.lst_widget1[indx].item(0).setText(str(val))
+        time.sleep(0.1)
 
 
     def thread_param_exit(self):

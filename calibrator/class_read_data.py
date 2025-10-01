@@ -30,15 +30,15 @@ class Connect():
 
     # Поиск com_port
     ports_lst = []
-    # try:
-    #     for port in ports:
-    #         printf(port.hwid,port.name,port.vid,port.pid,port.serial_number,port.location,port.manufacturer,port.product,port.interface)
-    #         for i in configs.values():
-    #             if i in port.serial_number:
-    #                 ports_lst.append(port.name)
-    #     printf(ports_lst)
-    # except TypeError:
-    #     warning.SignalErr('Нет доступа к COM port!!!',True)
+    try:
+        for port in ports:
+            printf(port.hwid,port.name,port.vid,port.pid,port.serial_number,port.location,port.manufacturer,port.product,port.interface)
+            for i in configs.values():
+                if i in port.serial_number:
+                    ports_lst.append(port.name)
+        printf(ports_lst)
+    except TypeError:
+        warning.SignalErr('Нет доступа к COM port!!!',True)
     # Поиск элементов configs, кроме com_port
     for i in configs.keys():
         if i == 'wait_receiv':
@@ -49,8 +49,8 @@ class Connect():
             buffer_receiv_main = int(configs.get(i))
     try:
         if 'lin' in sys.platform:
-            # ser = serial.Serial(port=f'/dev/{ports_lst[0]}', baudrate=3000000, timeout=0.01)
-            ser = serial.Serial()
+            ser = serial.Serial(port=f'/dev/{ports_lst[0]}', baudrate=3000000, timeout=0.01)
+            # ser = serial.Serial()
         else:
             ser = serial.Serial(port=ports_lst[0], baudrate=3000000, timeout=0.01)
     except IndexError:
@@ -199,22 +199,22 @@ class Calibrator(QObject):
         lst_val = []
         value = arg[13:21]
         value = value[6:8] + value[4:6] + value[2:4] + value[0:2]
-        printf('val',value)
+        # printf('val',value)
         value = value.decode('utf-8')
         if type == 'int' and func =='header':
-            printf(value)
+            # printf(value)
             value = binascii.unhexlify(value)
-            printf(value)
+            # printf(value)
             value = int.from_bytes(value, 'big', signed=True)
-            printf(value)
+            # printf(value)
             # value = struct.unpack('!I', bytes.fromhex(value))
             value = [bytearray(value.to_bytes(length=4, byteorder="little",signed=True))]
         elif type =='int':
-            printf(value)
+            # printf(value)
             value = struct.unpack('!I', bytes.fromhex(value))
         elif type =='-int':
             value = [self.trans_neg_hex_to_dec(value)]
-            printf('val1',value)
+            # printf('val1',value)
             # value = struct.unpack('!I', bytes.fromhex(value))
         else:
             value = struct.unpack('!f', bytes.fromhex(value))
@@ -427,6 +427,7 @@ class Calibrator(QObject):
         calibr_dict = {}
         filter_dict = {}
         params_dict = {}
+        cnt = 0
         self.product_lower = self.product.lower()
         doc = etree.parse(f'params_{self.product_lower}.xml')
         # Уставки
@@ -475,7 +476,8 @@ class Calibrator(QObject):
                             for i in read:
                                 if 'KEY_' + designation + ' ' in i:
                                     lst_i = i.split(' ')
-                        params_dict[unit1][designation] = [name,ctype,lst_i[5]]
+                        params_dict[unit1][designation] = [name,ctype,lst_i[5].encode('utf-8'),cnt]
+                        cnt+=1
                 if cb ==self.control_block:
                     for products2 in products1.findall('.//calibration'):
                         if len(products2.getchildren()) != 0:
@@ -791,13 +793,18 @@ class Calibrator(QObject):
         return 'End main_data_read'
 
     def param_read(self,param_obj):
+        self.ser.can_open_L(self.ser.ser)
         for i in lst_read:
             if self.partel_id in i[0]:
                 list_read = i[0].split(b'\r')
                 for j in list_read:
                     if self.partel_id in j:
-                        val, addr = self.transformed_in_value_and_address(j)
-                        # param_obj.
+                        for k in self.param_dict[self.control_block].items():
+                            hex_val = [z for z in k[1].values()]
+                            for v in range(0,len(hex_val)):
+                                if hex_val[v][2] == j[5:13]:
+                                    val, addr = self.transformed_in_value_and_address(j,hex_val[v][1])
+                                    param_obj.param_set_val(val,hex_val[v][3])
 
 
 
