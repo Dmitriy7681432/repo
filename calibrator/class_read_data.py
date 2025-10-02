@@ -108,6 +108,7 @@ class Calibrator(QObject):
     cal_signal = pyqtSignal(int)
     finish_cal_signal = pyqtSignal()
     flag_abort = 0
+    cal_signal_param = pyqtSignal(str,int)
 
     # Инициализация входных данных
     def __init__(self, ser, product, control_block):
@@ -190,6 +191,7 @@ class Calibrator(QObject):
         self.parse_data_xml()
         # self.file_open = open('read_data.txt', 'wb')
         self.flag =0
+        self.flag2 =0
 
         printf('wait_receiv', self.ser.wait_receiv)
         printf('buffer_beg', self.ser.buffer_receiv_begin)
@@ -792,7 +794,11 @@ class Calibrator(QObject):
         # printf(self.header_data_dict)
         return 'End main_data_read'
 
-    def param_read(self,param_obj):
+    def param_read(self,param_obj,caibr_obj):
+        if self.flag2 ==0:
+            param_obj.param_set_val(caibr_obj)
+            self.flag2 =1
+
         for i in lst_read:
             if self.partel_id in i[0]:
                 list_read = i[0].split(b'\r')
@@ -803,8 +809,9 @@ class Calibrator(QObject):
                             for v in range(0,len(hex_val)):
                                 if hex_val[v][2] == j[5:13]:
                                     val, addr = self.transformed_in_value_and_address(j,hex_val[v][1])
-                                    param_obj.param_set_val(val,hex_val[v][3])
-
+                                    # param_obj.param_set_val(val,hex_val[v][3])
+                                    self.cal_signal_param.emit(str(val),hex_val[v][3])
+                                    time.sleep(0.1)
 
     def can_open_l(self):
         self.ser.can_open_L(self.ser.ser)

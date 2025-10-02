@@ -41,26 +41,34 @@ class TableFocus(QtWidgets.QTableView,Id):
         return QtWidgets.QTableView.event(self,e)
 
 class ThreadParamSet(QtCore.QThread):
-    finished_th_param = pyqtSignal()
     f_return = 0
     process = pyqtSignal()
 
-    def __init__(self,calibr_obj,param_obj):
+    def __init__(self,list_widget,calibr_obj):
         super().__init__()
+        self.list_widget = list_widget
+        self.calibr_obj = calibr_obj
 
     def run(self):
-        printf('ThreadParam start')
-        while True:
-            # self.f_return = self.calibr_obj.param_read(self.param_obj)
-            self.process.emit()
-            # QThread.msleep(100)
-            if self.f_return =='end':
-                self.finished_th_param.emit()
-                break
+        printf('ThreadParamSet start')
+        self.calibr_obj.cal_signal_param.connect(self.change_param)
+        # QtCore.QThread.msleep(100)
+        # while True:
+        #     # self.f_return = self.calibr_obj.param_read(self.param_obj)
+        #     QThread.msleep(100)
+        #     if self.f_return =='end':
+        #         self.finished_th_param.emit()
+        #         break
+    def change_param(self,val,indx):
+        printf('change_param')
+        self.list_widget[indx].item(0).setText(val)
+        self.list_widget[indx].update()
+        QtCore.QThread.msleep(100)
 
 class Unit(MyWidget,QWidget):
     # keyPressed = QtCore.pyqtSignal(int)
     cal_signal = pyqtSignal(int)
+    th_process = pyqtSignal(int,str)
 
     def __init__(self, data_dict,data, unit, height_desktop):
         super().__init__()
@@ -1191,6 +1199,7 @@ class ThreadParam(QtCore.QThread):
             self.list_obj[17].item(0).setText(str(i))
             self.msleep(100)
 class Param(QWidget):
+    th_param_set = 0
 
     def __init__(self,param_dict,unit,size_stacked):
         super().__init__()
@@ -1347,15 +1356,22 @@ class Param(QWidget):
         else:
             self.th_param.start()
 
-    def param_set_val(self,val,indx):
+    def param_set_val(self,calibr_obj):
         # printf(val,indx)
         # self.lst_widget1[0].item(0).setText('1')
         # self.lst_widget_item1[indx].setText(str(val))
-        for i in range(0,1000):
+        # for i in range(0,1000):
             # self.lst_widget_item1[indx].setText(str(i))
-            self.lst_widget1[indx].item(0).setText(str(i))
-            self.lst_widget1[indx].update()
-            time.sleep(0.1)
+        # self.lst_widget1[indx].item(0).setText(str(val))
+        # self.lst_widget1[indx].update()
+        if self.th_param_set ==0:
+            self.th_param_set = ThreadParamSet(self.lst_widget1,calibr_obj)
+        if self.th_param_set.isRunning():
+            printf('Поток param уже запущен')
+        else:
+            self.th_param_set.start()
+        # self.th_process.emit(indx,val)
+        # time.sleep(0.1)
 
 
 
