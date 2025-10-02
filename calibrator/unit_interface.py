@@ -40,6 +40,23 @@ class TableFocus(QtWidgets.QTableView,Id):
                 return True
         return QtWidgets.QTableView.event(self,e)
 
+class ThreadParamSet(QtCore.QThread):
+    finished_th_param = pyqtSignal()
+    f_return = 0
+    process = pyqtSignal()
+
+    def __init__(self,calibr_obj,param_obj):
+        super().__init__()
+
+    def run(self):
+        printf('ThreadParam start')
+        while True:
+            # self.f_return = self.calibr_obj.param_read(self.param_obj)
+            self.process.emit()
+            # QThread.msleep(100)
+            if self.f_return =='end':
+                self.finished_th_param.emit()
+                break
 
 class Unit(MyWidget,QWidget):
     # keyPressed = QtCore.pyqtSignal(int)
@@ -1332,8 +1349,15 @@ class Param(QWidget):
 
     def param_set_val(self,val,indx):
         # printf(val,indx)
-        self.lst_widget1[indx].item(0).setText(str(val))
-        time.sleep(0.1)
+        # self.lst_widget1[0].item(0).setText('1')
+        # self.lst_widget_item1[indx].setText(str(val))
+        for i in range(0,1000):
+            # self.lst_widget_item1[indx].setText(str(i))
+            self.lst_widget1[indx].item(0).setText(str(i))
+            self.lst_widget1[indx].update()
+            time.sleep(0.1)
+
+
 
 
     def thread_param_exit(self):

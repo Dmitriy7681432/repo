@@ -212,6 +212,7 @@ class ThreadUnit(QtCore.QThread):
 class ThreadParam(QtCore.QThread):
     finished_th_param = pyqtSignal()
     f_return = 0
+    process = pyqtSignal()
 
     def __init__(self,calibr_obj,param_obj):
         super().__init__()
@@ -221,7 +222,10 @@ class ThreadParam(QtCore.QThread):
     def run(self):
         printf('ThreadParam start')
         while True:
-            self.f_return = self.calibr_obj.param_read(self.param_obj)
+            # self.f_return = self.calibr_obj.param_read(self.param_obj)
+            self.param_obj.param_set_val(1, 0)
+            # self.process.emit()
+            # QThread.msleep(100)
             if self.f_return =='end':
                 self.finished_th_param.emit()
                 break
@@ -817,10 +821,11 @@ class Main(QMainWindow):
         # self.param_obj[0].test_param()
         # self.readParam()
 
-        self.ser.can_open_L()
+
+        # self.calibr_obj[0].can_open_l()
         self.readParam_bu1()
-        self.readParam_bu2()
-        self.readParam_bu3()
+        # self.readParam_bu2()
+        # self.readParam_bu3()
         # for i,v in enumerate(self.lst_cb):
         #     if i ==0:
         #         if self.button_obj[0].isChecked():
@@ -1076,13 +1081,16 @@ class Main(QMainWindow):
     def readParam_bu1(self):
         if self.th_param_bu1 ==0:
             self.th_param_bu1 = ThreadParam(self.calibr_obj[0],self.param_obj[0])
+            # self.th_param_bu1.process.connect(self.readParam_bu1_process)
         if self.th_param_bu1.isRunning():
             printf('Поток param уже запущен')
         else:
             self.th_param_bu1.start()
+
     def readParam_bu2(self):
         if self.th_param_bu2 ==0:
             self.th_param_bu2 = ThreadParam(self.calibr_obj[1],self.param_obj[1])
+            self.th_param_bu2.process.connect(self.readParam_bu2_process)
         if self.th_param_bu2.isRunning():
             printf('Поток param уже запущен')
         else:
@@ -1090,11 +1098,18 @@ class Main(QMainWindow):
     def readParam_bu3(self):
         if self.th_param_bu3 == 0:
             self.th_param_bu3 = ThreadParam(self.calibr_obj[2],self.param_obj[2])
+            self.th_param_bu3.process.connect(self.readParam_bu3_process)
         if self.th_param_bu3.isRunning():
             printf('Поток param уже запущен')
         else:
             self.th_param_bu3.start()
 
+    def readParam_bu1_process(self):
+        self.calibr_obj[0].param_read(self.param_obj[0])
+    def readParam_bu2_process(self):
+        self.calibr_obj[1].param_read(self.param_obj[1])
+    def readParam_bu3_process(self):
+        self.calibr_obj[2].param_read(self.param_obj[2])
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

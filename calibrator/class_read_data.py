@@ -471,7 +471,7 @@ class Calibrator(QObject):
                                 # unit1 = self.pars_eskd(unit)
                                 params_dict[unit1] = {}
                         # Добавление hex_flip
-                        with open('data_key2.txt') as f_data_key:
+                        with open('data_key2.txt',encoding='utf-8') as f_data_key:
                             read = f_data_key.readlines()
                             for i in read:
                                 if 'KEY_' + designation + ' ' in i:
@@ -793,7 +793,6 @@ class Calibrator(QObject):
         return 'End main_data_read'
 
     def param_read(self,param_obj):
-        self.ser.can_open_L(self.ser.ser)
         for i in lst_read:
             if self.partel_id in i[0]:
                 list_read = i[0].split(b'\r')
@@ -807,6 +806,8 @@ class Calibrator(QObject):
                                     param_obj.param_set_val(val,hex_val[v][3])
 
 
+    def can_open_l(self):
+        self.ser.can_open_L(self.ser.ser)
 
     def test_data_dict(self,data):
         printf(self.data_dict)
