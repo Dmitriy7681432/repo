@@ -42,28 +42,25 @@ class TableFocus(QtWidgets.QTableView,Id):
 
 class ThreadParamSet(QtCore.QThread):
     f_return = 0
-    process = pyqtSignal()
+    process = pyqtSignal(tuple,int)
 
-    def __init__(self,list_widget,calibr_obj):
+    def __init__(self,calibr_obj):
         super().__init__()
-        self.list_widget = list_widget
         self.calibr_obj = calibr_obj
+        self.val =(1,)
+        self.indx = 0
 
     def run(self):
         printf('ThreadParamSet start')
-        self.calibr_obj.cal_signal_param.connect(self.change_param)
-        # QtCore.QThread.msleep(100)
-        # while True:
-        #     # self.f_return = self.calibr_obj.param_read(self.param_obj)
-        #     QThread.msleep(100)
-        #     if self.f_return =='end':
-        #         self.finished_th_param.emit()
-        #         break
+        while True:
+            self.calibr_obj.cal_signal_param.connect(self.change_param)
+            printf(self.indx,self.val)
+            self.process.emit(self.val,self.indx)
+            QtCore.QThread.msleep(100)
+
     def change_param(self,val,indx):
-        printf('change_param')
-        self.list_widget[indx].item(0).setText(val)
-        self.list_widget[indx].update()
-        QtCore.QThread.msleep(100)
+        self.val = val
+        self.indx = indx
 
 class Unit(MyWidget,QWidget):
     # keyPressed = QtCore.pyqtSignal(int)
@@ -1365,13 +1362,18 @@ class Param(QWidget):
         # self.lst_widget1[indx].item(0).setText(str(val))
         # self.lst_widget1[indx].update()
         if self.th_param_set ==0:
-            self.th_param_set = ThreadParamSet(self.lst_widget1,calibr_obj)
+            self.th_param_set = ThreadParamSet(calibr_obj)
         if self.th_param_set.isRunning():
-            printf('Поток param уже запущен')
+            pass
+            # printf('Поток param уже запущен')
         else:
             self.th_param_set.start()
-        # self.th_process.emit(indx,val)
-        # time.sleep(0.1)
+        # self.th_param_set.process.connect(self.param_set_val_signal)
+        self.calibr_obj.cal_signal_param.connect(self.param_set_val_signal)
+
+    def param_set_val_signal(self,val,indx):
+        self.lst_widget1[indx].item(0).setText(str(val[0]))
+        self.lst_widget1[indx].update()
 
 
 
