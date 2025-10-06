@@ -105,21 +105,35 @@ class Connect():
 
 class ThreadParamCal(QtCore.QThread):
     finished_th_param = pyqtSignal()
+    process = pyqtSignal(tuple,int)
     f_return = 0
-    process = pyqtSignal()
 
-    def __init__(self,calibr_obj,param_obj):
+    def __init__(self,param_obj,calibr_obj):
         super().__init__()
-        self.calibr_obj = calibr_obj
         self.param_obj = param_obj
+        self.calibr_obj = calibr_obj
+        self.flag = False
 
     def run(self):
         printf('ThreadParam start')
-        while True:
-            # self.f_return = self.calibr_obj.param_read(self.param_obj)
-            # self.param_obj.param_set_val(1, 0)
-            self.process.emit()
-            QThread.msleep(100)
+        param_dict_copy = self.calibr_obj.param_dict.copy()
+        self.flag = True
+        while self.flag:
+            printf()
+            for i in lst_read:
+                if self.calibr_obj.partel_id in i[0]:
+                    list_read = i[0].split(b'\r')
+                    for j in list_read:
+                        if self.calibr_obj.partel_id in j:
+                            for k in param_dict_copy[self.calibr_obj.control_block].items():
+                                hex_val = [z for z in k[1].values()]
+                                for v in range(0, len(hex_val)):
+                                    if hex_val[v][2] == j[5:13]:
+                                        val, addr = self.calibr_obj.transformed_in_value_and_address(j, hex_val[v][1])
+                                        # self.param_obj.param_set_val(val,hex_val[v][3])
+                                        self.process.emit((val,),hex_val[v][3])
+                                        QThread.msleep(100)
+
             if self.f_return =='end':
                 self.finished_th_param.emit()
                 break
@@ -129,10 +143,12 @@ class Calibrator(QObject):
     finish_cal_signal = pyqtSignal()
     flag_abort = 0
     cal_signal_param = pyqtSignal(tuple,int)
+    # printf(th_param_set)
 
     # Инициализация входных данных
     def __init__(self, ser, product, control_block):
         super().__init__()
+        self.th_param_proc = 'start'
         # self.thread_cal = QThread()
         # self.thread_cal.start()
         # self.timer = QTimer()
@@ -815,30 +831,32 @@ class Calibrator(QObject):
         return 'End main_data_read'
 
     def param_read(self,param_obj,calibr_obj):
-        for i in lst_read:
-            if self.partel_id in i[0]:
-                list_read = i[0].split(b'\r')
-                for j in list_read:
-                    if self.partel_id in j:
-                        for k in self.param_dict[self.control_block].items():
-                            hex_val = [z for z in k[1].values()]
-                            for v in range(0,len(hex_val)):
-                                if hex_val[v][2] == j[5:13]:
-                                    val, addr = self.transformed_in_value_and_address(j,hex_val[v][1])
-                                    param_obj.param_set_val(param_obj)
-                                    printf(val)
-                                    self.cal_signal_param.emit((val,),hex_val[v][3])
-                                    # time.sleep(0.1)
+        self.param_obj = param_obj
+        if self.th_param_proc =='start':
+            self.th_param_set = ThreadParamCal(param_obj,calibr_obj)
+        printf(self.th_param_set.isRunning())
+        if self.th_param_set.isRunning():
+            printf('Поток param уже запущен')
+        else:
+            self.th_param_set.start()
+            self.th_param_proc ='proc'
+        # self.th_param_set.process.connect(self.param_change,QtCore.Qt.QueuedConnection)
+        self.th_param_set.process.connect(self.param_change,QtCore.Qt.QueuedConnection)
 
-    # def param_read_thread(self,param_obj):
-    #
-    #     if self.th_param_set ==0:
-    #         self.th_param_set = ThreadParamCal(self.lst_widget1,calibr_obj)
-    #     if self.th_param_set.isRunning():
-    #         printf('Поток param уже запущен')
-    #     else:
-    #         self.th_param_set.start()
+    def param_change(self,val,indx):
+        self.param_obj.param_set_val(val[0], indx)
 
+    def param_read_is_running(self):
+        return self.th_param_set.isRunning()
+    def param_read_pause(self):
+        if self.th_param_set !='start':
+            self.th_param_set.flag =False
+    def param_read_resume(self):
+        if self.th_param_set !='start':
+            self.th_param_set.flag =True
+    def param_read_stop(self):
+        if self.th_param_set !='start':
+            self.th_param_set.terminate()
     def can_open_l(self):
         self.ser.can_open_L(self.ser.ser)
 

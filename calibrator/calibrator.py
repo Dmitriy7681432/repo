@@ -209,30 +209,6 @@ class ThreadUnit(QtCore.QThread):
         self.obj_calibr.saveData(self.calibr_obj,self.filter,self.lst_cb,self.cur_elem,self.text)
         self.finished_th_unit.emit()
 
-class ThreadParam(QtCore.QThread):
-    finished_th_param = pyqtSignal()
-    f_return = 0
-    process = pyqtSignal()
-
-    def __init__(self,calibr_obj,param_obj):
-        super().__init__()
-        self.calibr_obj = calibr_obj
-        self.param_obj = param_obj
-
-    def run(self):
-        printf('ThreadParam start')
-        while True:
-            # self.f_return = self.calibr_obj.param_read(self.param_obj)
-            # self.param_obj.param_set_val(1, 0)
-            self.process.emit()
-            QThread.msleep(100)
-            if self.f_return =='end':
-                self.finished_th_param.emit()
-                break
-
-
-
-
 class ComPort(QWidget):
     def __init__(self,arg='product'):
         super().__init__()
@@ -331,9 +307,6 @@ class Main(QMainWindow):
         self.cur_elem = cur_elem
         super().__init__()
         self.th_unit =0
-        self.th_param_bu1 =0
-        self.th_param_bu2 =0
-        self.th_param_bu3 =0
 
         # self.com = ComPort()
         # self.com.show()
@@ -572,6 +545,7 @@ class Main(QMainWindow):
         # Инициализация объекта Calibrator
         for i in self.lst_cb:
             self.calibr_obj.append(Calibrator(self.ser, cur_elem, i))
+            printf(i)
 
         # self.testing = Testing(self.ser.ser, 'SES200M', 'BU_400')
 
@@ -634,13 +608,10 @@ class Main(QMainWindow):
             self.th_unit.setTerminationEnabled(True)
             self.th_unit.terminate()
             self.th_unit.wait(1)
-        if self.th_param_bu1:
-            self.th_param_bu1.terminate()
-        if self.th_param_bu2:
-            self.th_param_bu2.terminate()
-        if self.th_param_bu3:
-            self.th_param_bu3.terminate()
-        # del self.th_unit
+
+        self.calibr_obj[0].param_read_stop()
+        self.calibr_obj[1].param_read_stop()
+        self.calibr_obj[2].param_read_stop()
         super().closeEvent(event)
 
     def UnitWidgetMain(self, i):
@@ -822,10 +793,8 @@ class Main(QMainWindow):
         # self.readParam()
 
 
-        # self.calibr_obj[0].can_open_l()
-        self.readParam_bu1()
-        # self.readParam_bu2()
-        # self.readParam_bu3()
+        self.calibr_obj[0].can_open_l()
+        self.readParam()
         # for i,v in enumerate(self.lst_cb):
         #     if i ==0:
         #         if self.button_obj[0].isChecked():
@@ -858,35 +827,51 @@ class Main(QMainWindow):
 
         # self.button.setEnabled(True) # Включаем кнопку, когда второе окно отображено
     def readData_bu1(self):
+        # self.calibr_obj[0].param_read_stop()
+        # self.calibr_obj[1].param_read_stop()
+        # self.calibr_obj[2].param_read_stop()
         # if not self.button_obj[1].isChecked() and not self.button_obj[2].isChecked():
         if self.button_obj[0].isChecked():
+            printf(self.calibr_obj[0].param_read_is_running())
+            printf(self.calibr_obj[1].param_read_is_running())
+            printf(self.calibr_obj[2].param_read_is_running())
+            self.calibr_obj[0].param_read_pause()
+            self.calibr_obj[1].param_read_pause()
+            self.calibr_obj[2].param_read_pause()
+            printf(self.calibr_obj[0].param_read_is_running())
+            printf(self.calibr_obj[1].param_read_is_running())
+            printf(self.calibr_obj[2].param_read_is_running())
             self.worker = Worker(self.calibr_obj[0],'Чтение')
             self.worker.run1()
             self.thread_start(self.calibr_obj[0],self.cur_elem,self.lst_cb[0],'r')
-            self.readData_bu1_flag = 1
+            # self.readData_bu1_flag = 1
             self.worker.window_abort.connect(lambda: self.progress_bar_stop('bu1'))
             # test
             # self.read_data_dict_bu400 = self.calibr_obj[0].test_data_dict('calibr')
             # self.unit_obj_preset[0].readData(self.read_data_dict_bu400, 'preset',1)
-            # self.unit_obj_calibr[0].readData(self.read_data_dict_bu400, 'calibr',1)
-            # self.buttonAction3.setEnabled(True)
 
     def readData_bu2(self):
+        # self.calibr_obj[0].param_read_stop()
+        # self.calibr_obj[1].param_read_stop()
+        # self.calibr_obj[2].param_read_stop()
         # printff('readData_bu50',self.buttonUnit2.isChecked())
         if self.button_obj[1].isChecked():
             self.worker = Worker(self.calibr_obj[1],'Чтение')
             self.worker.run1()
             self.thread_start(self.calibr_obj[1],self.cur_elem,self.lst_cb[1],'r')
-            self.readData_bu2_flag = 1
+            # self.readData_bu2_flag = 1
             self.worker.window_abort.connect(lambda: self.progress_bar_stop('bu2'))
 
     def readData_bu3(self):
+        # self.calibr_obj[0].param_read_stop()
+        # self.calibr_obj[1].param_read_stop()
+        # self.calibr_obj[2].param_read_stop()
         # printff('readData_buses',self.buttonUnit3.isChecked())
         if self.button_obj[2].isChecked():
             self.worker = Worker(self.calibr_obj[2],'Чтение')
             self.worker.run1()
             self.thread_start(self.calibr_obj[2],self.cur_elem,self.lst_cb[2],'r')
-            self.readData_bu3_flag = 1
+            # self.readData_bu3_flag = 1
             self.worker.window_abort.connect(lambda: self.progress_bar_stop('bu3'))
 
     def thread_start(self,obj, name_product,name_cb,mode):
@@ -909,12 +894,17 @@ class Main(QMainWindow):
         printf('signal_thread_abort')
         for i,v in enumerate(self.lst_cb):
             self.calibr_obj[i].flag_abort =0
+        self.th.exit()
+        self.calibr_obj[0].param_read_resume()
+        self.calibr_obj[1].param_read_resume()
+        self.calibr_obj[2].param_read_resume()
 
     # Сообщение об отсутствии com_port
     def signal_thread_stop(self):
         self.worker.flag_err_work=1
         # sign = Worker(self.data_dict_bu400)
         self.sign = warning.SignalErr('Нет связи с can!!!')
+        # self.th.terminate()
 
     def next_main_thread_read(self,name_product,name_cb):
         printf('next main thread read',name_cb)
@@ -924,6 +914,18 @@ class Main(QMainWindow):
                 self.obj_cal_bu400 = self.calibr_obj[i]
                 self.unit_obj_preset[i].readData(self.calibr_obj[i].data_dict,'preset',self.count_read_bu400)
                 self.unit_obj_calibr[i].readData(self.calibr_obj[i].data_dict,'calibr',self.count_read_bu400)
+                if i == 0:
+                    self.readData_bu1_flag = 1
+                    self.buttonAction2.setEnabled(True)
+                    self.buttonAction3.setEnabled(True)
+                elif i == 1:
+                    self.readData_bu2_flag = 1
+                    self.buttonAction2.setEnabled(True)
+                    self.buttonAction3.setEnabled(True)
+                elif i == 2:
+                    self.readData_bu3_flag = 1
+                    self.buttonAction2.setEnabled(True)
+                    self.buttonAction3.setEnabled(True)
 
         # if name_obj =='BU_50':
         #     self.count_read_bu50 += 4
@@ -1078,42 +1080,10 @@ class Main(QMainWindow):
         # self.th_unit.quit()
         # self.th_unit.wait(1000)
 
-    def readParam_bu1(self):
-        if self.th_param_bu1 ==0:
-            self.th_param_bu1 = ThreadParam(self.calibr_obj[0],self.param_obj[0])
-            self.th_param_bu1.process.connect(self.readParam_bu1_process)
-        if self.th_param_bu1.isRunning():
-            printf('Поток param уже запущен')
-        else:
-            self.th_param_bu1.start()
-
-    def readParam_bu2(self):
-        if self.th_param_bu2 ==0:
-            self.th_param_bu2 = ThreadParam(self.calibr_obj[1],self.param_obj[1])
-            self.th_param_bu2.process.connect(self.readParam_bu2_process)
-        if self.th_param_bu2.isRunning():
-            printf('Поток param уже запущен')
-        else:
-            self.th_param_bu2.start()
-    def readParam_bu3(self):
-        if self.th_param_bu3 == 0:
-            self.th_param_bu3 = ThreadParam(self.calibr_obj[2],self.param_obj[2])
-            self.th_param_bu3.process.connect(self.readParam_bu3_process)
-        if self.th_param_bu3.isRunning():
-            printf('Поток param уже запущен')
-        else:
-            self.th_param_bu3.start()
-
-    def readParam_bu1_process(self):
+    def readParam(self):
         self.calibr_obj[0].param_read(self.param_obj[0],self.calibr_obj[0])
-        # self.calibr_obj[0].param_read(self.param_obj[0])
-
-    def readParam_bu2_process(self):
-        # self.calibr_obj[1].param_read(self.param_obj[1],self.calibr_obj[1])
-        self.calibr_obj[1].param_read(self.param_obj[1])
-    def readParam_bu3_process(self):
-        # self.calibr_obj[2].param_read(self.param_obj[2],self.calibr_obj[2])
-        self.calibr_obj[2].param_read(self.param_obj[2])
+        self.calibr_obj[1].param_read(self.param_obj[1],self.calibr_obj[1])
+        self.calibr_obj[2].param_read(self.param_obj[2],self.calibr_obj[2])
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

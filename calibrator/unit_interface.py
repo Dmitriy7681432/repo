@@ -40,28 +40,6 @@ class TableFocus(QtWidgets.QTableView,Id):
                 return True
         return QtWidgets.QTableView.event(self,e)
 
-class ThreadParamSet(QtCore.QThread):
-    f_return = 0
-    process = pyqtSignal(tuple,int)
-
-    def __init__(self,calibr_obj):
-        super().__init__()
-        self.calibr_obj = calibr_obj
-        self.val =(1,)
-        self.indx = 0
-
-    def run(self):
-        printf('ThreadParamSet start')
-        while True:
-            self.calibr_obj.cal_signal_param.connect(self.change_param)
-            printf(self.indx,self.val)
-            self.process.emit(self.val,self.indx)
-            QtCore.QThread.msleep(100)
-
-    def change_param(self,val,indx):
-        self.val = val
-        self.indx = indx
-
 class Unit(MyWidget,QWidget):
     # keyPressed = QtCore.pyqtSignal(int)
     cal_signal = pyqtSignal(int)
@@ -165,10 +143,16 @@ class Unit(MyWidget,QWidget):
             count2 +=1
             # cnt_elem = round((table.size().height()/table.rowHeight(0))+0.5)
             self.cnt_elem = round((height_desktop/2/self.table.rowHeight(0))+0.5)
+            if data =='preset':
+                width_row0 = 170
+                width_row1 = 530
+            else:
+                width_row0 = 220
+                width_row1 = 490
             # printff(cnt_elem)
             if count ==self.cnt_elem or count2 == len_data_dict:
-                self.table.setColumnWidth(0, 190)
-                self.table.setColumnWidth(1, 520)
+                self.table.setColumnWidth(0, width_row0)
+                self.table.setColumnWidth(1, width_row1)
                 self.table.setColumnWidth(2, 154)
                 self.table.setRowHeight(0,20)
                 self.model.setHorizontalHeaderLabels(['Обозначение', 'Наименование', 'Значение'])
@@ -1353,29 +1337,9 @@ class Param(QWidget):
         else:
             self.th_param.start()
 
-    def param_set_val(self,calibr_obj):
-        # printf(val,indx)
-        # self.lst_widget1[0].item(0).setText('1')
-        # self.lst_widget_item1[indx].setText(str(val))
-        # for i in range(0,1000):
-            # self.lst_widget_item1[indx].setText(str(i))
-        # self.lst_widget1[indx].item(0).setText(str(val))
-        # self.lst_widget1[indx].update()
-        if self.th_param_set ==0:
-            self.th_param_set = ThreadParamSet(calibr_obj)
-        if self.th_param_set.isRunning():
-            pass
-            # printf('Поток param уже запущен')
-        else:
-            self.th_param_set.start()
-        # self.th_param_set.process.connect(self.param_set_val_signal)
-        self.calibr_obj.cal_signal_param.connect(self.param_set_val_signal)
-
-    def param_set_val_signal(self,val,indx):
-        self.lst_widget1[indx].item(0).setText(str(val[0]))
+    def param_set_val(self,val,indx):
+        self.lst_widget1[indx].item(0).setText(str(val))
         self.lst_widget1[indx].update()
-
-
 
 
     def thread_param_exit(self):
