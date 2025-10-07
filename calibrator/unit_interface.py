@@ -40,7 +40,7 @@ class TableFocus(QtWidgets.QTableView,Id):
                 return True
         return QtWidgets.QTableView.event(self,e)
 
-class Unit(MyWidget,QWidget):
+class Unit(QWidget):
     # keyPressed = QtCore.pyqtSignal(int)
     cal_signal = pyqtSignal(int)
     th_process = pyqtSignal(int,str)
@@ -50,22 +50,6 @@ class Unit(MyWidget,QWidget):
         self.initUI(data_dict,data,unit, height_desktop)
         # self.keyPressed.connect(self.on_key)
 
-    # def keyPressEvent(self, event):
-    #     super(Unit, self).keyPressEvent(event)
-    #     self.keyPressed.emit(event.key())
-
-    # def on_key(self, e):
-    #
-    #     # self.table.keyPressEvent = self.keyPressEvent
-    #     printff('keyPressEvent')
-    #     # super(Unit,self).keyPressEvent(e)
-    #
-    #     if e.key() == PyQt5.Qt.Qt.Key_Up:
-    #         printff('UP',e.text())
-    #         # self.table.focusNextChild()
-    #
-    #     if e.key() == PyQt5.Qt.Qt.Key_Down:
-    #         printff('DOWD',e.text())
     def initUI(self,data_dict, data,unit,height_desktop):
         # Шрифт
         font = QtGui.QFont()
@@ -76,46 +60,24 @@ class Unit(MyWidget,QWidget):
 
 
         # Порт
-        self.page = QtWidgets.QWidget()
-        self.page.setObjectName("page")
-        self.page.setGeometry(QtCore.QRect(0,0,0,0))
+        # self.page = QtWidgets.QWidget()
+        # self.page.setObjectName("page")
+        # self.page.setGeometry(QtCore.QRect(0,0,0,0))
 
-        # self.centralwidget = centr
-        # self.centralwidget(self.page)
-        # self.centralwidget.setObjectName("centralWidget")
-        # self.horizontWidget = QtWidgets.QWidget(self.page)
-        # self.horizontWidget.setGeometry(QtCore.QRect(20, 20, 210, 40))
-        # self.horizontWidget.setObjectName("horizontWidget")
-        self.horizontLayout = QtWidgets.QVBoxLayout(self.page)
+        self.horizontLayout = QtWidgets.QVBoxLayout(self)
         self.horizontLayout.setContentsMargins(0, 0, 0, 0)
         self.horizontLayout.setObjectName("horizontLayout")
-        # self.centralwidget.addLayout(self.horizontLayout)
-        # self.horizontLayout.addStretch(1)
-
-
-        # for i in data_dict['preset'].items():
-        #     printff(i[1][0])
 
         len_data_dict =len(data_dict[data].items())
-
         count =0; count1=0;count2=0
         self.data_tab =QtWidgets.QTabWidget()
         self.model = QtGui.QStandardItemModel()
         # table = QtWidgets.QTableView()
         self.table = TableFocus()
-        # table.id = table.grabShortcut(
-        #     QtGui.QKeySequence(PyQt5.Qt.Qt.Key_Up))
-        # table.id = table.grabShortcut(
-        #     QtGui.QKeySequence(PyQt5.Qt.Qt.Key_Down))
-        # self.table.keyPressEvent = self.keyPressEvent
-
-        # self.widget1 = MyWidget()
-
-
         self.lst_table = []
         self.lst_model = []
-        for i in data_dict[data].items():
 
+        for i in data_dict[data].items():
             item1 = QtGui.QStandardItem(i[0])
             item2 = QtGui.QStandardItem(i[1][0])
             if data == 'preset':
@@ -125,7 +87,6 @@ class Unit(MyWidget,QWidget):
                     self.item3 = QtGui.QStandardItem(str(0.0))
             else:
                 self.item3 = QtGui.QStandardItem(str(0.0))
-
 
             item1.setTextAlignment(QtCore.Qt.AlignCenter)
             self.item3.setTextAlignment(QtCore.Qt.AlignCenter)
@@ -149,7 +110,6 @@ class Unit(MyWidget,QWidget):
             else:
                 width_row0 = 220
                 width_row1 = 490
-            # printff(cnt_elem)
             if count ==self.cnt_elem or count2 == len_data_dict:
                 self.table.setColumnWidth(0, width_row0)
                 self.table.setColumnWidth(1, width_row1)
@@ -188,6 +148,16 @@ class Unit(MyWidget,QWidget):
         # Вкладки
         self.data_tab.setStyleSheet('background-color:rgb(220,254,225);')\
                                # gridline-color:gray;')
+        if data == 'calibr':
+            widget_btn = QWidget()
+            btn_koef = QPushButton(widget_btn)
+            icon = QtGui.QIcon('images.jpeg')
+            btn_koef.setIcon(icon)
+            # vbox = QVBoxLayout()
+            # vbox.addWidget(btn_koef)
+            # self.horizontLayout.addWidget(widget_btn)
+            self.data_tab.setC
+
         self.horizontLayout.addWidget(self.data_tab)
         self.horizontLayout.setAlignment(QtCore.Qt.AlignHCenter)
         # self.horizontLayout.addWidget(table)
@@ -357,16 +327,12 @@ class Unit(MyWidget,QWidget):
             for i in obj_cal.header_data_dict[data][0:]:
                 printf('i',i)
                 f.write(i)
-            printf(data)
             if data == 'filter':
                 printf(obj_cal.data_dict[data])
                 for i in obj_cal.data_dict[data]:
-                    printf()
                     f.write(struct.pack('I', int(obj_cal.data_dict[data][i][0])))
-                    printf()
                     f.write(struct.pack('I', int(obj_cal.data_dict[data][i][1])))
             else:
-                printf()
                 for i in range(0,self.data_tab.count()):
                     for j in range(0, self.lst_model[i].rowCount()):
                         designation = self.lst_model[i].item(j, 0)

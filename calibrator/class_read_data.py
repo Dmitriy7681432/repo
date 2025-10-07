@@ -49,8 +49,8 @@ class Connect():
             buffer_receiv_main = int(configs.get(i))
     try:
         if 'lin' in sys.platform:
-            ser = serial.Serial(port=f'/dev/{ports_lst[0]}', baudrate=3000000, timeout=0.01)
-            # ser = serial.Serial()
+            # ser = serial.Serial(port=f'/dev/{ports_lst[0]}', baudrate=3000000, timeout=0.01)
+            ser = serial.Serial()
         else:
             ser = serial.Serial(port=ports_lst[0], baudrate=3000000, timeout=0.01)
     except IndexError:
