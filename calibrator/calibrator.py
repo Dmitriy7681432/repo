@@ -129,8 +129,6 @@ class Worker(QThread):
 
         # self.window_created.emit(self.window)  # Отправляем сигнал о создании окна
         # self.finished.emit()  # Отправляем сигнал об окончании работы
-        printf('3')
-
     def timerEvent(self, e):
         # printf('timer_event',self.val, self.timer.isActive())
         self.pbar.setValue(self.val)
@@ -832,15 +830,9 @@ class Main(QMainWindow):
         # self.calibr_obj[2].param_read_stop()
         # if not self.button_obj[1].isChecked() and not self.button_obj[2].isChecked():
         if self.button_obj[0].isChecked():
-            printf(self.calibr_obj[0].param_read_is_running())
-            printf(self.calibr_obj[1].param_read_is_running())
-            printf(self.calibr_obj[2].param_read_is_running())
-            self.calibr_obj[0].param_read_pause()
-            self.calibr_obj[1].param_read_pause()
-            self.calibr_obj[2].param_read_pause()
-            printf(self.calibr_obj[0].param_read_is_running())
-            printf(self.calibr_obj[1].param_read_is_running())
-            printf(self.calibr_obj[2].param_read_is_running())
+            self.calibr_obj[0].param_read_stop()
+            self.calibr_obj[1].param_read_stop()
+            self.calibr_obj[2].param_read_stop()
             self.worker = Worker(self.calibr_obj[0],'Чтение')
             self.worker.run1()
             self.thread_start(self.calibr_obj[0],self.cur_elem,self.lst_cb[0],'r')
@@ -895,9 +887,12 @@ class Main(QMainWindow):
         for i,v in enumerate(self.lst_cb):
             self.calibr_obj[i].flag_abort =0
         self.th.exit()
-        self.calibr_obj[0].param_read_resume()
-        self.calibr_obj[1].param_read_resume()
-        self.calibr_obj[2].param_read_resume()
+        # self.calibr_obj[0].param_read_resume()
+        # self.calibr_obj[1].param_read_resume()
+        # self.calibr_obj[2].param_read_resume()
+        # self.calibr_obj[0].param_read_resume_flag()
+        # self.calibr_obj[1].param_read_resume_flag()
+        # self.calibr_obj[2].param_read_resume_flag()
 
     # Сообщение об отсутствии com_port
     def signal_thread_stop(self):
