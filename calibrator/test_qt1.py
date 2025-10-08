@@ -829,38 +829,38 @@ with open('test.bin', 'wb') as f:
 #     ex = ComPort()
 #     sys.exit(app.exec_())
 import sys
-from PyQt5.QtWidgets import (QWidget, QLabel,
-    QLineEdit, QApplication)
+# from PyQt5.QtWidgets import (QWidget, QLabel,
+#     QLineEdit, QApplication)
 
 
-class Line(QWidget):
-
-    def __init__(self):
-        super().__init__()
-
-        self.initUI()
-
-
-    def initUI(self):
-
-        self.lbl = QLabel(self)
-        qle = QLineEdit(self)
-
-        qle.move(60, 100)
-        self.lbl.move(60, 40)
-
-        qle.textChanged[str].connect(self.onChanged)
-
-        self.setGeometry(300, 300, 280, 170)
-        self.setWindowTitle('QLineEdit')
-        self.show()
-
-
-    def onChanged(self, text):
-
-        self.lbl.setText(text)
-        self.lbl.adjustSize()
-
+# class Line(QWidget):
+#
+#     def __init__(self):
+#         super().__init__()
+#
+#         self.initUI()
+#
+#
+#     def initUI(self):
+#
+#         self.lbl = QLabel(self)
+#         qle = QLineEdit(self)
+#
+#         qle.move(60, 100)
+#         self.lbl.move(60, 40)
+#
+#         qle.textChanged[str].connect(self.onChanged)
+#
+#         self.setGeometry(300, 300, 280, 170)
+#         self.setWindowTitle('QLineEdit')
+#         self.show()
+#
+#
+#     def onChanged(self, text):
+#
+#         self.lbl.setText(text)
+#         self.lbl.adjustSize()
+#
 
 # if __name__ == '__main__':
 #
@@ -935,59 +935,180 @@ class Line(QWidget):
 #     first_window = FirstWindow()
 #     first_window.show()
 #     app.exec_()
+#
+# import sys
+# from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QPushButton, QVBoxLayout, QLabel
+# class SecondWindow(QWidget):
+#     def __init__(self):
+#         super().__init__()
+#         self.setWindowTitle("Второе окно")
+#         self.label = QLabel("Это второе окно", self)
+#         self.label.adjustSize()
+#         self.layout = QVBoxLayout()
+#         self.layout.addWidget(self.label)
+#         self.setLayout(self.layout)
+#         self.closed = False # Флаг состояния закрытия
+#         self.show()
+#
+#     def closeEvent(self, event):
+#         # Этот слот вызывается при попытке закрыть окно
+#         self.closed = True
+#         print("Второе окно было закрыто!")
+#         event.accept() # Принять событие закрытия
+#
+# class MainWindow(QMainWindow):
+#     def __init__(self):
+#         super().__init__()
+#         self.setWindowTitle("Главное окно")
+#         self.second_window = None # Изначально второе окно не создано
+#
+#         self.button = QPushButton("Открыть второе окно", self)
+#         self.button.clicked.connect(self.open_second_window)
+#
+#         layout = QVBoxLayout()
+#         layout.addWidget(self.button)
+#
+#         central_widget = QWidget()
+#         central_widget.setLayout(layout)
+#         self.setCentralWidget(central_widget)
+#
+#     def open_second_window(self):
+#         if self.second_window is None:
+#             self.second_window = SecondWindow()
+#             # self.second_window.show()
+#         # else:
+#         #     # Показать, если оно уже было создано, но скрыто
+#         #     self.second_window.show()
+#
+#     # Метод, который будет использоваться для проверки состояния второго окна
+#     def check_second_window_closed(self):
+#         if self.second_window and self.second_window.closed:
+#             print("Проверка подтвердила: второе окно закрыто.")
+#             # Здесь можно выполнить какие-то действия после закрытия второго окна
+#
+# if __name__ == '__main__':
+#     app = QApplication(sys.argv)
+#     main_window = MainWindow()
+#     main_window.show()
+#     sys.exit(app.exec_())
 
+# from PyQt5.QtWidgets import (QApplication, QMainWindow, QTableView,
+#                              QStyledItemDelegate, QPushButton, QVBoxLayout,
+#                              QWidget)
+# from PyQt5.QtCore import QVariant, Qt
+# from PyQt5.QtGui import QStandardItem
+#
+# class ButtonDelegate(QStyledItemDelegate):
+#     def createEditor(self, parent, option, index):
+#         button = QPushButton(parent)
+#         button.setFlat(True) # Сделать кнопку плоской для лучшего вида в таблице
+#         button.clicked.connect(self.on_button_click) # Подключение сигнала
+#         return button
+#
+#     def setEditorData(self, editor, index):
+#         # Устанавливаем текст кнопки, если нужно
+#         editor.setText(index.data(Qt.DisplayRole))
+#
+#     def setModelData(self, editor, model, index):
+#         # Можно сохранять состояние кнопки или другие данные
+#         pass
+#
+#     def on_button_click(self):
+#         # Здесь будет ваша логика при нажатии на кнопку
+#         print("Кнопка нажата!")
+#         # Получаем отправителя сигнала (кнопку)
+#         button = self.sender()
+#         if button:
+#             # Можно получить индекс ячейки, например, через QModelIndex() и ищем родительскую ячейку
+#             # Для более сложной логики может потребоваться передача данных от родителя
+#             print(f"Текст кнопки: {button.text()}")
+#
+#
+# class MainWindow(QMainWindow):
+#     def __init__(self):
+#         super().__init__()
+#         self.tableView = QTableView()
+#         self.setCentralWidget(self.tableView)
+#
+#         # Пример данных
+#         data = [
+#             ["Иван", "Петр", "Анна"],
+#             ["Иванов", "Петров", "Сидорова"],
+#             ["Кнопка 1", "Кнопка 2", "Кнопка 3"]
+#         ]
+#         self.model = self.create_model(data)
+#         self.tableView.setModel(self.model)
+#
+#         # Применяем делегат к столбцу с кнопками (например, 3-й столбец)
+#         self.tableView.setItemDelegateForColumn(2, ButtonDelegate())
+#
+#         self.model.setData(self.model.index(2, 0), "Кнопка 1", Qt.DisplayRole)
+#         self.model.setData(self.model.index(2, 1), "Кнопка 2", Qt.DisplayRole)
+#         self.model.setData(self.model.index(2, 2), "Кнопка 3", Qt.DisplayRole)
+#
+#     def create_model(self, data):
+#         model = QTableView().model() # Создаем пустую модель QTableWidget
+#         model.setItemData()
+#         for row_index, row_data in enumerate(data):
+#             for col_index, item_data in enumerate(row_data):
+#                 # model.setItem(row_index, col_index, QStandardItem(item_data))
+#                 model.setItemData(row_index,QStandardItem(item_data))
+#         return model
+#
+# if __name__ == '__main__':
+#     app = QApplication([])
+#     window = MainWindow()
+#     window.show()
+#     app.exec_()
+
+
+from PyQt5.QtWidgets import (QWidget, QPushButton,QStyledItemDelegate)
+from PyQt5 import QtCore, QtWidgets, QtGui
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QPushButton, QVBoxLayout, QLabel
-class SecondWindow(QWidget):
-    def __init__(self):
-        super().__init__()
-        self.setWindowTitle("Второе окно")
-        self.label = QLabel("Это второе окно", self)
-        self.label.adjustSize()
-        self.layout = QVBoxLayout()
-        self.layout.addWidget(self.label)
-        self.setLayout(self.layout)
-        self.closed = False # Флаг состояния закрытия
-        self.show()
+# Создаем класс делегата
+class SpinBoxDelegate(QtWidgets.QStyledItemDelegate):
+    def createEditor(self, parent, options, index):
+        # Создаем компонент-редактор, используемый для правки значений
+        # количества позиций
+        editor = QtWidgets.QSpinBox(parent)
+        editor.setFrame(False)
+        editor.setMinimum(0)
+        editor.setSingleStep(1)
+        return editor
 
-    def closeEvent(self, event):
-        # Этот слот вызывается при попытке закрыть окно
-        self.closed = True
-        print("Второе окно было закрыто!")
-        event.accept() # Принять событие закрытия
+        # button = QPushButton(parent)
+        # button.setFlat(True)  # Сделать кнопку плоской для лучшего вида в таблице
+        # icon = QtGui.QIcon('images.jpeg')
+        # button.setIcon(icon)
+        # return button
 
-class MainWindow(QMainWindow):
-    def __init__(self):
-        super().__init__()
-        self.setWindowTitle("Главное окно")
-        self.second_window = None # Изначально второе окно не создано
+    def setEditorData(self, editor, index):
+        # Заносим в компонент-редактор значение количества
+        value = int(index.model().data(index, QtCore.Qt.EditRole))
+        editor.setValue(value)
+    def updateEditorGeometry(self, editor, options, index):
+        # Указьзаем размеры компонента-редактора
+        editor.setGeometry(options.rect)
+    def setModelData(self, editor, model, index):
+        # Заносим исправленное значение количества в модель
+        value = str(editor.value())
+        model.setData(index, value, QtCore.Qt.EditRole)
 
-        self.button = QPushButton("Открыть второе окно", self)
-        self.button.clicked.connect(self.open_second_window)
-
-        layout = QVBoxLayout()
-        layout.addWidget(self.button)
-
-        central_widget = QWidget()
-        central_widget.setLayout(layout)
-        self.setCentralWidget(central_widget)
-
-    def open_second_window(self):
-        if self.second_window is None:
-            self.second_window = SecondWindow()
-            # self.second_window.show()
-        # else:
-        #     # Показать, если оно уже было создано, но скрыто
-        #     self.second_window.show()
-
-    # Метод, который будет использоваться для проверки состояния второго окна
-    def check_second_window_closed(self):
-        if self.second_window and self.second_window.closed:
-            print("Проверка подтвердила: второе окно закрыто.")
-            # Здесь можно выполнить какие-то действия после закрытия второго окна
-
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    main_window = MainWindow()
-    main_window.show()
-    sys.exit(app.exec_())
+app = QtWidgets.QApplication(sys.argv)
+window = QtWidgets.QTableView()
+window.setWindowTitle("Использование делегата")
+sti = QtGui.QStandardItemModel(parent=window)
+lst1 = ['Дискета', 'Бумага для принтера', 'Барабан для принтера']
+lst2 = ["10", "3", "8"]
+for row in range(0, 3):
+    item1 = QtGui.QStandardItem(lst1[row])
+    item2 = QtGui.QStandardItem(lst2[row])
+    sti.appendRow([item1, item2])
+sti.setHorizontalHeaderLabels(['Товар', 'Кол-во'])
+window.setModel(sti)
+# Назначаем делегат второму столбцу таблицы
+window.setItemDelegateForColumn(1, SpinBoxDelegate())
+window.setColumnWidth(0, 150)
+window.resize(300, 150)
+window.show()
+sys.exit(app.exec_())

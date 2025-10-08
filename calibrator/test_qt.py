@@ -382,113 +382,113 @@
 # window2.show()
 # sys.exit(app.exec_())
 
-from docx import Document
-
-# Создаем новый документ
-document = Document()
-
-# Добавляем заголовок
-document.add_heading('Пример документа Word', level=0)
-
-# Добавляем абзац текста
-document.add_paragraph('Это первый абзац текста в документе.')
-document.add_paragraph('Это второй абзац, который также был добавлен с помощью Python.')
-
-# Добавляем список
-document.add_paragraph('Это список:')
-document.add_paragraph('Элемент 1', style='List Bullet')
-document.add_paragraph('Элемент 2', style='List Bullet')
-document.add_paragraph('Элемент 3', style='List Bullet')
-
-# Добавляем таблицу
-table = document.add_table(rows=2, cols=3)
-table.style = 'Light Shading Accent 1'
-cell = table.cell(0, 0)
-cell.text = 'Ячейка A1'
-table.cell(1, 2).text = 'Ячейка B3'
-
-# Сохраняем документ
-document.save('my_document.docx')
-
-print("Документ 'my_document.docx' успешно создан.")
-
-# from docx2pdf import convert
+# from docx import Document
 #
-# convert("my_document.docx", "output.pdf")
-
-
-# полноценный рабочий код
-from docx import Document
-from docx.enum.text import WD_ALIGN_PARAGRAPH
-from docx.shared import Pt,Inches
-
-# создание пустого документа
-doc = Document()
-# данные таблицы без названий колонок
-items = (
-    (7, '1024', 'Плюшевые котята'),
-    (3, '2042', 'Меховые пчелы'),
-    (1, '1288', 'Ошейники для пуделей'),
-)
-# добавляем таблицу с одной строкой
-# для заполнения названий колонок
-table = doc.add_table(1, len(items[0]))
-# определяем стиль таблицы
+# # Создаем новый документ
+# document = Document()
+#
+# # Добавляем заголовок
+# document.add_heading('Пример документа Word', level=0)
+#
+# # Добавляем абзац текста
+# document.add_paragraph('Это первый абзац текста в документе.')
+# document.add_paragraph('Это второй абзац, который также был добавлен с помощью Python.')
+#
+# # Добавляем список
+# document.add_paragraph('Это список:')
+# document.add_paragraph('Элемент 1', style='List Bullet')
+# document.add_paragraph('Элемент 2', style='List Bullet')
+# document.add_paragraph('Элемент 3', style='List Bullet')
+#
+# # Добавляем таблицу
+# table = document.add_table(rows=2, cols=3)
 # table.style = 'Light Shading Accent 1'
-table.style = 'Table Grid'
-table.columns[1].width = Inches(10)
-# Получаем строку с колонками из добавленной таблицы
-head_cells = table.rows[0].cells
-# добавляем названия колонок
-for i, item in enumerate(['Кол-во', 'ID', 'Описание']):
-    p = head_cells[i].paragraphs[0]
-    # название колонки
-    p.add_run(item).bold = True
-    # выравниваем посередине
-    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-
-# head = table.cell(0,0)
-# head.paragraphs[0].runs[0].font.name = 'Times New Roman'
-# head1 = table.rows(0)
-# head1.cells.paragraphs[0].runs[0].font.name = 'Times New Roman'
-for i in table.rows:
-    for cell in i.cells:
-        cell.paragraphs[0].runs[0].font.name = 'Times New Roman'
-        cell.paragraphs[0].runs[0].font.size = Pt(12)
-        print('aa')
-        # print(cell.text)
-
-# добавляем данные к существующей таблице
-for row in items:
-    # добавляем строку с ячейками к объекту таблицы
-    cells = table.add_row().cells
-    for i, item in enumerate(row):
-        # вставляем данные в ячейки
-        cells[i].text = str(item)
-        # если последняя ячейка
-        # if i == 2:
-        # изменим шрифт
-        cells[i].paragraphs[0].runs[0].font.name = 'Times New Roman'
-        cells[i].paragraphs[0].runs[0].font.size = Pt(14)
-        cells[i].paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.CENTER
-
-import os
-os.makedirs('csv,docx,pdf',exist_ok=True)
-
-doc.save('./csv,docx,pdf/test.docx')
-
-
-import os
-print("-" * 50 + "\nКонвертация .docx в .pdf:\n" + "-" * 50)
-ok = True
-try: import docx2pdf
-except Exception as e: print(f"Ошибка импорта модуля! Подробнее:\n{e}"); ok = False
-if ok:
-    input_file = "./csv,docx,pdf/test.docx"
-    output_file = "./csv,docx,pdf/test.pdf"
-    if not os.path.exists(input_file): print(f"Файл {input_file} не найден! Выполнение конвертации невозможно!")
-    else: docx2pdf.convert(input_file, output_file)
-print("Нажмите любую клавишу для продолжения...")
+# cell = table.cell(0, 0)
+# cell.text = 'Ячейка A1'
+# table.cell(1, 2).text = 'Ячейка B3'
+#
+# # Сохраняем документ
+# document.save('my_document.docx')
+#
+# print("Документ 'my_document.docx' успешно создан.")
+#
+# # from docx2pdf import convert
+# #
+# # convert("my_document.docx", "output.pdf")
+#
+#
+# # полноценный рабочий код
+# from docx import Document
+# from docx.enum.text import WD_ALIGN_PARAGRAPH
+# from docx.shared import Pt,Inches
+#
+# # создание пустого документа
+# doc = Document()
+# # данные таблицы без названий колонок
+# items = (
+#     (7, '1024', 'Плюшевые котята'),
+#     (3, '2042', 'Меховые пчелы'),
+#     (1, '1288', 'Ошейники для пуделей'),
+# )
+# # добавляем таблицу с одной строкой
+# # для заполнения названий колонок
+# table = doc.add_table(1, len(items[0]))
+# # определяем стиль таблицы
+# # table.style = 'Light Shading Accent 1'
+# table.style = 'Table Grid'
+# table.columns[1].width = Inches(10)
+# # Получаем строку с колонками из добавленной таблицы
+# head_cells = table.rows[0].cells
+# # добавляем названия колонок
+# for i, item in enumerate(['Кол-во', 'ID', 'Описание']):
+#     p = head_cells[i].paragraphs[0]
+#     # название колонки
+#     p.add_run(item).bold = True
+#     # выравниваем посередине
+#     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+#
+# # head = table.cell(0,0)
+# # head.paragraphs[0].runs[0].font.name = 'Times New Roman'
+# # head1 = table.rows(0)
+# # head1.cells.paragraphs[0].runs[0].font.name = 'Times New Roman'
+# for i in table.rows:
+#     for cell in i.cells:
+#         cell.paragraphs[0].runs[0].font.name = 'Times New Roman'
+#         cell.paragraphs[0].runs[0].font.size = Pt(12)
+#         print('aa')
+#         # print(cell.text)
+#
+# # добавляем данные к существующей таблице
+# for row in items:
+#     # добавляем строку с ячейками к объекту таблицы
+#     cells = table.add_row().cells
+#     for i, item in enumerate(row):
+#         # вставляем данные в ячейки
+#         cells[i].text = str(item)
+#         # если последняя ячейка
+#         # if i == 2:
+#         # изменим шрифт
+#         cells[i].paragraphs[0].runs[0].font.name = 'Times New Roman'
+#         cells[i].paragraphs[0].runs[0].font.size = Pt(14)
+#         cells[i].paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.CENTER
+#
+# import os
+# os.makedirs('csv,docx,pdf',exist_ok=True)
+#
+# doc.save('./csv,docx,pdf/test.docx')
+#
+#
+# import os
+# print("-" * 50 + "\nКонвертация .docx в .pdf:\n" + "-" * 50)
+# ok = True
+# try: import docx2pdf
+# except Exception as e: print(f"Ошибка импорта модуля! Подробнее:\n{e}"); ok = False
+# if ok:
+#     input_file = "./csv,docx,pdf/test.docx"
+#     output_file = "./csv,docx,pdf/test.pdf"
+#     if not os.path.exists(input_file): print(f"Файл {input_file} не найден! Выполнение конвертации невозможно!")
+#     else: docx2pdf.convert(input_file, output_file)
+# print("Нажмите любую клавишу для продолжения...")
 # os.system("pause > nul" if os.name == "nt" else "read > /dev/null")
 
 
@@ -513,3 +513,91 @@ print("Нажмите любую клавишу для продолжения...
 # table_styles = [s for s in all_styles if s.type == WD_STYLE_TYPE.TABLE]
 # for style in table_styles:
 #     print(table_styles)
+# from PyQt5.QtWidgets import (QApplication, QMainWindow, QTableWidget,
+#                              QTableWidgetItem, QPushButton)
+# import sys
+#
+# class MainWindow(QMainWindow):
+#     def __init__(self):
+#         super().__init__()
+#         self.setWindowTitle("Кнопка в QTableWidget")
+#         self.setGeometry(100, 100, 600, 400)
+#
+#         self.table_widget = QTableWidget(self)
+#         self.table_widget.setRowCount(3)
+#         self.table_widget.setColumnCount(3)
+#         self.setCentralWidget(self.table_widget)
+#
+#         self.populate_table()
+#
+#     def populate_table(self):
+#         for row in range(self.table_widget.rowCount()):
+#             for col in range(self.table_widget.columnCount()):
+#                 # Создаем обычный элемент для других ячеек
+#                 item = QTableWidgetItem(f"Ячейка {row}-{col}")
+#                 self.table_widget.setItem(row, col, item)
+#
+#         # Добавляем кнопку в конкретную ячейку (например, 1, 2)
+#         self.add_button_to_cell(1, 2)
+#
+#     def add_button_to_cell(self, row, column):
+#         button = QPushButton("Нажми меня", self)
+#         button.clicked.connect(lambda: self.on_button_click(row, column))
+#         self.table_widget.setCellWidget(row, column, button)
+#
+#     def on_button_click(self, row, column):
+#         print(f"Кнопка в ячейке ({row}, {column}) была нажата!")
+#
+#
+# if __name__ == '__main__':
+#     app = QApplication(sys.argv)
+#     window = MainWindow()
+#     window.show()
+#     sys.exit(app.exec_())
+
+
+from PyQt5.QtWidgets import (QApplication, QMainWindow, QTableView,
+                             QPushButton)
+from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QStandardItem,QStandardItemModel
+
+class MainWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("Таблица с кнопками")
+        self.resize(400, 300)
+
+        self.table_view = QTableView(self)
+        self.setCentralWidget(self.table_view)
+
+        self.model = QStandardItemModel(self)
+        self.table_view.setModel(self.model)
+
+        self.add_items_with_buttons()
+
+    def add_items_with_buttons(self):
+        # Добавляем заголовок таблицы
+        self.model.setHorizontalHeaderLabels(["Название", "Действие"])
+
+        # Добавляем строки с данными и кнопками
+        for i in range(5):
+            item_name = f"Элемент {i+1}"
+            button = QPushButton(f"Действие {i+1}")
+            button.clicked.connect(lambda checked, row=i: self.on_button_click(row))
+
+            # Создаем два элемента QStandardItem
+            item_text = QStandardItem(item_name)
+            item_button = QStandardItem() # Пустой элемент для кнопки
+
+            # Добавляем кнопку как виджет в пустой элемент
+            item_button.setData(button, Qt.DecorationRole)
+
+            self.model.appendRow([item_text, item_button])
+
+    def on_button_click(self, row):
+        print(f"Кнопка нажата для строки {row}")
+
+if __name__ == '__main__':
+    app = QApplication([])
+    window = MainWindow()
+    window.show()

@@ -2,8 +2,8 @@
 import sys,re,struct,PyQt5.Qt
 import time
 
-from PyQt5.QtWidgets import (QWidget, QPushButton, QStackedWidget,
-                             QHBoxLayout, QVBoxLayout, QApplication, QAction, QMainWindow)
+from PyQt5.QtWidgets import (QWidget, QPushButton,QStyledItemDelegate)
+
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from class_read_data import Connect,Calibrator
@@ -40,6 +40,32 @@ class TableFocus(QtWidgets.QTableView,Id):
                 return True
         return QtWidgets.QTableView.event(self,e)
 
+class ButtonDelegate(QStyledItemDelegate):
+    def createEditor(self, parent, option, index):
+        button = QPushButton(parent)
+        button.setFlat(True) # Сделать кнопку плоской для лучшего вида в таблице
+        icon = QtGui.QIcon('images.jpeg')
+        button.setIcon(icon)
+        button.clicked.connect(self.on_button_click) # Подключение сигнала
+        return button
+
+    # def setEditorData(self, editor, index):
+    #     # Устанавливаем текст кнопки, если нужно
+    #     editor.setText(index.data(Qt.DisplayRole))
+
+    def setModelData(self, editor, model, index):
+        # Можно сохранять состояние кнопки или другие данные
+        pass
+
+    def on_button_click(self):
+        # Здесь будет ваша логика при нажатии на кнопку
+        print("Кнопка нажата!")
+        # Получаем отправителя сигнала (кнопку)
+        button = self.sender()
+        if button:
+            # Можно получить индекс ячейки, например, через QModelIndex() и ищем родительскую ячейку
+            # Для более сложной логики может потребоваться передача данных от родителя
+            print(f"Текст кнопки: {button.text()}")
 class Unit(QWidget):
     # keyPressed = QtCore.pyqtSignal(int)
     cal_signal = pyqtSignal(int)
@@ -119,6 +145,8 @@ class Unit(QWidget):
                 self.table.setFont(font)
                 self.table.verticalHeader().setVisible(False)
                 count1 +=1
+                self.btn_deleggate = ButtonDelegate()
+                self.table.setItemDelegateForColumn(2, self.btn_deleggate)
                 self.data_tab.addTab(self.table,f"Вкладка {count1}")
                 self.lst_table.append(self.table)
                 self.lst_model.append(self.model)
@@ -157,7 +185,8 @@ class Unit(QWidget):
             # vbox.addWidget(btn_koef)
             # self.horizontLayout.addWidget(widget_btn)
             # self.data_tab.setC
-
+            self.btn_deleggate = ButtonDelegate()
+            self.table.setItemDelegateForColumn(2, self.btn_deleggate)
         self.horizontLayout.addWidget(self.data_tab)
         self.horizontLayout.setAlignment(QtCore.Qt.AlignHCenter)
         # self.horizontLayout.addWidget(table)
