@@ -103,18 +103,22 @@ class Connect():
         # После закрытия необходимо заново инициалировать serial
         # arg.close()
 
-class ThreadParamCal(QtCore.QThread):
+class ThreadsParamCal(QtCore.QThread):
     finished_th_param = pyqtSignal()
     process = pyqtSignal(tuple,int)
     f_return = 0
     mutex = QtCore.QMutex()
 
-    def __init__(self,param_obj,calibr_obj,ser):
+    def __init__(self,com_id,indx,type,param_obj,calibr_obj,ser):
         super().__init__()
+        self.com_id = com_id
+        self.indx = indx
+        self.type = type
         self.param_obj = param_obj
         self.calibr_obj = calibr_obj
         self.flag = False
         self.ser =ser
+        self.flag2 = 0
 
     def run(self):
         printf('ThreadParam start')
@@ -137,20 +141,71 @@ class ThreadParamCal(QtCore.QThread):
             #                             QThread.msleep(100)
 
             read_data = self.ser.ser.read(self.ser.buffer_receiv_main)
-            printf(read_data)
+            # printf(read_data)
+            if self.com_id in read_data:
+                list_read = read_data.split(b'\r')
+                # printf(list_read)
+                for j in list_read:
+                    if self.com_id in j and len(j) > 20:
+                        val, addr = self.calibr_obj.transformed_in_value_and_address(j, self.type)
+                        # printf(val,self.indx)
+                        self.process.emit((val,),self.indx)
+                        # self.flag2 =1; break
+        # QThread.msleep(100)
+class ThreadParamCal(QtCore.QThread):
+    finished_th_param = pyqtSignal()
+    process = pyqtSignal(tuple,int)
+    f_return = 0
+    mutex = QtCore.QMutex()
+
+    def __init__(self,param_obj,calibr_obj,ser):
+        super().__init__()
+        self.param_obj = param_obj
+        self.calibr_obj = calibr_obj
+        self.flag = False
+        self.ser =ser
+        self.flag2 = 0
+
+    def run(self):
+        printf('ThreadParam start')
+        param_dict_copy = self.calibr_obj.param_dict.copy()
+        self.flag = True
+        while self.flag:
+            # printf()
+            # for i in lst_read:
+            #     if self.calibr_obj.partel_id in i[0]:
+            #         list_read = i[0].split(b'\r')
+            #         for j in list_read:
+            #             if self.calibr_obj.partel_id in j:
+            #                 for k in param_dict_copy[self.calibr_obj.control_block].items():
+            #                     hex_val = [z for z in k[1].values()]
+            #                     for v in range(0, len(hex_val)):
+            #                         if hex_val[v][2] == j[5:13]:
+            #                             val, addr = self.calibr_obj.transformed_in_value_and_address(j, hex_val[v][1])
+            #                             # self.param_obj.param_set_val(val,hex_val[v][3])
+            #                             self.process.emit((val,),hex_val[v][3])
+            #                             QThread.msleep(100)
+
+            read_data = self.ser.ser.read(self.ser.buffer_receiv_main)
+            # printf(read_data)
             if self.calibr_obj.partel_id in read_data:
                 list_read = read_data.split(b'\r')
                 # printf(list_read)
                 for j in list_read:
                     if self.calibr_obj.partel_id in j and len(j) > 20:
                         for k in param_dict_copy[self.calibr_obj.control_block].items():
+                            # printf(k)
                             hex_val = [z for z in k[1].values()]
+                            # if self.flag2==1: self.flag2=0; break
+                            # printf(len(hex_val),hex_val)
                             for v in range(0, len(hex_val)):
+                                # printf(hex_val[v][2])
                                 if hex_val[v][2] == j[5:13]:
                                     # printf(hex_val[v],j)
                                     val, addr = self.calibr_obj.transformed_in_value_and_address(j, hex_val[v][1])
                                     # self.param_obj.param_set_val(val,hex_val[v][3])
                                     self.process.emit((val,),hex_val[v][3])
+                                    self.flag2 =1; break
         # QThread.msleep(100)
 
 
@@ -608,7 +663,7 @@ class Calibrator(QObject):
                     self.ser.ser.port = f'/dev/{self.ser.ports_lst[cnt_ports]}'
                 else:
                     self.ser.ser.port = self.ser.ports_lst[cnt_ports]
-                self.ser.can_open_O(self.ser.ser)
+                self.ser.can_open_L(self.ser.ser)
                 printf('ports_lst',self.ser.ports_lst[cnt_ports])
                 tmp_cnt=0
             # printf(data_can_dict_value)
@@ -871,7 +926,32 @@ class Calibrator(QObject):
         # self.th_param_set.process.connect(self.param_change,QtCore.Qt.QueuedConnection)
         self.th_param_set.process.connect(self.param_change,QtCore.Qt.QueuedConnection)
 
+
+    def param_read_threads(self,param_obj,calibr_obj):
+        self.param_obj = param_obj
+        param_dict_copy = calibr_obj.param_dict.copy()
+        threads = []
+        if self.th_param_proc == 'start':
+            for i in param_dict_copy[calibr_obj.control_block].items():
+                com_id = [z for z in i[1].values()]
+                for v in range(0, len(com_id)):
+                    self.th_param_set = ThreadsParamCal(com_id[v][2],com_id[v][3],com_id[v][1],param_obj,calibr_obj,self.ser)
+                    threads.append(self.th_param_set)
+        # if self.th_param_set.isRunning():
+        #     printf('Поток param уже запущен')
+        # else:
+        #     self.th_param_set.start()
+        #     self.th_param_proc ='proc'
+        # self.th_param_set.process.connect(self.param_change,QtCore.Qt.QueuedConnection)
+        printf(threads)
+        for i in threads:
+            printf(i)
+            i.start()
+            i.process.connect(self.param_change)
+        # self.th_param_set.process.connect(self.param_change,QtCore.Qt.QueuedConnection)
+
     def param_change(self,val,indx):
+        printf(val,indx)
         self.param_obj.param_set_val(val[0], indx)
 
     def param_read_resume_flag(self):
@@ -894,7 +974,7 @@ class Calibrator(QObject):
             printf('param_read_exit')
             self.th_param_set.quit()
     def can_open_l(self):
-        self.ser.can_open_L(self.ser.ser)
+        self.ser.can_open_O(self.ser.ser)
 
     def test_data_dict(self,data):
         printf(self.data_dict)

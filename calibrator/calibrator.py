@@ -1076,9 +1076,9 @@ class Main(QMainWindow):
         # self.th_unit.wait(1000)
 
     def readParam(self):
-        self.calibr_obj[0].param_read(self.param_obj[0],self.calibr_obj[0])
-        self.calibr_obj[1].param_read(self.param_obj[1],self.calibr_obj[1])
-        self.calibr_obj[2].param_read(self.param_obj[2],self.calibr_obj[2])
+        self.calibr_obj[0].param_read_threads(self.param_obj[0],self.calibr_obj[0])
+        # self.calibr_obj[1].param_read(self.param_obj[1],self.calibr_obj[1])
+        # self.calibr_obj[2].param_read(self.param_obj[2],self.calibr_obj[2])
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

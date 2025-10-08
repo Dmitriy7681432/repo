@@ -156,7 +156,7 @@ class Unit(QWidget):
             # vbox = QVBoxLayout()
             # vbox.addWidget(btn_koef)
             # self.horizontLayout.addWidget(widget_btn)
-            self.data_tab.setC
+            # self.data_tab.setC
 
         self.horizontLayout.addWidget(self.data_tab)
         self.horizontLayout.setAlignment(QtCore.Qt.AlignHCenter)
