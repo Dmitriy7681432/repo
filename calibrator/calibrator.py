@@ -792,6 +792,7 @@ class Main(QMainWindow):
 
 
         self.calibr_obj[0].can_open_l()
+        time.sleep(1)
         self.readParam()
         # for i,v in enumerate(self.lst_cb):
         #     if i ==0:
