@@ -615,13 +615,10 @@ class Main(QMainWindow):
     def UnitWidgetMain(self, i):
         printf('UnitW')
         if i ==0:
-            printf('UnitW1')
             self.UnitWidget()
         elif i ==1:
-            printf('UnitW2')
             self.UnitWidget2()
         else:
-            printf('UnitW3')
             self.UnitWidget3()
 
     def UnitWidget(self):
@@ -638,6 +635,7 @@ class Main(QMainWindow):
                 self.button_obj[i].setCheckable(True)
                 self.button_obj[i].setDown(True)
                 self.button_obj[i].setStyleSheet('background-color:rgb(145,250,192);')
+                self.unit_obj_calibr[i].selectBuTable(i)
             else:
                 self.button_obj[i].setChecked(False)
                 self.button_obj[i].setDown(False)
@@ -670,6 +668,7 @@ class Main(QMainWindow):
                 self.button_obj[i].setCheckable(True)
                 self.button_obj[i].setDown(True)
                 self.button_obj[i].setStyleSheet('background-color:rgb(145,250,192);')
+                self.unit_obj_calibr[i].selectBuTable(i)
             else:
                 self.button_obj[i].setChecked(False)
                 self.button_obj[i].setDown(False)
@@ -702,6 +701,7 @@ class Main(QMainWindow):
                 self.button_obj[i].setCheckable(True)
                 self.button_obj[i].setDown(True)
                 self.button_obj[i].setStyleSheet('background-color:rgb(145,250,192);')
+                self.unit_obj_calibr[i].selectBuTable(i)
             else:
                 self.button_obj[i].setChecked(False)
                 self.button_obj[i].setDown(False)

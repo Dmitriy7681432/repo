@@ -2,7 +2,8 @@
 import sys,re,struct,PyQt5.Qt
 import time
 
-from PyQt5.QtWidgets import (QWidget, QPushButton,QStyledItemDelegate)
+from PyQt5.QtWidgets import (QWidget, QPushButton,QStyledItemDelegate,
+                             QSizePolicy)
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -43,15 +44,15 @@ class TableFocus(QtWidgets.QTableView,Id):
 class ButtonDelegate(QStyledItemDelegate):
     def createEditor(self, parent, option, index):
         button = QPushButton(parent)
-        button.setFlat(True) # Сделать кнопку плоской для лучшего вида в таблице
+        # button.setFlat(True) # Сделать кнопку плоской для лучшего вида в таблице
         icon = QtGui.QIcon('images.jpeg')
         button.setIcon(icon)
         button.clicked.connect(self.on_button_click) # Подключение сигнала
         return button
 
-    # def setEditorData(self, editor, index):
-    #     # Устанавливаем текст кнопки, если нужно
-    #     editor.setText(index.data(Qt.DisplayRole))
+    def setEditorData(self, editor, index):
+        # Устанавливаем текст кнопки, если нужно
+        editor.setText(index.data(QtCore.Qt.DisplayRole))
 
     def setModelData(self, editor, model, index):
         # Можно сохранять состояние кнопки или другие данные
@@ -90,18 +91,30 @@ class Unit(QWidget):
         # self.page.setObjectName("page")
         # self.page.setGeometry(QtCore.QRect(0,0,0,0))
 
-        self.horizontLayout = QtWidgets.QVBoxLayout(self)
-        self.horizontLayout.setContentsMargins(0, 0, 0, 0)
+        # self.horizontLayout = QtWidgets.QVBoxLayout(self)
+        self.horizontLayout = QWidget(self)
+        # self.horizontLayout.setContentsMargins(0, 0, 0, 0)
         self.horizontLayout.setObjectName("horizontLayout")
+        # self.horizontLayout.setGeometry(300,100,1900,2800)
 
         len_data_dict =len(data_dict[data].items())
         count =0; count1=0;count2=0
-        self.data_tab =QtWidgets.QTabWidget()
+        self.data_tab =QtWidgets.QTabWidget(self.horizontLayout)
+        self.data_tab.setGeometry(0,0,1500,1900)
         self.model = QtGui.QStandardItemModel()
         # table = QtWidgets.QTableView()
         self.table = TableFocus()
         self.lst_table = []
         self.lst_model = []
+        self.lst_btn_koef = []
+        self.size_map_btn = 50
+        self.diff_cnt_btn = 0
+        self.index_data_tab_for_bu1 = 0
+        self.index_data_tab_for_bu2 = 0
+        self.index_data_tab_for_bu3 = 0
+        self.indx_bu_table = 0
+        flag_btn = 0
+
 
         for i in data_dict[data].items():
             item1 = QtGui.QStandardItem(i[0])
@@ -135,7 +148,8 @@ class Unit(QWidget):
                 width_row1 = 530
             else:
                 width_row0 = 220
-                width_row1 = 490
+                width_row1 = 480
+                printf(self.cnt_elem,len_data_dict)
             if count ==self.cnt_elem or count2 == len_data_dict:
                 self.table.setColumnWidth(0, width_row0)
                 self.table.setColumnWidth(1, width_row1)
@@ -145,8 +159,24 @@ class Unit(QWidget):
                 self.table.setFont(font)
                 self.table.verticalHeader().setVisible(False)
                 count1 +=1
-                self.btn_deleggate = ButtonDelegate()
-                self.table.setItemDelegateForColumn(2, self.btn_deleggate)
+                self.size_map_btn = 50
+
+                if data == 'calibr' and flag_btn ==0:
+                    self.cnt_btn = int((self.cnt_elem/2)+0.5)
+                    for i in range(0,self.cnt_btn):
+                        self.btn_koef = QPushButton(self.horizontLayout)
+                        icon = QtGui.QIcon('graps.png')
+                        self.btn_koef.setIcon(icon)
+                        self.btn_koef.setGeometry(857, self.size_map_btn, 20, 20)
+                        self.btn_koef.setStyleSheet('background-color:rgb(220,254,225);')
+                        self.lst_btn_koef.append(self.btn_koef)
+                        self.size_map_btn+=38
+                    flag_btn =1
+
+                # use delegate
+                # self.btn_deleggate = ButtonDelegate()
+                # self.table.setItemDelegateForColumn(2, self.btn_deleggate)
+
                 self.data_tab.addTab(self.table,f"Вкладка {count1}")
                 self.lst_table.append(self.table)
                 self.lst_model.append(self.model)
@@ -176,21 +206,31 @@ class Unit(QWidget):
         # Вкладки
         self.data_tab.setStyleSheet('background-color:rgb(220,254,225);')\
                                # gridline-color:gray;')
-        if data == 'calibr':
-            widget_btn = QWidget()
-            btn_koef = QPushButton(widget_btn)
-            icon = QtGui.QIcon('images.jpeg')
-            btn_koef.setIcon(icon)
-            # vbox = QVBoxLayout()
-            # vbox.addWidget(btn_koef)
+
+        # self.horizontLayout.setContentsMargins(0, 0, 0, 0)
+        # sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        # sizePolicy.setHorizontalStretch(0)
+        # sizePolicy.setVerticalStretch(0)
+        # sizePolicy.setHeightForWidth(self.btn_koef.sizePolicy().hasHeightForWidth())
+        # self.btn_koef.setSizePolicy(QSizePolicy.Fixed,QSizePolicy.Fixed)
+        # self.btn_koef.setSizePolicy(sizePolicy)
+        # vbox = QtWidgets.QVBoxLayout()
+        # vbox.addWidget(self.btn_koef)
             # self.horizontLayout.addWidget(widget_btn)
             # self.data_tab.setC
-            self.btn_deleggate = ButtonDelegate()
-            self.table.setItemDelegateForColumn(2, self.btn_deleggate)
-        self.horizontLayout.addWidget(self.data_tab)
-        self.horizontLayout.setAlignment(QtCore.Qt.AlignHCenter)
+            # self.btn_deleggate = ButtonDelegate()
+            # self.table.setItemDelegateForColumn(2, self.btn_deleggate)
+
+        #temp
+        # self.horizontLayout.addWidget(self.btn_koef)
+        # self.horizontLayout.addWidget(self.data_tab)
+        # self.horizontLayout.setAlignment(QtCore.Qt.AlignHCenter)
+
         # self.horizontLayout.addWidget(table)
-        self.setLayout(self.horizontLayout)
+
+        #temp
+        # self.setLayout(self.horizontLayout)
+        self.horizontLayout.show()
         # printf('Unit1')
 
         # return self.page
@@ -221,10 +261,10 @@ class Unit(QWidget):
 
 
     def selectRow1(self, data):
+        printf(self.index_data_tab)
         self.checkValue = data.data()
         self.curr_row = data.row()
         printf('SELECT', data.row(), data.column(), data.data())
-
 
     # def keyPressEvent(self, e):
     def on_key(self, e):
@@ -241,6 +281,34 @@ class Unit(QWidget):
 
     def selectDataTab(self,index):
         self.index_data_tab = index
+        printf(self.index_data_tab)
+        cnt_row_table = self.lst_model[self.index_data_tab].rowCount()
+        cnt_row_table_calc = int((cnt_row_table/2)+0.5)
+        printf(cnt_row_table_calc,len(self.lst_btn_koef))
+
+        if cnt_row_table_calc < len(self.lst_btn_koef):
+            for i in range(cnt_row_table_calc,len(self.lst_btn_koef)):
+               self.lst_btn_koef[i].setVisible(False)
+               self.diff_cnt_btn = len(self.lst_btn_koef) - cnt_row_table_calc
+        else:
+            for i in range(0,self.diff_cnt_btn):
+                self.lst_btn_koef[-1*(i+1)].setVisible(True)
+
+        if self.indx_bu_table ==0:
+            self.index_data_tab_for_bu1 =index
+        elif self.indx_bu_table ==1:
+            self.index_data_tab_for_bu2 =index
+        else:
+            self.index_data_tab_for_bu3 =index
+        printf(self.indx_bu_table, self.index_data_tab_for_bu1,self.index_data_tab_for_bu2,self.index_data_tab_for_bu3)
+
+
+    def selectBuTable(self,indx):
+        self.indx_bu_table = indx
+        index_data_tab_for_bu = self.data_tab.currentIndex()
+        # printf(index_data_tab_for_bu)
+        printf(self.index_data_tab_for_bu1,self.index_data_tab_for_bu2,self.index_data_tab_for_bu3)
+        printf(self.index_data_tab)
 
     def enteredValue(self,value):
         printf('ENTERED',value.data())
