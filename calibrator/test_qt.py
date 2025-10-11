@@ -555,49 +555,82 @@
 #     window.show()
 #     sys.exit(app.exec_())
 
+# from PyQt5.QtWidgets import (QApplication, QMainWindow, QTableView,
+#                              QPushButton)
+# from PyQt5.QtCore import Qt
+# from PyQt5.QtGui import QStandardItem,QStandardItemModel
+# class MainWindow(QMainWindow):
+#     def __init__(self):
+#         super().__init__()
+#         self.setWindowTitle("Таблица с кнопками")
+#         self.resize(400, 300)
+#
+#         self.table_view = QTableView(self)
+#         self.setCentralWidget(self.table_view)
+#
+#         self.model = QStandardItemModel(self)
+#         self.table_view.setModel(self.model)
+#
+#         self.add_items_with_buttons()
+#
+#     def add_items_with_buttons(self):
+#         # Добавляем заголовок таблицы
+#         self.model.setHorizontalHeaderLabels(["Название", "Действие"])
+#
+#         # Добавляем строки с данными и кнопками
+#         for i in range(5):
+#             item_name = f"Элемент {i+1}"
+#             button = QPushButton(f"Действие {i+1}")
+#             # button.clicked.connect(lambda checked, row=i: self.on_button_click(row))
+#             button.clicked.connect(lambda: self.table_view.model().insertRow(0,[QStandardItem('1'),QStandardItem('example')]))
+#
+#             # Создаем два элемента QStandardItem
+#             item_text = QStandardItem(item_name)
+#             item_button = QStandardItem() # Пустой элемент для кнопки
+#
+#             # Добавляем кнопку как виджет в пустой элемент
+#             item_button.setData(button, Qt.DecorationRole)
+#
+#             self.model.appendRow([item_text, item_button])
+#
+#     def on_button_click(self, row):
+#         print(f"Кнопка нажата для строки {row}")
+#
+# if __name__ == '__main__':
+#     app = QApplication([])
+#     window = MainWindow()
+#     window.show()
+#     app.exec_()
 
-from PyQt5.QtWidgets import (QApplication, QMainWindow, QTableView,
-                             QPushButton)
-from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QStandardItem,QStandardItemModel
+# -*- coding: utf-8 -*-
+from PyQt5 import QtWidgets, QtGui
+import sys
+app = QtWidgets.QApplication(sys.argv)
+window = QtWidgets.QWidget()
+window.setWindowTitle("QStandardItemModel")
 
-class MainWindow(QMainWindow):
-    def __init__(self):
-        super().__init__()
-        self.setWindowTitle("Таблица с кнопками")
-        self.resize(400, 300)
+sti = QtGui.QStandardItemModel(parent=window)
+lst1 = ['Perl', 'PHP', 'Python', 'Ruby']
+lst2 = ['http://www.perl.org/', 'http://php.net/',
+        'https://www.python.org/', 'https://www.ruby-lang.org/']
 
-        self.table_view = QTableView(self)
-        self.setCentralWidget(self.table_view)
+tv = QtWidgets.QTableView()
+but = QtWidgets.QPushButton('1')
+for row in range(0, 4):
+    iconfile = 'images.jpeg'
+    # item1 = QtGui.QStandardItem(QtGui.QIcon(iconfile), '')
+    item1 = QtGui.QStandardItem(but)
+    item2 = QtGui.QStandardItem(lst1[row])
+    item3 = QtGui.QStandardItem(lst2[row])
+    sti.appendRow([item1, item2, item3])
+sti.setHorizontalHeaderLabels(['Значок', 'Название', 'Сайт'])
+tv.setModel(sti)
+tv.setColumnWidth(0, 50)
+tv.setColumnWidth(2, 180)
 
-        self.model = QStandardItemModel(self)
-        self.table_view.setModel(self.model)
-
-        self.add_items_with_buttons()
-
-    def add_items_with_buttons(self):
-        # Добавляем заголовок таблицы
-        self.model.setHorizontalHeaderLabels(["Название", "Действие"])
-
-        # Добавляем строки с данными и кнопками
-        for i in range(5):
-            item_name = f"Элемент {i+1}"
-            button = QPushButton(f"Действие {i+1}")
-            button.clicked.connect(lambda checked, row=i: self.on_button_click(row))
-
-            # Создаем два элемента QStandardItem
-            item_text = QStandardItem(item_name)
-            item_button = QStandardItem() # Пустой элемент для кнопки
-
-            # Добавляем кнопку как виджет в пустой элемент
-            item_button.setData(button, Qt.DecorationRole)
-
-            self.model.appendRow([item_text, item_button])
-
-    def on_button_click(self, row):
-        print(f"Кнопка нажата для строки {row}")
-
-if __name__ == '__main__':
-    app = QApplication([])
-    window = MainWindow()
-    window.show()
+vbox = QtWidgets.QVBoxLayout()
+vbox.addWidget(tv)
+window.setLayout(vbox)
+window.resize(400,200)
+window.show()
+sys.exit(app.exec_())
