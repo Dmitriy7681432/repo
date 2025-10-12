@@ -995,3 +995,5 @@ printf(type(a))
 b = 14 +0.5
 b = int(b)
 print(b)
+add = 'ASD_k'
+printf(add[-1:])

@@ -281,11 +281,11 @@ class Unit(QWidget):
 
     def selectDataTab(self,index):
         self.index_data_tab = index
-        printf(self.index_data_tab)
         cnt_row_table = self.lst_model[self.index_data_tab].rowCount()
         cnt_row_table_calc = int((cnt_row_table/2)+0.5)
-        printf(cnt_row_table_calc,len(self.lst_btn_koef))
 
+        item = self.lst_model[self.index_data_tab].item(0,0).text()
+        printf(item)
         if cnt_row_table_calc < len(self.lst_btn_koef):
             for i in range(cnt_row_table_calc,len(self.lst_btn_koef)):
                self.lst_btn_koef[i].setVisible(False)
@@ -300,15 +300,29 @@ class Unit(QWidget):
             self.index_data_tab_for_bu2 =index
         else:
             self.index_data_tab_for_bu3 =index
-        printf(self.indx_bu_table, self.index_data_tab_for_bu1,self.index_data_tab_for_bu2,self.index_data_tab_for_bu3)
 
 
     def selectBuTable(self,indx):
         self.indx_bu_table = indx
-        index_data_tab_for_bu = self.data_tab.currentIndex()
-        # printf(index_data_tab_for_bu)
-        printf(self.index_data_tab_for_bu1,self.index_data_tab_for_bu2,self.index_data_tab_for_bu3)
-        printf(self.index_data_tab)
+        if self.indx_bu_table ==0:
+            cnt_row_table_calc = int((self.lst_model[self.index_data_tab_for_bu1].rowCount()/2)+0.5)
+            item = self.lst_model[self.index_data_tab_for_bu1].item(0, 0).text()
+        elif self.indx_bu_table ==1:
+            cnt_row_table_calc = int((self.lst_model[self.index_data_tab_for_bu2].rowCount()/2)+0.5)
+            item = self.lst_model[self.index_data_tab_for_bu2].item(0, 0).text()
+        else:
+            cnt_row_table_calc = int((self.lst_model[self.index_data_tab_for_bu3].rowCount()/2)+0.5)
+            item = self.lst_model[self.index_data_tab_for_bu3].item(0, 0).text()
+
+        printf(item)
+        if cnt_row_table_calc < len(self.lst_btn_koef):
+            for i in range(cnt_row_table_calc,len(self.lst_btn_koef)):
+                self.lst_btn_koef[i].setVisible(False)
+                self.diff_cnt_btn = len(self.lst_btn_koef) - cnt_row_table_calc
+            # if item[:-1]
+        else:
+            for i in range(0,self.diff_cnt_btn):
+                self.lst_btn_koef[-1*(i+1)].setVisible(True)
 
     def enteredValue(self,value):
         printf('ENTERED',value.data())
