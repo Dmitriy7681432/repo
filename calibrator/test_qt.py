@@ -601,36 +601,48 @@
 #     window = MainWindow()
 #     window.show()
 #     app.exec_()
+#  -*- coding:   utf-8  -*-
+from PyQt5 import QtCore, QtWidgets
+import queue
 
-# -*- coding: utf-8 -*-
-from PyQt5 import QtWidgets, QtGui
-import sys
-app = QtWidgets.QApplication(sys.argv)
-window = QtWidgets.QWidget()
-window.setWindowTitle("QStandardItemModel")
+class MyThread(QtCore.QThread):
+    task_done = QtCore.pyqtSignal(int, int, name = 'taskDone')
+    def __init__(self, id, queue, parent=None):
+        QtCore.QThread.__init__(self, parent)
+        self.id = id
+        self.queue = queue
+    def run(self):
+        while True:
+            print('run')
+            task = self.queue.get()            # Получаем задание
+            print('test')
+            # self.sleep(5)                      # Имитируем обработку
+            self.task_done.emit(task, self.id) # Передаем данные обратно
+            self.queue.task_done()
 
-sti = QtGui.QStandardItemModel(parent=window)
-lst1 = ['Perl', 'PHP', 'Python', 'Ruby']
-lst2 = ['http://www.perl.org/', 'http://php.net/',
-        'https://www.python.org/', 'https://www.ruby-lang.org/']
+class MyWindow(QtWidgets.QPushButton):
+    def __init__(self):
+        QtWidgets.QPushButton.__init__(self)
+        self.setText("Раздать задания")
+        self.queue = queue.Queue()       # Создаем очередь
+        self.threads = []
+        for i in range(1, 3):	# Создаем потоки и запускаем
+            thread = MyThread(i, self.queue)
+            self.threads.append(thread)
+            thread.task_done.connect(self.on_task_done, QtCore.Qt.QueuedConnection)
+            thread.start()
+        self.clicked.connect(self.on_add_task)
+    def on_add_task(self):
+        for i in range(0, 11):
+            self.queue.put(i)	  # Добавляем задания в очередь
+    def on_task_done(self, data, id):
+        print(data, "- id =", id) # Выводим обработанные данные
 
-tv = QtWidgets.QTableView()
-but = QtWidgets.QPushButton('1')
-for row in range(0, 4):
-    iconfile = 'images.jpeg'
-    # item1 = QtGui.QStandardItem(QtGui.QIcon(iconfile), '')
-    item1 = QtGui.QStandardItem(but)
-    item2 = QtGui.QStandardItem(lst1[row])
-    item3 = QtGui.QStandardItem(lst2[row])
-    sti.appendRow([item1, item2, item3])
-sti.setHorizontalHeaderLabels(['Значок', 'Название', 'Сайт'])
-tv.setModel(sti)
-tv.setColumnWidth(0, 50)
-tv.setColumnWidth(2, 180)
-
-vbox = QtWidgets.QVBoxLayout()
-vbox.addWidget(tv)
-window.setLayout(vbox)
-window.resize(400,200)
-window.show()
-sys.exit(app.exec_())
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    window = MyWindow()
+    window.setWindowTitle("Использование модуля queue")
+    window.resize(300, 30)
+    window.show()
+    sys.exit(app.exec_())

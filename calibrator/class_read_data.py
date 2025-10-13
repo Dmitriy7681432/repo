@@ -6,7 +6,7 @@ from lxml import etree
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtCore import QThread, pyqtSignal, pyqtSlot,QTimer,QObject
 import serial.tools.list_ports
-import warning
+import warning,queue
 from PyQt5.QtCore import QAbstractEventDispatcher
 from PyQt5.QtWidgets import QApplication
 import sys,json
@@ -224,6 +224,7 @@ class Calibrator(QObject):
         self.ser = ser
         self.product = product
         self.control_block = control_block
+        self.queue =queue.Queue()
         if self.product == "SES200M":
             if self.control_block == 'BU_SES':
                 # self.partel_id = b't0328'       # purpose="PARAMETER_VALUE_FOR_OPERATOR">
@@ -926,6 +927,7 @@ class Calibrator(QObject):
                     self.threads.append(self.th_param_set)
                     self.threads[v].start()
                     self.threads[v].process.connect(self.param_change)
+        self.queue.put()
 
                     # self.th_param_set.start()
                     # self.th_param_set.process.connect(self.param_change)
