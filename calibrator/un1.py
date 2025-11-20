@@ -982,18 +982,151 @@ lst_read = [
 par = {'BU_SES': {'Средство электроснабжения СЭС-200М': {'ALARM_REACT_CHANGE': ['Изменение реакции аварий', 'int', b'3B000000', 0]}, 'Сеть 1': {'N_STATE': ['Состояние', 'int', b'EA070000', 1], 'NET1_NORM': ['Параметры сети 1 в норме', 'int', b'FB070000', 2]}, 'Сеть 2': {'N2_STATE': ['Состояние', 'int', b'D20B0000', 3], 'NET2_NORM': ['Параметры сети 2 в норме', 'int', b'E20B0000', 4]}, 'Электроагрегат': {'EA_STATE': ['Состояние', 'int', b'A2130000', 5], 'EA_t_COOL': ['t охлаждающей жидкости, °C', 'float', b'A5130000', 6]}, 'Блок управления': {'TIME_STAMP': ['Метка времени, мс', 'int', b'E12E0000', 7], 'AIR_TEMP': ['T воздуха в отсеке, °C', 'float', b'4F2F0000', 8]}, 'УР27 в БА1, БА2': {'U_AB_STARTER': ['U АБ СТ, В', 'float', b'0A520000', 9], 'U_AB_OP': ['U аккумулятора ОП, В', 'float', b'12520000', 10]}, 'Насос закачки топлива': {'NZT_STATE': ['Состояние НЗТ', 'int', b'085B0000', 11]}, 'ПЧ 1': {'FC1_F_U_A': ['F U фазы А, Гц', 'float', b'0A7D0000', 12], 'FC1_AE_STATE': ['Состояние АД ПЧ', 'int', b'197D0000', 13], 'FC1_GEN_STATE': ['Состояние генератора ПЧ 1', 'int', b'1A7D0000', 14]}, 'ПЧ 2': {'FC2_F_U_A': ['F U фазы А, Гц', 'float', b'F2800000', 15], 'FC2_AE_STATE': ['Состояние АД ПЧ', 'int', b'01810000', 16], 'FC2_GEN_STATE': ['Состояние генератора ПЧ', 'int', b'02810000', 17]}}}
 par =  {'BU_400': {'Средство электроснабжения СЭС-200М': {'ALARM_REACT_CHANGE': ['Изменение реакции аварий', 'int', b'3B000000', 0]}, 'Сеть 1': {'N_STATE': ['Состояние', 'int', b'EA070000', 1], 'NET1_NORM': ['Параметры сети 1 в норме', 'int', b'FB070000', 2]}, 'Сеть 2': {'N2_STATE': ['Состояние', 'int', b'D20B0000', 3], 'NET2_NORM': ['Параметры сети 2 в норме', 'int', b'E20B0000', 4]}, 'Электроагрегат': {'EA_STATE': ['Состояние', 'int', b'A2130000', 5], 'EA_t_COOL': ['t охлаждающей жидкости, °C', 'float', b'A5130000', 6]}, 'Блок управления': {'AIR_TEMP': ['T воздуха в отсеке, °C', 'float', b'4F2F0000', 7]}, 'Насос закачки топлива': {'LEVEL_FUEL': ['Уровень топлива во внутреннем баке с датчика, мм*10^-1', 'int', b'045B0000', 8], 'LEVEL_EXT_FUEL': ['Уровень топлива во внешнем баке с датчика, мм*10^-1', 'int', b'055B0000', 9], 'GRADIENT_LEVEL_FUEL': ['Градиент уровня топлива во внутреннем баке', 'float', b'065B0000', 10], 'GRADIENT_LEVEL_EXT_FUEL': ['Градиент уровня топлива во внешнем баке', 'float', b'075B0000', 11], 'NZT_STATE': ['Состояние НЗТ', 'int', b'085B0000', 12], 'LEVEL_FUEL_CALC': ['Уровень топлива во внутреннем баке, вычисляемый, %', 'float', b'095B0000', 13], 'LEVEL_EXT_FUEL_CALC': ['Уровень топлива во внешнем баке, вычисляемый, %', 'float', b'0A5B0000', 14], 'NZT_MODE': ['Режим работы НЗТ', 'int', b'0D5B0000', 15]}, 'ПЧ 1': {'FC1_U_A': ['U фазы А, В', 'float', b'077D0000', 16], 'FC1_U_B': ['U фазы B, В', 'float', b'087D0000', 17], 'FC1_U_C': ['U фазы C, В', 'float', b'097D0000', 18], 'FC1_F_U_A': ['F U фазы А, Гц', 'float', b'0A7D0000', 19], 'FC1_F_U_B': ['F U фазы B, Гц', 'float', b'0B7D0000', 20], 'FC1_F_U_C': ['F U фазы C, Гц', 'float', b'0C7D0000', 21], 'FC1_PHI_U_A': ['Угол U фазы А, °', 'float', b'0D7D0000', 22], 'FC1_PHI_U_B': ['Угол U фазы B, °', 'float', b'0E7D0000', 23], 'FC1_PHI_U_C': ['Угол U фазы C, °', 'float', b'0F7D0000', 24], 'FC1_I_A': ['I фазы А, А', 'float', b'107D0000', 25], 'FC1_I_B': ['I фазы B, А', 'float', b'117D0000', 26], 'FC1_I_C': ['I фазы C, А', 'float', b'127D0000', 27], 'FC1_PHI_I_A': ['Угол I фазы А, °', 'float', b'137D0000', 28], 'FC1_PHI_I_B': ['Угол I фазы B, °', 'float', b'147D0000', 29], 'FC1_PHI_I_C': ['Угол I фазы C, °', 'float', b'157D0000', 30], 'FC1_U_A2': ['U фазы А2, В', 'float', b'167D0000', 31], 'FC1_F_U_A2': ['F U фазы А2, Гц', 'float', b'177D0000', 32], 'FC1_PHI_U_A2': ['Угол U фазы А2, °', 'float', b'187D0000', 33], 'FC1_AE_STATE': ['Состояние АД ПЧ', 'int', b'197D0000', 34], 'FC1_GEN_STATE': ['Состояние генератора ПЧ 1', 'int', b'1A7D0000', 35], 'FC1_P': ['Активная мощность ПЧ 1, кВт', 'float', b'1E7D0000', 36]}, 'ПЧ 2': {'FC2_U_A': ['U фазы А, В', 'float', b'EF800000', 37], 'FC2_U_B': ['U фазы B, В', 'float', b'F0800000', 38], 'FC2_U_C': ['U фазы C, В', 'float', b'F1800000', 39], 'FC2_F_U_A': ['F U фазы А, Гц', 'float', b'F2800000', 40], 'FC2_F_U_B': ['F U фазы B, Гц', 'float', b'F3800000', 41], 'FC2_F_U_C': ['F U фазы C, Гц', 'float', b'F4800000', 42], 'FC2_PHI_U_A': ['Угол U фазы А, °', 'float', b'F5800000', 43], 'FC2_PHI_U_B': ['Угол U фазы B, °', 'float', b'F6800000', 44], 'FC2_PHI_U_C': ['Угол U фазы C, °', 'float', b'F7800000', 45], 'FC2_I_A': ['I фазы А, А', 'float', b'F8800000', 46], 'FC2_I_B': ['I фазы B, А', 'float', b'F9800000', 47], 'FC2_I_C': ['I фазы C, А', 'float', b'FA800000', 48], 'FC2_PHI_I_A': ['Угол I фазы А, °', 'float', b'FB800000', 49], 'FC2_PHI_I_B': ['Угол I фазы B, °', 'float', b'FC800000', 50], 'FC2_PHI_I_C': ['Угол I фазы C, °', 'float', b'FD800000', 51], 'FC2_U_A2': ['U фазы А2, В', 'float', b'FE800000', 52], 'FC2_F_U_A2': ['F U фазы А2, Гц', 'float', b'FF800000', 53], 'FC2_PHI_U_A2': ['Угол U фазы А2, °', 'float', b'00810000', 54], 'FC2_AE_STATE': ['Состояние АД ПЧ', 'int', b'01810000', 55], 'FC2_GEN_STATE': ['Состояние генератора ПЧ', 'int', b'02810000', 56], 'FC2_P': ['Активная мощность ПЧ2, кВт', 'float', b'06810000', 57]}, 'УКПТ 1': {'STATUS_IVEP': ['Состояние ИВЭП', 'int', b'2A460F00', 58]}}}
 pars = par['BU_400'].items()
-for i in pars:
-    val = [j for j in i[1].values()]
-    # printf(val[0][0])
-    for z in range(0, len(val)):
-        printf(val[z][0])
-
-a = (1,)
-printf(type(a))
+# for i in pars:
+#     val = [j for j in i[1].values()]
+#     # printf(val[0][0])
+#     for z in range(0, len(val)):
+        # printf(val[z][0])
 
 
-b = 14 +0.5
-b = int(b)
-print(b)
-add = 'ASD_k'
-printf(add[-1:])
+
+
+# import asyncio,time
+# async def handle_client(reader, writer):
+#     data = await reader.read(100)
+#     writer.write(data.upper())
+#     await writer.drain()
+#     writer.close()
+# async def main():
+#     server = await asyncio.start_server(handle_client, "127.0.0.1", 8888)
+#     async with server:
+#         await server.serve_forever()
+#
+# asyncio.run(main())
+
+import time
+def sleep(seconds):
+   start_time = time.time()
+   while time.time() - start_time < seconds:
+       printf(start_time)
+       printf(time.time())
+       yield
+def task1():
+   while True:
+       print('Task 1')
+       yield from sleep(1)
+def task2():
+   while True:
+       print('Task 2')
+       yield from sleep(5)
+event_loop = [task1(), task2()]
+# while True:
+#     for task in event_loop:
+#        next(task)
+
+
+
+import asyncio
+async def process_data1():
+    await asyncio.sleep(2)
+    return "Data 1 processed"
+
+async def process_data2():
+    await asyncio.sleep(4)
+    return "Data 2 processed"
+
+async def process_data3():
+    await asyncio.sleep(6)
+    return "Data 3 processed"
+
+async def main():
+    result1, result2,result3 = await asyncio.gather(process_data1(), process_data2(),process_data3())
+    print(result1)
+    print(result2)
+    print(result3)
+
+
+# asyncio.run(main())
+
+import asyncio
+
+async def foo():
+    print("Start foo")
+    await asyncio.sleep(1)
+    print("End foo")
+
+async def main():
+    await foo()
+
+# asyncio.run(main())
+
+def uppercase(func):
+    # def wrapper():
+    original_result = func()
+    modified_result = original_result.upper()
+    return modified_result
+    # return wrapper
+
+
+@uppercase
+def greet():
+    return 'Hello!'
+
+# print(greet())
+# greet()
+
+
+def sum(*nums):
+    result = 0
+    for num in nums:
+        result += num
+    return result
+
+
+def debug_decorator(func):
+    # внутреннюю функцию принято называть wrapper - обертка
+    def wrapper(*args, **kwargs):
+        print("Args:", args, kwargs)
+        result = func(*args, **kwargs)
+        print("Result:", result)
+        return result
+
+    return wrapper
+
+
+sum = debug_decorator(sum)
+
+sum(1, 2, 3)
+
+
+async def f1(arg):
+    print(f"First function {arg}...")
+    await asyncio.sleep(0) # Имитирование работы программы
+    print(f'{f1.__name__} Done')
+
+async def f2():
+    print("Second function...")
+    await asyncio.sleep(0) # Имитирование работы программы
+    print(f'{f2.__name__} Done')
+
+async def main2():
+    tasks = [f1(i) for i in range(0,10000)]
+    # printf(f1(1))
+    i = 0
+    start = time.time()
+    # while True:
+    # for i in range(0,10000):
+    #     i+=1
+    #     await asyncio.gather(f1(1))
+    await asyncio.gather(*tasks)
+    # while await asyncio.sleep(0, result=True):
+    end = time.time()
+    printf(end-start)
+    # for i in range(0,10):
+    # while True:
+    #     i=i+1
+    #     # await asyncio.gather(f1(i))
+    #     await asyncio.gather(*tasks)
+
+if __name__ == '__main__':
+    asyncio.run(main2())

@@ -155,9 +155,10 @@ class ThreadParamCal(QtCore.QThread):
 
     def run(self):
         printf('ThreadParam start')
-        param_dict_copy = self.calibr_obj.param_dict.copy()
+        self.param_dict_copy = self.calibr_obj.param_dict.copy()
         self.flag = True
         while self.flag:
+            self.runs()
             # printf()
             # for i in lst_read:
             #     if self.calibr_obj.partel_id in i[0]:
@@ -173,29 +174,51 @@ class ThreadParamCal(QtCore.QThread):
             #                             self.process.emit((val,),hex_val[v][3])
             #                             QThread.msleep(100)
 
-            read_data = self.ser.ser.read(self.ser.buffer_receiv_main)
-            # printf(read_data)
-            if self.calibr_obj.partel_id in read_data:
-                list_read = read_data.split(b'\r')
-                # printf(list_read)
-                for j in list_read:
-                    if self.calibr_obj.partel_id in j and len(j) > 20:
-                        for k in param_dict_copy[self.calibr_obj.control_block].items():
-                            # printf(k)
-                            hex_val = [z for z in k[1].values()]
-                            # if self.flag2==1: self.flag2=0; break
-                            # printf(len(hex_val),hex_val)
-                            for v in range(0, len(hex_val)):
-                                # printf(hex_val[v][2])
-                                if hex_val[v][2] == j[5:13]:
-                                    # printf(hex_val[v],j)
-                                    val, addr = self.calibr_obj.transformed_in_value_and_address(j, hex_val[v][1])
-                                    # self.param_obj.param_set_val(val,hex_val[v][3])
-                                    self.process.emit((val,),hex_val[v][3])
-                                    self.flag2 =1; break
+            # read_data = self.ser.ser.read(self.ser.buffer_receiv_main)
+            # # printf(read_data)
+            # if self.calibr_obj.partel_id in read_data:
+            #     list_read = read_data.split(b'\r')
+            #     # printf(list_read)
+            #     for j in list_read:
+            #         if self.calibr_obj.partel_id in j and len(j) > 20:
+            #             for k in param_dict_copy[self.calibr_obj.control_block].items():
+            #                 # printf(k)
+            #                 hex_val = [z for z in k[1].values()]
+            #                 # if self.flag2==1: self.flag2=0; break
+            #                 # printf(len(hex_val),hex_val)
+            #                 for v in range(0, len(hex_val)):
+            #                     # printf(hex_val[v][2])
+            #                     if hex_val[v][2] == j[5:13]:
+            #                         # printf(hex_val[v],j)
+            #                         val, addr = self.calibr_obj.transformed_in_value_and_address(j, hex_val[v][1])
+            #                         # self.param_obj.param_set_val(val,hex_val[v][3])
+            #                         self.process.emit((val,),hex_val[v][3])
+            #                         self.flag2 =1; break
         # QThread.msleep(100)
 
 
+    async def runs(self):
+        read_data = self.ser.ser.read(self.ser.buffer_receiv_main)
+        # printf(read_data)
+        if self.calibr_obj.partel_id in read_data:
+            list_read = read_data.split(b'\r')
+            # printf(list_read)
+            for j in list_read:
+                if self.calibr_obj.partel_id in j and len(j) > 20:
+                    for k in self.param_dict_copy[self.calibr_obj.control_block].items():
+                        # printf(k)
+                        hex_val = [z for z in k[1].values()]
+                        # if self.flag2==1: self.flag2=0; break
+                        # printf(len(hex_val),hex_val)
+                        for v in range(0, len(hex_val)):
+                            # printf(hex_val[v][2])
+                            if hex_val[v][2] == j[5:13]:
+                                # printf(hex_val[v],j)
+                                val, addr = self.calibr_obj.transformed_in_value_and_address(j, hex_val[v][1])
+                                # self.param_obj.param_set_val(val,hex_val[v][3])
+                                self.process.emit((val,), hex_val[v][3])
+                                self.flag2 = 1;
+                                break
 
     def flag_set(self):
         ThreadParamCal.mutex.lock()
