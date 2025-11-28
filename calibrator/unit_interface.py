@@ -188,6 +188,7 @@ class Unit(MyWidget,QWidget):
         self.setLayout(self.horizontLayout)
         # printf('Unit1')
 
+        self.lst_data_val = []
         # return self.page
 
     def is_valid_email(self,data):
@@ -264,11 +265,11 @@ class Unit(MyWidget,QWidget):
             item.setBackground(QtGui.QBrush(QtGui.QColor(255, 255, 255)))
             if data =='preset':
                 #test
-                # self.checkValue = str(i[1][5])
-                self.checkValue = str(i[1][preset_indx])
+                self.checkValue = str(i[1][5])
+                # self.checkValue = str(i[1][preset_indx])
                 #test
-                # item.setChild(count, 2, item.setText(str(i[1][5])))
-                item.setChild(count, 2, item.setText(str(i[1][preset_indx])))
+                item.setChild(count, 2, item.setText(str(i[1][5])))
+                # item.setChild(count, 2, item.setText(str(i[1][preset_indx])))
             else:
                 self.checkValue = str(i[1][calibr_indx])
                 item.setChild(count, 2, item.setText(str(i[1][calibr_indx])))
@@ -360,7 +361,6 @@ class Unit(MyWidget,QWidget):
                     printf()
                     f.write(struct.pack('I', int(obj_cal.data_dict[data][i][1])))
             else:
-                printf()
                 for i in range(0,self.data_tab.count()):
                     for j in range(0, self.lst_model[i].rowCount()):
                         designation = self.lst_model[i].item(j, 0)
@@ -411,150 +411,150 @@ class Unit(MyWidget,QWidget):
                 step += 10
                 self.cal_signal.emit(step)
 
-                # Запись в pdf
-                if data!='filter':
-                    from reportlab.lib import colors
-                    from reportlab.lib.pagesizes import letter, inch, A4
-                    from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph
-                    from reportlab.pdfbase import pdfmetrics
-                    from reportlab.pdfbase.ttfonts import TTFont
-                    from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
-                    from reportlab.lib.enums import TA_CENTER, TA_LEFT, TA_RIGHT
-
-                    lst_data.insert(0, head_myData[0])
-                    doc = SimpleDocTemplate(f'./{folder}/{output_file}.pdf', pagesize=letter)
-
-                    # styles = getSampleStyleSheet()
-                    story = []
-
-                    elements = []
-
-                    pdfmetrics.registerFont(TTFont('TimesNewRomanCyrillic', 'timesnrcyrmt.ttf'))
-                    pdfmetrics.registerFont(TTFont('TimesNewRomanCyrillicBold', 'timesnrcyrmt_bold.ttf'))
-                    style_cyrillic_bold = ParagraphStyle(
-                        name='CyrillicStyle',
-                        fontName='TimesNewRomanCyrillicBold',
-                        fontSize=12,
-                        leading=11,
-                        alignment=TA_CENTER
-                    )
-                    style_cyrillic_left = ParagraphStyle(
-                        name='CyrillicStyle',
-                        fontName='TimesNewRomanCyrillic',
-                        fontSize=11,
-                        leading=11
-                    )
-                    style_cyrillic = ParagraphStyle(
-                        name='CyrillicStyle',
-                        fontName='TimesNewRomanCyrillic',
-                        fontSize=11,
-                        leading=11,
-                        alignment=TA_CENTER
-                    )
-                    style_cyrillic_head = ParagraphStyle(
-                        name='Normal',
-                        fontName='TimesNewRomanCyrillic',
-                        fontSize=12,
-                        leading=11,
-                        alignment=TA_LEFT,
-                        spaceAfter=-12,
-                        spaceBefore=10
-                        # parent=styles['Normal']
-                    )
-                    style_cyrillic_head_bold = ParagraphStyle(
-                        name='Normal',
-                        fontName='TimesNewRomanCyrillicBold',
-                        fontSize=12,
-                        leading=11,
-                        alignment=TA_RIGHT,
-                        spaceAfter=22,
-                        spaceBefore=10
-                        # parent=styles['Normal']
-                    )
-                    # 2. Создаем текст заголовка
-                    product_text = 'Изделие:'
-                    product_paragraph = Paragraph(product_text, style_cyrillic_head_bold)
-                    name_product_text = name_product_rus
-                    name_product_paragraph = Paragraph(name_product_text, style_cyrillic_head)
-                    product_nmb_text = 'зав.№:'
-                    product_nmb_paragraph = Paragraph(product_nmb_text, style_cyrillic_head_bold)
-                    product_nmb_val_text = list_nmb[0]
-                    product_nmb_val_paragraph = Paragraph(product_nmb_val_text, style_cyrillic_head)
-
-                    cb_text = 'Блок:'
-                    cb_paragraph = Paragraph(cb_text, style_cyrillic_head_bold)
-                    name_cb_text = name_block_rus + ', ' + name_drawing
-                    name_cb_paragraph = Paragraph(name_cb_text, style_cyrillic_head)
-                    cb_nmb_text = 'зав.№:'
-                    cb_nmb_paragraph = Paragraph(cb_nmb_text, style_cyrillic_head_bold)
-                    cb_nmb_val_text = list_nmb[1]
-                    name_cb_val_paragraph = Paragraph(cb_nmb_val_text, style_cyrillic_head)
-
-                    table_paragraph = [
-                        [product_paragraph, name_product_paragraph, product_nmb_paragraph, product_nmb_val_paragraph], []]
-
-                    table_data_paragraph = Table(table_paragraph, colWidths=[0.9 * 72, 1.1 * 72, 0.7 * 72, 0.8 * 72])
-                    # table_data_paragraph = Table(table_paragraph)
-                    table_data_paragraph.setStyle(TableStyle([
-                        # ('INNERGRID', (0, 0), (2, -1), 0.25, colors.black),
-                        ('LINEBELOW', (0, 0), (-1, 0), 0.25, colors.black),
-                        # ('BOX', (0, 0), (-1, -1), 0.25, colors.black),
-                    ]))
-
-                    table_paragraph2 = [
-                        [cb_paragraph, name_cb_paragraph, cb_nmb_paragraph, name_cb_val_paragraph], [], []]
-                    table_data_paragraph2 = Table(table_paragraph2, colWidths=[0.7 * 72, 2.2 * 72, 0.7 * 72, 0.8 * 72])
-                    # table_data_paragraph2 = Table(table_paragraph2)
-
-                    table_data_paragraph2.setStyle(TableStyle([
-                        # ('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black),
-                        ('LINEBELOW', (0, 0), (-1, 0), 0.25, colors.black),
-                        # ('BOX', (0, 0), (-1, -1), 0.25, colors.black),
-                    ]))
-                    table_data = []
-                    table_row = []
-                    cnt2 = 0
-                    for row in lst_data:
-                        cnt = 0
-                        for text in row:
-                            if cnt2 < 3:
-                                table_row.append(Paragraph(text, style_cyrillic_bold))
-                            elif cnt == 1 and cnt2 != 1:
-                                table_row.append(Paragraph(text, style_cyrillic_left))
-                            else:
-                                table_row.append(Paragraph(text, style_cyrillic))
-                            cnt += 1
-                            cnt2 += 1
-                        table_data.append(table_row)
-                        table_row = []
-                    # t=Table(table_data,5*[0.5*inch], 4*[0.3*inch])
-                    # t = Table(table_data)
-                    if data == 'preset':
-                        width_0 = 1.4 * 72
-                        width_1 = 5 * 72
-                    else:
-                        width_0 = 2.4 * 72
-                        width_1 = 4 * 72
-                    t = Table(table_data, colWidths=[width_0, width_1, 1.1 * 72], repeatRows=1)
-                    t.setStyle(TableStyle([
-                        #                        ('ALIGN', (1, 1), (-1, -2), 'RIGHT'),
-                        #                        ('TEXTCOLOR', (1, 1), (-2, -2), colors.red),
-                        #                        ('VALIGN', (0, 0), (0, -1), 'TOP'),
-                        #                        ('TEXTCOLOR', (0, 0), (0, -1), colors.blue),
-                        #                        ('ALIGN', (0, -1), (-1, -1), 'CENTER'),
-                        #                        ('VALIGN', (0, -1), (-1, -1), 'MIDDLE'),
-                        #                        ('TEXTCOLOR', (0, -1), (-1, -1), colors.green),
-                        ('ALIGN', (0, 1), (-1, -1), 'CENTER'),
-                        ('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black),
-                        ('BOX', (0, 0), (-1, -1), 0.25, colors.black),
-                    ]))
-
-                    elements.append(t)
-                    # write the document to disk
-                    story.append(table_data_paragraph)
-                    story.append(table_data_paragraph2)
-                    story.append(t)
-                    doc.build(story)
+                # Запись в pdf рабочая версия
+                # if data!='filter':
+                #     from reportlab.lib import colors
+                #     from reportlab.lib.pagesizes import letter, inch, A4
+                #     from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph
+                #     from reportlab.pdfbase import pdfmetrics
+                #     from reportlab.pdfbase.ttfonts import TTFont
+                #     from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
+                #     from reportlab.lib.enums import TA_CENTER, TA_LEFT, TA_RIGHT
+                #
+                #     lst_data.insert(0, head_myData[0])
+                #     doc = SimpleDocTemplate(f'./{folder}/{output_file}.pdf', pagesize=letter)
+                #
+                #     # styles = getSampleStyleSheet()
+                #     story = []
+                #
+                #     elements = []
+                #
+                #     pdfmetrics.registerFont(TTFont('TimesNewRomanCyrillic', 'timesnrcyrmt.ttf'))
+                #     pdfmetrics.registerFont(TTFont('TimesNewRomanCyrillicBold', 'timesnrcyrmt_bold.ttf'))
+                #     style_cyrillic_bold = ParagraphStyle(
+                #         name='CyrillicStyle',
+                #         fontName='TimesNewRomanCyrillicBold',
+                #         fontSize=12,
+                #         leading=11,
+                #         alignment=TA_CENTER
+                #     )
+                #     style_cyrillic_left = ParagraphStyle(
+                #         name='CyrillicStyle',
+                #         fontName='TimesNewRomanCyrillic',
+                #         fontSize=11,
+                #         leading=11
+                #     )
+                #     style_cyrillic = ParagraphStyle(
+                #         name='CyrillicStyle',
+                #         fontName='TimesNewRomanCyrillic',
+                #         fontSize=11,
+                #         leading=11,
+                #         alignment=TA_CENTER
+                #     )
+                #     style_cyrillic_head = ParagraphStyle(
+                #         name='Normal',
+                #         fontName='TimesNewRomanCyrillic',
+                #         fontSize=12,
+                #         leading=11,
+                #         alignment=TA_LEFT,
+                #         spaceAfter=-12,
+                #         spaceBefore=10
+                #         # parent=styles['Normal']
+                #     )
+                #     style_cyrillic_head_bold = ParagraphStyle(
+                #         name='Normal',
+                #         fontName='TimesNewRomanCyrillicBold',
+                #         fontSize=12,
+                #         leading=11,
+                #         alignment=TA_RIGHT,
+                #         spaceAfter=22,
+                #         spaceBefore=10
+                #         # parent=styles['Normal']
+                #     )
+                #     # 2. Создаем текст заголовка
+                #     product_text = 'Изделие:'
+                #     product_paragraph = Paragraph(product_text, style_cyrillic_head_bold)
+                #     name_product_text = name_product_rus
+                #     name_product_paragraph = Paragraph(name_product_text, style_cyrillic_head)
+                #     product_nmb_text = 'зав.№:'
+                #     product_nmb_paragraph = Paragraph(product_nmb_text, style_cyrillic_head_bold)
+                #     product_nmb_val_text = list_nmb[0]
+                #     product_nmb_val_paragraph = Paragraph(product_nmb_val_text, style_cyrillic_head)
+                #
+                #     cb_text = 'Блок:'
+                #     cb_paragraph = Paragraph(cb_text, style_cyrillic_head_bold)
+                #     name_cb_text = name_block_rus + ', ' + name_drawing
+                #     name_cb_paragraph = Paragraph(name_cb_text, style_cyrillic_head)
+                #     cb_nmb_text = 'зав.№:'
+                #     cb_nmb_paragraph = Paragraph(cb_nmb_text, style_cyrillic_head_bold)
+                #     cb_nmb_val_text = list_nmb[1]
+                #     name_cb_val_paragraph = Paragraph(cb_nmb_val_text, style_cyrillic_head)
+                #
+                #     table_paragraph = [
+                #         [product_paragraph, name_product_paragraph, product_nmb_paragraph, product_nmb_val_paragraph], []]
+                #
+                #     table_data_paragraph = Table(table_paragraph, colWidths=[0.9 * 72, 1.1 * 72, 0.7 * 72, 0.8 * 72])
+                #     # table_data_paragraph = Table(table_paragraph)
+                #     table_data_paragraph.setStyle(TableStyle([
+                #         # ('INNERGRID', (0, 0), (2, -1), 0.25, colors.black),
+                #         ('LINEBELOW', (0, 0), (-1, 0), 0.25, colors.black),
+                #         # ('BOX', (0, 0), (-1, -1), 0.25, colors.black),
+                #     ]))
+                #
+                #     table_paragraph2 = [
+                #         [cb_paragraph, name_cb_paragraph, cb_nmb_paragraph, name_cb_val_paragraph], [], []]
+                #     table_data_paragraph2 = Table(table_paragraph2, colWidths=[0.7 * 72, 2.2 * 72, 0.7 * 72, 0.8 * 72])
+                #     # table_data_paragraph2 = Table(table_paragraph2)
+                #
+                #     table_data_paragraph2.setStyle(TableStyle([
+                #         # ('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black),
+                #         ('LINEBELOW', (0, 0), (-1, 0), 0.25, colors.black),
+                #         # ('BOX', (0, 0), (-1, -1), 0.25, colors.black),
+                #     ]))
+                #     table_data = []
+                #     table_row = []
+                #     cnt2 = 0
+                #     for row in lst_data:
+                #         cnt = 0
+                #         for text in row:
+                #             if cnt2 < 3:
+                #                 table_row.append(Paragraph(text, style_cyrillic_bold))
+                #             elif cnt == 1 and cnt2 != 1:
+                #                 table_row.append(Paragraph(text, style_cyrillic_left))
+                #             else:
+                #                 table_row.append(Paragraph(text, style_cyrillic))
+                #             cnt += 1
+                #             cnt2 += 1
+                #         table_data.append(table_row)
+                #         table_row = []
+                #     # t=Table(table_data,5*[0.5*inch], 4*[0.3*inch])
+                #     # t = Table(table_data)
+                #     if data == 'preset':
+                #         width_0 = 1.4 * 72
+                #         width_1 = 5 * 72
+                #     else:
+                #         width_0 = 2.4 * 72
+                #         width_1 = 4 * 72
+                #     t = Table(table_data, colWidths=[width_0, width_1, 1.1 * 72], repeatRows=1)
+                #     t.setStyle(TableStyle([
+                #         #                        ('ALIGN', (1, 1), (-1, -2), 'RIGHT'),
+                #         #                        ('TEXTCOLOR', (1, 1), (-2, -2), colors.red),
+                #         #                        ('VALIGN', (0, 0), (0, -1), 'TOP'),
+                #         #                        ('TEXTCOLOR', (0, 0), (0, -1), colors.blue),
+                #         #                        ('ALIGN', (0, -1), (-1, -1), 'CENTER'),
+                #         #                        ('VALIGN', (0, -1), (-1, -1), 'MIDDLE'),
+                #         #                        ('TEXTCOLOR', (0, -1), (-1, -1), colors.green),
+                #         ('ALIGN', (0, 1), (-1, -1), 'CENTER'),
+                #         ('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black),
+                #         ('BOX', (0, 0), (-1, -1), 0.25, colors.black),
+                #     ]))
+                #
+                #     elements.append(t)
+                #     # write the document to disk
+                #     story.append(table_data_paragraph)
+                #     story.append(table_data_paragraph2)
+                #     story.append(t)
+                #     doc.build(story)
                 step += 10
                 self.cal_signal.emit(step)
                 step = 100
@@ -717,6 +717,192 @@ class Unit(MyWidget,QWidget):
 
         printf(data_dict_copy)
         return data_dict_copy
+    def saveDataval(self):
+
+        source = ''
+        head_myData = [['Источник', "Обозначение параметра", "Наименование параметра", "Значение"]]
+
+        for i in range(0, self.data_tab.count()):
+            for j in range(0, self.lst_model[i].rowCount()):
+                designation = self.lst_model[i].item(j, 0)
+                name = self.lst_model[i].item(j, 1)
+                value = self.lst_model[i].item(j, 2)
+                if designation.text()[0:3] in 'FC1' or designation.text()[0:3] in 'FC2':
+                    source = 'ПЧ-100'
+                elif designation.text()[0:2] in 'N_':
+                    source = 'Ввод 1'
+                elif designation.text()[0:2] in 'N2':
+                    source = 'Ввод 2'
+                elif designation.text()[0:2] in 'EA':
+                    source = 'ЭА'
+                elif designation.text()[0:2] in 'EN':
+                    source = 'Электронагреватель'
+                elif designation.text()[0:3] in 'AIR':
+                    source = 'Термодатчик'
+                elif designation.text()[0:6] in 'U_AB_S':
+                    source = 'Аккумуляторная батарея СТ'
+                elif designation.text()[0:6] in 'U_AB_O' or designation.text()[0:4] in 'U_OP':
+                    source = 'Аккумуляторная батарея ОП'
+                elif designation.text()[0:7] in 'LEVEL_F':
+                    source = 'Датчик уровня топлива в баке № 1'
+                elif designation.text()[0:7] in 'LEVEL_E':
+                    source = 'Датчик уровня топлива в баке № 2'
+                elif designation.text()[0:4] in 'SPCH':
+                    source = 'СПЧ'
+                elif designation.text()[0:3] in 'B_I':
+                    source = 'Общая шина'
+
+                local_lst_data = [source, designation.text(), name.text(), value.text()]
+                self.lst_data_val.append(local_lst_data)
+        self.lst_data_val.insert(0, head_myData[0])
+
+    def saveDatapdf(self,name_product,unit_obj,list_nmb):
+
+        import os
+        from reportlab.lib import colors
+        from reportlab.lib.pagesizes import letter, inch, A4
+        from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph
+        from reportlab.pdfbase import pdfmetrics
+        from reportlab.pdfbase.ttfonts import TTFont
+        from reportlab.lib.styles import ParagraphStyle,getSampleStyleSheet
+        from reportlab.lib.enums import TA_CENTER, TA_LEFT,TA_RIGHT
+
+        folder = 'csv,pdf'
+        os.makedirs(folder, exist_ok=True)
+        p_bu1 =0
+        p_bu2=0
+        p_bu3 =0
+        story = []
+        name_product_rus = '0'
+
+        style_cyrillic_bold = ParagraphStyle(
+            name='CyrillicStyle',
+            fontName='TimesNewRomanCyrillicBold',
+            fontSize=13,
+            leading=15,
+            spaceAfter=6,
+            alignment=TA_CENTER
+        )
+        style_cyrillic_bold_right = ParagraphStyle(
+            name='CyrillicStyle',
+            fontName='TimesNewRomanCyrillicBold',
+            fontSize=13,
+            leading=15,
+            spaceAfter=6,
+            leftIndent=10,
+            # rightIndent=10
+        )
+        style_cyrillic_bold_right_space = ParagraphStyle(
+            name='CyrillicStyle',
+            fontName='TimesNewRomanCyrillicBold',
+            fontSize=13,
+            leading=15,
+            spaceAfter=6,
+            spaceBefore=25,
+            leftIndent=7,
+            # rightIndent=10
+        )
+        style_cyrillic_left = ParagraphStyle(
+            name='CyrillicStyle',
+            fontName='TimesNewRomanCyrillic',
+            fontSize=11,
+            leading=11
+        )
+        style_cyrillic = ParagraphStyle(
+            name='CyrillicStyle',
+            fontName='TimesNewRomanCyrillic',
+            fontSize=11,
+            leading=11,
+            alignment=TA_CENTER
+        )
+        p1 = Paragraph("Приложение Б", style_cyrillic_bold)
+        p2 = Paragraph("Калибровочные коэффициенты", style_cyrillic_bold)
+        if name_product == 'SES200M':
+            name_product_rus = 'СЭС-200М'
+            p_bu1 = Paragraph("Б.1 Калибровочные коэффициенты блока управления 400 Гц ТАКИ.466539.022",
+                              style_cyrillic_bold_right)
+            p_bu2 = Paragraph("Б.2 Калибровочные коэффициенты блока управления 50 Гц ТАКИ.466539.023",
+                              style_cyrillic_bold_right_space)
+            p_bu3 = Paragraph("Б.3 Калибровочные коэффициенты блока управления СЭС ТАКИ.466539.024",
+                              style_cyrillic_bold_right_space)
+        elif name_product == "SEP30M":
+            name_product_rus = 'СЭП-30М'
+            p_bu1 = Paragraph("20.1 Калибровочные коэффициенты блока управления СЭП ТАКИ.466539.020",
+                              style_cyrillic_bold_right)
+            p_bu2 = Paragraph("20.2 Калибровочные коэффициенты блока управления 400 Гц ТАКИ.468127.155",
+                              style_cyrillic_bold_right_space)
+
+        output_file = name_product_rus + '_'+list_nmb[0]+ '_calibr'
+        doc = SimpleDocTemplate(f'./{folder}/{output_file}.pdf', pagesize=letter,topMargin=0.4*inch,
+                                leftMargin=0.8*inch,bottomMargin=0.8*inch)
+        pdfmetrics.registerFont(TTFont('TimesNewRomanCyrillic', 'timesnrcyrmt.ttf'))
+        pdfmetrics.registerFont(TTFont('TimesNewRomanCyrillicBold', 'timesnrcyrmt_bold.ttf'))
+
+        for i in range(0,len(unit_obj)):
+            table_data = []
+            table_row = []
+            cnt2 = 0
+            for row in unit_obj[i].lst_data_val:
+                cnt = 0
+                for text in row:
+                    if cnt2 < 3:
+                        table_row.append(Paragraph(text, style_cyrillic))
+                    elif cnt == 1 and cnt2 != 1 or cnt == 2 and cnt2 != 2:
+                        table_row.append(Paragraph(text, style_cyrillic_left))
+                    else:
+                        table_row.append(Paragraph(text, style_cyrillic))
+                    cnt += 1
+                    cnt2 += 1
+                table_data.append(table_row)
+                table_row = []
+            t = Table(table_data, colWidths=[1.1 * 72, 2.3*72, 2.5*72, 1.3 * 72], repeatRows=1,hAlign="LEFT")
+
+            if i ==0:
+                if name_product == "SES200M":
+                    t.setStyle(TableStyle([
+                    ('ALIGN', (0, 0), (-1, -1), 'CENTER'), ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+                    ('SPAN', (0, 1), (0, 2)),('SPAN', (0, 3), (0, 4)),('SPAN', (0, 5), (0, 6)),
+                    ('SPAN', (0, 7), (0, 33)),('SPAN', (0, 34), (0, 50)),
+                    ('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black),
+                    ('BOX', (0, 0), (-1, -1), 0.25, colors.black),]))
+                elif name_product == "SEP30M":
+                    t.setStyle(TableStyle([
+                        ('ALIGN', (0, 0), (-1, -1), 'CENTER'), ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+                        ('SPAN', (0, 1), (0, 6)), ('SPAN', (0, 7), (0, 18)), ('SPAN', (0, 19), (0, 30)),
+                        ('SPAN', (0, 31), (0, 36)), ('SPAN', (0, 37), (0, 48)), ('SPAN', (0, 49), (0, 54)),
+                        ('SPAN', (0, 55), (0, 56)), ('SPAN', (0, 57), (0, 58)), ('SPAN', (0, 59), (0, 60)),
+                        ('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black),
+                        ('BOX', (0, 0), (-1, -1), 0.25, colors.black), ]))
+                story.append(p1)
+                story.append(p2)
+                story.append(p_bu1)
+            elif i ==1:
+                if name_product == "SES200M":
+                    t.setStyle(TableStyle([
+                        ('ALIGN', (0, 0), (-1, -1), 'CENTER'), ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+                        ('SPAN', (0, 1), (0, 19)),('SPAN', (0, 20), (0, 34)),('SPAN', (0, 35), (0, 58)),
+                        ('SPAN', (0, 59), (0, 68)),('SPAN', (0, 69), (0, 97)),('SPAN', (0, 98), (0, 108)),
+                        ('SPAN', (0, 109), (0, 114)), ('SPAN', (0, 115), (0, 126)),
+                        ('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black),
+                        ('BOX', (0, 0), (-1, -1), 0.25, colors.black),]))
+                elif name_product == "SEP30M":
+                    t.setStyle(TableStyle([
+                        ('ALIGN', (0, 0), (-1, -1), 'CENTER'), ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+                        ('SPAN', (0, 1), (0, 9)), ('SPAN', (0, 10), (0, 18)),
+                        ('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black),
+                        ('BOX', (0, 0), (-1, -1), 0.25, colors.black), ]))
+                story.append(p_bu2)
+            else:
+                t.setStyle(TableStyle([
+                    ('ALIGN', (0, 0), (-1, -1), 'CENTER'), ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+                    ('SPAN', (0, 1), (0, 2)),('SPAN', (0, 3), (0, 4)),
+                    ('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black),
+                    ('BOX', (0, 0), (-1, -1), 0.25, colors.black),]))
+                story.append(p_bu3)
+
+            story.append(t)
+
+        doc.build(story)
 
     #test записи в csv
     def saveDatatest(self,data,name_block,name_product,list_nmb):
@@ -756,14 +942,35 @@ class Unit(MyWidget,QWidget):
         self.cal_signal.emit(step)
 
         lst_data = []
+        source = ''
         #Запись в csv
-        head_myData = [["Обозначение","Наименование","Значение"]]
+        head_myData = [['Источник',"Обозначение параметра","Наименование параметра","Значение"]]
         for i in range(0, self.data_tab.count()):
             for j in range(0, self.lst_model[i].rowCount()):
                 designation = self.lst_model[i].item(j, 0)
                 name = self.lst_model[i].item(j, 1)
                 value = self.lst_model[i].item(j, 2)
-                local_lst_data =[designation.text(),name.text(),value.text()]
+                if designation.text()[0:3] in 'FC1' or designation.text()[0:3] in 'FC2':
+                   source = 'ПЧ-100'
+                elif designation.text()[0:2] in 'N_':
+                    source = 'Ввод 1'
+                elif designation.text()[0:2] in 'N2':
+                    source = 'Ввод 2'
+                elif designation.text()[0:2] in 'EA':
+                    source = 'ЭА'
+                elif designation.text()[0:2] in 'EN':
+                    source = 'Электронагреватель'
+                elif designation.text()[0:3] in 'AIR':
+                    source = 'Термодатчик'
+                elif designation.text()[0:6] in 'U_AB_S':
+                    source = 'Аккумуляторная батарея СТ'
+                elif designation.text()[0:6] in 'U_AB_O':
+                    source = 'Аккумуляторная батарея ОП'
+                elif designation.text()[0:7] in 'LEVEL_F':
+                    source = 'Датчик уровня топлива в баке № 1'
+                elif designation.text()[0:7] in 'LEVEL_E':
+                    source = 'Датчик уровня топлива в баке № 2'
+                local_lst_data =[source,designation.text(),name.text(),value.text()]
                 lst_data.append(local_lst_data)
         myFile = open(f'./{folder}/{output_file}.csv', 'w', encoding='utf-32', newline='')
         with myFile:
@@ -774,7 +981,7 @@ class Unit(MyWidget,QWidget):
 
         step += 10
         self.cal_signal.emit(step)
-
+        printf(lst_data)
         # with open('read_data.txt', 'w') as self.file_open:
         # self.file_open.write('hi1')
 
@@ -787,11 +994,9 @@ class Unit(MyWidget,QWidget):
         from reportlab.lib.enums import TA_CENTER, TA_LEFT,TA_RIGHT
 
         lst_data.insert(0,head_myData[0])
-        doc = SimpleDocTemplate(f'./{folder}/{output_file}.pdf', pagesize=letter)
-
+        doc = SimpleDocTemplate(f'./{folder}/{output_file}.pdf', pagesize=letter,topMargin=0.1*inch)
         # styles = getSampleStyleSheet()
         story = []
-
         elements = []
 
         pdfmetrics.registerFont(TTFont('TimesNewRomanCyrillic', 'timesnrcyrmt.ttf'))
@@ -800,7 +1005,9 @@ class Unit(MyWidget,QWidget):
             name='CyrillicStyle',
             fontName='TimesNewRomanCyrillicBold',
             fontSize=12,
-            leading=11,
+            leading=15,
+            spaceAfter=6,
+            # spaceBefore=10,
             alignment=TA_CENTER
         )
         style_cyrillic_left = ParagraphStyle(
@@ -816,65 +1023,16 @@ class Unit(MyWidget,QWidget):
             leading=11,
             alignment=TA_CENTER
         )
-        style_cyrillic_head = ParagraphStyle(
-            name='Normal',
-            fontName='TimesNewRomanCyrillic',
-            fontSize=12,
-            leading=11,
-            alignment=TA_LEFT,
-            spaceAfter=-12,
-            spaceBefore=10
-            # parent=styles['Normal']
-        )
-        style_cyrillic_head_bold = ParagraphStyle(
-            name='Normal',
-            fontName='TimesNewRomanCyrillicBold',
-            fontSize=12,
-            leading=11,
-            alignment=TA_RIGHT,
-            spaceAfter=22,
-            spaceBefore=10
-            # parent=styles['Normal']
-        )
-        # 2. Создаем текст заголовка
-        product_text = 'Изделие:'
-        product_paragraph = Paragraph(product_text, style_cyrillic_head_bold)
-        name_product_text = name_product_rus
-        name_product_paragraph = Paragraph(name_product_text, style_cyrillic_head)
-        product_nmb_text = 'зав.№:'
-        product_nmb_paragraph = Paragraph(product_nmb_text, style_cyrillic_head_bold)
-        product_nmb_val_text = list_nmb[0]
-        product_nmb_val_paragraph = Paragraph(product_nmb_val_text, style_cyrillic_head)
 
-        cb_text = 'Блок:'
-        cb_paragraph = Paragraph(cb_text, style_cyrillic_head_bold)
-        name_cb_text = name_block_rus+', ' + name_drawing
-        name_cb_paragraph = Paragraph(name_cb_text, style_cyrillic_head)
-        cb_nmb_text = 'зав.№:'
-        cb_nmb_paragraph = Paragraph(cb_nmb_text, style_cyrillic_head_bold)
-        cb_nmb_val_text = list_nmb[1]
-        name_cb_val_paragraph = Paragraph(cb_nmb_val_text, style_cyrillic_head)
+        p1 = Paragraph("Приложение Б", style_cyrillic_bold)
+        p2 = Paragraph("Калибровочные коэффициенты", style_cyrillic_bold)
+        if name_block =='BU_400':
+            p3 = Paragraph("Б.1 Калибровочные коэффициенты блока управления 400 Гц ТАКИ.466539.022", style_cyrillic_bold)
+        elif name_block =='BU_50':
+            p3 = Paragraph("Б.2 Калибровочные коэффициенты блока управления 50 Гц ТАКИ.466539.023", style_cyrillic_bold)
+        else:
+            p3 = Paragraph("Б.3 Калибровочные коэффициенты блока управления 50 Гц ТАКИ.466539.024", style_cyrillic_bold)
 
-        table_paragraph = [[product_paragraph,name_product_paragraph,product_nmb_paragraph,product_nmb_val_paragraph],[]]
-
-        table_data_paragraph = Table(table_paragraph,colWidths=[0.9*72, 1.1*72, 0.7*72, 0.8*72])
-        # table_data_paragraph = Table(table_paragraph)
-        table_data_paragraph.setStyle(TableStyle([
-            # ('INNERGRID', (0, 0), (2, -1), 0.25, colors.black),
-            ('LINEBELOW', (0, 0), (-1, 0), 0.25, colors.black),
-            # ('BOX', (0, 0), (-1, -1), 0.25, colors.black),
-        ]))
-
-        table_paragraph2 = [
-            [cb_paragraph, name_cb_paragraph, cb_nmb_paragraph, name_cb_val_paragraph],[],[] ]
-        table_data_paragraph2 = Table(table_paragraph2, colWidths=[0.7 * 72, 2.2 * 72, 0.7 * 72, 0.8*72])
-        # table_data_paragraph2 = Table(table_paragraph2)
-
-        table_data_paragraph2.setStyle(TableStyle([
-            # ('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black),
-            ('LINEBELOW', (0, 0), (-1, 0), 0.25, colors.black),
-            # ('BOX', (0, 0), (-1, -1), 0.25, colors.black),
-        ]))
         table_data = []
         table_row = []
         cnt2 = 0
@@ -882,8 +1040,8 @@ class Unit(MyWidget,QWidget):
             cnt =0
             for text in row:
                 if cnt2<3:
-                    table_row.append(Paragraph(text, style_cyrillic_bold))
-                elif cnt ==1 and cnt2 !=1:
+                    table_row.append(Paragraph(text, style_cyrillic))
+                elif cnt ==1 and cnt2 !=1 or cnt ==2 and cnt2 !=2:
                     table_row.append(Paragraph(text, style_cyrillic_left))
                 else:
                     table_row.append(Paragraph(text, style_cyrillic))
@@ -891,34 +1049,34 @@ class Unit(MyWidget,QWidget):
                 cnt2+=1
             table_data.append(table_row)
             table_row = []
-        # t=Table(table_data,5*[0.5*inch], 4*[0.3*inch])
-        # t = Table(table_data)
-        if data =='preset':
-            width_0 = 1.4*72
-            width_1 = 5*72
-        else:
-            width_0 = 2.4*72
-            width_1 = 4 * 72
-        t = Table(table_data,colWidths=[width_0, width_1, 1.1*72],repeatRows=1)
+        width_0 = 2.3*72
+        width_1 = 2.5 * 72
+        t = Table(table_data,colWidths=[1.1*72,width_0, width_1, 1.1*72],repeatRows=1)
         t.setStyle(TableStyle([
         #                        ('ALIGN', (1, 1), (-1, -2), 'RIGHT'),
         #                        ('TEXTCOLOR', (1, 1), (-2, -2), colors.red),
         #                        ('VALIGN', (0, 0), (0, -1), 'TOP'),
         #                        ('TEXTCOLOR', (0, 0), (0, -1), colors.blue),
-        #                        ('ALIGN', (0, -1), (-1, -1), 'CENTER'),
+        #                        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
         #                        ('VALIGN', (0, -1), (-1, -1), 'MIDDLE'),
         #                        ('TEXTCOLOR', (0, -1), (-1, -1), colors.green),
-                               ('ALIGN', (0, 1), (-1, -1), 'CENTER'),
+                               ('ALIGN', (0, 0), (-1, -1), 'CENTER'),  # Горизонтальное выравнивание
+                               ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),  # Вертикальное выравнивание
+                               # ('SPAN', (0, 1), (0, 2)),
+                               # ('SPAN', (0, 3), (0, 4)),
+                               # ('SPAN', (0, 5), (0, 6)),
+                               # ('SPAN', (0, 7), (0, 30)),
+                               # ('SPAN', (0, 31), (0, 50)),
                                ('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black),
                                ('BOX', (0, 0), (-1, -1), 0.25, colors.black),
                                ]))
-
         elements.append(t)
-        # write the document to disk
-        story.append(table_data_paragraph)
-        story.append(table_data_paragraph2)
+        story.append(p1)
+        story.append(p2)
+        story.append(p3)
         story.append(t)
         doc.build(story)
+
         step += 10
         self.cal_signal.emit(step)
         step = 100
