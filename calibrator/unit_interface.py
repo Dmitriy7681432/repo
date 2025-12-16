@@ -265,11 +265,11 @@ class Unit(MyWidget,QWidget):
             item.setBackground(QtGui.QBrush(QtGui.QColor(255, 255, 255)))
             if data =='preset':
                 #test
-                self.checkValue = str(i[1][5])
-                # self.checkValue = str(i[1][preset_indx])
+                # self.checkValue = str(i[1][5])
+                self.checkValue = str(i[1][preset_indx])
                 #test
-                item.setChild(count, 2, item.setText(str(i[1][5])))
-                # item.setChild(count, 2, item.setText(str(i[1][preset_indx])))
+                # item.setChild(count, 2, item.setText(str(i[1][5])))
+                item.setChild(count, 2, item.setText(str(i[1][preset_indx])))
             else:
                 self.checkValue = str(i[1][calibr_indx])
                 item.setChild(count, 2, item.setText(str(i[1][calibr_indx])))
@@ -335,6 +335,13 @@ class Unit(MyWidget,QWidget):
                 name_block_rus = 'БУ400'; name_drawing = "ТАКИ.466539.021"
             elif name_block == 'BU_SEP':
                 name_block_rus = 'БУСЭП'; name_drawing = "ТАКИ.466539.020"
+        elif name_product == "SES150":
+            name_product_rus = 'СЭC-150'
+            name_block_rus = 'БУСЭС'; name_drawing = "ТАКИ.466539.028"
+        elif name_product == "TOR-ARCTICA":
+            name_product_rus = 'ТОР-АРКТИКА'
+            name_block_rus = 'БУЭА'; name_drawing = "ТАКИ.565416.009"
+
 
         name_block = name_block.lower()
 
@@ -741,7 +748,8 @@ class Unit(MyWidget,QWidget):
                     source = 'Термодатчик'
                 elif designation.text()[0:6] in 'U_AB_S':
                     source = 'Аккумуляторная батарея СТ'
-                elif designation.text()[0:6] in 'U_AB_O' or designation.text()[0:4] in 'U_OP':
+                elif designation.text()[0:6] in 'U_AB_O' or designation.text()[0:4] in 'U_OP' or\
+                     designation.text()[0:4] in 'U_27':
                     source = 'Аккумуляторная батарея ОП'
                 elif designation.text()[0:7] in 'LEVEL_F':
                     source = 'Датчик уровня топлива в баке № 1'
@@ -749,8 +757,14 @@ class Unit(MyWidget,QWidget):
                     source = 'Датчик уровня топлива в баке № 2'
                 elif designation.text()[0:4] in 'SPCH':
                     source = 'СПЧ'
-                elif designation.text()[0:3] in 'B_I':
+                elif designation.text()[0:2] in 'B_':
                     source = 'Общая шина'
+                elif designation.text()[0:3] in 'GTA':
+                    source = 'Турбина'
+                elif designation.text()[0:4] in 'VEA1':
+                    source = 'ВЭА1'
+                elif designation.text()[0:4] in 'VEA2':
+                    source = 'ВЭА2'
 
                 local_lst_data = [source, designation.text(), name.text(), value.text()]
                 self.lst_data_val.append(local_lst_data)
@@ -774,6 +788,9 @@ class Unit(MyWidget,QWidget):
         p_bu3 =0
         story = []
         name_product_rus = '0'
+
+        pdfmetrics.registerFont(TTFont('TimesNewRomanCyrillic', 'timesnrcyrmt.ttf'))
+        pdfmetrics.registerFont(TTFont('TimesNewRomanCyrillicBold', 'timesnrcyrmt_bold.ttf'))
 
         style_cyrillic_bold = ParagraphStyle(
             name='CyrillicStyle',
@@ -815,10 +832,11 @@ class Unit(MyWidget,QWidget):
             leading=11,
             alignment=TA_CENTER
         )
+
         p1 = Paragraph("Приложение Б", style_cyrillic_bold)
-        p2 = Paragraph("Калибровочные коэффициенты", style_cyrillic_bold)
         if name_product == 'SES200M':
             name_product_rus = 'СЭС-200М'
+            p2 = Paragraph("Калибровочные коэффициенты", style_cyrillic_bold)
             p_bu1 = Paragraph("Б.1 Калибровочные коэффициенты блока управления 400 Гц ТАКИ.466539.022",
                               style_cyrillic_bold_right)
             p_bu2 = Paragraph("Б.2 Калибровочные коэффициенты блока управления 50 Гц ТАКИ.466539.023",
@@ -827,16 +845,25 @@ class Unit(MyWidget,QWidget):
                               style_cyrillic_bold_right_space)
         elif name_product == "SEP30M":
             name_product_rus = 'СЭП-30М'
+            p2 = Paragraph("20 Калибровочные коэффициенты", style_cyrillic_bold)
             p_bu1 = Paragraph("20.1 Калибровочные коэффициенты блока управления СЭП ТАКИ.466539.020",
                               style_cyrillic_bold_right)
             p_bu2 = Paragraph("20.2 Калибровочные коэффициенты блока управления 400 Гц ТАКИ.468127.155",
                               style_cyrillic_bold_right_space)
+        elif name_product == "SES150":
+            name_product_rus = 'СЭС-150'
+            p2 = Paragraph("22 Калибровочные коэффициенты", style_cyrillic_bold)
+            p_bu1 = Paragraph("22.1 Калибровочные коэффициенты блока управления СЭC ТАКИ.466539.028",
+                              style_cyrillic_bold_right)
+        elif name_product == "TOR-ARCTICA":
+            name_product_rus = 'ТОР-АРКТИКА'
+            p2 = Paragraph("22 Калибровочные коэффициенты", style_cyrillic_bold)
+            p_bu1 = Paragraph("22.1 Калибровочные коэффициенты блока управления ЭА ТАКИ.565416.009",
+                              style_cyrillic_bold_right)
 
         output_file = name_product_rus + '_'+list_nmb[0]+ '_calibr'
         doc = SimpleDocTemplate(f'./{folder}/{output_file}.pdf', pagesize=letter,topMargin=0.4*inch,
                                 leftMargin=0.8*inch,bottomMargin=0.8*inch)
-        pdfmetrics.registerFont(TTFont('TimesNewRomanCyrillic', 'timesnrcyrmt.ttf'))
-        pdfmetrics.registerFont(TTFont('TimesNewRomanCyrillicBold', 'timesnrcyrmt_bold.ttf'))
 
         for i in range(0,len(unit_obj)):
             table_data = []
@@ -865,6 +892,7 @@ class Unit(MyWidget,QWidget):
                     ('SPAN', (0, 7), (0, 33)),('SPAN', (0, 34), (0, 50)),
                     ('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black),
                     ('BOX', (0, 0), (-1, -1), 0.25, colors.black),]))
+                    story.append(p1)
                 elif name_product == "SEP30M":
                     t.setStyle(TableStyle([
                         ('ALIGN', (0, 0), (-1, -1), 'CENTER'), ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
@@ -873,7 +901,23 @@ class Unit(MyWidget,QWidget):
                         ('SPAN', (0, 55), (0, 56)), ('SPAN', (0, 57), (0, 58)), ('SPAN', (0, 59), (0, 60)),
                         ('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black),
                         ('BOX', (0, 0), (-1, -1), 0.25, colors.black), ]))
-                story.append(p1)
+                elif name_product == "SES150":
+                    t.setStyle(TableStyle([
+                        ('ALIGN', (0, 0), (-1, -1), 'CENTER'), ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+                        ('SPAN', (0, 1), (0, 15)), ('SPAN', (0, 16), (0, 33)), ('SPAN', (0, 34), (0, 36)),
+                        ('SPAN', (0, 37), (0, 55)), ('SPAN', (0, 56), (0, 61)), ('SPAN', (0, 62), (0, 63)),
+                        ('SPAN', (0, 64), (0, 65)), ('SPAN', (0, 66), (0, 67)), ('SPAN', (0, 68), (0, 69)),
+                        ('SPAN', (0, 70), (0, 72)), ('SPAN', (0, 73), (0, 81)),('SPAN', (0, 82), (0, 93)),
+                        ('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black),
+                        ('BOX', (0, 0), (-1, -1), 0.25, colors.black), ]))
+                elif name_product == "TOR-ARCTICA":
+                    t.setStyle(TableStyle([
+                        ('ALIGN', (0, 0), (-1, -1), 'CENTER'), ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+                        ('SPAN', (0, 1), (0, 37)), ('SPAN', (0, 38), (0, 54)), ('SPAN', (0, 55), (0, 76)),
+                        ('SPAN', (0, 77), (0, 80)), ('SPAN', (0, 81), (0, 112)), ('SPAN', (0, 114), (0, 138)),
+                        ('SPAN', (0, 139), (0, 144)),('SPAN', (0, 145), (0, 146)),
+                        ('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black),
+                        ('BOX', (0, 0), (-1, -1), 0.25, colors.black), ]))
                 story.append(p2)
                 story.append(p_bu1)
             elif i ==1:
@@ -903,6 +947,8 @@ class Unit(MyWidget,QWidget):
             story.append(t)
 
         doc.build(story)
+        step = 100
+        self.cal_signal.emit(step)
 
     #test записи в csv
     def saveDatatest(self,data,name_block,name_product,list_nmb):

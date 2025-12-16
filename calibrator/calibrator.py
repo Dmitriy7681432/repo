@@ -214,7 +214,7 @@ class ComPort(QWidget):
     def __init__(self,arg='product'):
         super().__init__()
         self.setWindowTitle("Выбор изделия")
-        self.setGeometry(100, 100, 300, 200)
+        self.setGeometry(100, 100, 300, 500)
 
         #Шрифт
         font = QtGui.QFont()
@@ -250,25 +250,30 @@ class ComPort(QWidget):
                 self.configs = json.load(file_configs)
                 self.product = self.configs.get('default_product')
                 if self.product=='SES200M':
-                    lst_combo = ['SES200M','SEP30M']
+                    lst_combo = ['SES200M','SEP30M','SES150','TOR-ARCTICA']
+                elif self.product =='SEP30M':
+                    lst_combo = ['SEP30M','SES200M','SES150','TOR-ARCTICA']
+                elif self.product =='SES150':
+                    lst_combo = ['SES150','SES200M','SEP30M','TOR-ARCTICA']
                 else:
-                    lst_combo = ['SEP30M','SES200M']
+                    lst_combo = ['TOR-ARCTICA','SES200M','SEP30M','SES150']
 
 
 
         # layout = QVBoxLayout(self)
 
         self.lbl = QLabel(label, self)
-        self.lbl.move(int(x_size_desktop/8.0),10)
+        self.lbl.move(int(x_size_desktop/18.0),10)
         combo.addItems(lst_combo)
-        combo.move(int(x_size_desktop/8.0), 30)
+        combo.move(int(x_size_desktop/19.0), 30)
+        combo.resize(135,27)
 
         # self.move(x_, y_)
         combo.activated[str].connect(self.onActivated)
 
         self.open_button = QPushButton("OK", self)
         self.open_button.clicked.connect(self.open_second_window)
-        self.open_button.move(140, 30)
+        self.open_button.move(150, 30)
         self.open_button.setFont(font)
         combo.setFont(font)
         font.setPointSize(12)
@@ -320,6 +325,14 @@ class Main(QMainWindow):
             self.lst_cb = ['BU_SEP','BU_400']
             self.lst_cb_rus = ['БУ СЭП','БУ 400']
             size_button =500
+        elif self.cur_elem =='SES150':
+            self.lst_cb = ['BU_SES']
+            self.lst_cb_rus = ['БУ СЭC']
+            size_button =1000
+        elif self.cur_elem =='TOR-ARCTICA':
+            self.lst_cb = ['BU_EA']
+            self.lst_cb_rus = ['БУ ЭА']
+            size_button =1000
 
         self.calibr_obj = []
         self.unit_obj_preset = []
@@ -999,14 +1012,14 @@ class Main(QMainWindow):
             # self.th_unit.start()
             # self.th_unit.finished_th_unit.connect(self.signal_thread_unit_stop)
             #test
-            # self.worker = Worker(self.unit_obj_preset[0],'Сохранение')
-            # self.worker.run1()
-            # self.unit_obj_preset[0].saveDatatest('preset',self.lst_cb[0],self.cur_elem,text)
-            # self.unit_obj_calibr[0].saveDatatest('calibr',self.lst_cb[0],self.cur_elem,text)
-            # self.unit_obj_calibr[0].saveDataval()
-            # self.unit_obj_calibr[1].saveDataval()
-            # self.unit_obj_calibr[2].saveDataval()
-            # self.unit_obj_calibr[0].saveDatapdf(self.cur_elem,self.unit_obj_calibr)
+            #self.worker = Worker(self.unit_obj_calibr[0],'Сохранение')
+            #self.worker.run1()
+            ## self.unit_obj_preset[0].saveDatatest('preset',self.lst_cb[0],self.cur_elem,text)
+            ## self.unit_obj_calibr[0].saveDatatest('calibr',self.lst_cb[0],self.cur_elem,text)
+            #self.unit_obj_calibr[0].saveDataval()
+            ## self.unit_obj_calibr[1].saveDataval()
+            ## self.unit_obj_calibr[2].saveDataval()
+            #self.unit_obj_calibr[0].saveDatapdf(self.cur_elem,self.unit_obj_calibr,text)
         # printf('text',text)
 
     # if i == 0:

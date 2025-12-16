@@ -9,7 +9,7 @@ import serial.tools.list_ports
 import warning
 from PyQt5.QtCore import QAbstractEventDispatcher
 from PyQt5.QtWidgets import QApplication
-import sys,json
+import sys,json,io
 from debug import *
 
 
@@ -167,6 +167,14 @@ class Calibrator(QObject):
                 self.preset_designation = 'ADDR_PRESET_ROM2'
                 self.calibr_designation = 'ADDR_CALIBR_ROM2'
                 self.filter_designation = 'ADDR_FILTR_ROM2'
+        if self.product == "SES150":
+            self.preset_designation = 'ADDR_PRESET_ROM'
+            self.calibr_designation = 'ADDR_CALIBR_ROM'
+            self.filter_designation = 'ADDR_FILTR_ROM'
+        if self.product == "TOR-ARCTICA":
+            self.preset_designation = 'ADDR_PRESET_ROM'
+            self.calibr_designation = 'ADDR_CALIBR_ROM'
+            self.filter_designation = 'ADDR_FILTR_ROM'
 
         self.parse_xml_can_id(self.product,self.control_block)
 
@@ -178,7 +186,7 @@ class Calibrator(QObject):
         self.data_can_dict = {'preset': '', 'calibr': '', 'filter': ''}
         self.data_can_dict['preset'] = self.parse_xml_designation(self.preset_designation)
         self.data_can_dict['calibr'] = self.parse_xml_designation(self.calibr_designation)
-        self.data_can_dict['filter'] = self.parse_xml_designation(self.filter_designation)
+        # self.data_can_dict['filter'] = self.parse_xml_designation(self.filter_designation)
         # Заполение главного словаря данными
         self.parse_data_xml()
 
@@ -415,6 +423,8 @@ class Calibrator(QObject):
 
                         # Считывание уставок, калибровок, фильтров и сохранение их в списки
     def parse_data_xml(self):
+        dimen_lst = ['Гц', "А", "%/с", "МПа", "Вт", "%", "В"]
+        tmp_lst = []
         start = time.time()
         flag = 0
         preset_dict = {}
@@ -422,6 +432,13 @@ class Calibrator(QObject):
         filter_dict = {}
         params_dict = {}
         self.product_lower = self.product.lower()
+
+        # import xml.etree.ElementTree as ET
+        # with open(f'params_{self.product_lower}.xml', 'rb') as f:
+        #     tree = ET.parse(f)
+        #     # tree = etree.parse(f)
+        #     doc = tree.getroot()
+
         doc = etree.parse(f'params_{self.product_lower}.xml')
         # Уставки
         for setting in doc.findall('.//setting'):
@@ -434,12 +451,34 @@ class Calibrator(QObject):
             designation = setting.attrib.get('designation')
             for products in setting.findall('products/'):
                 product = products.tag
-                if product == self.product:
+                if product == self.product and product !="TOR-ARCTICA":
                     cb = products.attrib.get('cb')
                     if cb == self.control_block and '-' in default_value and c_type =='int':
                         preset_dict[number] = [designation, '-'+ c_type,dimension,min,default_value,default_value,max]
                     elif cb == self.control_block:
                         preset_dict[number] = [designation, c_type,dimension,min,default_value,default_value,max]
+                elif product ==self.product:
+                    cb = products.attrib.get('cb')
+                    if cb ==self.control_block and dimension in '1' and '.' in default_value:
+                        preset_dict[number] = [designation, 'float',dimension,min,default_value,default_value,max]
+                        tmp_lst.append((number,default_value,dimension,'float','1'))
+                    elif cb ==self.control_block and dimension in dimen_lst:
+                        try:
+                            sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding='utf-8')
+                            sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding='utf-8')
+                            preset_dict[number] = [designation, 'float',dimension,min,default_value,default_value,max]
+                            tmp_lst.append((number,default_value,dimension,'float','2'))
+                        except Exception as e:
+                            printf(e)
+                    elif cb ==self.control_block and (dimension =='с' or dimension =='1'):
+                        preset_dict[number] = [designation, 'int',dimension,min,default_value,default_value,max]
+                        tmp_lst.append((number,default_value,dimension,'int','3'))
+                    elif cb ==self.control_block and '-' in default_value:
+                        preset_dict[number] = [designation, '-int',dimension,min,default_value,default_value,max]
+                        tmp_lst.append((number,default_value,dimension,'-int','4'))
+                    elif cb ==self.control_block:
+                        preset_dict[number] = [designation, 'int',dimension,min,default_value,default_value,max]
+                        tmp_lst.append((number,default_value,dimension,'int','5'))
 
         # Калибровки
         for setting in doc.findall('.//parameter'):
@@ -463,23 +502,32 @@ class Calibrator(QObject):
                                 unit1 = unit
                                 # unit1 = self.pars_eskd(unit)
                                 params_dict[unit1] = {}
-                        params_dict[unit1][designation] = [name,ctype]
+                        if self.product !='TOR-ARCTICA':
+                            params_dict[unit1][designation] = [name,ctype]
+                        else:
+                            params_dict[unit1][designation] = [name, 'float']
                 if cb ==self.control_block:
                     for products2 in products1.findall('.//calibration'):
-                        if len(products2.getchildren()) != 0:
-                            for i in products2.findall('.//k'):
-                                calibr_dict[designation + '_' + i.attrib.get('IND')] = [name,i.attrib.get('value')]
-                                # calibr_list_data.append(i.attrib.get('value'))
+                        if self.product !='TOR-ARCTICA':
+                            if len(products2.getchildren()) != 0:
+                                for i in products2.findall('.//k'):
+                                    # printf(products2.getchildren(),i.attrib.get('IND'),i.attrib.get('value'))
+                                    calibr_dict[designation + '_' + i.attrib.get('IND')] = [name,i.attrib.get('value')]
+                                    # calibr_list_data.append(i.attrib.get('value'))
+                            else:
+                                calibr_dict[designation + '_k'] = [name,'1.0']
+                                calibr_dict[designation + '_b'] = [name,'0.0']
+                                # calibr_list_data.append('1.0')
+                                # calibr_list_data.append('1.0')
                         else:
-                            calibr_dict[designation + '_k'] = [name,'1.0']
-                            calibr_dict[designation + '_b'] = [name,'0.0']
-                            # calibr_list_data.append('1.0')
-                            # calibr_list_data.append('1.0')
+                            calibr_dict[designation + '_k'] = [name, '1.0']
+                            calibr_dict[designation + '_b'] = [name, '0.0']
                 # Фильтры
                 if cb == self.control_block:
                     for products2 in products1.findall('.//filter'):
                         # filter_dict[designation + '_FILTER'] = [products2.attrib.get('length')]
                         # filter_dict[designation + '_FILTER'] = [products2.attrib.get('length')]
+                        printf(designation)
                         filter_dict[designation + '_FILTER'] = []
                         filter_dict[designation + '_FILTER'] = []
         self.data_dict['preset'] = preset_dict
@@ -491,7 +539,6 @@ class Calibrator(QObject):
         end = time.time()
         # printf(end - start)
         flag = 0
-        # printf(self.data_dict)
         return self.data_dict
 
     def pars_eskd(self):
@@ -784,6 +831,7 @@ class Calibrator(QObject):
 
 
     def test_data_dict(self,data):
+        printf()
         printf(self.data_dict)
         count =0
         if self.flag <2:
