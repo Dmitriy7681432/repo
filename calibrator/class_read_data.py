@@ -186,7 +186,7 @@ class Calibrator(QObject):
         self.data_can_dict = {'preset': '', 'calibr': '', 'filter': ''}
         self.data_can_dict['preset'] = self.parse_xml_designation(self.preset_designation)
         self.data_can_dict['calibr'] = self.parse_xml_designation(self.calibr_designation)
-        # self.data_can_dict['filter'] = self.parse_xml_designation(self.filter_designation)
+        self.data_can_dict['filter'] = self.parse_xml_designation(self.filter_designation)
         # Заполение главного словаря данными
         self.parse_data_xml()
 
