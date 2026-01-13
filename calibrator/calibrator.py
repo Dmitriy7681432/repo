@@ -129,7 +129,7 @@ class Worker(QThread):
 
         # self.window_created.emit(self.window)  # Отправляем сигнал о создании окна
         # self.finished.emit()  # Отправляем сигнал об окончании работы
-        printf('3')
+        # printf('3')
 
     def timerEvent(self, e):
         # printf('timer_event',self.val, self.timer.isActive())
@@ -628,13 +628,10 @@ class Main(QMainWindow):
     def UnitWidgetMain(self, i):
         printf('UnitW')
         if i ==0:
-            printf('UnitW1')
             self.UnitWidget()
         elif i ==1:
-            printf('UnitW2')
             self.UnitWidget2()
         else:
-            printf('UnitW3')
             self.UnitWidget3()
 
     def UnitWidget(self):
@@ -844,8 +841,8 @@ class Main(QMainWindow):
             self.worker.window_abort.connect(lambda: self.progress_bar_stop('bu2'))
             # test
             # self.read_data_dict_bu50 = self.calibr_obj[1].test_data_dict('calibr')
-            # self.unit_obj_preset[0].readData(self.read_data_dict_bu50, 'preset',1)
-            # self.unit_obj_calibr[0].readData(self.read_data_dict_bu50, 'calibr',1)
+            # self.unit_obj_preset[1].readData(self.read_data_dict_bu50, 'preset',1)
+            # self.unit_obj_calibr[1].readData(self.read_data_dict_bu50, 'calibr',1)
             self.buttonAction3.setEnabled(True)
 
     def readData_bu3(self):
@@ -858,8 +855,8 @@ class Main(QMainWindow):
             self.worker.window_abort.connect(lambda: self.progress_bar_stop('bu3'))
             # test
             # self.read_data_dict_buses = self.calibr_obj[2].test_data_dict('calibr')
-            # self.unit_obj_preset[0].readData(self.read_data_dict_buses, 'preset',1)
-            # self.unit_obj_calibr[0].readData(self.read_data_dict_buses, 'calibr',1)
+            # self.unit_obj_preset[2].readData(self.read_data_dict_buses, 'preset',1)
+            # self.unit_obj_calibr[2].readData(self.read_data_dict_buses, 'calibr',1)
             self.buttonAction3.setEnabled(True)
 
     def thread_start(self,obj, name_product,name_cb,mode):
@@ -1013,14 +1010,15 @@ class Main(QMainWindow):
             # self.th_unit.start()
             # self.th_unit.finished_th_unit.connect(self.signal_thread_unit_stop)
             #test
-            #self.worker = Worker(self.unit_obj_calibr[0],'Сохранение')
-            #self.worker.run1()
-            ## self.unit_obj_preset[0].saveDatatest('preset',self.lst_cb[0],self.cur_elem,text)
-            ## self.unit_obj_calibr[0].saveDatatest('calibr',self.lst_cb[0],self.cur_elem,text)
-            #self.unit_obj_calibr[0].saveDataval()
-            ## self.unit_obj_calibr[1].saveDataval()
-            ## self.unit_obj_calibr[2].saveDataval()
-            #self.unit_obj_calibr[0].saveDatapdf(self.cur_elem,self.unit_obj_calibr,text)
+            # self.worker = Worker(self.unit_obj_calibr[0],'Сохранение')
+            # self.worker.run1()
+            # # self.unit_obj_preset[0].saveDatatest('preset',self.lst_cb[0],self.cur_elem,text)
+            # # self.unit_obj_calibr[0].saveDatatest('calibr',self.lst_cb[0],self.cur_elem,text)
+            # self.unit_obj_calibr[0].saveDataval()
+            # # self.unit_obj_calibr[1].saveDataval()
+            # # self.unit_obj_calibr[2].saveDataval()
+            # self.unit_obj_calibr[0].saveDatapdf(self.cur_elem,self.unit_obj_calibr,text)
+            # self.unit_obj_calibr[0].saveDatapdf(self.cur_elem, self.unit_obj_calibr, text,2)
         # printf('text',text)
 
     # if i == 0:

@@ -285,7 +285,7 @@ class Unit(MyWidget,QWidget):
                     # item = self.lst_model[num].item(count, 2)
                 # else: printff(data_dict); return 0
         self.readData_flag = 0
-        printf(data_dict['preset'].items())
+        # printf(data_dict['preset'].items())
 
         printf(data_dict)
     def writeData(self,data_dict,data):
@@ -302,7 +302,7 @@ class Unit(MyWidget,QWidget):
                     data_dict[data].get(lst_data_dict_keys[count])[2] = item.text()
                 count+=1
         # printf(data_dict[data].items())
-        printf(data_dict)
+        # printf(data_dict)
         return data_dict
 
     def saveData(self,obj_cal,data,name_block,name_product,list_nmb):
@@ -353,19 +353,19 @@ class Unit(MyWidget,QWidget):
         data_dict_copy = obj_cal.data_dict.copy()
         count =0
         lst_data_dict_keys = list(data_dict_copy[data].keys())
-        printf(lst_data_dict_keys)
+        # printf(lst_data_dict_keys)
         with open(f'./{folder}/{output_file}.bin','wb') as f:
-            printf(obj_cal.header_data_dict[data])
+            # printf(obj_cal.header_data_dict[data])
             for i in obj_cal.header_data_dict[data][0:]:
-                printf('i',i)
+                # printf('i',i)
                 f.write(i)
-            printf(data)
+            # printf(data)
             if data == 'filter':
-                printf(obj_cal.data_dict[data])
+                # printf(obj_cal.data_dict[data])
                 for i in obj_cal.data_dict[data]:
-                    printf()
+                    # printf()
                     f.write(struct.pack('I', int(obj_cal.data_dict[data][i][0])))
-                    printf()
+                    # printf()
                     f.write(struct.pack('I', int(obj_cal.data_dict[data][i][1])))
             else:
                 for i in range(0,self.data_tab.count()):
@@ -378,7 +378,7 @@ class Unit(MyWidget,QWidget):
                         lst_data.append(local_lst_data)
                         # item1.setBackground(QtGui.QBrush(QtGui.QColor(255, 255, 255)))
                         dt_dict = data_dict_copy[data].get(lst_data_dict_keys[count])
-                        printf(dt_dict,item.text())
+                        # printf(dt_dict,item.text())
                         if data == 'preset':
                             if data_dict_copy[data].get(lst_data_dict_keys[count])[1] == 'float':
                                 f.write(struct.pack('f', float(dt_dict[3])))
@@ -396,7 +396,7 @@ class Unit(MyWidget,QWidget):
                                     f.write(struct.pack('i', int(dt_item)))
                                     dt_dict[6] = str(int(float(dt_dict[6])))
                                     f.write(struct.pack('i', int(dt_dict[6])))
-                                    printf(dt_dict[3],dt_dict[4],dt_item,dt_dict[6])
+                                    # printf(dt_dict[3],dt_dict[4],dt_item,dt_dict[6])
                                 else:
                                     f.write(struct.pack('i', int(dt_dict[3])))
                                     f.write(struct.pack('i', int(dt_dict[4])))
@@ -722,7 +722,7 @@ class Unit(MyWidget,QWidget):
                 #     else:
                 #         docx2pdf.convert(input_file, output_file)
 
-        printf(data_dict_copy)
+        # printf(data_dict_copy)
         return data_dict_copy
     def saveDataval(self):
 
@@ -770,7 +770,7 @@ class Unit(MyWidget,QWidget):
                 self.lst_data_val.append(local_lst_data)
         self.lst_data_val.insert(0, head_myData[0])
 
-    def saveDatapdf(self,name_product,unit_obj,list_nmb):
+    def saveDatapdf(self,name_product,unit_obj,list_nmb,docs=1):
 
         import os
         from reportlab.lib import colors
@@ -833,37 +833,55 @@ class Unit(MyWidget,QWidget):
             alignment=TA_CENTER
         )
 
-        p1 = Paragraph("Приложение Б", style_cyrillic_bold)
         if name_product == 'SES200M':
             name_product_rus = 'СЭС-200М'
-            p2 = Paragraph("Калибровочные коэффициенты", style_cyrillic_bold)
-            p_bu1 = Paragraph("Б.1 Калибровочные коэффициенты блока управления 400 Гц ТАКИ.466539.022",
-                              style_cyrillic_bold_right)
-            p_bu2 = Paragraph("Б.2 Калибровочные коэффициенты блока управления 50 Гц ТАКИ.466539.023",
-                              style_cyrillic_bold_right_space)
-            p_bu3 = Paragraph("Б.3 Калибровочные коэффициенты блока управления СЭС ТАКИ.466539.024",
-                              style_cyrillic_bold_right_space)
+            if docs ==1:
+                p1 = Paragraph("Приложение Б", style_cyrillic_bold)
+                p2 = Paragraph("Калибровочные коэффициенты", style_cyrillic_bold)
+                p_bu1 = Paragraph("Б.1 Калибровочные коэффициенты блока управления 400 Гц ТАКИ.466539.022",
+                                  style_cyrillic_bold_right)
+                p_bu2 = Paragraph("Б.2 Калибровочные коэффициенты блока управления 50 Гц ТАКИ.466539.023",
+                                  style_cyrillic_bold_right_space)
+                p_bu3 = Paragraph("Б.3 Калибровочные коэффициенты блока управления СЭС ТАКИ.466539.024",
+                                  style_cyrillic_bold_right_space)
+            else:
+                p_bu1 = Paragraph("4 Калибровочные коэффициенты блока управления 400 Гц ТАКИ.466539.022",
+                                  style_cyrillic_bold_right)
+                p_bu2 = Paragraph("5 Калибровочные коэффициенты блока управления 50 Гц ТАКИ.466539.023",
+                                  style_cyrillic_bold_right_space)
+                p_bu3 = Paragraph("6 Калибровочные коэффициенты блока управления СЭС ТАКИ.466539.024",
+                                  style_cyrillic_bold_right_space)
         elif name_product == "SEP30M":
             name_product_rus = 'СЭП-30М'
-            p2 = Paragraph("20 Калибровочные коэффициенты", style_cyrillic_bold)
-            p_bu1 = Paragraph("20.1 Калибровочные коэффициенты блока управления СЭП ТАКИ.466539.020",
+            if docs ==1: nmb_lst =['20','20.1','20.2']
+            else:nmb_lst =['4','4.1','4.2']
+            p2 = Paragraph(f"{nmb_lst[0]} Калибровочные коэффициенты", style_cyrillic_bold)
+            p_bu1 = Paragraph(f"{nmb_lst[1]} Калибровочные коэффициенты блока управления СЭП ТАКИ.466539.020",
                               style_cyrillic_bold_right)
-            p_bu2 = Paragraph("20.2 Калибровочные коэффициенты блока управления 400 Гц ТАКИ.468127.155",
+            p_bu2 = Paragraph(f"{nmb_lst[2]} Калибровочные коэффициенты блока управления 400 Гц ТАКИ.468127.155",
                               style_cyrillic_bold_right_space)
         elif name_product == "SES150":
             name_product_rus = 'СЭС-150'
-            p2 = Paragraph("22 Калибровочные коэффициенты", style_cyrillic_bold)
-            p_bu1 = Paragraph("22.1 Калибровочные коэффициенты блока управления СЭC ТАКИ.466539.028",
+            if docs==1: nmb_lst = ['22','22.1']
+            else: nmb_lst =['4','4.1']
+            p2 = Paragraph(f"{nmb_lst[0]} Калибровочные коэффициенты", style_cyrillic_bold)
+            p_bu1 = Paragraph(f"{nmb_lst[1]} Калибровочные коэффициенты блока управления СЭC ТАКИ.466539.028",
                               style_cyrillic_bold_right)
         elif name_product == "TOR-ARCTICA":
             name_product_rus = 'ТОР-АРКТИКА'
-            p2 = Paragraph("22 Калибровочные коэффициенты", style_cyrillic_bold)
-            p_bu1 = Paragraph("22.1 Калибровочные коэффициенты блока управления ЭА ТАКИ.565416.009",
+            if docs==1: nmb_lst = ['22','22.1']
+            else: nmb_lst =['4','4.1']
+            p2 = Paragraph(f"{nmb_lst[0]} Калибровочные коэффициенты", style_cyrillic_bold)
+            p_bu1 = Paragraph(f"{nmb_lst[1]} Калибровочные коэффициенты блока управления ЭА ТАКИ.565416.009",
                               style_cyrillic_bold_right)
 
         output_file = name_product_rus + '_'+list_nmb[0]+ '_calibr'
-        doc = SimpleDocTemplate(f'./{folder}/{output_file}.pdf', pagesize=letter,topMargin=0.4*inch,
-                                leftMargin=0.8*inch,bottomMargin=0.8*inch)
+        if docs ==1:
+            doc = SimpleDocTemplate(f'./{folder}/{output_file}_ФО.pdf', pagesize=letter,topMargin=0.4*inch,
+                                    leftMargin=0.8*inch,bottomMargin=0.8*inch)
+        else:
+            doc = SimpleDocTemplate(f'./{folder}/{output_file}_Д3.pdf', pagesize=letter,topMargin=0.4*inch,
+                                    leftMargin=0.8*inch,bottomMargin=0.8*inch)
 
         for i in range(0,len(unit_obj)):
             table_data = []
@@ -892,7 +910,7 @@ class Unit(MyWidget,QWidget):
                     ('SPAN', (0, 7), (0, 33)),('SPAN', (0, 34), (0, 50)),
                     ('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black),
                     ('BOX', (0, 0), (-1, -1), 0.25, colors.black),]))
-                    story.append(p1)
+                    if docs==1:story.append(p1);story.append(p2)
                 elif name_product == "SEP30M":
                     t.setStyle(TableStyle([
                         ('ALIGN', (0, 0), (-1, -1), 'CENTER'), ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
@@ -901,6 +919,7 @@ class Unit(MyWidget,QWidget):
                         ('SPAN', (0, 55), (0, 56)), ('SPAN', (0, 57), (0, 58)), ('SPAN', (0, 59), (0, 60)),
                         ('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black),
                         ('BOX', (0, 0), (-1, -1), 0.25, colors.black), ]))
+                    story.append(p2)
                 elif name_product == "SES150":
                     t.setStyle(TableStyle([
                         ('ALIGN', (0, 0), (-1, -1), 'CENTER'), ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
@@ -910,6 +929,7 @@ class Unit(MyWidget,QWidget):
                         ('SPAN', (0, 70), (0, 72)), ('SPAN', (0, 73), (0, 81)),('SPAN', (0, 82), (0, 93)),
                         ('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black),
                         ('BOX', (0, 0), (-1, -1), 0.25, colors.black), ]))
+                    story.append(p2)
                 elif name_product == "TOR-ARCTICA":
                     t.setStyle(TableStyle([
                         ('ALIGN', (0, 0), (-1, -1), 'CENTER'), ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
@@ -918,7 +938,7 @@ class Unit(MyWidget,QWidget):
                         ('SPAN', (0, 139), (0, 144)),('SPAN', (0, 145), (0, 146)),
                         ('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black),
                         ('BOX', (0, 0), (-1, -1), 0.25, colors.black), ]))
-                story.append(p2)
+                    story.append(p2)
                 story.append(p_bu1)
             elif i ==1:
                 if name_product == "SES200M":
@@ -1027,7 +1047,7 @@ class Unit(MyWidget,QWidget):
 
         step += 10
         self.cal_signal.emit(step)
-        printf(lst_data)
+        # printf(lst_data)
         # with open('read_data.txt', 'w') as self.file_open:
         # self.file_open.write('hi1')
 
@@ -1340,7 +1360,7 @@ class Unit(MyWidget,QWidget):
             if i =='\\':
                 inp +='\\'
                 cnt+=1
-        printf(inp)
+        # printf(inp)
         # inp += f'\/\\{out_file}'
         # inp = inp.replace('/','')
         inp +=f'{folder}\\\{out_file}'
@@ -1490,7 +1510,7 @@ class Param(QWidget):
             param_obj.append(('head',elem[0]))
             for i in j:
                 param_obj.append(('name',i[0]))
-        printf(param_dict[unit])
+        # printf(param_dict[unit])
         printf(param_obj)
 
         len_for = round(((len(param_obj)*20/self.size_stacked)/2)+0.5)
@@ -1684,7 +1704,7 @@ class Param(QWidget):
             lst_temp.append(i.text())
 
         # self.lst_widget_item1[0].setText('5')
-        printf(lst_temp)
+        # printf(lst_temp)
 
     def add_List(self,x1,y1,x2,y2,param_obj,start_while,text_label):
         printf('func add_list')
@@ -1707,7 +1727,7 @@ class Param(QWidget):
 
 
         # for i in range(0,self.count_keys(param_dict)+len(param_dict)):
-        printf(len(param_obj))
+        # printf(len(param_obj))
         for i in range(start_while,len(param_obj)):
             j = i*20
             if start_while!=0:
@@ -1717,11 +1737,11 @@ class Param(QWidget):
                 size_all_widget += self.label.size().height()
                 flag2=1
                 # j-=20
-                printf(j)
+                # printf(j)
                 printf(size_all_widget+20,self.label.size().height(),self.widget.size().height())
 
             if size_all_widget >self.widget.size().height() and flag ==0:
-                printf(size_all_widget,self.label.size().height(),self.widget.size().height())
+                # printf(size_all_widget,self.label.size().height(),self.widget.size().height())
                 tmp = j
                 x1 = 450
                 x2 = 740
@@ -1733,18 +1753,18 @@ class Param(QWidget):
             elif flag == 1:
                 j-=tmp
                 if size_all_widget >self.widget.size().height():
-                    printf(i)
+                    # printf(i)
                     return i,text_label
             elif start_while!=0:
                 j+=20
             if param_obj[i][0] == 'head':
-                printf(param_obj[i][1],param_obj[i][0])
+                # printf(param_obj[i][1],param_obj[i][0])
                 self.label = QtWidgets.QLabel(self.widget)
                 if fon_metric<=269:
                     if j ==0:
                         self.label.setGeometry(x1 + 3, y1 + j+k, 390, 20)
                     else:
-                        printf(j,z,k)
+                        # printf(j,z,k)
                         z+=5
                         self.label.setGeometry(x1 + 3, y1 + j+z+k, 390, 20)
                 else:
@@ -1758,7 +1778,7 @@ class Param(QWidget):
             elif param_obj[i][0] =='name':
                 if flag ==1 and flag2 ==0:
                     self.label = QtWidgets.QLabel(self.widget)
-                    printf()
+                    # printf()
                     self.label.setGeometry(x1 + 3, y1 + j + k, 390, 20)
                     self.label.setText(text_label)
                     self.font.setPointSize(14)
@@ -1768,7 +1788,7 @@ class Param(QWidget):
                     size_all_widget+=self.label.size().height()
                 elif start_while ==i and start_while !=0:
                     self.label = QtWidgets.QLabel(self.widget)
-                    printf()
+                    # printf()
                     self.label.setGeometry(x1 + 3, y1 + j + k-20, 390, 20)
                     self.label.setText(text_label)
                     self.font.setPointSize(14)
@@ -1802,7 +1822,7 @@ class Param(QWidget):
                 self.lst_widget1.append(self.list_widget1)
                 self.lst_widget_item1.append(self.listWidgetItem1)
                 if fon_metric<=299:
-                    printf(j,z,k,text1[0])
+                    # printf(j,z,k,text1[0])
                     if flag==0:
                         self.list_widget.setGeometry(x1, y1 + j+z+k, 290, 20)
                         self.list_widget1.setGeometry(x2, y2 + j+z+k, 100, 20)
@@ -1811,7 +1831,7 @@ class Param(QWidget):
                         self.list_widget1.setGeometry(x2, y2 + j+z+k+20, 100, 20)
 
                 else:
-                    printf(j,z,k,text1[0])
+                    # printf(j,z,k,text1[0])
                     if k==0:
                         if j ==0 and flag ==1:
                             self.list_widget.setGeometry(x1, y1 + j + z+20, 290, 35)
@@ -1914,7 +1934,7 @@ class Param(QWidget):
             self.listView = QtWidgets.QListView(self.centr_widget)
             self.listView.setFont(self.font)
             fon_metric = self.listView.fontMetrics().width(text[0])
-            printf(fon_metric,text)
+            # printf(fon_metric,text)
             text1 = self.trans_str(fon_metric,text[0])
             self.model  = QtCore.QStringListModel()
             self.model.setStringList(text1)
@@ -1938,7 +1958,7 @@ class Param(QWidget):
             self.listView1.setItemAlignment(QtCore.Qt.AlignCenter)
 
             if fon_metric > 268:
-                printf('fon_m',i)
+                # printf('fon_m',i)
                 # self.list_widget.resize(290,35)
                 if i ==0:
                     self.listView.setGeometry(x1, y1 + i+i, 290, 35)
