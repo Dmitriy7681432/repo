@@ -621,7 +621,6 @@ class Calibrator(QObject):
             if mode == "w":
                 printf(addr,self.write_id,self.header_data_dict[data_can][count])
                 msg_bytes = self.transformed_in_bytes(addr, self.write_id, self.header_data_dict[data_can][count],header=True,mode='w')
-                printf()
                 id = self.confirmation_id
             else:
                 msg_bytes = self.transformed_in_bytes(addr, self.read_id)

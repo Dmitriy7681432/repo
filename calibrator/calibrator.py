@@ -1003,6 +1003,7 @@ class Main(QMainWindow):
             if self.cnt_save_data == 3:
                 self.cnt_save_data = 0
                 self.unit_obj_calibr[0].saveDatapdf(self.cur_elem,self.unit_obj_calibr,text)
+                self.unit_obj_calibr[0].saveDatapdf(self.cur_elem,self.unit_obj_calibr,text,2)
 
             # self.unit_obj_preset[0].saveData(self.calibr_obj[0],'preset',self.lst_cb[0],self.cur_elem,text)
             # self.unit_obj_calibr[0].saveData(self.calibr_obj[0],'calibr',self.lst_cb[0],self.cur_elem,text)
@@ -1058,6 +1059,7 @@ class Main(QMainWindow):
             if self.cnt_save_data == 3:
                 self.cnt_save_data = 0
                 self.unit_obj_calibr[0].saveDatapdf(self.cur_elem,self.unit_obj_calibr,text)
+                self.unit_obj_calibr[0].saveDatapdf(self.cur_elem,self.unit_obj_calibr,text,2)
 
             # self.unit_obj_preset[1].saveData(self.calibr_obj[1],'preset',self.lst_cb[1],self.cur_elem,text)
             # self.unit_obj_calibr[1].saveData(self.calibr_obj[1],'calibr',self.lst_cb[1],self.cur_elem,text)
@@ -1081,6 +1083,7 @@ class Main(QMainWindow):
             if self.cnt_save_data == 3:
                 self.cnt_save_data = 0
                 self.unit_obj_calibr[0].saveDatapdf(self.cur_elem,self.unit_obj_calibr,text)
+                self.unit_obj_calibr[0].saveDatapdf(self.cur_elem, self.unit_obj_calibr, text, 2)
             # self.unit_obj_preset[2].saveData(self.calibr_obj[2],'preset',self.lst_cb[2],self.cur_elem,text)
             # self.unit_obj_calibr[2].saveData(self.calibr_obj[2],'calibr',self.lst_cb[2],self.cur_elem,text)
             # self.unit_obj_calibr[2].saveData(self.calibr_obj[2],'filter',self.lst_cb[2],self.cur_elem,text)
