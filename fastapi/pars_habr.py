@@ -32,9 +32,10 @@ class ArticleData:
     title: str
     views: str
     url: str
+    text: str
 
     def __repr__(self):
-        return f'{__class__.__name__}. Title: {self.title}, Views: {self.views}, URL: {self.url}'
+        return f'{__class__.__name__}. Title: {self.title}, Views: {self.views}, URL: {self.url}, Text: {self.text}'
 
 
 def get_all_habr_posts(soup: BeautifulSoup) -> list[ArticleData]:
@@ -43,13 +44,24 @@ def get_all_habr_posts(soup: BeautifulSoup) -> list[ArticleData]:
     for article_soup in all_arcticles_soup:
         article_title: str = article_soup.find('a', class_="tm-title__link").find('span').text
         article_views: str = article_soup.find('span', class_='tm-icon-counter__value').text
-        article_url: str = article_soup.find('a').get('href')
+        article_url: str = article_soup.find('h2').find().get('href')
+        article_text: str = pars_text_page('https://habr.com/'+article_url,soup)
+
         posts_data.append(ArticleData(
            title=article_title,
            views=article_views,
-           url=article_url
+           url=article_url,
+           text=article_text
         ))
     return posts_data
+
+url_page = 'https://habr.com/ru/articles/985548/'
+
+def pars_text_page(url:str,soup:BeautifulSoup) ->str:
+    all_div_soup = soup.find_all('div',class_="article-formatted-body article-formatted-body "
+                                              "article-formatted-body_version-2")
+
+    return all_div_soup
 
 
 def main():
