@@ -38,6 +38,7 @@ class ArticleData:
         return f'{__class__.__name__}. Title: {self.title}, Views: {self.views}, URL: {self.url}, Text: {self.text}'
 
 
+url_page = 'https://habr.com/ru/articles/985548/'
 def get_all_habr_posts(soup: BeautifulSoup) -> list[ArticleData]:
     posts_data = []
     all_arcticles_soup = soup.find_all("article", class_='tm-articles-list__item')
@@ -45,7 +46,11 @@ def get_all_habr_posts(soup: BeautifulSoup) -> list[ArticleData]:
         article_title: str = article_soup.find('a', class_="tm-title__link").find('span').text
         article_views: str = article_soup.find('span', class_='tm-icon-counter__value').text
         article_url: str = article_soup.find('h2').find().get('href')
-        article_text: str = pars_text_page('https://habr.com/'+article_url,soup)
+
+        html_page = get_url_html('https://habr.com/'+article_url)
+        soup_page = get_soup(html_page)
+
+        article_text: str = pars_text_page(soup_page)
 
         posts_data.append(ArticleData(
            title=article_title,
@@ -55,13 +60,13 @@ def get_all_habr_posts(soup: BeautifulSoup) -> list[ArticleData]:
         ))
     return posts_data
 
-url_page = 'https://habr.com/ru/articles/985548/'
 
-def pars_text_page(url:str,soup:BeautifulSoup) ->str:
+def pars_text_page(soup:BeautifulSoup) ->str:
     all_div_soup = soup.find_all('div',class_="article-formatted-body article-formatted-body "
                                               "article-formatted-body_version-2")
+    for div_soup in all_div_soup:
+        return div_soup.text
 
-    return all_div_soup
 
 
 def main():
