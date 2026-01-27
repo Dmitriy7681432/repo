@@ -1,18 +1,19 @@
 # -*- coding: utf-8 -*-
-from fastapi import FastAPI,Query,Body
+from fastapi import FastAPI, Query, Body
 import uvicorn
 from fastapi.openapi.docs import (
     get_swagger_ui_html,
     get_swagger_ui_oauth2_redirect_html,
 )
+
 app = FastAPI(docs_url=None)
 
-
 hotels = [
-    {"id":1, "title":"Sochi","name":"sochi"},
-    {"id": 2, "title": "Дубай","name":"dubai"},
+    {"id": 1, "title": "Sochi", "name": "sochi"},
+    {"id": 2, "title": "Дубай", "name": "dubai"},
 
 ]
+
 
 @app.get("/docs", include_in_schema=False)
 async def custom_swagger_ui_html():
@@ -32,7 +33,7 @@ async def swagger_ui_redirect():
 
 @app.get('/hotels')
 def get_hotels(
-        id: int | None = Query(None,description='Айдишник'),
+        id: int | None = Query(None, description='Айдишник'),
         title: str | None = Query(None, description='Название отеля'),
 ):
     hotels_ = []
@@ -44,9 +45,10 @@ def get_hotels(
         hotels_.append(hotel)
     return hotels_
 
+
 @app.post('/hotels')
 def create_hotel(
-    title: str = Body(embed=True),
+        title: str = Body(embed=True),
 ):
     global hotels
     hotels.append({
@@ -57,11 +59,48 @@ def create_hotel(
     return {"status": "OK"}
 
 
+@app.put("/hotels/{hotel_id}")
+def change_hotel(
+        hotel_id: int,  # = Query(description="Айдишник"),
+        title: str = Query(description="Название отеля"),
+        name: str = Query(description="Имя отеля"),
+):
+    global hotels
+    for hotel in hotels:
+        if hotel["id"] == hotel_id:
+            hotel["title"] = title
+            hotel["name"] = name
+
+
+@app.patch("/hotels/{hotel_id}")
+def change_hotel(
+        hotel_id: int,  # = Query(description="Айдишник"),
+        title: str | None = Query(None, description="Название отеля"),
+        name: str | None = Query(None, description="Имя отеля"),
+):
+    global hotels
+    for hotel in hotels:
+        if hotel["id"] == hotel_id:
+            if title != None and name ==None:
+                hotel["title"] = title
+                hotel["name"] = hotel["name"]
+            elif title ==None and name !=None:
+                hotel["title"] = hotel["title"]
+                hotel["name"] = name
+            elif title != None and name != None:
+                hotel["title"] = title
+                hotel["name"] = name
+            else:
+                hotel["title"] = hotel["title"]
+                hotel["name"] = hotel['name']
+
+
 @app.delete('/hotels/{hotel_id}')
 def delete_hotel(hotel_id: int):
     global hotels
     hotels = [hotel for hotel in hotels if hotel["id"] != hotel_id]
     return {"status": "OK"}
 
-if __name__ =="__main__":
-   uvicorn.run("main:app",reload=True)
+
+if __name__ == "__main__":
+    uvicorn.run("main:app", reload=True)
