@@ -1,0 +1,3 @@
+
+def funcs():
+    print('Hello')
