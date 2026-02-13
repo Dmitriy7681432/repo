@@ -478,7 +478,7 @@ class Main(QMainWindow):
         # self.buttonUnit3.setMaximumSize(QtCore.QSize(300, 50))
         # self.buttonUnit3.setObjectName("buttonUnit3")
         # self.buttonUnit3.deleteLater()
-        self.lbl = QLabel(f'<i>{self.cur_elem} version: 1.0.1  </i>')
+        self.lbl = QLabel(f'<i>{self.cur_elem} version: 1.0.2  </i>')
         self.lbl.setFont(font)
         self.lbl.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter )
         self.lbl.setStyleSheet('color: rgba(105,105,105,0.5)')
@@ -1015,8 +1015,8 @@ class Main(QMainWindow):
             # # self.unit_obj_preset[0].saveDatatest('preset',self.lst_cb[0],self.cur_elem,text)
             # # self.unit_obj_calibr[0].saveDatatest('calibr',self.lst_cb[0],self.cur_elem,text)
             # self.unit_obj_calibr[0].saveDataval()
-            # # self.unit_obj_calibr[1].saveDataval()
-            # # self.unit_obj_calibr[2].saveDataval()
+            # self.unit_obj_calibr[1].saveDataval()
+            # self.unit_obj_calibr[2].saveDataval()
             # self.unit_obj_calibr[0].saveDatapdf(self.cur_elem,self.unit_obj_calibr,text)
             # self.unit_obj_calibr[0].saveDatapdf(self.cur_elem, self.unit_obj_calibr, text,2)
         # printf('text',text)
@@ -1029,7 +1029,7 @@ class Main(QMainWindow):
     #         ('SPAN', (0, 55), (0, 56)), ('SPAN', (0, 57), (0, 58)), ('SPAN', (0, 59), (0, 60)),
     #         ('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black),
     #         ('BOX', (0, 0), (-1, -1), 0.25, colors.black), ]))
-    #     story.append(p1)
+    #     story.append(p,bin1)
     #     story.append(p2)
     #     story.append(p_bu1)
     # elif i == 1:

@@ -93,7 +93,7 @@ class NumberProduct(QObject):
         # self.lbl.adjustSize()
 
     def closeOk(self):
-        if self.nmb_product == '' or self.nmb_cb =='':
+        if self.nmb_product == '':
             self.line_product.setPlaceholderText('Введите значение')
             self.line_cb.setPlaceholderText('Введите значение')
         # if self.nmb_cb =='':
@@ -104,6 +104,7 @@ class NumberProduct(QObject):
             self.widget.close()  # Закрывает текущее (первое) окно
             # self.widget.deleteLater()
             # self.widget.destroy()
+            # if self.nmb_cb =='': self.nmb_cb='_'
             lst_nmb = []
             lst_nmb.append(self.nmb_product)
             lst_nmb.append(self.nmb_cb)

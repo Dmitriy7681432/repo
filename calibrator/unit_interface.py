@@ -781,7 +781,7 @@ class Unit(MyWidget,QWidget):
         from reportlab.lib.styles import ParagraphStyle,getSampleStyleSheet
         from reportlab.lib.enums import TA_CENTER, TA_LEFT,TA_RIGHT
 
-        folder = 'csv,pdf'
+        folder = 'csv,pdf,bin'
         os.makedirs(folder, exist_ok=True)
         p_bu1 =0
         p_bu2=0
