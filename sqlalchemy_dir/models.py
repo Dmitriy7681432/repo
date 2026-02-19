@@ -1,7 +1,8 @@
 import datetime
 
 from typing import Annotated,Optional
-from sqlalchemy import Table, Column, Integer, String, MetaData, ForeignKey,text
+from sqlalchemy import Table, Column, Integer, String, MetaData, ForeignKey,text,\
+    TIMESTAMP,Enum
 from sqlalchemy.orm import Mapped, mapped_column,relationship
 from database import Base,str_256
 import enum
@@ -71,4 +72,15 @@ workers_table = Table(
     metadata_obj,
     Column('id', Integer, primary_key=True),
     Column('username', String),
+)
+resumes_table = Table(
+    "resumes",
+    metadata_obj,
+    Column("id", Integer, primary_key=True),
+    Column("title", String(256)),
+    Column("compensation", Integer, nullable=True),
+    Column("workload", Enum(Workload)),
+    Column("worker_id", ForeignKey("workers.id", ondelete="CASCADE")),
+    Column("created_at", TIMESTAMP,server_default=text("TIMEZONE('utc', now())")),
+    Column("updated_at", TIMESTAMP,server_default=text("TIMEZONE('utc', now())"), onupdate=datetime.datetime.utcnow),
 )
