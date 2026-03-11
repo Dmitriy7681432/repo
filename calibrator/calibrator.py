@@ -478,7 +478,7 @@ class Main(QMainWindow):
         # self.buttonUnit3.setMaximumSize(QtCore.QSize(300, 50))
         # self.buttonUnit3.setObjectName("buttonUnit3")
         # self.buttonUnit3.deleteLater()
-        self.lbl = QLabel(f'<i>{self.cur_elem} version: 1.0.2  </i>')
+        self.lbl = QLabel(f'<i>{self.cur_elem} version: 1.0.3  </i>')
         self.lbl.setFont(font)
         self.lbl.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter )
         self.lbl.setStyleSheet('color: rgba(105,105,105,0.5)')
@@ -829,6 +829,7 @@ class Main(QMainWindow):
             # self.read_data_dict_bu400 = self.calibr_obj[0].test_data_dict('calibr')
             # self.unit_obj_preset[0].readData(self.read_data_dict_bu400, 'preset',1)
             # self.unit_obj_calibr[0].readData(self.read_data_dict_bu400, 'calibr',1)
+            # self.readData_bu1_flag = 1
             self.buttonAction3.setEnabled(True)
 
     def readData_bu2(self):
@@ -843,6 +844,7 @@ class Main(QMainWindow):
             # self.read_data_dict_bu50 = self.calibr_obj[1].test_data_dict('calibr')
             # self.unit_obj_preset[1].readData(self.read_data_dict_bu50, 'preset',1)
             # self.unit_obj_calibr[1].readData(self.read_data_dict_bu50, 'calibr',1)
+            # self.readData_bu2_flag = 1
             self.buttonAction3.setEnabled(True)
 
     def readData_bu3(self):
@@ -857,6 +859,7 @@ class Main(QMainWindow):
             # self.read_data_dict_buses = self.calibr_obj[2].test_data_dict('calibr')
             # self.unit_obj_preset[2].readData(self.read_data_dict_buses, 'preset',1)
             # self.unit_obj_calibr[2].readData(self.read_data_dict_buses, 'calibr',1)
+            # self.readData_bu3_flag = 1
             self.buttonAction3.setEnabled(True)
 
     def thread_start(self,obj, name_product,name_cb,mode):

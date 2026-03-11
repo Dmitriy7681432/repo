@@ -5,9 +5,9 @@ import sys
 sys.path.insert(1, os.path.join(sys.path[0], '..'))
 
 from sqlalchemy import text, insert, select, func, cast, Integer, and_
-from sqlalchemy.orm import aliased
+from sqlalchemy.orm import aliased,joinedload,selectinload,contains_eager
 from sqlalchemy_dir.database import sync_engine, async_engine, session_factory, async_session_factory
-from sqlalchemy_dir.models import WorkerOrm, Base, ResumesOrm, Workload, WorkerOrm
+from sqlalchemy_dir.models import WorkerOrm, Base, ResumesOrm, Workload
 
 
 class SyncORM:
@@ -133,7 +133,7 @@ class SyncORM:
         """
         with session_factory() as session:
             r = aliased(ResumesOrm)
-            w = aliased(WorkersOrm)
+            w = aliased(WorkerOrm)
             subq = (
                 select(
                     r,
@@ -162,6 +162,107 @@ class SyncORM:
             res = session.execute(query)
             result = res.all()
             print(f"{len(result)=}. {result=}")
+
+    # В асинхроном коде не сработает
+    @staticmethod
+    def select_workers_with_lazy_relationship():
+        with session_factory() as session:
+            query = (
+                select(WorkerOrm)
+            )
+            res = session.execute(query)
+            result = res.scalars().all()
+
+            worker_1_resumes = result[0].resumes
+            print(worker_1_resumes)
+
+            worker_1_resumes = result[1].resumes
+            print(worker_1_resumes)
+
+    # Стратегия загрузки: многие к одному, один к одному
+    @staticmethod
+    def select_workers_with_joined_relationship():
+        with session_factory() as session:
+            query = (
+                select(WorkerOrm)
+                .options(joinedload(WorkerOrm.resumes))
+            )
+            res = session.execute(query)
+            result = res.unique().scalars().all()
+
+            worker_1_resumes = result[0].resumes
+            print(worker_1_resumes)
+
+            worker_1_resumes = result[1].resumes
+            print(worker_1_resumes)
+
+    # Стратегия загрузки: один ко многим, многие ко многим
+    @staticmethod
+    def select_workers_with_selection_relationship():
+        with session_factory() as session:
+            query = (
+                select(WorkerOrm)
+                .options(selectinload(WorkerOrm.resumes))
+            )
+            res = session.execute(query)
+            result = res.unique().scalars().all()
+
+            worker_1_resumes = result[0].resumes
+            # print(worker_1_resumes)
+
+            worker_1_resumes = result[1].resumes
+            # print(worker_1_resumes)
+
+    @staticmethod
+    def select_workers_with_condition_relationship():
+        with session_factory() as session:
+            query = (
+                select(WorkerOrm)
+                .options(selectinload(WorkerOrm.resumes_parttime))
+            )
+            res = session.execute(query)
+            result = res.scalars().all()
+
+            print(result)
+
+    @staticmethod
+    def select_workers_with_condition_relationship_contains_eager():
+        with session_factory() as session:
+            query = (
+                select(WorkerOrm)
+                .join(WorkerOrm.resumes)
+                .options(contains_eager(WorkerOrm.resumes))
+                .filter(ResumesOrm.workload == 'parttime')
+            )
+            res = session.execute(query)
+            result = res.unique().scalars().all()
+
+            print(result)
+
+
+    @staticmethod
+    def select_workers_with_relationship_contains_eager_with_limit():
+        # Горячо рекомендую ознакомиться: https://stackoverflow.com/a/72298903/22259413
+        with session_factory() as session:
+            subq = (
+                select(ResumesOrm.id.label("parttime_resume_id"))
+                .filter(ResumesOrm.worker_id == WorkerOrm.id)
+                .order_by(WorkerOrm.id.desc())
+                .limit(1)
+                .scalar_subquery()
+                .correlate(WorkerOrm)
+            )
+
+            query = (
+                select(WorkerOrm)
+                .join(ResumesOrm, ResumesOrm.id.in_(subq))
+                .options(contains_eager(WorkerOrm.resumes))
+            )
+
+            res = session.execute(query)
+            result = res.unique().scalars().all()
+            print(result)
+
 
 class AsyncORM:
     # Асинхронный вариант, не показанный в видео

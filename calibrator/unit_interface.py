@@ -823,13 +823,13 @@ class Unit(MyWidget,QWidget):
             name='CyrillicStyle',
             fontName='TimesNewRomanCyrillic',
             fontSize=11,
-            leading=11
+            leading=12
         )
         style_cyrillic = ParagraphStyle(
             name='CyrillicStyle',
             fontName='TimesNewRomanCyrillic',
             fontSize=11,
-            leading=11,
+            leading=12,
             alignment=TA_CENTER
         )
 
@@ -907,7 +907,7 @@ class Unit(MyWidget,QWidget):
                     t.setStyle(TableStyle([
                     ('ALIGN', (0, 0), (-1, -1), 'CENTER'), ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
                     ('SPAN', (0, 1), (0, 2)),('SPAN', (0, 3), (0, 4)),('SPAN', (0, 5), (0, 6)),
-                    ('SPAN', (0, 7), (0, 33)),('SPAN', (0, 34), (0, 50)),
+                    ('SPAN', (0, 7), (0, 26)),('SPAN', (0, 27), (0, 50)),
                     ('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black),
                     ('BOX', (0, 0), (-1, -1), 0.25, colors.black),]))
                     if docs==1:story.append(p1);story.append(p2)
@@ -944,9 +944,9 @@ class Unit(MyWidget,QWidget):
                 if name_product == "SES200M":
                     t.setStyle(TableStyle([
                         ('ALIGN', (0, 0), (-1, -1), 'CENTER'), ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
-                        ('SPAN', (0, 1), (0, 19)),('SPAN', (0, 20), (0, 34)),('SPAN', (0, 35), (0, 58)),
-                        ('SPAN', (0, 59), (0, 68)),('SPAN', (0, 69), (0, 97)),('SPAN', (0, 98), (0, 108)),
-                        ('SPAN', (0, 109), (0, 114)), ('SPAN', (0, 115), (0, 126)),
+                        ('SPAN', (0, 1), (0, 9)),('SPAN', (0, 10), (0, 34)),('SPAN', (0, 35), (0, 46)),
+                        ('SPAN', (0, 47), (0, 68)),('SPAN', (0, 69), (0, 83)),('SPAN', (0, 84), (0, 108)),
+                        ('SPAN', (0, 109), (0, 114)), ('SPAN', (0, 115), (0, 116)),('SPAN', (0, 117), (0, 126)),
                         ('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black),
                         ('BOX', (0, 0), (-1, -1), 0.25, colors.black),]))
                 elif name_product == "SEP30M":
