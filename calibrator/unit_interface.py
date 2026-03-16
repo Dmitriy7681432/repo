@@ -819,17 +819,21 @@ class Unit(MyWidget,QWidget):
             leftIndent=7,
             # rightIndent=10
         )
+
+        if name_product == 'SES200M': leading_size = 12
+        else: leading_size = 14
+
         style_cyrillic_left = ParagraphStyle(
             name='CyrillicStyle',
             fontName='TimesNewRomanCyrillic',
             fontSize=11,
-            leading=12
+            leading=leading_size
         )
         style_cyrillic = ParagraphStyle(
             name='CyrillicStyle',
             fontName='TimesNewRomanCyrillic',
             fontSize=11,
-            leading=12,
+            leading=leading_size,
             alignment=TA_CENTER
         )
 
@@ -905,11 +909,11 @@ class Unit(MyWidget,QWidget):
             if i ==0:
                 if name_product == "SES200M":
                     t.setStyle(TableStyle([
-                    ('ALIGN', (0, 0), (-1, -1), 'CENTER'), ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
-                    ('SPAN', (0, 1), (0, 2)),('SPAN', (0, 3), (0, 4)),('SPAN', (0, 5), (0, 6)),
-                    ('SPAN', (0, 7), (0, 26)),('SPAN', (0, 27), (0, 50)),
-                    ('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black),
-                    ('BOX', (0, 0), (-1, -1), 0.25, colors.black),]))
+                        ('ALIGN', (0, 0), (-1, -1), 'CENTER'), ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+                        ('SPAN', (0, 1), (0, 2)),('SPAN', (0, 3), (0, 4)),('SPAN', (0, 5), (0, 6)),
+                        ('SPAN', (0, 7), (0, 26)),('SPAN', (0, 27), (0, 50)),
+                        ('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black),
+                        ('BOX', (0, 0), (-1, -1), 0.25, colors.black),]))
                     if docs==1:story.append(p1);story.append(p2)
                 elif name_product == "SEP30M":
                     t.setStyle(TableStyle([
