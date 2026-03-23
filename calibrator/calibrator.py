@@ -556,7 +556,7 @@ class Main(QMainWindow):
         self.actionLayout.addWidget(self.buttonAction1)
         self.actionLayout.addWidget(self.buttonAction2)
         self.actionLayout.addWidget(self.buttonAction3)
-        self.actionLayout.addWidget(self.buttonAction4)
+        # self.actionLayout.addWidget(self.buttonAction4)
 
         self.vbox.addLayout(self.ustcalLayout)
         self.vbox.addLayout(self.mainLayout)
@@ -1019,7 +1019,7 @@ class Main(QMainWindow):
 
                 self.th_unit.start()
                 self.unit_obj_calibr[0].saveDataval()
-                if self.cnt_save_data == 3:
+                if self.cnt_save_data == len(self.lst_cb):
                     self.cnt_save_data = 0
                     self.unit_obj_calibr[0].saveDatapdf(self.cur_elem,self.unit_obj_calibr,text)
                     self.unit_obj_calibr[0].saveDatapdf(self.cur_elem,self.unit_obj_calibr,text,2)
@@ -1076,7 +1076,7 @@ class Main(QMainWindow):
 
             self.th_unit.start()
             self.unit_obj_calibr[1].saveDataval()
-            if self.cnt_save_data == 3:
+            if self.cnt_save_data == len(self.lst_cb):
                 self.cnt_save_data = 0
                 self.unit_obj_calibr[0].saveDatapdf(self.cur_elem,self.unit_obj_calibr,text)
                 self.unit_obj_calibr[0].saveDatapdf(self.cur_elem,self.unit_obj_calibr,text,2)
@@ -1100,7 +1100,7 @@ class Main(QMainWindow):
 
             self.th_unit.start()
             self.unit_obj_calibr[2].saveDataval()
-            if self.cnt_save_data == 3:
+            if self.cnt_save_data == len(self.lst_cb):
                 self.cnt_save_data = 0
                 self.unit_obj_calibr[0].saveDatapdf(self.cur_elem,self.unit_obj_calibr,text)
                 self.unit_obj_calibr[0].saveDatapdf(self.cur_elem, self.unit_obj_calibr, text, 2)
