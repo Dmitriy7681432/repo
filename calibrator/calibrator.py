@@ -480,7 +480,7 @@ class Main(QMainWindow):
         # self.buttonUnit3.setMaximumSize(QtCore.QSize(300, 50))
         # self.buttonUnit3.setObjectName("buttonUnit3")
         # self.buttonUnit3.deleteLater()
-        self.lbl = QLabel(f'<i>{self.cur_elem} version: 1.0.4  </i>')
+        self.lbl = QLabel(f'<i>{self.cur_elem} version: 1.0.5  </i>')
         self.lbl.setFont(font)
         self.lbl.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter )
         self.lbl.setStyleSheet('color: rgba(105,105,105,0.5)')
