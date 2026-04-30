@@ -282,3 +282,32 @@ while(addr3 <= 0xbfdfffc0):
 for i in range(0,5):
     pass
     # print(i)
+
+arr_lst = ['Гц',"А","%/с","МПа","Вт","%","1"]
+if 'с' in arr_lst:
+    print('YESSS')
+
+nmb = '-1.0'
+if '-'in nmb:
+    print('EEEEE')
+
+import sys
+import io
+
+# sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding='utf-8')
+# sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding='utf-8')
+sys.stdout.reconfigure(encoding='utf-8')
+sys.stderr.reconfigure(encoding='utf-8')
+# a = '∆f_s'.encode('cp1251')
+# print(a.decode('cp1251'))
+a = '∆f_s'
+print(a)
+
+with open('calibrator/preset2.bin','rb') as f:
+    a = f.readline()
+    print(a)
+    print(a[:4].hex().upper())
+    # for i in a:
+    #     print(i)
+# with open('calibrator/preset3.bin','wb') as f2:
+#     f2.write(a)

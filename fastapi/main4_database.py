@@ -30,17 +30,20 @@ class BookModel(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     title: Mapped[str]
     author: Mapped[str]
+    published: Mapped[int]
 
 
 class BookSchema(BaseModel):
     title: str
     author: str
+    published: int
 
 
 class BookGetSchema(BaseModel):
     id: int
     title: str
     author: str
+    published: int
 
 
 @app.post("/setup")
@@ -48,13 +51,14 @@ async def setup_database():
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.drop_all)
         await conn.run_sync(Base.metadata.create_all)
-
+    return {"ok": True}
 
 @app.post("/books")
 async def add_book(book: BookSchema, session: SessionDep) -> BookSchema:
     new_book = BookModel(
         title=book.title,
         author=book.author,
+        published=book.published,
     )
     session.add(new_book)
     await session.commit()

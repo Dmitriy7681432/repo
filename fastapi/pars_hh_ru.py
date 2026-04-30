@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import time
+
 import requests, json
 
 url = "https://api.hh.ru/vacancies"
@@ -29,10 +31,9 @@ def fetch_all_hh_vacancies(url: str):
             break
         vacancies_data.extend(vacancies['items'])
         page += 1
-    print('norm')
+        time.sleep(0.2)
     with open("vacansies.json", "w",encoding='utf-8') as file:
         file.write(json.dumps(vacancies_data, ensure_ascii=False))
-    print('norm2')
 
 
 def main():
