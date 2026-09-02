@@ -16,6 +16,8 @@ from PyQt5.QtWidgets import (QWidget, QLabel,
                              QComboBox, QApplication)
 # Модули разработчика
 from pars_mh_init_h import ParsInitMh
+from read_mh import ReadDataMh
+import warning_mh
 
 class Worker(QThread):
     finished = pyqtSignal()
@@ -144,6 +146,32 @@ class Worker(QThread):
             self.timer.start(1000, self)
             # self.btn.setText('Стоп')
 
+class ThreadCalibrator(QtCore.QThread):
+    finished2 = pyqtSignal()
+    mysignal = QtCore.pyqtSignal()
+    flag_err = 0
+    finished_err = pyqtSignal()
+    finished_abort = pyqtSignal()
+
+    def __init__(self, obj):
+        super().__init__()
+        self.obj = obj
+
+    def run(self):
+        i = 1
+        self.flag_err = self.obj.read()
+        # while True:
+        # for i in range(0,10):
+        #     self.sleep(1)
+        # self.mysignal.emit('%s'% i)
+        # self.obj.rest()
+        if self.flag_err=='ERR':
+            self.finished_err.emit()
+        elif self.flag_err =='ABORT':
+            self.finished_abort.emit()
+        else:
+            self.finished2.emit()
+        # self.finished2.emit()
 class ComPort(QWidget):
     def __init__(self):
         super().__init__()
@@ -245,13 +273,7 @@ class Main(QMainWindow):
         # self.com = ComPort()
         # self.com.show()
 
-        self.calibr_obj = []
-        self.unit_obj_preset = []
-        self.unit_obj_calibr = []
-        self.param_obj = []
-        self.button_obj = []
-
-        self.app_work = 'work'
+        self.read_obj =ReadDataMh(self.cur_elem,len(self.name_params_mh))
 
         # self.main = QMainWindow()
         #Отключение размера окна на весь экран
@@ -350,9 +372,7 @@ class Main(QMainWindow):
         font_line.setFamily("Times New Roman")
         font_line.setPointSize(14)
 
-        mh_hbox = []
-        label_mh_list = ['Общая наработка','Наработка ЭА','Наработка СИПТ',
-                         'Наработка ПЧ1', 'Наработка ПЧ2']
+        self.mh_hbox = []
         # Строки наработки
         for i, name in enumerate(self.name_params_mh):
             self.lbl = QLabel(name)
@@ -366,11 +386,12 @@ class Main(QMainWindow):
             self.mh_sec.setPlaceholderText('сек')
             self.mh_sec.setMaximumWidth(200)
             self.mh_hour = QLineEdit()
-            # self.mh_hour.move(20, 90)
+            # self.mh_hour.move(20 90)
             self.mh_hour.setFont(font_line)
             # self.mh_hour.resize(350, 30)
             self.mh_hour.setPlaceholderText('ч')
             self.mh_hour.setMaximumWidth(100)
+            # Вставить только числа
             rx = QRegularExpression("[0-9]+")
             validator = QRegularExpressionValidator(rx)
             self.mh_sec.setValidator(validator)
@@ -386,16 +407,16 @@ class Main(QMainWindow):
             self.mh_str_hbox.addSpacing(10)
             self.mh_str_hbox.addWidget(self.mh_hour)
             self.mh_str_hbox.addSpacing(100)
-            mh_hbox.append(self.mh_str_hbox)
+            self.mh_hbox.append(self.mh_str_hbox)
 
         self.vbox.setContentsMargins(0, 50, 0, 0)
         self.vbox.setSpacing(0)
         for i in range(0,len(self.name_params_mh)):
-            self.vbox.addLayout(mh_hbox[i])
+            self.vbox.addLayout(self.mh_hbox[i])
         self.vbox.addLayout(self.lblLayout)
         self.vbox.addLayout(self.actionLayout)
 
-        self.buttonAction1.clicked.connect(self.readData_bu1)
+        self.buttonAction1.clicked.connect(self.readData)
         self.buttonAction2.clicked.connect(self.writeData_bu1)
 
         self.centralwidget.setLayout(self.vbox)
@@ -406,12 +427,46 @@ class Main(QMainWindow):
         self.setWindowTitle(f'Калибратор {self.cur_elem}')
         self.show()
 
-    def readData_bu1(self):
-        pass
+    def thread_start(self,obj,mode):
+        self.th =ThreadCalibrator(obj)
+        self.th.start()
+        self.th.finished_err.connect(self.signal_thread_stop)
+        self.th.finished_abort.connect(self.signal_thread_abort)
+        if mode =='r':
+            self.th.finished2.connect(self.next_main_thread_read)
+        else:
+            self.th.finished2.connect(self.next_main_thread_write)
+
+    def signal_thread_abort(self):
+        self.read_obj.flag_abort =0
+
+    # Сообщение об отсутствии com_port
+    def signal_thread_stop(self):
+        self.worker.flag_err_work=1
+        # sign = Worker(self.data_dict_bu400)
+        self.sign = warning_mh.SignalErr('Нет соединения !!!')
+    def next_main_thread_read(self):
+        print(self.read_obj.value_list)
+        for indx, value in enumerate(self.read_obj.value_list):
+            # print(self.mh_hbox[indx].itemAt(3).widget())
+            self.mh_hbox[indx].itemAt(3).widget().setText(str(value))
+            self.mh_hbox[indx].itemAt(5).widget().setText(str(value/3600))
+            # item = self.mh_hbox[indx].itemAt(1)
+            # line_edit = item.widget()
+            # line_edit.setText(name)
+
+        self.worker.time_stop()
+    def readData(self):
+        self.worker = Worker(self.read_obj, 'Чтение')
+        self.worker.run1()
+        self.thread_start(self.read_obj,'r')
+        self.worker.window_abort.connect(self.progress_bar_stop)
 
     def writeData_bu1(self):
         pass
 
+    def progress_bar_stop(self):
+        self.read_obj.flag_abort =1
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
