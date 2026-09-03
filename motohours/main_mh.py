@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # Модули библиотечные
-import sys,serial,struct
+import sys,serial,struct,math
 import time,json
 
 from PyQt5.QtWidgets import (QWidget, QPushButton, QStackedWidget, QToolBar, QToolButton,
@@ -17,7 +17,9 @@ from PyQt5.QtWidgets import (QWidget, QLabel,
 # Модули разработчика
 from pars_mh_init_h import ParsInitMh
 from read_mh import ReadDataMh
-import warning_mh
+from write_mh import WriteDataMh
+import warning_mh,subprocess_mh
+from debug_mh import *
 
 class Worker(QThread):
     finished = pyqtSignal()
@@ -153,13 +155,14 @@ class ThreadCalibrator(QtCore.QThread):
     finished_err = pyqtSignal()
     finished_abort = pyqtSignal()
 
-    def __init__(self, obj):
+    def __init__(self, obj_method):
         super().__init__()
-        self.obj = obj
+        self.obj_method = obj_method
 
     def run(self):
         i = 1
-        self.flag_err = self.obj.read()
+        self.flag_err = self.obj_method()
+        # self.obj.trigger.emit()
         # while True:
         # for i in range(0,10):
         #     self.sleep(1)
@@ -273,7 +276,7 @@ class Main(QMainWindow):
         # self.com = ComPort()
         # self.com.show()
 
-        self.read_obj =ReadDataMh(self.cur_elem,len(self.name_params_mh))
+        self.read_obj =ReadDataMh(len(self.name_params_mh))
 
         # self.main = QMainWindow()
         #Отключение размера окна на весь экран
@@ -338,7 +341,6 @@ class Main(QMainWindow):
         self.buttonAction1.setText('Считать')
         self.buttonAction2 = QToolButton()
         self.buttonAction2.setText('Записать')
-        self.buttonAction2.setEnabled(False)
         self.buttonAction1.setFont(font)
         self.buttonAction2.setFont(font)
         self.buttonAction1.setMaximumSize(QtCore.QSize(500, 30))
@@ -385,12 +387,16 @@ class Main(QMainWindow):
             # self.mh_sec.resize(350, 30)
             self.mh_sec.setPlaceholderText('сек')
             self.mh_sec.setMaximumWidth(200)
+            self.lbl_sec = QLabel('сек')
+            self.lbl_sec.setFont(font_lbl)
             self.mh_hour = QLineEdit()
             # self.mh_hour.move(20 90)
             self.mh_hour.setFont(font_line)
             # self.mh_hour.resize(350, 30)
             self.mh_hour.setPlaceholderText('ч')
             self.mh_hour.setMaximumWidth(100)
+            self.lbl_hour = QLabel('ч')
+            self.lbl_hour.setFont(font_lbl)
             # Вставить только числа
             rx = QRegularExpression("[0-9]+")
             validator = QRegularExpressionValidator(rx)
@@ -400,24 +406,30 @@ class Main(QMainWindow):
             self.mh_str_hbox = QHBoxLayout()
             self.mh_str_hbox.setGeometry(QtCore.QRect(20,(i*2)+20,20,120))
             self.mh_str_hbox.setObjectName("mh_str_hbox")
-            self.mh_str_hbox.addSpacing(30)
+            self.mh_str_hbox.addSpacing(20)
+            print(self.lbl.width())
             self.mh_str_hbox.addWidget(self.lbl)
-            self.mh_str_hbox.addSpacing(10)
+            self.mh_str_hbox.addSpacing(250)
             self.mh_str_hbox.addWidget(self.mh_sec)
             self.mh_str_hbox.addSpacing(10)
+            self.mh_str_hbox.addWidget(self.lbl_sec)
+            self.mh_str_hbox.addSpacing(10)
             self.mh_str_hbox.addWidget(self.mh_hour)
+            # self.mh_str_hbox.addSpacing(10)
+            # self.mh_str_hbox.addWidget(self.lbl_hour)
             self.mh_str_hbox.addSpacing(100)
             self.mh_hbox.append(self.mh_str_hbox)
+            self.vbox.addLayout(self.mh_str_hbox)
 
         self.vbox.setContentsMargins(0, 50, 0, 0)
         self.vbox.setSpacing(0)
-        for i in range(0,len(self.name_params_mh)):
-            self.vbox.addLayout(self.mh_hbox[i])
+        # for i in range(0,len(self.name_params_mh)):
+        #     self.vbox.addLayout(self.mh_hbox[i])
         self.vbox.addLayout(self.lblLayout)
         self.vbox.addLayout(self.actionLayout)
 
         self.buttonAction1.clicked.connect(self.readData)
-        self.buttonAction2.clicked.connect(self.writeData_bu1)
+        self.buttonAction2.clicked.connect(self.writeData)
 
         self.centralwidget.setLayout(self.vbox)
 
@@ -427,8 +439,10 @@ class Main(QMainWindow):
         self.setWindowTitle(f'Калибратор {self.cur_elem}')
         self.show()
 
-    def thread_start(self,obj,mode):
-        self.th =ThreadCalibrator(obj)
+    def thread_start(self,obj_method,mode):
+        self.th =ThreadCalibrator(obj_method)
+        # self.read_obj.moveToThread(self.th)
+        # self.read_obj.trigger.connect(self.read_obj.read)
         self.th.start()
         self.th.finished_err.connect(self.signal_thread_stop)
         self.th.finished_abort.connect(self.signal_thread_abort)
@@ -443,30 +457,69 @@ class Main(QMainWindow):
     # Сообщение об отсутствии com_port
     def signal_thread_stop(self):
         self.worker.flag_err_work=1
-        # sign = Worker(self.data_dict_bu400)
         self.sign = warning_mh.SignalErr('Нет соединения !!!')
     def next_main_thread_read(self):
-        print(self.read_obj.value_list)
         for indx, value in enumerate(self.read_obj.value_list):
-            # print(self.mh_hbox[indx].itemAt(3).widget())
             self.mh_hbox[indx].itemAt(3).widget().setText(str(value))
-            self.mh_hbox[indx].itemAt(5).widget().setText(str(value/3600))
-            # item = self.mh_hbox[indx].itemAt(1)
-            # line_edit = item.widget()
-            # line_edit.setText(name)
+            self.mh_hbox[indx].itemAt(5).widget().setText(str(math.floor(value/3600)))
 
+        self.worker.time_stop()
+
+    def next_main_thread_write(self):
+        # for indx, value in enumerate(self.read_obj.value_list):
+        #     self.mh_hbox[indx].itemAt(3).widget().setText(str(value))
+        #     self.mh_hbox[indx].itemAt(5).widget().setText(str(value/3600))
         self.worker.time_stop()
     def readData(self):
         self.worker = Worker(self.read_obj, 'Чтение')
         self.worker.run1()
-        self.thread_start(self.read_obj,'r')
-        self.worker.window_abort.connect(self.progress_bar_stop)
 
-    def writeData_bu1(self):
-        pass
+        self.subprocess_mh = subprocess_mh.SubprocessMh(self.cur_elem,'read')
+        self.subprocess_mh.finished_success.connect(lambda: self.on_success('read'))
+        self.subprocess_mh.finished_with_error.connect(self.on_error)
+        self.subprocess_mh.start()
+
+    def writeData(self):
+        self.read_obj.read()
+        list_interface_params =[]
+        for indx, value in enumerate(self.read_obj.value_list):
+            list_interface_params.append(int(self.mh_hbox[indx].itemAt(3).widget().text()))
+        print(list_interface_params,'1')
+        self.read_obj.data_list.extend(list_interface_params)
+        print(self.read_obj.data_list,'2')
+        # print(list_interface_params)
+
+        self.write_obj =WriteDataMh(self.cur_elem,len(self.name_params_mh),
+                                    self.read_obj.data_list)
+        self.worker = Worker(self.write_obj, 'Запись')
+        self.worker.run1()
+        self.thread_start(self.write_obj.write,'w')
+
+        self.subprocess_mh = subprocess_mh.SubprocessMh(self.cur_elem,'write')
+        self.subprocess_mh.finished_success.connect(lambda: self.on_success('write'))
+        self.subprocess_mh.finished_with_error.connect(self.on_error)
+        self.subprocess_mh.start()
+
+        self.worker.window_abort.connect(self.progress_bar_stop)
 
     def progress_bar_stop(self):
         self.read_obj.flag_abort =1
+
+    def on_success(self, mode):
+        # QMessageBox.information(self, "Успех", f"Процесс завершен успешно:\n\n{output}")
+        if mode =='read':
+            self.thread_start(self.read_obj.read,'r')
+        else:
+            self.thread_start(self.write_obj.write, 'w')
+
+        self.worker.window_abort.connect(self.progress_bar_stop)
+
+    def on_error(self, error_message):
+        # Выводим окно с ошибкой в главном GUI потоке
+        # QMessageBox.critical(self, "Ошибка таймаута", error_message)
+        self.worker.flag_err_work=1
+        self.sign = warning_mh.SignalErr('Нет соединения !!!')
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
