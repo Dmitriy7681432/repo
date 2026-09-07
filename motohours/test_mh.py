@@ -1,4 +1,8 @@
-len =5
-lst = [1,2,3,4,5,6,7]
-for i in range(0,len):
-    print(lst[-1*(len-i)])
+# len =5
+lst = []
+lst1 = [1,2]
+lst.extend(lst1)
+print(lst)
+# print(len(lst))
+# for i,val in enumerate(lst):
+#     print(i,val,'1')

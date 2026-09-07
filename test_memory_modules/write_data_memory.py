@@ -78,3 +78,21 @@ random_bytes = os.urandom(FILE_SIZE)
 # Записываем байты в бинарный файл
 with open(FILE_NAME, "wb") as f:
     f.write(random_bytes)
+
+
+import struct
+
+# Размер файла в байтах и размер одного блока (4 байта)
+total_size = 262080
+chunk_size = 4
+
+# Вычисляем количество повторений значения
+count = total_size // chunk_size
+
+# Упаковываем 0xAAAAAAAA в 4 байта (<' -little-endian, 'I' - unsigned int)
+# Для big-endian используйте '>' вместо '<'
+data = struct.pack('<I', 0xFFFFFFFF) * count
+
+# Записываем в бинарный файл
+with open('erase.bin', 'wb') as f:
+    f.write(data)

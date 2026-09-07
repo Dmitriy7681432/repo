@@ -48,5 +48,8 @@ class ReadDataMh(QObject):
         # print(data_list)
         # print(value_list)
         return 'OK'
+    def clear_data_list(self):
+        self.data_list = []
+
 
 # read_obj = ReadDataMh('SES200M',8).read()

@@ -5,7 +5,7 @@ import time,json
 
 from PyQt5.QtWidgets import (QWidget, QPushButton, QStackedWidget, QToolBar, QToolButton,
                              QHBoxLayout, QVBoxLayout, QApplication, QAction, QMainWindow,QDialog,QLabel,QProgressBar,
-                             QDesktopWidget,QLineEdit)
+                             QDesktopWidget,QLineEdit,QGridLayout,QSpacerItem, QSizePolicy)
 
 from PyQt5 import QtCore, QtGui, QtWidgets,Qt
 from PyQt5.QtCore import QThread, pyqtSignal, pyqtSlot,QTimer,QBasicTimer, QRegularExpression
@@ -375,6 +375,10 @@ class Main(QMainWindow):
         font_line.setPointSize(14)
 
         self.mh_hbox = []
+        self.gridlayout =QGridLayout()
+
+        # spacer = QSpacerItem(10, 10, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        # self.gridlayout.addItem(spacer, 0, 0)
         # Строки наработки
         for i, name in enumerate(self.name_params_mh):
             self.lbl = QLabel(name)
@@ -403,28 +407,20 @@ class Main(QMainWindow):
             self.mh_sec.setValidator(validator)
             self.mh_hour.setValidator(validator)
 
-            self.mh_str_hbox = QHBoxLayout()
-            self.mh_str_hbox.setGeometry(QtCore.QRect(20,(i*2)+20,20,120))
-            self.mh_str_hbox.setObjectName("mh_str_hbox")
-            self.mh_str_hbox.addSpacing(20)
-            print(self.lbl.width())
-            self.mh_str_hbox.addWidget(self.lbl)
-            self.mh_str_hbox.addSpacing(250)
-            self.mh_str_hbox.addWidget(self.mh_sec)
-            self.mh_str_hbox.addSpacing(10)
-            self.mh_str_hbox.addWidget(self.lbl_sec)
-            self.mh_str_hbox.addSpacing(10)
-            self.mh_str_hbox.addWidget(self.mh_hour)
-            # self.mh_str_hbox.addSpacing(10)
-            # self.mh_str_hbox.addWidget(self.lbl_hour)
-            self.mh_str_hbox.addSpacing(100)
-            self.mh_hbox.append(self.mh_str_hbox)
-            self.vbox.addLayout(self.mh_str_hbox)
+            self.gridlayout.addWidget(self.lbl,i,0)
+            self.gridlayout.addWidget(self.mh_sec,i,1)
+            # self.gridlayout.setColumnStretch(1,2)
+            self.gridlayout.addWidget(self.lbl_sec,i,2)
+            self.gridlayout.addWidget(self.mh_hour,i,3)
+            self.gridlayout.addWidget(self.lbl_hour,i,4)
+            self.gridlayout.setHorizontalSpacing(5)
+            # self.gridlayout.setColumnMinimumWidth(1,50)
 
+        self.vbox.addLayout(self.gridlayout)
+        # self.vbox.setAlignment(self.gridlayout, QtCore.Qt.AlignLeft)
+        self.vbox.addStretch()
         self.vbox.setContentsMargins(0, 50, 0, 0)
         self.vbox.setSpacing(0)
-        # for i in range(0,len(self.name_params_mh)):
-        #     self.vbox.addLayout(self.mh_hbox[i])
         self.vbox.addLayout(self.lblLayout)
         self.vbox.addLayout(self.actionLayout)
 
@@ -459,9 +455,13 @@ class Main(QMainWindow):
         self.worker.flag_err_work=1
         self.sign = warning_mh.SignalErr('Нет соединения !!!')
     def next_main_thread_read(self):
+        cnt_sec=1
+        cnt_hour=3
         for indx, value in enumerate(self.read_obj.value_list):
-            self.mh_hbox[indx].itemAt(3).widget().setText(str(value))
-            self.mh_hbox[indx].itemAt(5).widget().setText(str(math.floor(value/3600)))
+            self.gridlayout.itemAt(indx+cnt_sec).widget().setText(str(value))
+            self.gridlayout.itemAt(indx+cnt_hour).widget().setText(str(math.floor(value/3600)))
+            cnt_sec+=4
+            cnt_hour+=4
 
         self.worker.time_stop()
 
@@ -480,25 +480,38 @@ class Main(QMainWindow):
         self.subprocess_mh.start()
 
     def writeData(self):
-        self.read_obj.read()
+        cnt_sec=1
+        flag =0
         list_interface_params =[]
-        for indx, value in enumerate(self.read_obj.value_list):
-            list_interface_params.append(int(self.mh_hbox[indx].itemAt(3).widget().text()))
-        print(list_interface_params,'1')
-        self.read_obj.data_list.extend(list_interface_params)
-        print(self.read_obj.data_list,'2')
-        # print(list_interface_params)
 
-        self.write_obj =WriteDataMh(self.cur_elem,len(self.name_params_mh),
-                                    self.read_obj.data_list)
+        self.read_obj.read()
+        if len(self.read_obj.data_list)*4 >0x20:
+            self.read_obj.clear_data_list()
+            flag =1
+        for indx, value in enumerate(self.read_obj.value_list):
+            list_interface_params.append(int(self.gridlayout.itemAt(indx+cnt_sec).widget().text()))
+            cnt_sec+=4
+        self.read_obj.data_list.extend(list_interface_params)
+
+        # self.write_obj =WriteDataMh(self.cur_elem,len(self.name_params_mh),
+        #                             self.read_obj.data_list)
+        self.write_obj =WriteDataMh(self.read_obj.data_list)
+
         self.worker = Worker(self.write_obj, 'Запись')
         self.worker.run1()
         self.thread_start(self.write_obj.write,'w')
 
-        self.subprocess_mh = subprocess_mh.SubprocessMh(self.cur_elem,'write')
-        self.subprocess_mh.finished_success.connect(lambda: self.on_success('write'))
-        self.subprocess_mh.finished_with_error.connect(self.on_error)
-        self.subprocess_mh.start()
+        if flag ==0:
+            self.subprocess_mh = subprocess_mh.SubprocessMh(self.cur_elem,'write')
+            self.subprocess_mh.finished_success.connect(lambda: self.on_success('write'))
+            self.subprocess_mh.finished_with_error.connect(self.on_error)
+            self.subprocess_mh.start()
+        else:
+            self.subprocess_mh = subprocess_mh.SubprocessMh(self.cur_elem,'erase')
+            self.subprocess_mh.finished_success.connect(lambda: self.on_success('erase'))
+            self.subprocess_mh.finished_with_error.connect(self.on_error)
+            self.subprocess_mh.start()
+            flag =0
 
         self.worker.window_abort.connect(self.progress_bar_stop)
 
