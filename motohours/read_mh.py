@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from PyQt5.QtCore import pyqtSignal,QObject
-import subprocess,struct
+import struct,os
 # from debug_mh import *
 from PyQt5.QtCore import QThread, pyqtSignal
 
@@ -13,6 +13,7 @@ class ReadDataMh(QObject):
 
     def __init__(self,cnt_params):
         super().__init__()
+        self.file_path = 'read_mh.bin'
         self.data_list = []
         self.value_list = []
         self.cnt_params = cnt_params
@@ -22,12 +23,10 @@ class ReadDataMh(QObject):
         self.value_list = []
         step = 0
 
-        # print('read1')
-        # subprocess.run(f'D:\\repo\\motohours\\mcprog\\mcprog.exe -r read_mh.bin {self.addr} 262080',
-        #                          shell=True, capture_output=True, text=True, errors='ignore')
-
+        # if os.path.exists(self.file_path):
+        #     os.remove(self.file_path)
         # Открываем файл в бинарном режиме
-        with open('read_mh.bin', 'rb') as f:
+        with open(self.file_path, 'rb') as f:
             # Цикл чтения файла по 4 байта
             while chunk := f.read(4):
                 step += 1
@@ -43,8 +42,13 @@ class ReadDataMh(QObject):
                 if value == 0xffffffff: break
                 self.data_list.append(value)
 
-        for i in range (0,self.cnt_params):
-            self.value_list.append(self.data_list[-1*(self.cnt_params-i)])
+        try:
+            for i in range (0,self.cnt_params):
+                self.value_list.append(self.data_list[-1*(self.cnt_params-i)])
+        except IndexError:
+            return 'ERR'
+        print('read_data',len(self.data_list)/8,self.data_list)
+        print('read_val',self.value_list)
         # print(data_list)
         # print(value_list)
         return 'OK'

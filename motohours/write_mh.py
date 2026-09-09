@@ -1,5 +1,5 @@
 from PyQt5.QtCore import pyqtSignal, QObject
-import subprocess, struct
+import struct,os
 
 # from debug_mh import *
 
@@ -9,14 +9,16 @@ class WriteDataMh(QObject):
 
     def __init__(self, list_read_params):
         super().__init__()
+        self.file_path = 'write_mh.bin'
         self.list_read_params = list_read_params
 
     def write(self):
+        if os.path.exists(self.file_path):
+            os.remove(self.file_path)
         # ќткрываем файл в бинарном режиме
-        with open('write_mh.bin', 'wb') as f:
+        with open(self.file_path, 'wb') as f:
             for value in self.list_read_params:
                 # ”паковываем число в 4 байта (формат '<i' Ч Little-Endian, 4 байта)
                 binary_data = struct.pack('<i', value)
                 f.write(binary_data)
-        # subprocess.run(f'D:\\repo\\motohours\\mcprog\\mcprog.exe -e0 write_mh.bin {self.addr}',
-        #                  shell=True, capture_output=True, text=True, errors='ignore')
+        print('write_mh',len(self.list_read_params)/8, self.list_read_params)

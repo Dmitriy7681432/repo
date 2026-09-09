@@ -21,7 +21,7 @@ class SubprocessMh(QThread):
             self.addr = '0xbfd80000'
         self.read_command = f'mcprog\\mcprog.exe -r read_mh.bin {self.addr} 262080'
         self.write_command =f'mcprog\\mcprog.exe -e0 write_mh.bin {self.addr}'
-        self.erase_command = f'mcprog\\mcprog.exe -e0 erase_mh.bin {self.addr}'
+        self.erase_command = f'mcprog\\mcprog.exe -e2 erase_mh.bin {self.addr}'
 
     def run(self):
         try:
@@ -29,14 +29,17 @@ class SubprocessMh(QThread):
             # timeout=5 означает, что через 5 секунд выбросится TimeoutExpired
             # result = subprocess.run(f'D:\\repo\\motohours\\mcprog\\mcprog.exe -r read_mh.bin {self.addr} 262080',
             if self.mode == 'read':
+                print('sub_read')
                 result=subprocess.run(self.read_command,capture_output=True,text=True,
                                       errors='ignore',
                                       timeout=5)
             elif self.mode == 'write':
+                print('sub_write')
                 result=subprocess.run(self.write_command,capture_output=True,text=True,
                                       errors='ignore',
                                       timeout=5)
             else:
+                print('sub_erase')
                 result=subprocess.run(self.erase_command,capture_output=True,text=True,
                                       errors='ignore',
                                       timeout=5)
@@ -44,7 +47,6 @@ class SubprocessMh(QThread):
                                       errors='ignore',
                                       timeout=5)
 
-            print('sub1')
             self.finished_success.emit(result.stdout)
 
         except subprocess.TimeoutExpired:

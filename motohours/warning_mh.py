@@ -7,7 +7,7 @@ from PyQt5.QtCore import QAbstractEventDispatcher
 from debug_mh import *
 
 class SignalErr():
-    def __init__(self,msg,app = False):
+    def __init__(self,msg,app = False,type ='err'):
         super().__init__()
 
         if app:
@@ -30,6 +30,7 @@ class SignalErr():
         # Если use 1-й аргумент, то цвет будет пропадать при переходе на др окно
         # pal.setColor(QtGui.QPalette.Window, QtGui.QColor(191, 245, 234))
         pal.setColor(QtGui.QPalette.Window, QtGui.QColor(220, 254, 225))
+
         self.main.setPalette(pal)
 
         self.main.setWindowTitle("Предупреждение")
@@ -46,7 +47,10 @@ class SignalErr():
         sizePolicy.setHeightForWidth(self.lbl.sizePolicy().hasHeightForWidth())
         self.lbl.setSizePolicy(QSizePolicy.Fixed,QSizePolicy.Fixed)
         self.lbl.setFont(font)
-        self.lbl.setStyleSheet('color: rgb(219,18,18);')
+        if type =='err':
+            self.lbl.setStyleSheet('color: rgb(219,18,18);')
+        else:
+            self.lbl.setStyleSheet('color: rgb(0,206,209);')
         self.lbl.setSizePolicy(sizePolicy)
         self.hbox.addWidget(self.lbl)
         self.main.show()
