@@ -22,3 +22,6 @@ class WriteDataMh(QObject):
                 binary_data = struct.pack('<i', value)
                 f.write(binary_data)
         print('write_mh',len(self.list_read_params)/8, self.list_read_params)
+
+    def update_data_list(self,list_data):
+        self.list_read_params =list_data

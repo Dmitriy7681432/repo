@@ -7,9 +7,10 @@ from PyQt5.QtCore import QThread, pyqtSignal
 
 # 1. Создаем поток для выполнения подпроцесса
 class ReadDataMh(QObject):
-    cal_signal = pyqtSignal(int)
+    # cal_signal = pyqtSignal(int)
     trigger = pyqtSignal()
     flag_abort = 0
+    step = 0
 
     def __init__(self,cnt_params):
         super().__init__()
@@ -21,7 +22,6 @@ class ReadDataMh(QObject):
     def read(self):
         self.data_list = []
         self.value_list = []
-        step = 0
 
         # if os.path.exists(self.file_path):
         #     os.remove(self.file_path)
@@ -29,8 +29,8 @@ class ReadDataMh(QObject):
         with open(self.file_path, 'rb') as f:
             # Цикл чтения файла по 4 байта
             while chunk := f.read(4):
-                step += 1
-                self.cal_signal.emit(step)
+                self.step += 1
+                # self.cal_signal.emit(self.step)
                 if self.flag_abort == 1:
                     return 'ABORT'
                 # Если файл закончился или осталось меньше 4 байт

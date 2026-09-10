@@ -97,7 +97,7 @@ class Worker(QThread):
         # Убрать значок закрытия окна
         self.main_window.setWindowFlags(Qt.Qt.CustomizeWindowHint | Qt.Qt.WindowTitleHint)
         self.main_window.show()
-        self.obj_main.cal_signal.connect(self.update_progress_bar)
+        # self.obj_main.cal_signal.connect(self.update_progress_bar)
 
         self.doAction()
 
@@ -109,9 +109,7 @@ class Worker(QThread):
         self.val =100
 
     def update_progress_bar(self,val):
-        # printf('updata_pr')
         self.val = val
-        # self.step = self.step +self.val
         self.pbar.setValue(self.val)
 
     def center(self):
@@ -139,6 +137,7 @@ class Worker(QThread):
         # self.step = self.step + 1
 
     def doAction(self):
+        print('do_action')
         # printf('doAction', self.timer.isActive())
         if self.timer.isActive():
             self.timer.stop()
@@ -262,6 +261,15 @@ class Main(QMainWindow):
         super().__init__()
         self.th_unit =0
         self.cnt_save_data = 0
+        if self.cur_elem == 'SES150' or self.cur_elem == 'TOR_ARCTICA':
+            self.addr = '0xbfdc0000'
+        else:
+            self.addr = '0xbfd80000'
+        self.read_command = f'mcprog\\mcprog.exe -r read_mh.bin {self.addr} 262080'
+        self.write_command =f'mcprog\\mcprog.exe -e0 write_mh.bin {self.addr}'
+        self.erase_command = f'mcprog\\mcprog.exe -e2 erase_mh.bin {self.addr}'
+
+        self.fake_value = 0
 
         # Вызов парсера наименования параметров наработки памяти
         self.name_params_mh = ParsInitMh(self.cur_elem).pars()
@@ -278,6 +286,8 @@ class Main(QMainWindow):
         self.setWindowFlags(flags)
 
         self.timer = QTimer()
+        self.timer.setInterval(15)  # каждые 100 мс
+        self.timer.timeout.connect(self.tick)
 
         #Шрифт
         font = QtGui.QFont()
@@ -367,7 +377,8 @@ class Main(QMainWindow):
         font_line.setFamily("Times New Roman")
         font_line.setPointSize(14)
 
-        self.mh_hbox = []
+        self.mh_sec_list = []
+        self.mh_hour_list = []
         self.gridlayout =QGridLayout()
 
         # spacer = QSpacerItem(10, 10, QSizePolicy.Expanding, QSizePolicy.Minimum)
@@ -408,6 +419,8 @@ class Main(QMainWindow):
             self.gridlayout.addWidget(self.lbl_hour,i,4)
             self.gridlayout.setHorizontalSpacing(5)
             # self.gridlayout.setColumnMinimumWidth(1,50)
+            self.mh_sec_list.append(self.mh_sec)
+            self.mh_hour_list.append(self.mh_hour)
 
         self.vbox.addLayout(self.gridlayout)
         # self.vbox.setAlignment(self.gridlayout, QtCore.Qt.AlignLeft)
@@ -416,6 +429,11 @@ class Main(QMainWindow):
         self.vbox.setSpacing(0)
         self.vbox.addLayout(self.lblLayout)
         self.vbox.addLayout(self.actionLayout)
+
+        cnt_sec = 1
+        for indx, name_obj in enumerate(self.name_params_mh):
+            self.gridlayout.itemAt(indx+cnt_sec).widget().textChanged.connect(self.on_text_changed_mh_hour)
+            cnt_sec += 4
 
         self.buttonAction1.clicked.connect(self.readData)
         self.buttonAction2.clicked.connect(self.writeData)
@@ -428,12 +446,20 @@ class Main(QMainWindow):
         self.setWindowTitle(f'Калибратор {self.cur_elem}')
         self.show()
 
+    def on_text_changed_mh_hour(self,text):
+        cnt_hour = 3
+        for indx, value in enumerate(self.name_params_mh):
+            self.gridlayout.itemAt(indx+cnt_hour).widget().setText(str(math.floor(int(text)/3600)))
+            cnt_hour += 4
+
     def thread_start(self,obj_method,mode):
+        print('thread_start')
         self.th =ThreadCalibrator(obj_method)
         self.th.start()
         self.th.finished_err.connect(self.signal_thread_stop)
         self.th.finished_abort.connect(self.signal_thread_abort)
         if mode =='r':
+            print('thread_start_read')
             self.th.finished2.connect(self.next_main_thread_read)
         elif mode =='w':
             self.th.finished2.connect(self.next_main_thread_write)
@@ -448,6 +474,7 @@ class Main(QMainWindow):
         self.worker.flag_err_work=1
         self.sign = warning_mh.SignalErr('Нет данных', type='warn')
     def next_main_thread_read(self):
+        print('next_main_thread_read')
         cnt_sec=1
         cnt_hour=3
         for indx, value in enumerate(self.read_obj.value_list):
@@ -456,112 +483,101 @@ class Main(QMainWindow):
             cnt_sec+=4
             cnt_hour+=4
 
-        self.worker.time_stop()
+        self.timer.stop()
+        self.worker_time_stop()
 
     def next_main_thread_write(self):
-        self.subprocess_mh = subprocess_mh.SubprocessMh(self.cur_elem, 'write')
-        # self.subprocess_mh.finished_success.connect(lambda: self.on_success('write'))
+        print('next_main_thread_write')
+        self.subprocess_mh = subprocess_mh.SubprocessMh(self.write_command)
+        self.subprocess_mh.finished_success.connect(self.worker_time_stop)
         self.subprocess_mh.finished_with_error.connect(self.on_error)
         self.subprocess_mh.start()
-        self.worker.time_stop()
 
     def next_main_thread_erase(self):
         print('main_mh_erase_data')
-        self.subprocess_mh = subprocess_mh.SubprocessMh(self.cur_elem, 'erase')
+        self.subprocess_mh = subprocess_mh.SubprocessMh(self.erase_command)
         self.subprocess_mh.finished_success.connect(lambda: self.on_success('erase'))
         self.subprocess_mh.finished_with_error.connect(self.on_error)
         self.subprocess_mh.start()
 
-        self.worker.time_stop()
     def readData(self):
+        self.timer.start()
         self.worker = Worker(self.read_obj, 'Чтение')
         self.worker.run1()
 
-        self.subprocess_mh = subprocess_mh.SubprocessMh(self.cur_elem,'read')
+        self.subprocess_mh = subprocess_mh.SubprocessMh(self.read_command)
         self.subprocess_mh.finished_success.connect(lambda: self.on_success('read'))
         self.subprocess_mh.finished_with_error.connect(self.on_error)
         self.subprocess_mh.start()
 
     def writeData(self):
-        cnt_sec=1
         flag =0
-        list_interface_params =[]
+        self.write_obj = WriteDataMh(self.read_obj.data_list)
+        if len(self.read_obj.data_list)*4 >0x20:
+            self.timer.setInterval(200)
+            self.read_obj.clear_data_list()
+            self.worker = Worker(self.write_obj, 'Стирание')
+            self.worker.run1()
+            flag =1
+        else:
+            self.timer.setInterval(15)
+            self.worker = Worker(self.write_obj, 'Запись')
+            self.worker.run1()
+            flag =0
 
-        self.subprocess_mh = subprocess_mh.SubprocessMh(self.cur_elem, 'read')
-        self.subprocess_mh.finished_success.connect(self.write_data_succes)
+        self.timer.start()
+        self.subprocess_mh = subprocess_mh.SubprocessMh(self.read_command)
+        self.subprocess_mh.finished_success.connect(lambda: self.write_data_succes(flag))
         self.subprocess_mh.finished_with_error.connect(self.on_error)
         self.subprocess_mh.start()
 
-        # # if len(self.read_obj.data_list)*4 >0x20:
-        # #     self.read_obj.clear_data_list()
-        # #     flag =1
-        # # for indx, value in enumerate(self.read_obj.value_list):
-        # for indx, value in enumerate(self.name_params_mh):
-        #     list_interface_params.append(int(self.gridlayout.itemAt(indx+cnt_sec).widget().text()))
-        #     cnt_sec+=4
-        # self.read_obj.data_list.extend(list_interface_params)
-        # print('main_mh_data_list',self.read_obj.data_list)
-        #
-        # self.subprocess_mh.quit()
-        # self.subprocess_mh.wait()
-        #
-        # self.write_obj =WriteDataMh(self.read_obj.data_list)
-        #
-        # self.worker = Worker(self.write_obj, 'Запись')
-        # self.worker.run1()
-        # # self.thread_start(self.write_obj.write,'w')
-        #
-        # if flag ==0:
-        #     self.subprocess_mh = subprocess_mh.SubprocessMh(self.cur_elem,'write')
-        #     self.subprocess_mh.finished_success.connect(lambda: self.on_success('write'))
-        #     self.subprocess_mh.finished_with_error.connect(self.on_error)
-        #     self.subprocess_mh.start()
-        # else:
-        #     print('main_mh_erase_data')
-        #     self.subprocess_mh = subprocess_mh.SubprocessMh(self.cur_elem,'erase')
-        #     self.subprocess_mh.finished_success.connect(lambda: self.on_success('erase'))
-        #     self.subprocess_mh.finished_with_error.connect(self.on_error)
-        #     self.subprocess_mh.start()
-        #     flag =0
-        #
-        # self.worker.window_abort.connect(self.progress_bar_stop)
 
     def progress_bar_stop(self):
         self.read_obj.flag_abort =1
+        self.timer.stop()
 
-    def write_data_succes(self):
+    def write_data_succes(self,flag):
+        self.subprocess_mh.quit()
+        self.subprocess_mh.wait()
         cnt_sec=1
-        flag =0
         list_interface_params =[]
 
-        # if len(self.read_obj.data_list)*4 >0x20:
-        #     self.read_obj.clear_data_list()
-        #     flag =1
-        # for indx, value in enumerate(self.read_obj.value_list):
         for indx, value in enumerate(self.name_params_mh):
             list_interface_params.append(int(self.gridlayout.itemAt(indx + cnt_sec).widget().text()))
             cnt_sec += 4
         self.read_obj.data_list.extend(list_interface_params)
         print('main_mh_data_list', self.read_obj.data_list)
 
-        self.subprocess_mh.quit()
-        self.subprocess_mh.wait()
+        # self.write_obj = WriteDataMh(self.read_obj.data_list)
+        self.write_obj.update_data_list(self.read_obj.data_list)
 
-        self.write_obj = WriteDataMh(self.read_obj.data_list)
-
-        self.worker = Worker(self.write_obj, 'Запись')
-        self.worker.run1()
-        self.thread_start(self.write_obj.write,'w')
+        if flag ==0:
+            # self.worker = Worker(self.write_obj, 'Запись')
+            # self.worker.run1()
+            self.thread_start(self.write_obj.write,'w')
+        else:
+            # self.worker = Worker(self.write_obj, 'Стирание')
+            # self.worker.run1()
+            self.thread_start(self.write_obj.write,'e')
+            # flag =0
 
 
     def on_success(self, mode):
+        self.subprocess_mh.quit()
+        self.subprocess_mh.wait()
 
         if mode =='read':
+            print('on_success_read')
             self.thread_start(self.read_obj.read,'r')
-        else:
+        elif mode =='write':
             self.thread_start(self.write_obj.write, 'w')
-
-
+        else:
+            self.worker_time_stop()
+            self.timer.start()
+            self.worker = Worker(self.write_obj, 'Запись')
+            self.worker.run1()
+            print('main_on_succes_erase')
+            self.next_main_thread_write()
 
         self.worker.window_abort.connect(self.progress_bar_stop)
 
@@ -570,7 +586,22 @@ class Main(QMainWindow):
         # QMessageBox.critical(self, "Ошибка таймаута", error_message)
         self.worker.flag_err_work=1
         self.sign = warning_mh.SignalErr('Нет соединения !!!')
+        self.timer.stop()
 
+    def worker_time_stop(self):
+        self.worker.time_stop()
+        self.timer.stop()
+        self.fake_value =0
+
+    def tick(self):
+        """Медленно ползём к 95%, никогда не достигая 100 пока процесс идёт."""
+        if self.fake_value < 95:
+            # Чем ближе к 95 — тем медленнее (асимптотически)
+            step = max(1, (95 - self.fake_value) // 20)
+            self.fake_value += step
+            if self.fake_value > 95:
+                self.fake_value = 95
+            self.worker.update_progress_bar(self.fake_value)
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
