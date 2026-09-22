@@ -11,21 +11,22 @@ class SubprocessMh(QThread):
     finished_success = pyqtSignal(str)
     finished_with_error = pyqtSignal(str)
 
-    def __init__(self,command):
+    def __init__(self,command,timeout):
         super().__init__()
         self.command = command
-        print(self.command)
+        self.timeout=timeout
+        # print(self.command)
 
     def run(self):
         try:
 
             result=subprocess.run(self.command,capture_output=True,text=True,
                                   errors='ignore',
-                                  timeout=20)
+                                  timeout=self.timeout)
             self.finished_success.emit(result.stdout)
         except subprocess.TimeoutExpired:
             self.finished_with_error.emit("Превышено время ожидания! Процесс был принудительно прерван.")
-            print('sub2')
+            # print('sub2')
         except Exception as e:
             # self.finished_with_error.emit(f"Произошла ошибка: {str(e)}")
             self.finished_with_error.emit("Произошла ошибка")

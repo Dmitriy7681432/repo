@@ -47,8 +47,8 @@ class ReadDataMh(QObject):
                 self.value_list.append(self.data_list[-1*(self.cnt_params-i)])
         except IndexError:
             return 'ERR'
-        print('read_data',len(self.data_list)/8,self.data_list)
-        print('read_val',self.value_list)
+        # print('read_data',len(self.data_list)/8,self.data_list)
+        # print('read_val',self.value_list)
         # print(data_list)
         # print(value_list)
         return 'OK'

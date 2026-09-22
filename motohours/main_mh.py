@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 # Модули библиотечные
-import sys,serial,struct,math
+import sys,math
 import time,json
 
 from PyQt5.QtWidgets import (QWidget, QPushButton, QStackedWidget, QToolBar, QToolButton,
                              QHBoxLayout, QVBoxLayout, QApplication, QAction, QMainWindow,QDialog,QLabel,QProgressBar,
-                             QDesktopWidget,QLineEdit,QGridLayout,QSpacerItem, QSizePolicy)
+                             QDesktopWidget,QLineEdit,QGridLayout,QSpacerItem, QMessageBox)
 
 from PyQt5 import QtCore, QtGui, QtWidgets,Qt
 from PyQt5.QtCore import QThread, pyqtSignal, pyqtSlot,QTimer,QBasicTimer, QRegularExpression
@@ -26,10 +26,10 @@ class Worker(QThread):
     window_abort = pyqtSignal()
     flag_err_work =0
 
-    def __init__(self,obj_main,action):
+    def __init__(self,action):
         super().__init__()
         self.window = None
-        self.obj_main = obj_main
+        # self.obj_main = obj_main
         self.action = action
 
     def run1(self):
@@ -137,7 +137,6 @@ class Worker(QThread):
         # self.step = self.step + 1
 
     def doAction(self):
-        print('do_action')
         # printf('doAction', self.timer.isActive())
         if self.timer.isActive():
             self.timer.stop()
@@ -234,7 +233,8 @@ class ComPort(QWidget):
         pal = self.palette()
         # Если use 1-й аргумент, то цвет будет пропадать при переходе на др окно
         # pal.setColor(QtGui.QPalette.Window, QtGui.QColor(191, 245, 234))
-        pal.setColor(QtGui.QPalette.Window, QtGui.QColor(220, 254, 225))
+        # pal.setColor(QtGui.QPalette.Window, QtGui.QColor(220, 254, 225))
+        pal.setColor(QtGui.QPalette.Window, QtGui.QColor(205, 247, 250))
         self.setPalette(pal)
 
         self.cur_elem = combo.currentText()
@@ -270,6 +270,9 @@ class Main(QMainWindow):
         self.erase_command = f'mcprog\\mcprog.exe -e2 erase_mh.bin {self.addr}'
 
         self.fake_value = 0
+        self.read_flag =0
+        self.text_change_sec_flag =0
+        self.text_change_hour_flag =0
 
         # Вызов парсера наименования параметров наработки памяти
         self.name_params_mh = ParsInitMh(self.cur_elem).pars()
@@ -301,8 +304,8 @@ class Main(QMainWindow):
         y = desktop.height()
         # printf(x, y)
         # x_size_desktop = int(x / 2.2);
-        x_size_desktop = 885
-        y_size_desktop = int(y / 1.3)
+        x_size_desktop = 890
+        y_size_desktop = int(y / 2.5)
 
         stack_size_y = int(y / 35)
         stack_size_x = int(x / 75)
@@ -331,41 +334,66 @@ class Main(QMainWindow):
         # Цветовой фон
         pal = self.palette()
         # Если use 1-й аргумент, то цвет будет пропадать при переходе на др окно
-        # pal.setColor(QtGui.QPalette.Window, QtGui.QColor(191, 245, 234))
-        pal.setColor(QtGui.QPalette.Window, QtGui.QColor(220, 254, 225))
+        # pal.setColor(QtGui.QPalette.Window, QtGui.QColor(220, 254, 225))
+        pal.setColor(QtGui.QPalette.Window, QtGui.QColor(205, 247, 250))
         self.setPalette(pal)
 
+        # Label
         self.version = QLabel(f'<i>{self.cur_elem} version: 1.0.5  </i>')
         self.version.setFont(font)
         self.version.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter )
         self.version.setStyleSheet('color: rgba(105,105,105,0.5)')
+        self.last_addr = QLabel('<i> Адрес последнего записанного числа:  </i>')
+        self.last_addr.setFont(font)
+        # self.last_addr.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter )
+        self.last_addr.setStyleSheet('color: rgba(105,105,105,0.5)')
+        self.cnt_packet = QLabel('<i> Количество записанных пакетов:  </i>')
+        self.cnt_packet.setFont(font)
+        self.cnt_packet.setStyleSheet('color: rgba(105,105,105,0.5)')
+        self.max_cnt_packet = QLabel('<i> Maксимальное количество пакетов: 32760  </i>')
+        self.max_cnt_packet.setFont(font)
+        self.max_cnt_packet.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter )
+        self.max_cnt_packet.setStyleSheet('color: rgba(105,105,105,0.5)')
+
         # Кнопки действия
         self.buttonAction1 = QToolButton()
         self.buttonAction1.setText('Считать')
         self.buttonAction2 = QToolButton()
         self.buttonAction2.setText('Записать')
+        self.buttonAction3 = QToolButton()
+        self.buttonAction3.setText('Стереть')
         self.buttonAction1.setFont(font)
         self.buttonAction2.setFont(font)
-        self.buttonAction1.setMaximumSize(QtCore.QSize(500, 30))
-        self.buttonAction2.setMaximumSize(QtCore.QSize(600, 30))
+        self.buttonAction3.setFont(font)
+        self.buttonAction1.setMaximumSize(QtCore.QSize(366, 30))
+        self.buttonAction2.setMaximumSize(QtCore.QSize(366, 30))
+        self.buttonAction3.setMaximumSize(QtCore.QSize(366, 30))
         self.buttonAction1.setObjectName("buttonAction1")
         self.buttonAction2.setObjectName("buttonAction2")
+        self.buttonAction3.setObjectName("buttonAction3")
         self.buttonAction1.setStyleSheet('background-color:rgb(255,240,157);')
         self.buttonAction2.setStyleSheet('background-color:rgb(255,240,157);')
+        self.buttonAction3.setStyleSheet('background-color:rgb(255,240,157);')
 
         self.lblLayout = QHBoxLayout()
         self.lblLayout.setGeometry(QtCore.QRect(20,20,20,20))
         self.lblLayout.setObjectName("lblLayout")
+        self.lblLayout.addWidget(self.last_addr)
         self.lblLayout.addWidget(self.version)
-        self.actionLayout = QHBoxLayout()
 
+        self.lblLayoutPacket = QHBoxLayout()
+        self.lblLayoutPacket.setGeometry(QtCore.QRect(20,20,20,20))
+        self.lblLayoutPacket.setObjectName("lblcntpacket")
+        self.lblLayoutPacket.addWidget(self.cnt_packet)
+        self.lblLayoutPacket.addWidget(self.max_cnt_packet)
+
+        self.actionLayout = QHBoxLayout()
         self.actionLayout.setContentsMargins(0, 0, 0, 0)
         self.actionLayout.setSpacing(0)
         self.actionLayout.setObjectName("actionLayout")
         self.actionLayout.addWidget(self.buttonAction1)
         self.actionLayout.addWidget(self.buttonAction2)
-
-
+        self.actionLayout.addWidget(self.buttonAction3)
 
         font_lbl = QtGui.QFont()
         font_lbl.setFamily("Times New Roman")
@@ -381,26 +409,20 @@ class Main(QMainWindow):
         self.mh_hour_list = []
         self.gridlayout =QGridLayout()
 
-        # spacer = QSpacerItem(10, 10, QSizePolicy.Expanding, QSizePolicy.Minimum)
-        # self.gridlayout.addItem(spacer, 0, 0)
         # Строки наработки
         for i, name in enumerate(self.name_params_mh):
             self.lbl = QLabel(name)
-            # self.lbl.move(20, 10)
             self.lbl.setFont(font_lbl)
             self.mh_sec = QLineEdit()
-            # line.addItems(lst_combo)
-            # self.mh_sec.move(20, 30)
+            self.mh_sec.setObjectName(f'obj_mh_sec_{i}')
             self.mh_sec.setFont(font_line)
-            # self.mh_sec.resize(350, 30)
             self.mh_sec.setPlaceholderText('сек')
             self.mh_sec.setMaximumWidth(200)
             self.lbl_sec = QLabel('сек')
             self.lbl_sec.setFont(font_lbl)
             self.mh_hour = QLineEdit()
-            # self.mh_hour.move(20 90)
+            self.mh_hour.setObjectName(f'obj_mh_hour_{i}')
             self.mh_hour.setFont(font_line)
-            # self.mh_hour.resize(350, 30)
             self.mh_hour.setPlaceholderText('ч')
             self.mh_hour.setMaximumWidth(100)
             self.lbl_hour = QLabel('ч')
@@ -413,44 +435,61 @@ class Main(QMainWindow):
 
             self.gridlayout.addWidget(self.lbl,i,0)
             self.gridlayout.addWidget(self.mh_sec,i,1)
-            # self.gridlayout.setColumnStretch(1,2)
             self.gridlayout.addWidget(self.lbl_sec,i,2)
             self.gridlayout.addWidget(self.mh_hour,i,3)
             self.gridlayout.addWidget(self.lbl_hour,i,4)
             self.gridlayout.setHorizontalSpacing(5)
-            # self.gridlayout.setColumnMinimumWidth(1,50)
             self.mh_sec_list.append(self.mh_sec)
             self.mh_hour_list.append(self.mh_hour)
 
         self.vbox.addLayout(self.gridlayout)
-        # self.vbox.setAlignment(self.gridlayout, QtCore.Qt.AlignLeft)
         self.vbox.addStretch()
         self.vbox.setContentsMargins(0, 50, 0, 0)
         self.vbox.setSpacing(0)
+        self.vbox.addLayout(self.lblLayoutPacket)
         self.vbox.addLayout(self.lblLayout)
         self.vbox.addLayout(self.actionLayout)
 
-        cnt_sec = 1
-        for indx, name_obj in enumerate(self.name_params_mh):
-            self.gridlayout.itemAt(indx+cnt_sec).widget().textChanged.connect(self.on_text_changed_mh_hour)
-            cnt_sec += 4
+        for i in self.mh_sec_list:
+            i.textChanged.connect(self.on_text_changed_mh_hour)
+            i.setText('0')
+        for i in self.mh_hour_list:
+            i.textChanged.connect(self.on_text_changed_mh_sec)
+            i.setText('0')
+
 
         self.buttonAction1.clicked.connect(self.readData)
         self.buttonAction2.clicked.connect(self.writeData)
+        self.buttonAction3.clicked.connect(self.eraseData)
 
         self.centralwidget.setLayout(self.vbox)
 
         self.setCentralWidget(self.centralwidget)
 
         self.setObjectName("MainWindow")
-        self.setWindowTitle(f'Калибратор {self.cur_elem}')
+        self.setWindowTitle(f'Наработка {self.cur_elem}')
         self.show()
 
     def on_text_changed_mh_hour(self,text):
-        cnt_hour = 3
-        for indx, value in enumerate(self.name_params_mh):
-            self.gridlayout.itemAt(indx+cnt_hour).widget().setText(str(math.floor(int(text)/3600)))
-            cnt_hour += 4
+        send = self.sender()
+        print('text1',text)
+        if text =='':
+            self.mh_hour_list[int(send.objectName()[-1])].setText('0')
+            self.mh_sec_list[int(send.objectName()[-1])].setText('0')
+        elif text !='' and self.text_change_sec_flag == 0:
+            self.text_change_hour_flag = 1
+            self.mh_hour_list[int(send.objectName()[-1])].setText(str(math.floor(int(text)/3600)))
+            self.text_change_hour_flag =0
+    def on_text_changed_mh_sec(self,text):
+        send = self.sender()
+        print('text2',text)
+        if text =='':
+            self.mh_sec_list[int(send.objectName()[-1])].setText('0')
+            self.mh_hour_list[int(send.objectName()[-1])].setText('0')
+        elif text !='' and self.read_flag ==0 and self.text_change_hour_flag ==0:
+            self.text_change_sec_flag = 1
+            self.mh_sec_list[int(send.objectName()[-1])].setText(str(math.floor(int(text)*3600)))
+            self.text_change_sec_flag =0
 
     def thread_start(self,obj_method,mode):
         print('thread_start')
@@ -462,8 +501,10 @@ class Main(QMainWindow):
             print('thread_start_read')
             self.th.finished2.connect(self.next_main_thread_read)
         elif mode =='w':
+            print('thread_start_write')
             self.th.finished2.connect(self.next_main_thread_write)
         else:
+            print('thread_start_erase')
             self.th.finished2.connect(self.next_main_thread_erase)
 
     def signal_thread_abort(self):
@@ -471,41 +512,95 @@ class Main(QMainWindow):
 
     # Сообщение об отсутствии com_port
     def signal_thread_stop(self):
+        self.timer.stop()
         self.worker.flag_err_work=1
+        time.sleep(1)
         self.sign = warning_mh.SignalErr('Нет данных', type='warn')
+        self.read_flag = 0
+        for indx, value in enumerate(self.name_params_mh):
+            self.mh_sec_list[indx].setText('')
+            self.mh_hour_list[indx].setText('')
+        self.addr_end = f'<i> Адрес последнего записанного числа: {self.addr} </i>'
+        self.cnt_packet_tmp ='<i> Количество записанных пакетов: </i>'
+        self.last_addr.setText(self.addr_end)
+        self.cnt_packet.setText(self.cnt_packet_tmp)
+
     def next_main_thread_read(self):
         print('next_main_thread_read')
-        cnt_sec=1
-        cnt_hour=3
         for indx, value in enumerate(self.read_obj.value_list):
-            self.gridlayout.itemAt(indx+cnt_sec).widget().setText(str(value))
-            self.gridlayout.itemAt(indx+cnt_hour).widget().setText(str(math.floor(value/3600)))
-            cnt_sec+=4
-            cnt_hour+=4
+            self.mh_sec_list[indx].setText(str(value))
+            self.mh_hour_list[indx].setText(str(math.floor(value/3600)))
+        self.addr_end = f'<i> Адрес последнего записанного числа : {hex(int(self.addr,16) + len(self.read_obj.data_list)*4)} </i>'
+        self.cnt_packet_tmp =f'<i> Количество записанных пакетов: {len(self.read_obj.data_list)/len(self.name_params_mh)}  </i>'
+        self.last_addr.setText(self.addr_end)
+        self.cnt_packet.setText(self.cnt_packet_tmp)
 
-        self.timer.stop()
+        # self.timer.stop()
         self.worker_time_stop()
+        self.read_flag =0
 
     def next_main_thread_write(self):
         print('next_main_thread_write')
-        self.subprocess_mh = subprocess_mh.SubprocessMh(self.write_command)
+        self.subprocess_mh = subprocess_mh.SubprocessMh(self.write_command,20)
         self.subprocess_mh.finished_success.connect(self.worker_time_stop)
         self.subprocess_mh.finished_with_error.connect(self.on_error)
         self.subprocess_mh.start()
+        # for indx, value in enumerate(self.read_obj.value_list):
+        #     self.mh_sec_list[indx].setText(str(value))
+        #     self.mh_hour_list[indx].setText(str(math.floor(value/3600)))
+        addr_end = f'<i> Адрес последнего записанного числа : {hex(int(self.addr,16) + len(self.read_obj.data_list)*4)} </i>'
+        self.cnt_packet_tmp =f'<i> Количество записанных пакетов: {len(self.read_obj.data_list)/len(self.name_params_mh)}  </i>'
+        self.last_addr.setText(addr_end)
+        self.cnt_packet.setText(self.cnt_packet_tmp)
 
     def next_main_thread_erase(self):
         print('main_mh_erase_data')
-        self.subprocess_mh = subprocess_mh.SubprocessMh(self.erase_command)
+        self.subprocess_mh = subprocess_mh.SubprocessMh(self.erase_command,20)
         self.subprocess_mh.finished_success.connect(lambda: self.on_success('erase'))
         self.subprocess_mh.finished_with_error.connect(self.on_error)
         self.subprocess_mh.start()
 
+    def eraseData(self):
+        # Создаем окно вопроса
+        # Параметры: parent, заголовок, текст вопроса, кнопки, кнопка по умолчанию
+        # 1. Создаем объект QMessageBox
+        msg = QMessageBox(self)
+        msg.setWindowTitle("Подтверждение")
+        msg.setText("Вы действительно хотите стереть сектор наработки?")
+        msg.setIcon(QMessageBox.Question)
+
+        # 2. Добавляем свои кнопки с нужным текстом и ролями
+        btn_yes = msg.addButton("Да", QMessageBox.YesRole)
+        btn_no = msg.addButton("Нет", QMessageBox.NoRole)
+
+        # 3. Показываем диалоговое окно
+        msg.exec_()
+
+        # 4. Проверяем, какая кнопка была нажата
+        if msg.clickedButton() == btn_yes:
+            print("Нажата кнопка: Да")
+            self.timer.setInterval(200)
+            self.timer.start()
+            self.worker = Worker('Стирание')
+            self.worker.run1()
+
+            self.subprocess_mh = subprocess_mh.SubprocessMh(self.erase_command, 20)
+            self.subprocess_mh.finished_success.connect(lambda: self.on_success('erase_man'))
+            self.subprocess_mh.finished_with_error.connect(self.on_error)
+            self.subprocess_mh.start()
+        elif msg.clickedButton() == btn_no:
+            print("Нажата кнопка: Нет")
+    def next_main_thread_erase_man(self):
+        print('main_mh_erase_man_data')
+
     def readData(self):
+        self.read_flag =1
+        self.timer.setInterval(15)
         self.timer.start()
-        self.worker = Worker(self.read_obj, 'Чтение')
+        self.worker = Worker('Чтение')
         self.worker.run1()
 
-        self.subprocess_mh = subprocess_mh.SubprocessMh(self.read_command)
+        self.subprocess_mh = subprocess_mh.SubprocessMh(self.read_command,5)
         self.subprocess_mh.finished_success.connect(lambda: self.on_success('read'))
         self.subprocess_mh.finished_with_error.connect(self.on_error)
         self.subprocess_mh.start()
@@ -513,24 +608,25 @@ class Main(QMainWindow):
     def writeData(self):
         flag =0
         self.write_obj = WriteDataMh(self.read_obj.data_list)
-        if len(self.read_obj.data_list)*4 >0x20:
-            self.timer.setInterval(200)
+        self.timer.setInterval(200)
+        if len(self.read_obj.data_list)*4 >=0x3ffc0:
+            print('Cтирание')
             self.read_obj.clear_data_list()
-            self.worker = Worker(self.write_obj, 'Стирание')
+            self.worker = Worker('Стирание')
             self.worker.run1()
             flag =1
         else:
+            print('Запись')
             self.timer.setInterval(15)
-            self.worker = Worker(self.write_obj, 'Запись')
+            self.worker = Worker('Запись')
             self.worker.run1()
             flag =0
 
         self.timer.start()
-        self.subprocess_mh = subprocess_mh.SubprocessMh(self.read_command)
+        self.subprocess_mh = subprocess_mh.SubprocessMh(self.read_command,5)
         self.subprocess_mh.finished_success.connect(lambda: self.write_data_succes(flag))
         self.subprocess_mh.finished_with_error.connect(self.on_error)
         self.subprocess_mh.start()
-
 
     def progress_bar_stop(self):
         self.read_obj.flag_abort =1
@@ -542,9 +638,15 @@ class Main(QMainWindow):
         cnt_sec=1
         list_interface_params =[]
 
-        for indx, value in enumerate(self.name_params_mh):
-            list_interface_params.append(int(self.gridlayout.itemAt(indx + cnt_sec).widget().text()))
-            cnt_sec += 4
+        try:
+            for indx, value in enumerate(self.name_params_mh):
+                list_interface_params.append(int(self.gridlayout.itemAt(indx + cnt_sec).widget().text()))
+                cnt_sec += 4
+        except ValueError:
+            self.worker_time_stop()
+            time.sleep(1)
+            self.sign = warning_mh.SignalErr('Заполните данные',type='warn')
+
         self.read_obj.data_list.extend(list_interface_params)
         print('main_mh_data_list', self.read_obj.data_list)
 
@@ -552,15 +654,11 @@ class Main(QMainWindow):
         self.write_obj.update_data_list(self.read_obj.data_list)
 
         if flag ==0:
-            # self.worker = Worker(self.write_obj, 'Запись')
-            # self.worker.run1()
+            print('write_obj')
             self.thread_start(self.write_obj.write,'w')
         else:
-            # self.worker = Worker(self.write_obj, 'Стирание')
-            # self.worker.run1()
+            print('erase_obj')
             self.thread_start(self.write_obj.write,'e')
-            # flag =0
-
 
     def on_success(self, mode):
         self.subprocess_mh.quit()
@@ -571,27 +669,35 @@ class Main(QMainWindow):
             self.thread_start(self.read_obj.read,'r')
         elif mode =='write':
             self.thread_start(self.write_obj.write, 'w')
-        else:
+        elif mode =='erase':
             self.worker_time_stop()
             self.timer.start()
-            self.worker = Worker(self.write_obj, 'Запись')
+            self.worker = Worker('Запись')
             self.worker.run1()
             print('main_on_succes_erase')
             self.next_main_thread_write()
+        else:
+            print('main_on_succes_erase_man')
+            self.worker_time_stop()
+            self.next_main_thread_erase_man()
 
         self.worker.window_abort.connect(self.progress_bar_stop)
 
     def on_error(self, error_message):
         # Выводим окно с ошибкой в главном GUI потоке
         # QMessageBox.critical(self, "Ошибка таймаута", error_message)
-        self.worker.flag_err_work=1
-        self.sign = warning_mh.SignalErr('Нет соединения !!!')
+        self.read_flag =0
         self.timer.stop()
+        self.worker.flag_err_work=1
+        time.sleep(1)
+        self.sign = warning_mh.SignalErr('Нет соединения !!!')
 
     def worker_time_stop(self):
+        print('worker_time_stop')
         self.worker.time_stop()
         self.timer.stop()
         self.fake_value =0
+        self.worker.flag_err_work=1
 
     def tick(self):
         """Медленно ползём к 95%, никогда не достигая 100 пока процесс идёт."""

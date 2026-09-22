@@ -29,7 +29,8 @@ class SignalErr():
         pal = self.main.palette()
         # Если use 1-й аргумент, то цвет будет пропадать при переходе на др окно
         # pal.setColor(QtGui.QPalette.Window, QtGui.QColor(191, 245, 234))
-        pal.setColor(QtGui.QPalette.Window, QtGui.QColor(220, 254, 225))
+        # pal.setColor(QtGui.QPalette.Window, QtGui.QColor(220, 254, 225))
+        pal.setColor(QtGui.QPalette.Window, QtGui.QColor(205, 247, 250))
 
         self.main.setPalette(pal)
 

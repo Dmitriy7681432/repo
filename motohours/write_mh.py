@@ -20,7 +20,14 @@ class WriteDataMh(QObject):
             for value in self.list_read_params:
                 # ”паковываем число в 4 байта (формат '<i' Ч Little-Endian, 4 байта)
                 binary_data = struct.pack('<i', value)
+                print('binary',binary_data)
                 f.write(binary_data)
+            # total_size = 262080 - len(self.list_read_params) *4
+            # chunk_size = 4
+            # # ¬ычисл€ем количество повторений значени€
+            # count = total_size // chunk_size
+            # data = struct.pack('<I', 0xFFFFFFFF) * count
+            # f.write(data)
         print('write_mh',len(self.list_read_params)/8, self.list_read_params)
 
     def update_data_list(self,list_data):
