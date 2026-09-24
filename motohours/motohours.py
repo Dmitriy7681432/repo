@@ -3,13 +3,12 @@
 import sys,math
 import time,json
 
-from PyQt5.QtWidgets import (QWidget, QPushButton, QStackedWidget, QToolBar, QToolButton,
-                             QHBoxLayout, QVBoxLayout, QApplication, QAction, QMainWindow,QDialog,QLabel,QProgressBar,
-                             QDesktopWidget,QLineEdit,QGridLayout,QSpacerItem, QMessageBox)
+from PyQt5.QtWidgets import (QPushButton, QToolButton,
+                             QHBoxLayout, QVBoxLayout, QMainWindow,QProgressBar,
+                             QDesktopWidget,QLineEdit,QGridLayout,QMessageBox)
 
 from PyQt5 import QtCore, QtGui, QtWidgets,Qt
-from PyQt5.QtCore import QThread, pyqtSignal, pyqtSlot,QTimer,QBasicTimer, QRegularExpression
-import serial.tools.list_ports
+from PyQt5.QtCore import QThread, pyqtSignal, QTimer,QBasicTimer, QRegularExpression
 from PyQt5.QtGui import QRegularExpressionValidator
 
 from PyQt5.QtWidgets import (QWidget, QLabel,
@@ -19,7 +18,6 @@ from pars_mh_init_h import ParsInitMh
 from read_mh import ReadDataMh
 from write_mh import WriteDataMh
 import warning_mh,subprocess_mh
-from debug_mh import *
 
 class Worker(QThread):
     finished = pyqtSignal()
@@ -169,7 +167,7 @@ class ThreadCalibrator(QtCore.QThread):
 class ComPort(QWidget):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Выбор изделия")
+        # self.setWindowTitle("Выбор изделия")
         self.setGeometry(100, 100, 300, 500)
 
         #Шрифт
@@ -186,9 +184,11 @@ class ComPort(QWidget):
         y_size_desktop = int(y / 12)
         self.resize(x_size_desktop, y_size_desktop)
         # Вывод окна по центру
+        # print(desktop.width(),desktop.height())
         x_ = (desktop.width() - self.frameSize().width()) // 2
         y_ = (desktop.height() - self.frameSize().height()) // 2
         self.move(x_, y_)
+        self.setWindowTitle(f"{desktop.width()},{desktop.height()},{x_},{y}")
 
         combo = QComboBox(self)
         lst_combo = []
@@ -339,7 +339,7 @@ class Main(QMainWindow):
         self.setPalette(pal)
 
         # Label
-        self.version = QLabel(f'<i>{self.cur_elem} version: 1.0.5  </i>')
+        self.version = QLabel(f'<i>{self.cur_elem} version: 1.0.1  </i>')
         self.version.setFont(font)
         self.version.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter )
         self.version.setStyleSheet('color: rgba(105,105,105,0.5)')
@@ -642,17 +642,17 @@ class Main(QMainWindow):
             for indx, value in enumerate(self.name_params_mh):
                 list_interface_params.append(int(self.gridlayout.itemAt(indx + cnt_sec).widget().text()))
                 cnt_sec += 4
+            self.read_obj.data_list.extend(list_interface_params)
+            print('main_mh_data_list', self.read_obj.data_list)
+
+            # self.write_obj = WriteDataMh(self.read_obj.data_list)
+            self.write_obj.update_data_list(self.read_obj.data_list)
         except ValueError:
             self.worker_time_stop()
             time.sleep(1)
             self.sign = warning_mh.SignalErr('Заполните данные',type='warn')
             flag =2
 
-        self.read_obj.data_list.extend(list_interface_params)
-        print('main_mh_data_list', self.read_obj.data_list)
-
-        # self.write_obj = WriteDataMh(self.read_obj.data_list)
-        self.write_obj.update_data_list(self.read_obj.data_list)
 
         if flag ==0:
             print('write_obj')
