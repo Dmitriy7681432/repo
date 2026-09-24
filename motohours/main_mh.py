@@ -350,7 +350,7 @@ class Main(QMainWindow):
         self.cnt_packet = QLabel('<i> Количество записанных пакетов:  </i>')
         self.cnt_packet.setFont(font)
         self.cnt_packet.setStyleSheet('color: rgba(105,105,105,0.5)')
-        self.max_cnt_packet = QLabel('<i> Maксимальное количество пакетов: 32760  </i>')
+        self.max_cnt_packet = QLabel(f'<i> Maксимальное количество пакетов: {int(262080/len(self.name_params_mh)/4)}  </i>')
         self.max_cnt_packet.setFont(font)
         self.max_cnt_packet.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter )
         self.max_cnt_packet.setStyleSheet('color: rgba(105,105,105,0.5)')
@@ -472,20 +472,20 @@ class Main(QMainWindow):
 
     def on_text_changed_mh_hour(self,text):
         send = self.sender()
-        print('text1',text)
+        # print('text1',text)
         if text =='':
-            self.mh_hour_list[int(send.objectName()[-1])].setText('0')
-            self.mh_sec_list[int(send.objectName()[-1])].setText('0')
+            self.mh_hour_list[int(send.objectName()[-1])].setText('')
+            # self.mh_sec_list[int(send.objectName()[-1])].setText('')
         elif text !='' and self.text_change_sec_flag == 0:
             self.text_change_hour_flag = 1
             self.mh_hour_list[int(send.objectName()[-1])].setText(str(math.floor(int(text)/3600)))
             self.text_change_hour_flag =0
     def on_text_changed_mh_sec(self,text):
         send = self.sender()
-        print('text2',text)
+        # print('text2',text)
         if text =='':
-            self.mh_sec_list[int(send.objectName()[-1])].setText('0')
-            self.mh_hour_list[int(send.objectName()[-1])].setText('0')
+            self.mh_sec_list[int(send.objectName()[-1])].setText('')
+            # self.mh_hour_list[int(send.objectName()[-1])].setText('0')
         elif text !='' and self.read_flag ==0 and self.text_change_hour_flag ==0:
             self.text_change_sec_flag = 1
             self.mh_sec_list[int(send.objectName()[-1])].setText(str(math.floor(int(text)*3600)))
@@ -531,7 +531,7 @@ class Main(QMainWindow):
             self.mh_sec_list[indx].setText(str(value))
             self.mh_hour_list[indx].setText(str(math.floor(value/3600)))
         self.addr_end = f'<i> Адрес последнего записанного числа : {hex(int(self.addr,16) + len(self.read_obj.data_list)*4)} </i>'
-        self.cnt_packet_tmp =f'<i> Количество записанных пакетов: {len(self.read_obj.data_list)/len(self.name_params_mh)}  </i>'
+        self.cnt_packet_tmp =f'<i> Количество записанных пакетов: {int(len(self.read_obj.data_list)/len(self.name_params_mh))}  </i>'
         self.last_addr.setText(self.addr_end)
         self.cnt_packet.setText(self.cnt_packet_tmp)
 
@@ -549,7 +549,7 @@ class Main(QMainWindow):
         #     self.mh_sec_list[indx].setText(str(value))
         #     self.mh_hour_list[indx].setText(str(math.floor(value/3600)))
         addr_end = f'<i> Адрес последнего записанного числа : {hex(int(self.addr,16) + len(self.read_obj.data_list)*4)} </i>'
-        self.cnt_packet_tmp =f'<i> Количество записанных пакетов: {len(self.read_obj.data_list)/len(self.name_params_mh)}  </i>'
+        self.cnt_packet_tmp =f'<i> Количество записанных пакетов: {int(len(self.read_obj.data_list)/len(self.name_params_mh))} </i>'
         self.last_addr.setText(addr_end)
         self.cnt_packet.setText(self.cnt_packet_tmp)
 
@@ -612,12 +612,12 @@ class Main(QMainWindow):
         if len(self.read_obj.data_list)*4 >=0x3ffc0:
             print('Cтирание')
             self.read_obj.clear_data_list()
+            print('writeData_data_list',self.read_obj.data_list)
             self.worker = Worker('Стирание')
             self.worker.run1()
             flag =1
         else:
             print('Запись')
-            self.timer.setInterval(15)
             self.worker = Worker('Запись')
             self.worker.run1()
             flag =0
@@ -646,6 +646,7 @@ class Main(QMainWindow):
             self.worker_time_stop()
             time.sleep(1)
             self.sign = warning_mh.SignalErr('Заполните данные',type='warn')
+            flag =2
 
         self.read_obj.data_list.extend(list_interface_params)
         print('main_mh_data_list', self.read_obj.data_list)
@@ -656,7 +657,7 @@ class Main(QMainWindow):
         if flag ==0:
             print('write_obj')
             self.thread_start(self.write_obj.write,'w')
-        else:
+        elif flag ==1:
             print('erase_obj')
             self.thread_start(self.write_obj.write,'e')
 

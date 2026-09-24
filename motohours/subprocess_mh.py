@@ -15,7 +15,7 @@ class SubprocessMh(QThread):
         super().__init__()
         self.command = command
         self.timeout=timeout
-        # print(self.command)
+        print(self.command)
 
     def run(self):
         try:

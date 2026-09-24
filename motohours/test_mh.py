@@ -230,19 +230,25 @@ exe_path = 'mcprog\\mcprog.exe'
 #     w.show()
 #     sys.exit(app.exec_())
 
-import win32gui
-import win32con
+# import win32gui
+# import win32con
+#
+# def find_console_window(title_substr):
+#     result = []
+#     def cb(hwnd, _):
+#         if win32gui.IsWindowVisible(hwnd):
+#             t = win32gui.GetWindowText(hwnd)
+#             if title_substr in t:
+#                 result.append(hwnd)
+#         return True
+#     win32gui.EnumWindows(cb, None)
+#     return result[0] if result else None
+#
+# # Периодически читаем текст из консоли
+# hwnd = find_console_window('mcprog')
+import struct
 
-def find_console_window(title_substr):
-    result = []
-    def cb(hwnd, _):
-        if win32gui.IsWindowVisible(hwnd):
-            t = win32gui.GetWindowText(hwnd)
-            if title_substr in t:
-                result.append(hwnd)
-        return True
-    win32gui.EnumWindows(cb, None)
-    return result[0] if result else None
-
-# Периодически читаем текст из консоли
-hwnd = find_console_window('mcprog')
+# value = 36000
+value = 2863311530
+binary_data = struct.pack('<I', value)
+print('binary', binary_data)

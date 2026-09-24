@@ -18,9 +18,10 @@ class WriteDataMh(QObject):
         # ќткрываем файл в бинарном режиме
         with open(self.file_path, 'wb') as f:
             for value in self.list_read_params:
+                print(value)
                 # ”паковываем число в 4 байта (формат '<i' Ч Little-Endian, 4 байта)
-                binary_data = struct.pack('<i', value)
-                print('binary',binary_data)
+                binary_data = struct.pack('<I', value)
+                # print('binary',binary_data)
                 f.write(binary_data)
             # total_size = 262080 - len(self.list_read_params) *4
             # chunk_size = 4
