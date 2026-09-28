@@ -112,8 +112,23 @@ class Worker(QThread):
 
     def center(self):
         qr = self.main_window.frameGeometry()
-        cp = QDesktopWidget().availableGeometry().center()
-        qr.moveCenter(cp)
+        # cp = QDesktopWidget().availableGeometry().center()
+        # qr.moveCenter(cp)
+
+        # Получаем геометрию самого окна
+        # qr = self.frameGeometry()
+        # Находим экран, на котором сейчас находится указатель мыши
+        # QCursor.pos() определяет координаты курсора
+        # screenNumber возвращает индекс монитора для этих координат
+        desktop = QApplication.desktop()
+        current_screen = desktop.screenNumber(desktop.cursor().pos())
+        # Получаем доступную геометрию конкретного монитора (без панели задач)
+        screen_geometry = desktop.availableGeometry(current_screen)
+        # Вычисляем центральную точку этого монитора
+        center_point = screen_geometry.center()
+        # Смещаем центр нашего прямоугольника геометрии окна в центр экрана
+        qr.moveCenter(center_point)
+
         self.main_window.move(qr.topLeft())
 
 
@@ -167,7 +182,7 @@ class ThreadCalibrator(QtCore.QThread):
 class ComPort(QWidget):
     def __init__(self):
         super().__init__()
-        # self.setWindowTitle("Выбор изделия")
+        self.setWindowTitle("Выбор изделия")
         self.setGeometry(100, 100, 300, 500)
 
         #Шрифт
@@ -178,7 +193,7 @@ class ComPort(QWidget):
         # font.setWeight(75)
 
         desktop = QtWidgets.QApplication.desktop()
-        x = desktop.width()
+        # x = desktop.width()
         y = desktop.height()
         x_size_desktop = 255
         y_size_desktop = int(y / 12)
@@ -187,8 +202,25 @@ class ComPort(QWidget):
         # print(desktop.width(),desktop.height())
         x_ = (desktop.width() - self.frameSize().width()) // 2
         y_ = (desktop.height() - self.frameSize().height()) // 2
-        self.move(x_, y_)
-        self.setWindowTitle(f"{desktop.width()},{desktop.height()},{x_},{y}")
+
+        # Получаем геометрию самого окна
+        qr = self.frameGeometry()
+        # Находим экран, на котором сейчас находится указатель мыши
+        # QCursor.pos() определяет координаты курсора
+        # screenNumber возвращает индекс монитора для этих координат
+        desktop = QApplication.desktop()
+        current_screen = desktop.screenNumber(desktop.cursor().pos())
+        # Получаем доступную геометрию конкретного монитора (без панели задач)
+        screen_geometry = desktop.availableGeometry(current_screen)
+        # Вычисляем центральную точку этого монитора
+        center_point = screen_geometry.center()
+        # Смещаем центр нашего прямоугольника геометрии окна в центр экрана
+        qr.moveCenter(center_point)
+
+
+        # self.move(x_, y_)
+        self.move(qr.topLeft())
+        # self.setWindowTitle(f"{desktop.width()},{desktop.height()},{x_},{y}")
 
         combo = QComboBox(self)
         lst_combo = []
@@ -329,7 +361,21 @@ class Main(QMainWindow):
         # Вывод окна по центру
         x_ = (desktop.width() - self.frameSize().width()) // 2
         y_ = (desktop.height() - self.frameSize().height()) // 2
-        self.move(x_, y_)
+        # Получаем геометрию самого окна
+        qr = self.frameGeometry()
+        # Находим экран, на котором сейчас находится указатель мыши
+        # QCursor.pos() определяет координаты курсора
+        # screenNumber возвращает индекс монитора для этих координат
+        desktop = QApplication.desktop()
+        current_screen = desktop.screenNumber(desktop.cursor().pos())
+        # Получаем доступную геометрию конкретного монитора (без панели задач)
+        screen_geometry = desktop.availableGeometry(current_screen)
+        # Вычисляем центральную точку этого монитора
+        center_point = screen_geometry.center()
+        # Смещаем центр нашего прямоугольника геометрии окна в центр экрана
+        qr.moveCenter(center_point)
+        # self.move(x_, y_)
+        self.move(qr.topLeft())
 
         # Цветовой фон
         pal = self.palette()
@@ -371,9 +417,9 @@ class Main(QMainWindow):
         self.buttonAction1.setObjectName("buttonAction1")
         self.buttonAction2.setObjectName("buttonAction2")
         self.buttonAction3.setObjectName("buttonAction3")
-        self.buttonAction1.setStyleSheet('background-color:rgb(255,240,157);')
-        self.buttonAction2.setStyleSheet('background-color:rgb(255,240,157);')
-        self.buttonAction3.setStyleSheet('background-color:rgb(255,240,157);')
+        self.buttonAction1.setStyleSheet('background-color:rgb(152,245,152);')
+        self.buttonAction2.setStyleSheet('background-color:rgb(152,245,152);')
+        self.buttonAction3.setStyleSheet('background-color:rgb(152,245,152);')
 
         self.lblLayout = QHBoxLayout()
         self.lblLayout.setGeometry(QtCore.QRect(20,20,20,20))

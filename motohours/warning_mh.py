@@ -61,6 +61,15 @@ class SignalErr():
 
     def center(self):
         qr = self.main.frameGeometry()
-        cp = QDesktopWidget().availableGeometry().center()
-        qr.moveCenter(cp)
+        # cp = QDesktopWidget().availableGeometry().center()
+        # qr.moveCenter(cp)
+
+        desktop = QApplication.desktop()
+        current_screen = desktop.screenNumber(desktop.cursor().pos())
+        # Получаем доступную геометрию конкретного монитора (без панели задач)
+        screen_geometry = desktop.availableGeometry(current_screen)
+        # Вычисляем центральную точку этого монитора
+        center_point = screen_geometry.center()
+        # Смещаем центр нашего прямоугольника геометрии окна в центр экрана
+        qr.moveCenter(center_point)
         self.main.move(qr.topLeft())
