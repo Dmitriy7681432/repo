@@ -5,7 +5,7 @@ import time,json
 
 from PyQt5.QtWidgets import (QPushButton, QToolButton,
                              QHBoxLayout, QVBoxLayout, QMainWindow,QProgressBar,
-                             QDesktopWidget,QLineEdit,QGridLayout,QMessageBox)
+                             QCheckBox,QLineEdit,QGridLayout,QMessageBox)
 
 from PyQt5 import QtCore, QtGui, QtWidgets,Qt
 from PyQt5.QtCore import QThread, pyqtSignal, QTimer,QBasicTimer, QRegularExpression
@@ -385,7 +385,7 @@ class Main(QMainWindow):
         self.setPalette(pal)
 
         # Label
-        self.version = QLabel(f'<i>{self.cur_elem} version: 1.0.1  </i>')
+        self.version = QLabel(f'<i>{self.cur_elem} version: 1.0.2  </i>')
         self.version.setFont(font)
         self.version.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter )
         self.version.setStyleSheet('color: rgba(105,105,105,0.5)')
@@ -400,6 +400,17 @@ class Main(QMainWindow):
         self.max_cnt_packet.setFont(font)
         self.max_cnt_packet.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter )
         self.max_cnt_packet.setStyleSheet('color: rgba(105,105,105,0.5)')
+
+
+        font_lbl = QtGui.QFont()
+        font_lbl.setFamily("Times New Roman")
+        font_lbl.setPointSize(14)
+        font_lbl.setWeight(75)
+        # font.setBold(True)
+
+        font_line = QtGui.QFont()
+        font_line.setFamily("Times New Roman")
+        font_line.setPointSize(14)
 
         # Кнопки действия
         self.buttonAction1 = QToolButton()
@@ -433,6 +444,33 @@ class Main(QMainWindow):
         self.lblLayoutPacket.addWidget(self.cnt_packet)
         self.lblLayoutPacket.addWidget(self.max_cnt_packet)
 
+        font_addr = QtGui.QFont()
+        font_addr.setFamily("Times New Roman")
+        font_addr.setPointSize(14)
+        # font_addr.setWeight(75)
+        font_addr.setBold(True)
+
+        self.lblLayoutAddr = QHBoxLayout()
+        # self.lblLayoutAddr.setGeometry(QtCore.QRect(20,20,20,20))
+        self.lblLayoutAddr.setObjectName("lbladdr")
+        self.lbl_change_addr = QLabel('<i>Изменить адрес наработки - </i>')
+        self.lbl_change_addr.setFont(font_addr)
+        self.lbl_change_addr.setStyleSheet('color: rgba(105,105,105,0.5)')
+        self.addr_line = QLineEdit(self.addr)
+        self.addr_line.setObjectName('addr_line')
+        self.addr_line.setEnabled(False)
+        self.addr_line.setFont(font_line)
+        self.addr_line.setMaximumWidth(120)
+        self.checkbox_addr = QCheckBox()
+        self.checkbox_addr.toggled.connect(self.addr_line.setEnabled)
+        self.lblLayoutAddr.addStretch()
+        self.lblLayoutAddr.addWidget(self.lbl_change_addr)
+        self.lblLayoutAddr.addSpacing(10)
+        self.lblLayoutAddr.addWidget(self.checkbox_addr)
+        self.lblLayoutAddr.addSpacing(5)
+        self.lblLayoutAddr.addWidget(self.addr_line)
+        self.addr_line.textChanged.connect(self.change_addr_in_command)
+
         self.actionLayout = QHBoxLayout()
         self.actionLayout.setContentsMargins(0, 0, 0, 0)
         self.actionLayout.setSpacing(0)
@@ -440,16 +478,6 @@ class Main(QMainWindow):
         self.actionLayout.addWidget(self.buttonAction1)
         self.actionLayout.addWidget(self.buttonAction2)
         self.actionLayout.addWidget(self.buttonAction3)
-
-        font_lbl = QtGui.QFont()
-        font_lbl.setFamily("Times New Roman")
-        font_lbl.setPointSize(14)
-        font_lbl.setWeight(75)
-        # font.setBold(True)
-
-        font_line = QtGui.QFont()
-        font_line.setFamily("Times New Roman")
-        font_line.setPointSize(14)
 
         self.mh_sec_list = []
         self.mh_hour_list = []
@@ -492,6 +520,8 @@ class Main(QMainWindow):
         self.vbox.addStretch()
         self.vbox.setContentsMargins(0, 50, 0, 0)
         self.vbox.setSpacing(0)
+        self.vbox.addStretch()
+        self.vbox.addLayout(self.lblLayoutAddr)
         self.vbox.addLayout(self.lblLayoutPacket)
         self.vbox.addLayout(self.lblLayout)
         self.vbox.addLayout(self.actionLayout)
@@ -515,6 +545,12 @@ class Main(QMainWindow):
         self.setObjectName("MainWindow")
         self.setWindowTitle(f'Наработка {self.cur_elem}')
         self.show()
+
+    def change_addr_in_command(self,addr):
+        self.addr = addr
+        self.read_command = f'mcprog\\mcprog.exe -r read_mh.bin {self.addr} 262080'
+        self.write_command = f'mcprog\\mcprog.exe -e0 write_mh.bin {self.addr}'
+        self.erase_command = f'mcprog\\mcprog.exe -e2 erase_mh.bin {self.addr}'
 
     def on_text_changed_mh_hour(self,text):
         send = self.sender()
@@ -586,7 +622,7 @@ class Main(QMainWindow):
         self.read_flag =0
 
     def next_main_thread_write(self):
-        print('next_main_thread_write')
+        print('next_main_thread_write',self.write_command)
         self.subprocess_mh = subprocess_mh.SubprocessMh(self.write_command,20)
         self.subprocess_mh.finished_success.connect(self.worker_time_stop)
         self.subprocess_mh.finished_with_error.connect(self.on_error)
