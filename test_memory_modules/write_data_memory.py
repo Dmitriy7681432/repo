@@ -83,7 +83,8 @@ with open(FILE_NAME, "wb") as f:
 import struct
 
 # Размер файла в байтах и размер одного блока (4 байта)
-total_size = 262080
+# total_size = 262080
+total_size = 261984
 chunk_size = 4
 
 # Вычисляем количество повторений значения
@@ -91,8 +92,9 @@ count = total_size // chunk_size
 
 # Упаковываем 0xAAAAAAAA в 4 байта (<' -little-endian, 'I' - unsigned int)
 # Для big-endian используйте '>' вместо '<'
-data = struct.pack('<I', 0xFFFFFFFF) * count
+# data = struct.pack('<I', 0xFFFFFFFF) * count
+data = struct.pack('<I', 0xAAAAAAAA) * count
 
 # Записываем в бинарный файл
-with open('erase.bin', 'wb') as f:
+with open('erase1.bin', 'wb') as f:
     f.write(data)

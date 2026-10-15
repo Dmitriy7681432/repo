@@ -128,27 +128,27 @@ import re
 
 data_pattern = "^[a-zA-Zа-яА-ЯёЁ]+$"
 data_pattern1 = "^[0-9.]+$"
-def is_valid_email(data):
-    """
-    Расшифровка:
-    ^ - начало строки;
-    -? - символ "минус" ноль или один раз;
-    \d + - цифры, минимум одна штука
-    \.? - символ точки ноль или один раз
-    \d * - снова цифры, но в этот раз минимум ноль раз
-    $ - конец строки
-    """
-    # return re.match('^[-]+[0-9]*[.][0-9]+$', data) is not None
-    return re.match('^-?\d+\.?\d*$', data) is not None
+# def is_valid_email(data):
+#     """
+#     Расшифровка:
+#     ^ - начало строки;
+#     -? - символ "минус" ноль или один раз;
+#     \d + - цифры, минимум одна штука
+#     \.? - символ точки ноль или один раз
+#     \d * - снова цифры, но в этот раз минимум ноль раз
+#     $ - конец строки
+#     """
+#     # return re.match('^[-]+[0-9]*[.][0-9]+$', data) is not None
+#     return re.match('^-?\d+\.?\d*$', data) is not None
 
 
 # data = "gkegfemeeуууее&@("
 data = "1"
-if not '.' in data and is_valid_email(data):
-    print('Yes')
+# if not '.' in data and is_valid_email(data):
+#     print('Yes')
 
 
-print(is_valid_email(data))
+# print(is_valid_email(data))
 
 df ='8'
 if float(df):
@@ -301,13 +301,42 @@ sys.stderr.reconfigure(encoding='utf-8')
 # a = '∆f_s'.encode('cp1251')
 # print(a.decode('cp1251'))
 a = '∆f_s'
-print(a)
+# print(a)
 
-with open('calibrator/preset2.bin','rb') as f:
-    a = f.readline()
-    print(a)
-    print(a[:4].hex().upper())
-    # for i in a:
-    #     print(i)
-# with open('calibrator/preset3.bin','wb') as f2:
+# with open('calibrator/preset2.bin','rb') as f:
+#     a = f.readline()
+#     print(a)
+#     print(a[:4].hex().upper())
+#     # for i in a:
+#     #     print(i)
+# # with open('calibrator/preset3.bin','wb') as f2:
 #     f2.write(a)
+class Rectangle:
+    def __init__(self, width, height):
+        self.width = width
+        self.height = height
+
+    # @property
+    def area(self):
+        return self.width * self.height
+
+r = Rectangle(3, 4)
+print(r.area())     # 12
+r.width = 10
+print(r.area())     # 40 — п
+
+
+import multiprocessing
+
+print(multiprocessing.cpu_count())
+
+
+val = 0xffffffff
+my_list = [0xffffffff, 0xffffffff, 0xffffffff]
+result = all(x == val for x in my_list)
+print(result)  # True
+
+import numpy as np
+
+u_in_27_c = np.array([27]*21)
+print(u_in_27_c)

@@ -23,10 +23,12 @@ class ReadDataMh(QObject):
         self.data_list = []
         self.value_list = []
 
+
         # if os.path.exists(self.file_path):
         #     os.remove(self.file_path)
         # Открываем файл в бинарном режиме
         with open(self.file_path, 'rb') as f:
+            my_list = []
             # Цикл чтения файла по 4 байта
             while chunk := f.read(4):
                 self.step += 1
@@ -39,8 +41,17 @@ class ReadDataMh(QObject):
                 # Распаковываем 4 байта в число (например, беззнаковое 32-битное целое - 'I')
                 # Используйте '<' для little-endian или '>' для big-endian байт-порядка
                 value = struct.unpack('<I', chunk)[0]
-                if value == 0xffffffff: break
-                self.data_list.append(value)
+
+                # Тут происходит проверка, что вся пачка равна 0xffffffff
+                my_list.append(value)
+                if self.cnt_params == len(my_list):
+                    result = all(x == 0xffffffff for x in my_list)
+                    if result ==True:break
+                    self.data_list.extend(my_list)
+                    my_list = []
+
+                # if value == 0xffffffff: break
+                # self.data_list.append(value)
 
         try:
             for i in range (0,self.cnt_params):

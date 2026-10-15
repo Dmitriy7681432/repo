@@ -385,7 +385,7 @@ class Main(QMainWindow):
         self.setPalette(pal)
 
         # Label
-        self.version = QLabel(f'<i>{self.cur_elem} version: 1.0.2  </i>')
+        self.version = QLabel(f'<i>{self.cur_elem} version: 1.0.3  </i>')
         self.version.setFont(font)
         self.version.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter )
         self.version.setStyleSheet('color: rgba(105,105,105,0.5)')
