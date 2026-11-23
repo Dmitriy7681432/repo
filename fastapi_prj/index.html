@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список книг</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background: #ecf0f1;
+            margin-bottom: 10px;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 5px solid #3498db;
+            transition: transform 0.2s;
+        }
+        li:hover {
+            transform: translateX(5px);
+            background: #e0e6ed;
+        }
+        .book-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #2980b9;
+        }
+        .book-author {
+            color: #7f8c8d;
+            margin-top: 5px;
+        }
+        .error {
+            color: #e74c3c;
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>📚 Наша библиотека</h1>
+        <ul id="books-list">
+            <li>Загрузка данных...</li>
+        </ul>
+    </div>
+
+    <script>
+        // URL вашего бэкенда
+        const API_URL = 'http://127.0.0.1:8000/books';
+
+        // Асинхронная функция для запроса данных
+        async function fetchBooks() {
+            const listElement = document.getElementById('books-list');
+
+            try {
+                // Делаем GET-запрос к бэкенду
+                const response = await fetch(API_URL);
+
+                // Проверяем, что ответ успешный (код 200)
+                if (!response.ok) {
+                    throw new Error(`Ошибка HTTP: ${response.status}`);
+                }
+
+                // Парсим JSON
+                const books = await response.json();
+
+                // Очищаем список от надписи "Загрузка..."
+                listElement.innerHTML = '';
+
+                // Если книг нет
+                if (books.length === 0) {
+                    listElement.innerHTML = '<li>Книг пока нет</li>';
+                    return;
+                }
+
+                // Перебираем массив книг и создаем элементы списка
+                books.forEach(book => {
+                    const li = document.createElement('li');
+
+                    // Безопасно вставляем текст, чтобы избежать XSS-атак
+                    const titleDiv = document.createElement('div');
+                    titleDiv.className = 'book-title';
+                    titleDiv.textContent = book.title;
+
+                    const authorDiv = document.createElement('div');
+                    authorDiv.className = 'book-author';
+                    authorDiv.textContent = `Автор: ${book.author}`;
+
+                    li.appendChild(titleDiv);
+                    li.appendChild(authorDiv);
+
+                    listElement.appendChild(li);
+                });
+
+            } catch (error) {
+                console.error('Ошибка при загрузке:', error);
+                listElement.innerHTML = `<li class="error">Не удалось загрузить книги. Проверьте, запущен ли бэкенд (${error.message})</li>`;
+            }
+        }
+
+        // Запускаем функцию при загрузке страницы
+        fetchBooks();
+    </script>
+
+</body>
+</html>
