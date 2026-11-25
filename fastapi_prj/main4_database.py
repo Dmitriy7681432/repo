@@ -1,10 +1,9 @@
 from typing import Annotated
 from fastapi import Depends, FastAPI
-from pydantic import BaseModel
+from pydantic import BaseModel,Field
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
-
 
 app = FastAPI()
 
@@ -19,6 +18,7 @@ async def get_session():
 
 
 SessionDep = Annotated[AsyncSession, Depends(get_session)]
+
 
 class Base(DeclarativeBase):
     pass
@@ -53,6 +53,7 @@ async def setup_database():
         await conn.run_sync(Base.metadata.create_all)
     return {"ok": True}
 
+
 @app.post("/books")
 async def add_book(book: BookSchema, session: SessionDep) -> BookSchema:
     new_book = BookModel(
@@ -64,11 +65,19 @@ async def add_book(book: BookSchema, session: SessionDep) -> BookSchema:
     await session.commit()
     return book
 
+class PaginationParams(BaseModel):
+    limit: int = Field(5, ge=0, le=100, description="Кол-во элементов на странице")
+    offset: int = Field(0, ge=0, description="Смещение для пагинации")
 
+PaginationDep=Annotated[PaginationParams, Depends(PaginationParams)]
 @app.get("/books")
-async def get_books(session: SessionDep) -> list[BookGetSchema]:
-    query = select(BookModel)
+async def get_books(
+        session: SessionDep,
+        pagination: PaginationDep
+) -> list[BookGetSchema]:
+    query = (
+        select(BookModel)
+        .limit(pagination.limit)
+        .offset(pagination.offset))
     result = await session.execute(query)
-    books = result.scalars().all()
-    print(f"{books=}")
-    return books
+    return result.scalars().all()
